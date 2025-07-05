@@ -32,9 +32,13 @@ TEST_F(CGXByteBufferTest, DefaultConstructor) {
 }
 
 TEST_F(CGXByteBufferTest, ConstructorWithCapacity) {
-    EXPECT_EQ(bb_with_capacity.GetSize(), 0);
-    EXPECT_EQ(bb_with_capacity.GetPosition(), 0);
-    EXPECT_GE(bb_with_capacity.Capacity(), 128); // Should be at least what was requested
+    // Create a local instance to test the constructor's effect on capacity,
+    // as the fixture's bb_with_capacity has Clear() called on it in SetUp(),
+    // which resets capacity to 0.
+    CGXByteBuffer local_bb_with_capacity(128);
+    EXPECT_EQ(local_bb_with_capacity.GetSize(), 0);
+    EXPECT_EQ(local_bb_with_capacity.GetPosition(), 0);
+    EXPECT_GE(local_bb_with_capacity.Capacity(), 128); // Should be at least what was requested
 }
 
 TEST_F(CGXByteBufferTest, SetAndGetUInt8) {
