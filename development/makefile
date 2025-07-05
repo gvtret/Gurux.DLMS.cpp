@@ -54,6 +54,21 @@ OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 rm       = rm -rf
 mkdir    = mkdir -p
 
+# Test related variables
+TEST_SRCDIR = tests
+TEST_OBJDIR = $(OBJDIR)/tests
+TEST_TARGET = test_runner
+TEST_SOURCES  := $(wildcard $(TEST_SRCDIR)/*.cpp)
+TEST_OBJECTS  := $(TEST_SOURCES:$(TEST_SRCDIR)/%.cpp=$(TEST_OBJDIR)/%.o)
+GTEST_SRCDIR = $(TEST_SRCDIR)/lib/googletest/googletest
+GTEST_SRC = $(GTEST_SRCDIR)/src/gtest-all.cc
+GTEST_OBJ = $(TEST_OBJDIR)/gtest-all.o
+TEST_CFLAGS = $(CFLAGS) -Iinclude -I$(GTEST_SRCDIR)/include -pthread
+TEST_LFLAGS = $(LFLAGS) -pthread
+
+# Default target
+all: $(LIBDIR)/$(TARGET)
+
 $(LIBDIR)/$(TARGET): $(OBJECTS)
 	@$(mkdir) $(LIBDIR)
 	@$(LINKER) $@ $(LFLAGS) $(OBJECTS)
@@ -61,16 +76,38 @@ $(LIBDIR)/$(TARGET): $(OBJECTS)
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
 	@$(mkdir) $(OBJDIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -Iinclude -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 
-.PHONEY: clean
-clean:
-	@$(rm) $(OBJDIR)
-	@echo "Cleanup complete!" 
-	@echo $(OBJECTS)
+# Target to build and run tests
+test: $(LIBDIR)/$(TARGET) $(TEST_OBJDIR)/$(TEST_TARGET)
+	@echo "Running tests..."
+	@$(TEST_OBJDIR)/$(TEST_TARGET)
 
-.PHONEY: remove
+# Target to build the test runner
+$(TEST_OBJDIR)/$(TEST_TARGET): $(TEST_OBJECTS) $(GTEST_OBJ) $(LIBDIR)/$(TARGET)
+	@$(mkdir) -p $(TEST_OBJDIR)
+	@$(CC) $(TEST_CFLAGS) $^ -o $@ $(LIBDIR)/$(TARGET) $(TEST_LFLAGS)
+	@echo "Test runner linked successfully!"
+
+# Rule for compiling test source files
+$(TEST_OBJECTS): $(TEST_OBJDIR)/%.o : $(TEST_SRCDIR)/%.cpp
+	@$(mkdir) -p $(TEST_OBJDIR)
+	@$(CC) $(TEST_CFLAGS) -c $< -o $@
+	@echo "Compiled test "$<" successfully!"
+
+# Rule for compiling gtest-all.cc
+$(GTEST_OBJ): $(GTEST_SRC)
+	@$(mkdir) -p $(TEST_OBJDIR)
+	@$(CC) $(TEST_CFLAGS) -I$(GTEST_SRCDIR)/include -c $< -o $@
+	@echo "Compiled "$<" successfully!"
+
+.PHONY: clean all test
+clean:
+	@$(rm) $(OBJDIR) $(TEST_OBJDIR)
+	@echo "Cleanup complete!"
+
+.PHONY: remove
 remove: clean
 	@$(rm) $(LIBDIR)
-	@echo "Executable removed!"
+	@echo "Library and executable removed!"
