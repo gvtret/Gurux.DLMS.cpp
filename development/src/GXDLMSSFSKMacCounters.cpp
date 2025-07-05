@@ -68,7 +68,7 @@ std::vector< std::pair<uint16_t, uint32_t> >& CGXDLMSSFSKMacCounters::GetSynchro
     return m_SynchronizationRegister;
 }
 
-long CGXDLMSSFSKMacCounters::GetPhysicalLayerDesynchronization()
+uint32_t CGXDLMSSFSKMacCounters::GetPhysicalLayerDesynchronization()
 {
     return m_PhysicalLayerDesynchronization;
 }
@@ -78,7 +78,7 @@ void CGXDLMSSFSKMacCounters::SetPhysicalLayerDesynchronization(uint32_t value)
     m_PhysicalLayerDesynchronization = value;
 }
 
-long CGXDLMSSFSKMacCounters::GetTimeOutNotAddressedDesynchronization()
+uint32_t CGXDLMSSFSKMacCounters::GetTimeOutNotAddressedDesynchronization()
 {
     return m_TimeOutNotAddressedDesynchronization;
 }
@@ -88,17 +88,17 @@ void CGXDLMSSFSKMacCounters::SetTimeOutNotAddressedDesynchronization(uint32_t va
     m_TimeOutNotAddressedDesynchronization = value;
 }
 
-long CGXDLMSSFSKMacCounters::GetTimeOutFrameNotOkDesynchronization()
+uint32_t CGXDLMSSFSKMacCounters::GetTimeOutFrameNotOkDesynchronization()
 {
     return m_TimeOutFrameNotOkDesynchronization;
 }
 
-void CGXDLMSSFSKMacCounters::SetTimeOutFrameNotOkDesynchronization(long value)
+void CGXDLMSSFSKMacCounters::SetTimeOutFrameNotOkDesynchronization(uint32_t value)
 {
     m_TimeOutFrameNotOkDesynchronization = value;
 }
 
-long CGXDLMSSFSKMacCounters::GetWriteRequestDesynchronization()
+uint32_t CGXDLMSSFSKMacCounters::GetWriteRequestDesynchronization()
 {
     return m_WriteRequestDesynchronization;
 }
@@ -108,7 +108,7 @@ void CGXDLMSSFSKMacCounters::SetWriteRequestDesynchronization(uint32_t value)
     m_WriteRequestDesynchronization = value;
 }
 
-long CGXDLMSSFSKMacCounters::GetWrongInitiatorDesynchronization()
+uint32_t CGXDLMSSFSKMacCounters::GetWrongInitiatorDesynchronization()
 {
     return m_WrongInitiatorDesynchronization;
 }

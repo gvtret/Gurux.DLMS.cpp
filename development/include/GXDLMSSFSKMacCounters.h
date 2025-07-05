@@ -36,6 +36,7 @@
 #define GXDLMSSFSKMACCOUNTERS_H
 
 #include "GXIgnore.h"
+#include <cstdint>
 #ifndef DLMS_IGNORE_SFSK_MAC_COUNTERS
 #include "GXDLMSObject.h"
 
@@ -93,19 +94,19 @@ public:
     */
     std::vector< std::pair<uint16_t, uint32_t> >& GetSynchronizationRegister();
 
-    long GetPhysicalLayerDesynchronization();
+    uint32_t GetPhysicalLayerDesynchronization();
     void SetPhysicalLayerDesynchronization(uint32_t value);
 
-    long GetTimeOutNotAddressedDesynchronization();
+    uint32_t GetTimeOutNotAddressedDesynchronization();
     void SetTimeOutNotAddressedDesynchronization(uint32_t value);
 
-    long GetTimeOutFrameNotOkDesynchronization();
-    void SetTimeOutFrameNotOkDesynchronization(long value);
+    uint32_t GetTimeOutFrameNotOkDesynchronization();
+    void SetTimeOutFrameNotOkDesynchronization(uint32_t value);
 
-    long GetWriteRequestDesynchronization();
+    uint32_t GetWriteRequestDesynchronization();
     void SetWriteRequestDesynchronization(uint32_t value);
 
-    long GetWrongInitiatorDesynchronization();
+    uint32_t GetWrongInitiatorDesynchronization();
     void SetWrongInitiatorDesynchronization(uint32_t value);
 
     /*

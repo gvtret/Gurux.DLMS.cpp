@@ -41,6 +41,7 @@
 #include "GXPlcSettings.h"
 #include "GXDLMSObjectCollection.h"
 #include "GXCipher.h"
+#include <cstdint>
 
 // Server sender frame sequence starting number.
 const unsigned char SERVER_START_SENDER_FRAME_SEQUENCE = 0x1E;
@@ -95,12 +96,12 @@ class CGXDLMSSettings
     DLMS_SERVICE_CLASS m_ServiceClass;
 
     // Client address.
-    unsigned long m_ClientAddress;
+    uint32_t m_ClientAddress;
     // Client address.
-    unsigned long m_PushClientAddress;
+    uint32_t m_PushClientAddress;
 
     // Server address.
-    unsigned long m_ServerAddress;
+    uint32_t m_ServerAddress;
 
     // Is Logical Name referencing used.
     bool m_UseLogicalNameReferencing;
@@ -153,7 +154,7 @@ class CGXDLMSSettings
     CGXPlcSettings m_PlcSettings;
 
     // Block packet index.
-    unsigned long m_BlockIndex;
+    uint32_t m_BlockIndex;
 
     // List of server or client objects.
     CGXDLMSObjectCollection m_Objects;
@@ -281,10 +282,10 @@ public:
     unsigned char GetKeepAlive();
 
     // Gets current block index.
-    unsigned long GetBlockIndex();
+    uint32_t GetBlockIndex();
 
     // Sets current block index.
-    void SetBlockIndex(unsigned long value);
+    void SetBlockIndex(uint32_t value);
 
     // Resets block index to default value.
     void ResetBlockIndex();
@@ -308,22 +309,22 @@ public:
     void SetInterfaceType(DLMS_INTERFACE_TYPE value);
 
     // Gets client address.
-    unsigned long GetClientAddress();
+    uint32_t GetClientAddress();
 
     // Sets client address.
-    void SetClientAddress(unsigned long value);
+    void SetClientAddress(uint32_t value);
 
     // Gets push client address.
-    unsigned long GetPushClientAddress();
+    uint32_t GetPushClientAddress();
 
     // Sets push client address.
-    void SetPushClientAddress(unsigned long value);
+    void SetPushClientAddress(uint32_t value);
 
     // Server address.
-    unsigned long GetServerAddress();
+    uint32_t GetServerAddress();
 
     // Server address.
-    void SetServerAddress(unsigned long value);
+    void SetServerAddress(uint32_t value);
 
     // DLMS version number.
     unsigned char GetDLMSVersion();
@@ -374,13 +375,13 @@ public:
     /**
        * @return Invoke ID.
        */
-    unsigned long GetLongInvokeID();
+    uint32_t GetLongInvokeID();
 
     /**
      * @param value
      *            Invoke ID.
      */
-    int SetLongInvokeID(unsigned long value);
+    int SetLongInvokeID(uint32_t value);
 
     // Collection of the objects.
     CGXDLMSObjectCollection& GetObjects();
@@ -504,7 +505,7 @@ public:
     // Expected Invocation(Frame) counter value.
     // Expected Invocation counter is not check if value is zero.
     uint64_t GetExpectedInvocationCounter();
-    void SetExpectedInvocationCounter(uint64_t uint32_t);
+    void SetExpectedInvocationCounter(uint64_t value);
 
     /////////////////////////////////////////////////////////////////////////
     // Expected security policy.

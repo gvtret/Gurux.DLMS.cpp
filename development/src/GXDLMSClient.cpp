@@ -42,6 +42,7 @@
 #include "../include/GXDLMSLNParameters.h"
 #include "../include/GXDLMSSNParameters.h"
 #include "../include/GXEcdsa.h"
+#include <cstdint>
 
 CGXDLMSClient::CGXDLMSClient(bool UseLogicalNameReferencing,
     int clientAddress,
@@ -222,23 +223,23 @@ void CGXDLMSClient::SetAuthentication(DLMS_AUTHENTICATION value)
 }
 
 
-unsigned long CGXDLMSClient::GetClientAddress()
+uint32_t CGXDLMSClient::GetClientAddress()
 {
     return m_Settings.GetClientAddress();
 }
 
-void CGXDLMSClient::SetClientAddress(unsigned long value)
+void CGXDLMSClient::SetClientAddress(uint32_t value)
 {
     m_Settings.SetClientAddress(value);
 }
 
-unsigned long CGXDLMSClient::GetServerAddress()
+uint32_t CGXDLMSClient::GetServerAddress()
 {
     return m_Settings.GetServerAddress();
 }
 
 // Server address.
-void CGXDLMSClient::SetServerAddress(unsigned long value)
+void CGXDLMSClient::SetServerAddress(uint32_t value)
 {
     m_Settings.SetServerAddress(value);
 }
@@ -2151,7 +2152,7 @@ int CGXDLMSClient::ReadRowsByRange(
 }
 
 int CGXDLMSClient::GetServerAddressFromSerialNumber(
-    unsigned long serialNumber,
+    uint32_t serialNumber,
     unsigned short logicalAddress,
     const char* formula)
 {
@@ -2173,8 +2174,8 @@ int CGXDLMSClient::GetServerAddressFromSerialNumber(
     return value;
 }
 
-int  CGXDLMSClient::GetServerAddress(unsigned long logicalAddress,
-    unsigned long physicalAddress, unsigned char addressSize)
+int  CGXDLMSClient::GetServerAddress(uint32_t logicalAddress,
+    uint32_t physicalAddress, unsigned char addressSize)
 {
     if (addressSize < 4 && physicalAddress < 0x80
         && logicalAddress < 0x80)

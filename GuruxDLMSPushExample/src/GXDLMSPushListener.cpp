@@ -196,8 +196,8 @@ void ListenerThread(void* pVoid)
                         string xml;
                         CGXDLMSTranslator t(DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML);
                         t.DataToXml(notify.GetData(), xml);
-                        printf(xml.c_str());                       
-                        printf("Server address: %d Client Address: %d\r\n", notify.GetServerAddress(), notify.GetClientAddress());
+                        printf("%s", xml.c_str());
+                        printf("Server address: %d Client Address: %u\r\n", notify.GetServerAddress(), notify.GetClientAddress());
                         notify.Clear();
                         bb.SetSize(0);
                     }

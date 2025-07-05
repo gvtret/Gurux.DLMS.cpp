@@ -143,12 +143,12 @@ void CGXDLMSDemandRegister::SetStartTimeCurrent(CGXDateTime& value)
     m_StartTimeCurrent = value;
 }
 
-unsigned long CGXDLMSDemandRegister::GetPeriod()
+uint32_t CGXDLMSDemandRegister::GetPeriod()
 {
     return m_Period;
 }
 
-void CGXDLMSDemandRegister::SetPeriod(unsigned long value)
+void CGXDLMSDemandRegister::SetPeriod(uint32_t value)
 {
     m_Period = value;
 }
@@ -496,7 +496,7 @@ int CGXDLMSDemandRegister::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEvent
     }
     else if (e.GetIndex() == 8)
     {
-        SetPeriod(e.GetValue().ulVal);
+        SetPeriod(static_cast<uint32_t>(e.GetValue().ulVal));
     }
     else if (e.GetIndex() == 9)
     {

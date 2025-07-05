@@ -39,6 +39,7 @@
 #include "GXPrivateKey.h"
 #include "GXPublicKey.h"
 #include "GXx509Certificate.h"
+#include <cstdint>
 
 class CGXCipher
 {
@@ -69,7 +70,7 @@ private:
     /**
      * Frame counter. AKA Invocation counter.
      */
-    unsigned long m_FrameCounter;
+    uint32_t m_FrameCounter;
 
     DLMS_SECURITY_SUITE m_SecuritySuite;
 
@@ -187,7 +188,7 @@ public:
         DLMS_SECURITY_SUITE suite,
         DLMS_SECURITY security,
         DLMS_COUNT_TYPE type,
-        unsigned long frameCounter,
+        uint32_t frameCounter,
         unsigned char tag,
         CGXByteBuffer& systemTitle,
         CGXByteBuffer& key,
@@ -292,16 +293,16 @@ public:
     /**
      * Returns Frame counter. AKA. Invocation counter.
      */
-    unsigned long GetFrameCounter();
+    uint32_t GetFrameCounter();
 
-    void SetFrameCounter(unsigned long value);
+    void SetFrameCounter(uint32_t value);
 
     /**
      * Returns Invocation counter. AKA Frame counter.
      */
-    unsigned long GetInvocationCounter();
+    uint32_t GetInvocationCounter();
 
-    void SetInvocationCounter(unsigned long value);
+    void SetInvocationCounter(uint32_t value);
 
     void Reset();
 

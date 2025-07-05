@@ -49,7 +49,7 @@ void CGXCommunication::WriteValue(GX_TRACE_LEVEL trace, std::string line)
 {
     if (trace > GX_TRACE_LEVEL_WARNING)
     {
-        printf(line.c_str());
+        printf("%s", line.c_str());
     }
 }
 

@@ -944,7 +944,7 @@ int CGXCommunication::UpdateFrameCounter()
             printf("UpdateFrameCounter\n");
         }
         m_Parser->SetProposedConformance((DLMS_CONFORMANCE)(m_Parser->GetProposedConformance() | DLMS_CONFORMANCE_GENERAL_PROTECTION));
-        unsigned long add = m_Parser->GetClientAddress();
+        uint32_t add = m_Parser->GetClientAddress();
         DLMS_AUTHENTICATION auth = m_Parser->GetAuthentication();
         DLMS_SECURITY security = m_Parser->GetCiphering()->GetSecurity();
         CGXByteBuffer challenge = m_Parser->GetCtoSChallenge();

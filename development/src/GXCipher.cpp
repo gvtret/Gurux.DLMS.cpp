@@ -36,6 +36,7 @@
 #include "../include/GXCipher.h"
 #include "../include/chipperingenums.h"
 #include "../include/GXHelpers.h"
+#include <cstdint>
 
 void CGXCipher::Init(
     unsigned char* systemTitle,
@@ -88,7 +89,7 @@ CGXCipher::~CGXCipher()
 * @return
 */
 static int GetNonse(
-    unsigned long frameCounter,
+    uint32_t frameCounter,
     CGXByteBuffer& systemTitle,
     CGXByteBuffer& nonce)
 {
@@ -104,10 +105,10 @@ static int GetNonse(
 }
 
 //Get UInt32.
-#define GETU32(pt) (((unsigned long)(pt)[0] << 24) | \
-                    ((unsigned long)(pt)[1] << 16) | \
-                    ((unsigned long)(pt)[2] <<  8) | \
-                    ((unsigned long)(pt)[3]))
+#define GETU32(pt) (((uint32_t)(pt)[0] << 24) | \
+                    ((uint32_t)(pt)[1] << 16) | \
+                    ((uint32_t)(pt)[2] <<  8) | \
+                    ((uint32_t)(pt)[3]))
 
 //Set Int32 as Big Endian value.
 #define PUT32(ct, st) { \
@@ -122,7 +123,7 @@ static const unsigned char Rcon[11] = {
 
 
 //There is only one TE table. Counting is taking little bit longer, but memory is needed less.
-const unsigned long Te0[256] = {
+const uint32_t Te0[256] = {
     0xc66363a5U, 0xf87c7c84U, 0xee777799U, 0xf67b7b8dU,
     0xfff2f20dU, 0xd66b6bbdU, 0xde6f6fb1U, 0x91c5c554U,
     0x60303050U, 0x02010103U, 0xce6767a9U, 0x562b2b7dU,
@@ -189,7 +190,7 @@ const unsigned long Te0[256] = {
     0x7bb0b0cbU, 0xa85454fcU, 0x6dbbbbd6U, 0x2c16163aU,
 };
 
-#define RCON(i) ((unsigned long) Rcon[(i)] << 24)
+#define RCON(i) ((uint32_t) Rcon[(i)] << 24)
 
 #define ROTATE(val, bits) ((val >> bits) | (val << (32 - bits)))
 
@@ -229,8 +230,8 @@ int CGXCipher::Int(uint32_t* rk,
     const unsigned char* cipherKey,
     unsigned short keyBits)
 {
-    unsigned long i;
-    unsigned long temp;
+    uint32_t i;
+    uint32_t temp;
 
     rk[0] = GETU32(cipherKey);
     rk[1] = GETU32(cipherKey + 4);
@@ -288,7 +289,7 @@ void CGXCipher::AesEncrypt(
     const unsigned char* pt,
     unsigned char* ct)
 {
-    unsigned long s0, s1, s2, s3, t0, t1, t2, t3;
+    uint32_t s0, s1, s2, s3, t0, t1, t2, t3;
     int r;
     s0 = GETU32(pt) ^ rk[0];
     s1 = GETU32(pt + 4) ^ rk[1];
@@ -338,7 +339,7 @@ void CGXCipher::Xor(
 
 void CGXCipher::shift_right_block(unsigned char* v)
 {
-    unsigned long val = GETU32(v + 12);
+    uint32_t val = GETU32(v + 12);
     val >>= 1;
     if (v[11] & 0x01)
     {
@@ -441,19 +442,19 @@ void CGXCipher::Init_j0(
     {
         memset(J0, 0, 16);
         GetGHash(H, iv, len, J0);
-        PUT32(tmp, (unsigned long)0);
-        PUT32(tmp + 4, (unsigned long)0);
+        PUT32(tmp, (uint32_t)0);
+        PUT32(tmp + 4, (uint32_t)0);
         //Here is expected that data is newer longger than 32 bit.
         //This is done because microcontrollers show warning here.
-        PUT32(tmp + 8, (unsigned long)0);
-        PUT32(tmp + 12, (unsigned long)(len * 8));
+        PUT32(tmp + 8, (uint32_t)0);
+        PUT32(tmp + 12, (uint32_t)(len * 8));
         GetGHash(H, tmp, sizeof(tmp), J0);
     }
 }
 
 void CGXCipher::Inc32(unsigned char* block)
 {
-    unsigned long val;
+    uint32_t val;
     val = GETU32(block + 16 - 4);
     val++;
     PUT32(block + 16 - 4, val);
@@ -532,10 +533,10 @@ void CGXCipher::AesGcmGhash(const unsigned char* H, const unsigned char* aad, in
     GetGHash(H, crypt, crypt_len, S);
     //Here is expected that data is never longer than 32 bit.
     //This is done because microcontrollers show warning here.
-    PUT32(len_buf, (unsigned long)0);
-    PUT32(len_buf + 4, (unsigned long)(aad_len * 8));
-    PUT32(len_buf + 8, (unsigned long)0);
-    PUT32(len_buf + 12, (unsigned long)(crypt_len * 8));
+    PUT32(len_buf, (uint32_t)0);
+    PUT32(len_buf + 4, (uint32_t)(aad_len * 8));
+    PUT32(len_buf + 8, (uint32_t)0);
+    PUT32(len_buf + 12, (uint32_t)(crypt_len * 8));
     GetGHash(H, len_buf, sizeof(len_buf), S);
 }
 
@@ -543,7 +544,7 @@ int CGXCipher::Encrypt(
     DLMS_SECURITY_SUITE suite,
     DLMS_SECURITY security,
     DLMS_COUNT_TYPE type,
-    unsigned long frameCounter,
+    uint32_t frameCounter,
     unsigned char tag,
     CGXByteBuffer& systemTitle,
     CGXByteBuffer& key,
@@ -784,7 +785,7 @@ int CGXCipher::Decrypt(
         suite,
         security,
         DLMS_COUNT_TYPE_DATA,
-        frameCounter,
+        static_cast<uint32_t>(frameCounter),
         0,
         *pTitle,
         key,
@@ -1069,22 +1070,22 @@ int CGXCipher::SetAuthenticationKey(CGXByteBuffer& value)
     return 0;
 }
 
-unsigned long CGXCipher::GetFrameCounter()
+uint32_t CGXCipher::GetFrameCounter()
 {
     return m_FrameCounter;
 }
 
-void CGXCipher::SetFrameCounter(unsigned long value)
+void CGXCipher::SetFrameCounter(uint32_t value)
 {
     m_FrameCounter = value;
 }
 
-unsigned long CGXCipher::GetInvocationCounter()
+uint32_t CGXCipher::GetInvocationCounter()
 {
     return m_FrameCounter;
 }
 
-void CGXCipher::SetInvocationCounter(unsigned long value)
+void CGXCipher::SetInvocationCounter(uint32_t value)
 {
     m_FrameCounter = value;
 }
