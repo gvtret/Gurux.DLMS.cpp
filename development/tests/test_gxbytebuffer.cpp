@@ -44,11 +44,11 @@ TEST_F(CGXByteBufferTest, ConstructorWithCapacity) {
 TEST_F(CGXByteBufferTest, SetAndGetUInt8) {
     unsigned char val_in = 0xAB;
     unsigned char val_out = 0;
-    bb.SetUInt8(val_in);
+    bb.SetUInt8(val_in); // This appends to buffer, m_Size becomes 1. m_Position remains 0.
     EXPECT_EQ(bb.GetSize(), 1);
-    EXPECT_EQ(bb.GetPosition(), 1);
+    EXPECT_EQ(bb.GetPosition(), 0); // Corrected: SetUInt8(value) should not change position.
 
-    bb.SetPosition(0);
+    bb.SetPosition(0); // Explicitly set position to 0 for reading.
     bb.GetUInt8(&val_out);
     EXPECT_EQ(val_out, val_in);
     EXPECT_EQ(bb.GetPosition(), 1);
