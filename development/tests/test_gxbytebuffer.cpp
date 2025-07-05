@@ -57,11 +57,11 @@ TEST_F(CGXByteBufferTest, SetAndGetUInt8) {
 TEST_F(CGXByteBufferTest, SetAndGetUInt16) {
     unsigned short val_in = 0xABCD;
     unsigned short val_out = 0;
-    bb.SetUInt16(val_in);
+    bb.SetUInt16(val_in); // This appends to buffer, m_Size becomes 2. m_Position remains 0.
     EXPECT_EQ(bb.GetSize(), 2);
-    EXPECT_EQ(bb.GetPosition(), 2);
+    EXPECT_EQ(bb.GetPosition(), 0); // Corrected: SetUInt16(value) should not change position.
 
-    bb.SetPosition(0);
+    bb.SetPosition(0); // Explicitly set position to 0 for reading.
     bb.GetUInt16(&val_out);
     EXPECT_EQ(val_out, val_in);
     EXPECT_EQ(bb.GetPosition(), 2);
