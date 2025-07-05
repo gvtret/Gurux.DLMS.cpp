@@ -36,6 +36,7 @@
 #define GXCHARGE_H
 
 #include "GXIgnore.h"
+#include <cstdint>
 #ifndef DLMS_IGNORE_CHARGE
 #include "GXDLMSObject.h"
 #include "GXUnitCharge.h"
@@ -52,7 +53,7 @@ class CGXDLMSCharge : public CGXDLMSObject
     CGXUnitCharge m_UnitChargeActive;
     CGXUnitCharge m_UnitChargePassive;
     CGXDateTime m_UnitChargeActivationTime;
-    unsigned long m_Period;
+    uint32_t m_Period;
     DLMS_CHARGE_CONFIGURATION m_ChargeConfiguration;
     CGXDateTime m_LastCollectionTime;
     long m_LastCollectionAmount;
@@ -191,7 +192,7 @@ public:
      *
      * @return Period.
      */
-    unsigned long GetPeriod()
+    uint32_t GetPeriod()
     {
         return m_Period;
     }
@@ -203,7 +204,7 @@ public:
      * @param value
      *            Period.
      */
-    void SetPeriod(unsigned long value)
+    void SetPeriod(uint32_t value)
     {
         m_Period = value;
     }

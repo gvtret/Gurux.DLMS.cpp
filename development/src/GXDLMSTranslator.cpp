@@ -181,12 +181,12 @@ void CGXDLMSTranslator::SetAuthenticationKey(CGXByteBuffer& value)
     m_AuthenticationKey.Set(value.GetData(), value.GetSize() - value.GetPosition());
 }
 
-unsigned long CGXDLMSTranslator::GetFrameCounter()
+uint32_t CGXDLMSTranslator::GetFrameCounter()
 {
     return m_FrameCounter;
 }
 
-void CGXDLMSTranslator::SetFrameCounter(unsigned long value)
+void CGXDLMSTranslator::SetFrameCounter(uint32_t value)
 {
     m_FrameCounter = value;
 }

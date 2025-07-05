@@ -143,7 +143,7 @@ public:
     /**
      * Frame counter. AKA Invocation counter.
      */
-    unsigned long m_FrameCounter;
+    uint32_t m_FrameCounter;
 
     /*
     * Get all tags.
@@ -263,9 +263,9 @@ public:
     /**
      * @return Frame counter. Invocation counter.
      */
-    unsigned long GetFrameCounter();
+    uint32_t GetFrameCounter();
 
-    void SetFrameCounter(unsigned long value);
+    void SetFrameCounter(uint32_t value);
 
     // Convert bytes to xml.
     // value: Bytes to convert.

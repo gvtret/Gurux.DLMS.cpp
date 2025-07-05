@@ -240,12 +240,12 @@ unsigned char CGXDLMSSettings::GetKeepAlive()
     return (unsigned char)(m_SenderFrame & 0xF1);
 }
 
-unsigned long CGXDLMSSettings::GetBlockIndex()
+uint32_t CGXDLMSSettings::GetBlockIndex()
 {
     return m_BlockIndex;
 }
 
-void CGXDLMSSettings::SetBlockIndex(unsigned long value)
+void CGXDLMSSettings::SetBlockIndex(uint32_t value)
 {
     m_BlockIndex = value;
 }
@@ -286,33 +286,33 @@ void CGXDLMSSettings::SetInterfaceType(DLMS_INTERFACE_TYPE value)
     m_InterfaceType = value;
 }
 
-unsigned long CGXDLMSSettings::GetClientAddress()
+uint32_t CGXDLMSSettings::GetClientAddress()
 {
     return m_ClientAddress;
 }
 
-void CGXDLMSSettings::SetClientAddress(unsigned long value)
+void CGXDLMSSettings::SetClientAddress(uint32_t value)
 {
     m_ClientAddress = value;
 }
 
-unsigned long CGXDLMSSettings::GetPushClientAddress()
+uint32_t CGXDLMSSettings::GetPushClientAddress()
 {
     return m_PushClientAddress;
 }
 
-void CGXDLMSSettings::SetPushClientAddress(unsigned long value)
+void CGXDLMSSettings::SetPushClientAddress(uint32_t value)
 {
     m_PushClientAddress = value;
 }
 
-unsigned long CGXDLMSSettings::GetServerAddress()
+uint32_t CGXDLMSSettings::GetServerAddress()
 {
     return m_ServerAddress;
 }
 
 // Server address.
-void CGXDLMSSettings::SetServerAddress(unsigned long value)
+void CGXDLMSSettings::SetServerAddress(uint32_t value)
 {
     m_ServerAddress = value;
 }
@@ -420,11 +420,11 @@ void CGXDLMSSettings::UpdateInvokeId(unsigned char value) {
 }
 
 
-unsigned long CGXDLMSSettings::GetLongInvokeID()
+uint32_t CGXDLMSSettings::GetLongInvokeID()
 {
     return m_LongInvokeID;
 }
-int CGXDLMSSettings::SetLongInvokeID(unsigned long value)
+int CGXDLMSSettings::SetLongInvokeID(uint32_t value)
 {
     if (value > 0xFFFFFF)
     {

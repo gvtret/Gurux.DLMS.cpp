@@ -40,6 +40,7 @@
 #include "GXSecure.h"
 #include "GXDateTime.h"
 #include "GXDLMSAccessItem.h"
+#include <cstdint>
 
 class CGXDLMSClient
 {
@@ -190,16 +191,16 @@ public:
     void SetAuthentication(DLMS_AUTHENTICATION value);
 
     // Gets client address.
-    unsigned long GetClientAddress();
+    uint32_t GetClientAddress();
 
     // Sets client address.
-    void SetClientAddress(unsigned long value);
+    void SetClientAddress(uint32_t value);
 
     // Server address.
-    unsigned long GetServerAddress();
+    uint32_t GetServerAddress();
 
     // Server address.
-    void SetServerAddress(unsigned long value);
+    void SetServerAddress(uint32_t value);
 
     // Maximum client PDU size.
     unsigned short GetMaxPduSize();
@@ -980,7 +981,7 @@ public:
      * @return Server address.
      */
     static int GetServerAddressFromSerialNumber(
-        unsigned long serialNumber,
+        uint32_t serialNumber,
         unsigned short logicalAddress,
         const char* formula = NULL);
 
@@ -995,8 +996,8 @@ public:
      *            Address size in bytes.
      * @return Server address.
      */
-    static int  GetServerAddress(unsigned long logicalAddress,
-        unsigned long physicalAddress,
+    static int  GetServerAddress(uint32_t logicalAddress,
+        uint32_t physicalAddress,
         unsigned char addressSize = 0);
 
     /**

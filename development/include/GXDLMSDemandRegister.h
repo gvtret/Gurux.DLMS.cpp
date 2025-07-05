@@ -36,6 +36,7 @@
 #define GXDLMSDEMANDREGISTER_H
 
 #include "GXIgnore.h"
+#include <cstdint>
 #include "GXDLMSObject.h"
 #ifndef DLMS_IGNORE_DEMAND_REGISTER
 /**
@@ -52,7 +53,7 @@ class CGXDLMSDemandRegister : public CGXDLMSObject
     CGXDateTime m_CaptureTime;
     CGXDateTime m_StartTimeCurrent;
     int m_NumberOfPeriods;
-    unsigned long m_Period;
+    uint32_t m_Period;
 
 protected:
     bool IsRead(int index);
@@ -121,8 +122,8 @@ public:
     CGXDateTime& GetStartTimeCurrent();
     void SetStartTimeCurrent(CGXDateTime& value);
 
-    unsigned long GetPeriod();
-    void SetPeriod(unsigned long value);
+    uint32_t GetPeriod();
+    void SetPeriod(uint32_t value);
 
     int GetNumberOfPeriods();
     void SetNumberOfPeriods(int value);
