@@ -333,7 +333,7 @@ int CGXCommunication::UpdateFrameCounter()
         {
             m_Parser->GetCiphering()->SetInvocationCounter(1 + d.GetValue().ToInteger());
         }
-        printf("Invocation counter: %lu\n", m_Parser->GetCiphering()->GetInvocationCounter());
+        printf("Invocation counter: %u\n", m_Parser->GetCiphering()->GetInvocationCounter());
         reply.Clear();
         Disconnect();
         m_Parser->SetClientAddress(add);
