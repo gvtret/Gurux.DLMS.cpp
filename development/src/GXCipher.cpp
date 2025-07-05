@@ -142,19 +142,10 @@ static int UnPackBlock(
     CGXGMacBlock *block)
 {
     int ret;
-    if ((ret = GetUInt32ByIndexLE(bytes, offset, &block->c0)) != 0)
-    {
-        return ret;
-    }
-    if ((ret = GetUInt32ByIndexLE(bytes, offset + 4, &block->c1)) != 0)
-    {
-        return ret;
-    }
-    if ((ret = GetUInt32ByIndexLE(bytes, offset + 8, &block->c2)) != 0)
-    {
-        return ret;
-    }
-    if ((ret = GetUInt32ByIndexLE(bytes, offset + 12, &block->c3)) != 0)
+    if ((ret = GetUInt32ByIndexLE(bytes, offset, &block->c0)) != 0
+        || (ret = GetUInt32ByIndexLE(bytes, offset + 4, &block->c1)) != 0
+        || (ret = GetUInt32ByIndexLE(bytes, offset + 8, &block->c2)) != 0
+        || (ret = GetUInt32ByIndexLE(bytes, offset + 12, &block->c3)) != 0)
     {
         return ret;
     }
