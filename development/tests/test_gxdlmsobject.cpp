@@ -45,21 +45,11 @@ TEST_F(CGXDLMSObjectTest, DefaultConstructor) {
         // A string of 6 nulls is unusual for GetLogicalName(std::string).
         // Let's assume an "empty" or "default" LN string from GetLogicalName is what we expect.
         // If the object is truly default initialized, its m_LN should be all zeros.
-        bool is_ln_empty_or_zero = false;
-        if (ln_str.empty()) {
-            is_ln_empty_or_zero = true;
-        } else {
-            // Check if it's all zeros, e.g., "0.0.0.0.0.0"
-            // Or if the byte array itself is all zeros
-            bool all_zeros = true;
-            for(size_t i = 0; i < sizeof(obj.m_LN); ++i) { // Assuming m_LN is accessible or use a getter for bytes
-                if (obj.m_LN[i] != 0) {
-                    all_zeros = false;
-                    break;
-                }
-            }
-            if (all_zeros) is_ln_empty_or_zero = true;
-        }
+        // This is verified by checking the output of GetLogicalName(ln_str).
+        // The string representation of an all-zero LN is typically "0.0.0.0.0.0" or an empty string.
+        // The boolean variable is_ln_empty_or_zero was not directly used in an assertion,
+        // the important part is the EXPECT_TRUE below.
+
         // Given the original test: EXPECT_TRUE(ln_str.empty() || ln_str == "\0\0\0\0\0\0");
         // This suggests that GetLogicalName might return an empty string for a default/empty LN.
         // Or the internal LN bytes are checked.
