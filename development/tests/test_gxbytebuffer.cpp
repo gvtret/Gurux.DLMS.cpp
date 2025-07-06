@@ -115,19 +115,19 @@ TEST_F(CGXByteBufferTest, SizePositionCapacity) {
 
     bb.SetUInt8(0x01);
     EXPECT_EQ(bb.GetSize(), 1);
-    EXPECT_EQ(bb.GetPosition(), 1);
+    EXPECT_EQ(bb.GetPosition(), 0); // Corrected: SetUInt8 does not change position
 
     bb.SetUInt16(0x0203);
     EXPECT_EQ(bb.GetSize(), 3); // 1 (from u8) + 2 (from u16)
-    EXPECT_EQ(bb.GetPosition(), 3);
+    EXPECT_EQ(bb.GetPosition(), 0); // Corrected: SetUInt16 does not change position
 
     unsigned long initial_capacity = bb.Capacity();
     // Grow buffer if needed
     for (int i = 0; i < 200; ++i) {
-        bb.SetUInt8( (unsigned char)i);
+        bb.SetUInt8( (unsigned char)i); // SetUInt8 does not change position
     }
     EXPECT_EQ(bb.GetSize(), 3 + 200);
-    EXPECT_EQ(bb.GetPosition(), 3 + 200);
+    EXPECT_EQ(bb.GetPosition(), 0); // Corrected: Position should still be 0
     EXPECT_GE(bb.Capacity(), bb.GetSize());
     EXPECT_GE(bb.Capacity(), initial_capacity); // It should have grown or stayed same
 }
@@ -149,9 +149,9 @@ TEST_F(CGXByteBufferTest, ToHexString) {
 }
 
 TEST_F(CGXByteBufferTest, Clear) {
-    bb.SetUInt32(0x12345678);
+    bb.SetUInt32(0x12345678); // SetUInt32 does not change position
     EXPECT_EQ(bb.GetSize(), 4);
-    EXPECT_EQ(bb.GetPosition(), 4);
+    EXPECT_EQ(bb.GetPosition(), 0); // Corrected
 
     bb.Clear();
     EXPECT_EQ(bb.GetSize(), 0);
@@ -164,11 +164,11 @@ TEST_F(CGXByteBufferTest, SetAndGetRawBytes) {
     unsigned char data_in[] = {0x01, 0x02, 0x03, 0x04, 0x05};
     unsigned char data_out[5];
 
-    bb.Set(data_in, 5);
+    bb.Set(data_in, 5); // Set(data,count) for appending does not change position
     EXPECT_EQ(bb.GetSize(), 5);
-    EXPECT_EQ(bb.GetPosition(), 5); // Set advances position
+    EXPECT_EQ(bb.GetPosition(), 0); // Corrected
 
-    bb.SetPosition(0);
+    bb.SetPosition(0); // Explicitly set for read
     int ret = bb.Get(data_out, 5);
     EXPECT_EQ(ret, 0); // Assuming 0 is success
     EXPECT_EQ(bb.GetPosition(), 5); // Get advances position
