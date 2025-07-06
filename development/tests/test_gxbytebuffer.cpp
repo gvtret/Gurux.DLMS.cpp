@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+#include <cstring>
 #include "GXBytebuffer.h" // Assuming this is the correct path relative to include dirs
 #include "GXDLMSVariant.h" // For AddString/GetString if they use it, or for general utility
 
