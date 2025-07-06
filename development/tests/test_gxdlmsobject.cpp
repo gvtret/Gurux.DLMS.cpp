@@ -17,21 +17,8 @@ TEST_F(CGXDLMSObjectTest, DefaultConstructor) {
     EXPECT_EQ(obj.GetObjectType(), DLMS_OBJECT_TYPE_NONE);
 
     CGXDLMSVariant name = obj.GetName();
-    EXPECT_TRUE(name.vt == DLMS_DATA_TYPE_UINT16 || name.vt == DLMS_DATA_TYPE_OCTET_STRING || name.vt == DLMS_DATA_TYPE_NONE);
-
-    if (name.vt == DLMS_DATA_TYPE_UINT16) {
-        EXPECT_EQ(name.uiVal, 0); // Default SN is often 0
-    } else if (name.vt == DLMS_DATA_TYPE_OCTET_STRING) {
-        std::string ln_str;
-        obj.GetLogicalName(ln_str);
-        // For a default object, LN (if type is OCTET_STRING) should be empty or "0.0.0.0.0.0"
-        EXPECT_TRUE(ln_str.empty() || ln_str == "0.0.0.0.0.0");
-    } else if (name.vt == DLMS_DATA_TYPE_NONE) {
-        SUCCEED(); // Acceptable for a default name to be "NONE"
-    }
-    else {
-        FAIL() << "Default object name type is not UINT16, OCTET_STRING, or NONE. Actual type: " << name.vt;
-    }
+    EXPECT_EQ(name.vt, DLMS_DATA_TYPE_STRING);
+    EXPECT_EQ(name.strVal, "0.0.0.0.0.0");
     EXPECT_EQ(obj.GetVersion(), 0);
 }
 
@@ -48,7 +35,7 @@ TEST_F(CGXDLMSObjectTest, ConstructorWithLogicalNameString) {
     EXPECT_EQ(obj.GetObjectType(), DLMS_OBJECT_TYPE_CLOCK);
 
     CGXDLMSVariant name_var = obj.GetName();
-    EXPECT_EQ(name_var.vt, DLMS_DATA_TYPE_OCTET_STRING); // Corrected check
+    EXPECT_EQ(name_var.vt, DLMS_DATA_TYPE_STRING);
 
     std::string ln_str_out;
     obj.GetLogicalName(ln_str_out);
@@ -88,7 +75,7 @@ TEST_F(CGXDLMSObjectTest, SetAndGetLogicalName) {
     EXPECT_EQ(ln_str_out, ln_str_in);
 
     CGXDLMSVariant name_var = obj.GetName();
-    EXPECT_EQ(name_var.vt, DLMS_DATA_TYPE_OCTET_STRING); // Corrected check
+    EXPECT_EQ(name_var.vt, DLMS_DATA_TYPE_STRING);
 }
 
 
@@ -115,7 +102,7 @@ TEST_F(CGXDLMSObjectTest, GetNameConsistency) {
     obj.SetName(ln_variant);
 
     CGXDLMSVariant name_ln = obj.GetName();
-    EXPECT_EQ(name_ln.vt, DLMS_DATA_TYPE_OCTET_STRING); // Corrected check
+    EXPECT_EQ(name_ln.vt, DLMS_DATA_TYPE_STRING);
     std::string ln_out_str;
     obj.GetLogicalName(ln_out_str);
     EXPECT_EQ(ln_out_str, ln_str);
@@ -150,6 +137,7 @@ TEST_F(CGXDLMSObjectTest, ConstructorWithByteBufferLN) {
     obj1.GetLogicalName(ln_str_out1);
     EXPECT_EQ(ln_str_out1, "1.2.3.4.5.6");
 
+    ln_bb.SetPosition(0);
     CGXDLMSObject obj2(0x5678, 1, 2, ln_bb);
     EXPECT_EQ(obj2.GetObjectType(), DLMS_OBJECT_TYPE_DATA);
     EXPECT_EQ(obj2.GetShortName(), 0x5678);
