@@ -506,10 +506,10 @@ int CGXByteBuffer::GetUInt32(unsigned long* value)
     {
         return DLMS_ERROR_CODE_OUTOFMEMORY;
     }
-    *value = m_Data[m_Position] << 24 |
-        m_Data[m_Position + 1] << 16 |
-        m_Data[m_Position + 2] << 8 |
-        m_Data[m_Position + 3];
+    *value = ((unsigned long)m_Data[m_Position] << 24) |
+        ((unsigned long)m_Data[m_Position + 1] << 16) |
+        ((unsigned long)m_Data[m_Position + 2] << 8) |
+        ((unsigned long)m_Data[m_Position + 3]);
     m_Position += 4;
     return 0;
 }
@@ -550,10 +550,10 @@ int CGXByteBuffer::GetUInt32(unsigned long index, unsigned long* value)
     {
         return DLMS_ERROR_CODE_OUTOFMEMORY;
     }
-    *value = m_Data[index] << 24 |
-        m_Data[index + 1] << 16 |
-        m_Data[index + 2] << 8 |
-        m_Data[index + 3];
+    *value = ((unsigned long)m_Data[index] << 24) |
+        ((unsigned long)m_Data[index + 1] << 16) |
+        ((unsigned long)m_Data[index + 2] << 8) |
+        ((unsigned long)m_Data[index + 3]);
     return 0;
 }
 

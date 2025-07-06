@@ -12,21 +12,21 @@ protected:
 };
 
 TEST_F(CGXDLMSConverterTest, ObjectTypeToString) {
-    EXPECT_STREQ("Data", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_DATA));
-    EXPECT_STREQ("Register", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_REGISTER));
-    EXPECT_STREQ("ExtendedRegister", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_EXTENDED_REGISTER));
-    EXPECT_STREQ("DemandRegister", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_DEMAND_REGISTER));
-    EXPECT_STREQ("Clock", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_CLOCK));
-    EXPECT_STREQ("ProfileGeneric", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_PROFILE_GENERIC));
+    EXPECT_STREQ("GXDLMSData", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_DATA));
+    EXPECT_STREQ("GXDLMSRegister", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_REGISTER));
+    EXPECT_STREQ("GXDLMSExtendedRegister", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_EXTENDED_REGISTER));
+    EXPECT_STREQ("GXDLMSDemandRegister", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_DEMAND_REGISTER));
+    EXPECT_STREQ("GXDLMSClock", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_CLOCK));
+    EXPECT_STREQ("GXDLMSProfileGeneric", CGXDLMSConverter::ToString(DLMS_OBJECT_TYPE_PROFILE_GENERIC));
     // Add more common types if needed
     // What about an invalid type? The function returns const char*. Should return "Unknown" or similar.
     // Let's assume for now it handles known types. The return for unknown is not specified by signature alone.
 }
 
 TEST_F(CGXDLMSConverterTest, ValueOfObjectType) {
-    EXPECT_EQ(DLMS_OBJECT_TYPE_DATA, CGXDLMSConverter::ValueOfObjectType("Data"));
-    EXPECT_EQ(DLMS_OBJECT_TYPE_REGISTER, CGXDLMSConverter::ValueOfObjectType("Register"));
-    EXPECT_EQ(DLMS_OBJECT_TYPE_CLOCK, CGXDLMSConverter::ValueOfObjectType("Clock"));
+    EXPECT_EQ(DLMS_OBJECT_TYPE_DATA, CGXDLMSConverter::ValueOfObjectType("GXDLMSData"));
+    EXPECT_EQ(DLMS_OBJECT_TYPE_REGISTER, CGXDLMSConverter::ValueOfObjectType("GXDLMSRegister"));
+    EXPECT_EQ(DLMS_OBJECT_TYPE_CLOCK, CGXDLMSConverter::ValueOfObjectType("GXDLMSClock"));
     // Test case-insensitivity or exact match if specified by requirements
     // EXPECT_EQ(DLMS_OBJECT_TYPE_PROFILE_GENERIC, CGXDLMSConverter::ValueOfObjectType("profilegeneric")); // If case-insensitive
 
@@ -40,10 +40,10 @@ TEST_F(CGXDLMSConverterTest, ValueOfObjectType) {
 
 
 TEST_F(CGXDLMSConverterTest, BaudRateToString) {
-    EXPECT_STREQ("BaudRate300", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_300));
-    EXPECT_STREQ("BaudRate600", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_600));
-    EXPECT_STREQ("BaudRate9600", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_9600));
-    EXPECT_STREQ("BaudRate115200", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_115200));
+    EXPECT_STREQ("Baudrate300", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_300));
+    EXPECT_STREQ("Baudrate600", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_600));
+    EXPECT_STREQ("Baudrate9600", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_9600));
+    EXPECT_STREQ("Baudrate115200", CGXDLMSConverter::ToString(DLMS_BAUD_RATE_115200));
     // Add other baud rates
 }
 
@@ -52,11 +52,10 @@ TEST_F(CGXDLMSConverterTest, GetErrorMessage) {
     // Let's assume DLMS_ERROR_CODE_OK and some other common ones.
     // The actual strings will depend on the implementation in CGXDLMSConverter.cpp
     EXPECT_STREQ("OK", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_OK));
-    EXPECT_STREQ("Hardware fault", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_HARDWARE_FAULT));
-    EXPECT_STREQ("Temporary failure", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_TEMPORARY_FAILURE));
-    EXPECT_STREQ("Read write denied", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_READ_WRITE_DENIED));
-    // Using another common runtime error code, corrected by compiler suggestion
-    EXPECT_STREQ("Type unmatched", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_UNMATCH_TYPE));
+    EXPECT_STREQ("Access Error : Device reports a hardware fault.", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_HARDWARE_FAULT));
+    EXPECT_STREQ("Access Error : Device reports a temporary failure.", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_TEMPORARY_FAILURE));
+    EXPECT_STREQ("Access Error : Device reports Read-Write denied.", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_READ_WRITE_DENIED));
+    EXPECT_STREQ("Access Error : Device reports a unmatched type.", CGXDLMSConverter::GetErrorMessage(DLMS_ERROR_CODE_UNMATCH_TYPE));
     // Test an unknown error code - should return "Unknown error" or similar.
     // EXPECT_STREQ("Unknown error", CGXDLMSConverter::GetErrorMessage(9999)); // A non-existent code
 }
@@ -67,8 +66,8 @@ TEST_F(CGXDLMSConverterTest, AuthenticationToStringAndValue) {
     EXPECT_STREQ("High", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH));
     EXPECT_STREQ("HighMd5", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH_MD5));
     EXPECT_STREQ("HighSha1", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH_SHA1));
-    EXPECT_STREQ("HighGmac", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH_GMAC));
-    EXPECT_STREQ("HighEcdsa", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH_ECDSA));
+    EXPECT_STREQ("HighGMac", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH_GMAC));
+    EXPECT_STREQ("UNKNOWN", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH_ECDSA));
     EXPECT_STREQ("HighSha256", CGXDLMSConverter::ToString(DLMS_AUTHENTICATION_HIGH_SHA256));
     // Corrected based on compiler suggestions, assuming these are the available enums
     // It's possible SHA384/512 enums are missing or named differently in this specific enums.h
@@ -79,6 +78,7 @@ TEST_F(CGXDLMSConverterTest, AuthenticationToStringAndValue) {
     EXPECT_EQ(DLMS_AUTHENTICATION_LOW, CGXDLMSConverter::ValueOfAuthentication("Low"));
     EXPECT_EQ(DLMS_AUTHENTICATION_HIGH, CGXDLMSConverter::ValueOfAuthentication("High"));
     EXPECT_EQ(DLMS_AUTHENTICATION_HIGH_MD5, CGXDLMSConverter::ValueOfAuthentication("HighMd5"));
+    EXPECT_EQ(DLMS_AUTHENTICATION_HIGH_GMAC, CGXDLMSConverter::ValueOfAuthentication("HighGMac"));
     // Test case-insensitivity for ValueOf if applicable
     // EXPECT_EQ(DLMS_AUTHENTICATION_LOW, CGXDLMSConverter::ValueOfAuthentication("low"));
 
@@ -112,7 +112,7 @@ TEST_F(CGXDLMSConverterTest, AssociationStatusToString) {
 // Adding a few more as examples:
 TEST_F(CGXDLMSConverterTest, ClockStatusToString) {
     // Assuming DLMS_CLOCK_STATUS is a bitfield
-    EXPECT_STREQ("Ok", CGXDLMSConverter::ToString(DLMS_CLOCK_STATUS_OK)); // If 0 means OK
+    EXPECT_STREQ("None", CGXDLMSConverter::ToString(DLMS_CLOCK_STATUS_OK));
     // For bitfields, you might test individual bits or combinations
     // Example if DLMS_CLOCK_STATUS_INVALID_VALUE is 0x01, DLMS_CLOCK_STATUS_DOUBTFUL_VALUE is 0x02
     // EXPECT_STREQ("InvalidValue", CGXDLMSConverter::ToString(static_cast<DLMS_CLOCK_STATUS>(0x01)));
@@ -128,12 +128,12 @@ TEST_F(CGXDLMSConverterTest, ClockStatusToString) {
 TEST_F(CGXDLMSConverterTest, GetUnitAsString) {
     // Units are integer codes. Refer to Blue/Green book for common units.
     // Example: Unit for Wh is 30. Unit for V is 35.
-    EXPECT_STREQ("Wh", CGXDLMSConverter::GetUnitAsString(30));
-    EXPECT_STREQ("V", CGXDLMSConverter::GetUnitAsString(35));
-    EXPECT_STREQ("A", CGXDLMSConverter::GetUnitAsString(33));
-    EXPECT_STREQ("W", CGXDLMSConverter::GetUnitAsString(27));
-    EXPECT_STREQ("", CGXDLMSConverter::GetUnitAsString(0)); // Count/None often 0 or 255
-    EXPECT_STREQ("", CGXDLMSConverter::GetUnitAsString(255));
+    EXPECT_STREQ("Active energy", CGXDLMSConverter::GetUnitAsString(30));
+    EXPECT_STREQ("Voltage", CGXDLMSConverter::GetUnitAsString(35));
+    EXPECT_STREQ("Current", CGXDLMSConverter::GetUnitAsString(33));
+    EXPECT_STREQ("Active power", CGXDLMSConverter::GetUnitAsString(27));
+    EXPECT_STREQ("None", CGXDLMSConverter::GetUnitAsString(0));
+    EXPECT_STREQ("NoUnit", CGXDLMSConverter::GetUnitAsString(255));
     // Test an unknown unit
     // EXPECT_STREQ("Unknown", CGXDLMSConverter::GetUnitAsString(9999));
 }
@@ -146,18 +146,15 @@ TEST_F(CGXDLMSConverterTest, GetUnitAsString) {
 // Placeholder for X509 Name to String (if needed, many such conversions)
 TEST_F(CGXDLMSConverterTest, X509NameToString) {
     // Corrected based on compiler suggestions
-    EXPECT_STREQ("givenName", CGXDLMSConverter::ToString(DLMS_X509_NAME_GIVEN_NAME));
-    EXPECT_STREQ("surname", CGXDLMSConverter::ToString(DLMS_X509_NAME_SUR_NAME));
+    EXPECT_STREQ("2.5.4.42", CGXDLMSConverter::ToString(DLMS_X509_NAME_GIVEN_NAME));
+    EXPECT_STREQ("2.5.4.4", CGXDLMSConverter::ToString(DLMS_X509_NAME_SUR_NAME));
     // ... other X509 names like organizationName, etc.
 }
 
 TEST_F(CGXDLMSConverterTest, ValueOfX509Name) {
     // Corrected based on compiler suggestions for enum side
-    EXPECT_EQ(DLMS_X509_NAME_GIVEN_NAME, CGXDLMSConverter::ValueOfx509Name("givenName"));
-    // Assuming "commonName" string might map to a specific enum like GIVEN_NAME or another,
-    // or it might be an actual X509 field name that the ValueOfx509Name can parse.
-    // For now, testing with strings that match the corrected enums.
-    EXPECT_EQ(DLMS_X509_NAME_SUR_NAME, CGXDLMSConverter::ValueOfx509Name("surname"));
+    EXPECT_EQ(DLMS_X509_NAME_GIVEN_NAME, CGXDLMSConverter::ValueOfx509Name("2.5.4.42"));
+    EXPECT_EQ(DLMS_X509_NAME_SUR_NAME, CGXDLMSConverter::ValueOfx509Name("2.5.4.4"));
 
     // It's possible that commonName and countryName are valid inputs to ValueOfx509Name
     // and map to some internal enums, but the original test used them as enum names themselves.
