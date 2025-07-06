@@ -244,18 +244,19 @@ TEST_F(CGXByteBufferTest, AttachString) {
     // It likely takes ownership or copies. Assuming it copies.
     // If it just points, then modifying the original string after attach could be an issue.
     // Let's assume it copies the content up to null terminator.
-    char* original_str = strdup("AttachMe");
+    const char* expected = "AttachMe";
+    char* original_str = strdup(expected);
     int attach_ret = bb.AttachString(original_str);
     if (attach_ret != 0) {
         free(original_str);
     }
-    EXPECT_EQ(bb.GetSize(), strlen("AttachMe"));
+    EXPECT_EQ(bb.GetSize(), strlen(expected));
     EXPECT_EQ(bb.GetPosition(), 0u);
 
     bb.SetPosition(0);
     std::string out_str;
-    bb.GetString(strlen(original_str), out_str);
-    EXPECT_EQ(out_str, original_str);
+    bb.GetString(strlen(expected), out_str);
+    EXPECT_EQ(out_str, expected);
 }
 
 // TODO: Add tests for GetUInt24, GetUInt32, GetInt8, GetInt16, GetInt32, GetInt64, GetUInt64
@@ -274,6 +275,59 @@ TEST_F(CGXByteBufferTest, GetUInt32) {
     bb.GetUInt32(&val_out);
     EXPECT_EQ(val_out, val_in);
     EXPECT_EQ(bb.GetPosition(), 4);
+}
+
+TEST_F(CGXByteBufferTest, GetUInt32AtVariousPositions) {
+    unsigned long v1 = 0x11223344;
+    unsigned long v2 = 0x55667788;
+    unsigned long v3 = 0x99AABBCC;
+
+    bb.SetUInt32(v1);
+    bb.SetUInt32(v2);
+    bb.SetUInt32(v3);
+    EXPECT_EQ(bb.GetSize(), 12u);
+
+    unsigned long value = 0;
+
+    bb.SetPosition(0);
+    bb.GetUInt32(&value);
+    EXPECT_EQ(value, v1);
+    EXPECT_EQ(bb.GetPosition(), 4u);
+
+    bb.GetUInt32(&value);
+    EXPECT_EQ(value, v2);
+    EXPECT_EQ(bb.GetPosition(), 8u);
+
+    bb.GetUInt32(&value);
+    EXPECT_EQ(value, v3);
+    EXPECT_EQ(bb.GetPosition(), 12u);
+}
+
+TEST_F(CGXByteBufferTest, GetUInt32UsingIndex) {
+    unsigned long v1 = 0xCAFEBABE;
+    unsigned long v2 = 0xDEADBEEF;
+    bb.SetUInt32(v1);
+    bb.SetUInt32(v2);
+    EXPECT_EQ(bb.GetSize(), 8u);
+
+    unsigned long value = 0;
+    int ret = bb.GetUInt32(4, &value);
+    EXPECT_EQ(ret, 0);
+    EXPECT_EQ(value, v2);
+    EXPECT_EQ(bb.GetPosition(), 0u); // position should not change
+}
+
+TEST_F(CGXByteBufferTest, GetUInt32OutOfRange) {
+    bb.SetUInt32(0x12345678);
+
+    bb.SetPosition(2); // only two bytes remain
+    unsigned long value = 0;
+    int ret = bb.GetUInt32(&value);
+    EXPECT_EQ(ret, DLMS_ERROR_CODE_OUTOFMEMORY);
+    EXPECT_EQ(bb.GetPosition(), 2u); // position unchanged on error
+
+    ret = bb.GetUInt32(2, &value);
+    EXPECT_EQ(ret, DLMS_ERROR_CODE_OUTOFMEMORY);
 }
 
 TEST_F(CGXByteBufferTest, ZeroFill) {

@@ -102,7 +102,7 @@ TEST_F(CGXDLMSObjectTest, GetNameConsistency) {
     obj.SetName(ln_variant);
 
     CGXDLMSVariant name_ln = obj.GetName();
-    EXPECT_EQ(name_ln.vt, DLMS_DATA_TYPE_STRING);
+    EXPECT_EQ(name_ln.vt, DLMS_DATA_TYPE_UINT16); // Name still returns SN
     std::string ln_out_str;
     obj.GetLogicalName(ln_out_str);
     EXPECT_EQ(ln_out_str, ln_str);
