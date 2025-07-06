@@ -78,10 +78,12 @@ TEST_F(CGXByteBufferTest, AddAndGetString) {
     // If it adds a null terminator, size would be str_in.length() + 1
     // If it's length-prefixed, size will be more.
     // For now, let's check if GetString can retrieve it.
-    EXPECT_GT(bb.GetSize(), str_in.length()); // Greater or equal depending on null term
-    EXPECT_EQ(bb.GetPosition(), bb.GetSize());
+    // Actual: AddString(std::string) adds value.length() bytes, no null terminator.
+    EXPECT_EQ(bb.GetSize(), str_in.length());
+    // Actual: AddString(std::string) does not change m_Position.
+    EXPECT_EQ(bb.GetPosition(), 0);
 
-    bb.SetPosition(0);
+    bb.SetPosition(0); // Set position for subsequent GetString.
     // Assuming GetString reads up to a certain length or null terminator.
     // The GetString signature in GXByteBuffer.h is:
     // int GetString(int count, std::string& value);
