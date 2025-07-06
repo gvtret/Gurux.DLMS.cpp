@@ -195,9 +195,9 @@ TEST_F(CGXByteBufferTest, AddStringAndGetCorrectLength) {
     // These usually add the string including its null terminator.
     std::string test_string = "Gurux";
     bb.AddString(test_string);
-    // Size should be length + null terminator
-    EXPECT_EQ(bb.GetSize(), test_string.length() + 1);
-    EXPECT_EQ(bb.GetPosition(), test_string.length() + 1);
+    // Library does not append null terminator and position is not moved.
+    EXPECT_EQ(bb.GetSize(), test_string.length());
+    EXPECT_EQ(bb.GetPosition(), 0u);
 
     bb.SetPosition(0);
     std::string retrieved_string;
@@ -206,13 +206,7 @@ TEST_F(CGXByteBufferTest, AddStringAndGetCorrectLength) {
     int ret = bb.GetString(test_string.length(), retrieved_string);
     EXPECT_EQ(ret, 0); // Success
     EXPECT_EQ(retrieved_string, test_string);
-    EXPECT_EQ(bb.GetPosition(), test_string.length()); // Position after reading string chars
-
-    // Check the null terminator
-    unsigned char null_char_val;
-    ret = bb.GetUInt8(&null_char_val); // Read the null terminator
-    EXPECT_EQ(ret, 0);
-    EXPECT_EQ(null_char_val, '\0');
+    EXPECT_EQ(bb.GetPosition(), test_string.length());
 }
 
 // It would be good to also test error conditions, like reading past the end,
@@ -226,7 +220,7 @@ TEST_F(CGXByteBufferTest, SetHexString) {
                               // The header has SetHexString(std::string&) and SetHexString2(std::string)
                               // and SetHexString(char*)
     EXPECT_EQ(bb.GetSize(), 4); // 8 hex chars = 4 bytes
-    EXPECT_EQ(bb.GetPosition(), 4);
+    EXPECT_EQ(bb.GetPosition(), 0u);
 
     bb.SetPosition(0);
     unsigned char val;
@@ -248,10 +242,10 @@ TEST_F(CGXByteBufferTest, AttachString) {
     // It likely takes ownership or copies. Assuming it copies.
     // If it just points, then modifying the original string after attach could be an issue.
     // Let's assume it copies the content up to null terminator.
-    char original_str[] = "AttachMe";
+    char* original_str = strdup("AttachMe");
     bb.AttachString(original_str);
-    EXPECT_EQ(bb.GetSize(), strlen(original_str)); // If it copies content
-    EXPECT_EQ(bb.GetPosition(), strlen(original_str));
+    EXPECT_EQ(bb.GetSize(), strlen("AttachMe"));
+    EXPECT_EQ(bb.GetPosition(), 0u);
 
     bb.SetPosition(0);
     std::string out_str;
@@ -269,7 +263,7 @@ TEST_F(CGXByteBufferTest, GetUInt32) {
     unsigned long val_out = 0;
     bb.SetUInt32(val_in); // Assumes SetUInt32(unsigned long) exists and works
     EXPECT_EQ(bb.GetSize(), 4);
-    EXPECT_EQ(bb.GetPosition(), 4);
+    EXPECT_EQ(bb.GetPosition(), 0u);
 
     bb.SetPosition(0);
     bb.GetUInt32(&val_out);
