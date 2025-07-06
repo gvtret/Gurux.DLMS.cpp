@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include <cstring>
+#include <cstdlib>
 #include "GXBytebuffer.h" // Assuming this is the correct path relative to include dirs
 #include "GXDLMSVariant.h" // For AddString/GetString if they use it, or for general utility
 
@@ -244,7 +245,10 @@ TEST_F(CGXByteBufferTest, AttachString) {
     // If it just points, then modifying the original string after attach could be an issue.
     // Let's assume it copies the content up to null terminator.
     char* original_str = strdup("AttachMe");
-    bb.AttachString(original_str);
+    int attach_ret = bb.AttachString(original_str);
+    if (attach_ret != 0) {
+        free(original_str);
+    }
     EXPECT_EQ(bb.GetSize(), strlen("AttachMe"));
     EXPECT_EQ(bb.GetPosition(), 0u);
 
