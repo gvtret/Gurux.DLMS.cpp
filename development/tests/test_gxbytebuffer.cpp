@@ -1,6 +1,7 @@
 #include "gtest/gtest.h"
 #include "GXBytebuffer.h" // Assuming this is the correct path relative to include dirs
 #include "GXDLMSVariant.h" // For AddString/GetString if they use it, or for general utility
+#include <cstring> // For strdup and strlen
 
 // Test fixture for CGXByteBuffer
 class CGXByteBufferTest : public ::testing::Test {
@@ -248,15 +249,18 @@ TEST_F(CGXByteBufferTest, AttachString) {
     // It likely takes ownership or copies. Assuming it copies.
     // If it just points, then modifying the original string after attach could be an issue.
     // Let's assume it copies the content up to null terminator.
-    char original_str[] = "AttachMe";
+    const char* attach_literal = "AttachMe";
+    char* original_str = strdup(attach_literal);
     bb.AttachString(original_str);
-    EXPECT_EQ(bb.GetSize(), strlen(original_str)); // If it copies content
-    EXPECT_EQ(bb.GetPosition(), strlen(original_str));
+    // original_str is freed inside AttachString. Do not use it afterwards.
+
+    EXPECT_EQ(bb.GetSize(), strlen(attach_literal)); // If it copies content
+    EXPECT_EQ(bb.GetPosition(), strlen(attach_literal));
 
     bb.SetPosition(0);
     std::string out_str;
-    bb.GetString(strlen(original_str), out_str);
-    EXPECT_EQ(out_str, original_str);
+    bb.GetString(strlen(attach_literal), out_str);
+    EXPECT_EQ(out_str, attach_literal);
 }
 
 // TODO: Add tests for GetUInt24, GetUInt32, GetInt8, GetInt16, GetInt32, GetInt64, GetUInt64
