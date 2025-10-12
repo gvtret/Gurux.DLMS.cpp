@@ -36,11 +36,12 @@
 #include <algorithm>
 #include <functional>
 
-#if defined(_WIN32) || defined(_WIN64)//Windows
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))//Windows
 #include <direct.h>
-#endif
-#if defined(__linux__)
+#include <io.h>
+#else
 #include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #include "../include/GXDate.h"
@@ -48,6 +49,7 @@
 #include "../include/GXHelpers.h"
 #include "../include/GXDLMSTranslatorStructure.h"
 #include "../include/GXDLMSClient.h"
+#include "GXHelpers.h"
 
 /**
     * Get array from DLMS data.
@@ -2731,6 +2733,28 @@ std::string GXHelpers::GeneralizedTime(struct tm* date)
     return tmp;
 }
 
+int GXHelpers::GetLocalTimeOffsetMinutes(const std::tm *)
+{
+    // Determine the difference between local and UTC time for "now".
+    std::time_t now = std::time(nullptr);
+
+    std::tm gm {};
+    std::tm loc {};
+
+#if defined(_WIN32) || defined(_WIN64)
+    // Thread-safe versions for MSVC / MinGW
+    gmtime_s(&gm, &now);
+    localtime_s(&loc, &now);
+#else
+    gmtime_r(&now, &gm);
+    localtime_r(&now, &loc);
+#endif
+
+    // Compute offset in minutes.
+    double diff_sec = std::difftime(std::mktime(&loc), std::mktime(&gm));
+    return static_cast<int>(diff_sec / 60.0);
+}
+
 std::string GXHelpers::IntToString(int value)
 {
     char buff[20];
@@ -2815,10 +2839,14 @@ int GXHelpers::CreateDir(std::string& path)
 
 int GXHelpers::CreateDir(const char* path)
 {
-#if defined(_WIN32) || defined(_WIN64)//Windows
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__)) //Windows MSVC
     return _mkdir(path);
 #else
+#if defined(__linux__)
     return mkdir(path, 0777);
+#else
+    return mkdir(path);
+#endif
 #endif
 }
 
@@ -2829,12 +2857,13 @@ bool GXHelpers::DirectoryExists(std::string& path)
 
 bool GXHelpers::DirectoryExists(const char* path)
 {
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))//Windows
+    struct _stat sb;
+    return (_stat(path, &sb) == 0 && (sb.st_mode & _S_IFDIR));
+#else
     struct stat sb;
-    if (stat(path, &sb) == 0)
-    {
-        return true;
-    }
-    return false;
+    return (::stat(path, &sb) == 0 && S_ISDIR(sb.st_mode));
+#endif
 }
 
 #endif //DLMS_IGNORE_DIRECTORY

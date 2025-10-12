@@ -42,7 +42,7 @@
 #include "../include/GXDateTime.h"
 #include "../include/GXHelpers.h"
 
-#if defined(_WIN32) || defined(_WIN64)//Windows
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__)) //Windows MSVC
 #include <windows.h>
 #endif
 
@@ -59,7 +59,7 @@ void GetUtcOffset(struct tm* timeptr, int& hours, int& minutes, int& deviation)
     time_t zero = 24 * 60 * 60L;
     struct tm tm;
     // local time for Jan 2, 1900 00:00 UTC
-#if defined(_WIN32) || defined(_WIN64)//Windows
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__)) //Windows MSVC
     TIME_ZONE_INFORMATION tz;
 #if _MSC_VER > 1000
     localtime_s(&tm, &zero);
@@ -76,10 +76,9 @@ void GetUtcOffset(struct tm* timeptr, int& hours, int& minutes, int& deviation)
         addH = (short)(-tz.DaylightBias / 60);
         addMin = (short)(-tz.DaylightBias % 60);
     }
-#endif
-#if defined(__linux__)
+#else
     tm = *localtime(&zero);
-    short gmtoff = (short)(tm.tm_gmtoff / 60);
+    short gmtoff = GXHelpers::GetLocalTimeOffsetMinutes(&tm);
     addH = (short)(gmtoff / 60);
     addMin = (short)(gmtoff % 60);
 #endif

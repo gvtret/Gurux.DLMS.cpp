@@ -37,9 +37,9 @@
 #include "../include/OBiscodes.h"
 #include "../include/GXStandardObisCodeCollection.h"
 
-#if defined(_WIN32) || defined(_WIN64)
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__)) //Windows MSVC
 #include <windows.h>
-#endif //defined(_WIN32) || defined(_WIN64)
+#endif //(defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))
 
 CGXDLMSConverter::~CGXDLMSConverter()
 {
@@ -80,7 +80,7 @@ const char* CGXDLMSConverter::GetErrorMessage(int error)
     else if ((error & DLMS_ERROR_TYPE_COMMUNICATION_ERROR) != 0)
     {
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-#if defined(_WIN32) || defined(_WIN64)
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__)) //Windows MSVC
         wchar_t* s = NULL;
         FormatMessageW(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
             NULL, error & ~DLMS_ERROR_TYPE_COMMUNICATION_ERROR,

@@ -1262,7 +1262,8 @@ int SavePppSetup(CGXXmlWriter* writer, CGXDLMSPppSetup* obj)
                 if (ret == 0)
                 {
                     if ((ret = writer->WriteEndElement()) != 0 ||
-                        (ret = writer->WriteElementString("UserName", obj->GetUserName().ToHexString())) != 0 ||
+#undef GetUserName
+                    (ret = writer->WriteElementString("UserName", obj->GetUserName().ToHexString())) != 0 ||
                         (ret = writer->WriteElementString("Password", obj->GetPassword().ToHexString())) != 0)
                     {
 

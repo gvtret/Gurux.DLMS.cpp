@@ -224,6 +224,8 @@ public:
     static void ToBitString(CGXByteBuffer& sb, unsigned char value, int count);
 
     static std::string GeneralizedTime(struct tm* date);
+ 
+    static int GetLocalTimeOffsetMinutes(const std::tm* /*unused*/ = nullptr);
 
     //Convert int value to string.
     static std::string IntToString(int value);
