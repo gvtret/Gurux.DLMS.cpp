@@ -151,7 +151,7 @@ TEST_F(GXByteBufferTest, PositionManagement) {
 TEST_F(GXByteBufferTest, StringOperations) {
     CGXByteBuffer buffer;
     std::string testStr = "Hello World";
-    
+
     // Test move version
     EXPECT_EQ(0, buffer.AddString(testStr));
     EXPECT_EQ(11u, buffer.GetSize());
@@ -164,6 +164,28 @@ TEST_F(GXByteBufferTest, StringOperations) {
     EXPECT_EQ(0, buffer2.AddString(std::move(moveStr)));
     EXPECT_EQ(7u, buffer2.GetSize());
     EXPECT_TRUE(moveStr.empty()); // String was moved from
+}
+
+TEST_F(GXByteBufferTest, UnicodeRoundTrip) {
+    CGXByteBuffer buffer;
+    std::wstring wideInput = L"\u00C5\u03A9"; // L"ÅΩ"
+    std::string expectedUtf8 = u8"ÅΩ";
+
+    EXPECT_EQ(0, buffer.AddString(wideInput));
+    EXPECT_EQ(expectedUtf8.size(), buffer.GetSize());
+    EXPECT_EQ(expectedUtf8, buffer.ToString());
+
+    CGXByteBuffer wideBuffer;
+    uint32_t byteCount = static_cast<uint32_t>(wideInput.size() * sizeof(wchar_t));
+    EXPECT_EQ(0, wideBuffer.Set(wideInput.data(), byteCount));
+
+    std::string utf8Output;
+    EXPECT_EQ(0, wideBuffer.GetStringUnicode(0, byteCount, utf8Output));
+    EXPECT_EQ(expectedUtf8, utf8Output);
+
+    std::wstring wideOutput;
+    EXPECT_EQ(0, wideBuffer.GetStringUnicode(0, byteCount, wideOutput));
+    EXPECT_EQ(wideInput, wideOutput);
 }
     
 TEST_F(GXByteBufferTest, ComparisonOperations) {
