@@ -187,12 +187,48 @@ TEST_F(GXByteBufferTest, UnicodeRoundTrip) {
     EXPECT_EQ(0, wideBuffer.GetStringUnicode(0, byteCount, wideOutput));
     EXPECT_EQ(wideInput, wideOutput);
 }
-    
+
+TEST_F(GXByteBufferTest, UnicodeExtractionWithOffset) {
+    CGXByteBuffer buffer;
+    const size_t wcharSize = sizeof(wchar_t);
+    std::string prefix(wcharSize, 'P');
+    EXPECT_EQ(0, buffer.AddString(prefix));
+
+    std::wstring wideInput = L"\u00C5\u03A9"; // L"ÅΩ"
+    std::string expectedUtf8 = u8"ÅΩ";
+
+    uint32_t byteCount = static_cast<uint32_t>(wideInput.size() * sizeof(wchar_t));
+    EXPECT_EQ(0, buffer.Set(wideInput.data(), byteCount));
+
+    std::string utf8Output;
+    EXPECT_EQ(0, buffer.GetStringUnicode(static_cast<uint32_t>(prefix.size()), byteCount, utf8Output));
+    EXPECT_EQ(expectedUtf8, utf8Output);
+
+    std::wstring wideOutput;
+    EXPECT_EQ(0, buffer.GetStringUnicode(static_cast<uint32_t>(prefix.size()), byteCount, wideOutput));
+    EXPECT_EQ(wideInput, wideOutput);
+}
+
+TEST_F(GXByteBufferTest, UnicodeExtractionRejectsMisalignedSpan) {
+    CGXByteBuffer buffer;
+    buffer.SetUInt8(0xAA);
+
+    std::wstring wideInput = L"\u00C5"; // L"Å"
+    uint32_t byteCount = static_cast<uint32_t>(wideInput.size() * sizeof(wchar_t));
+    EXPECT_EQ(0, buffer.Set(wideInput.data(), byteCount));
+
+    std::string utf8Output;
+    EXPECT_EQ(DLMS_ERROR_CODE_INVALID_PARAMETER, buffer.GetStringUnicode(1, byteCount, utf8Output));
+
+    std::wstring wideOutput;
+    EXPECT_EQ(DLMS_ERROR_CODE_INVALID_PARAMETER, buffer.GetStringUnicode(1, byteCount, wideOutput));
+}
+
 TEST_F(GXByteBufferTest, ComparisonOperations) {
     CGXByteBuffer buffer1;
     buffer1.SetUInt8(0x12);
     buffer1.SetUInt16(0x3456);
-    
+
     CGXByteBuffer buffer2;
     buffer2.SetUInt8(0x12);
     buffer2.SetUInt16(0x3456);
