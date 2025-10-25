@@ -224,8 +224,8 @@ TEST_F(GXByteBufferTest, ClearAndReset) {
 // Test Base64 operations
 TEST_F(GXByteBufferTest, BoundaryConditions) {
     CGXByteBuffer buffer;
-    
-    
+
+
     unsigned char val;
     EXPECT_EQ(DLMS_ERROR_CODE_OUTOFMEMORY, buffer.GetUInt8(&val));
 
@@ -233,6 +233,20 @@ TEST_F(GXByteBufferTest, BoundaryConditions) {
     EXPECT_EQ(0, buffer.SetUInt8(0, 0x12));
     EXPECT_EQ(0, buffer.GetUInt8(0, &val));
     EXPECT_EQ(0x12, val);
+}
+
+TEST_F(GXByteBufferTest, FromBase64MultiBlockDecoding) {
+    std::string base64 =
+        "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBv\nbmx5IGJ5IGhpcyByZWFzb24=";
+    std::string expected = "Man is distinguished, not only by his reason";
+
+    CGXByteBuffer buffer;
+    EXPECT_EQ(0, buffer.FromBase64(base64));
+    EXPECT_EQ(expected.size(), buffer.GetSize());
+
+    std::string decoded(reinterpret_cast<const char *>(buffer.GetData()),
+                        buffer.GetSize());
+    EXPECT_EQ(expected, decoded);
 }
 
 TEST_F(GXByteBufferTest, SwapOperation) {
