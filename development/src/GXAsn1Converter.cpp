@@ -48,7 +48,7 @@ int CGXAsn1Converter::GetValue(
 {
     int ret;
     unsigned char type;
-    unsigned long len;
+    uint32_t len;
     CGXByteBuffer tmp2;
     if ((ret = bb.GetUInt8(&type)) != 0)
     {
@@ -176,7 +176,7 @@ int CGXAsn1Converter::GetValue(
         }
         else if (len == 4)
         {
-            long value;
+            int32_t value;
             bb.GetInt32(&value);
             var = new CGXAsn1Variant(value);
             objects->push_back(var);

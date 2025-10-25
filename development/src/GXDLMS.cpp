@@ -1775,7 +1775,7 @@ int CGXDLMS::GetHDLCAddress(
 {
     unsigned char ch;
     unsigned short s;
-    unsigned long l;
+    uint32_t l;
     int ret, size = 0;
     address = 0;
     for (unsigned long pos = buff.GetPosition(); pos != buff.GetSize(); ++pos)
@@ -1963,11 +1963,11 @@ int CGXDLMS::AddInvokeId(CGXDLMSTranslatorStructure* xml, DLMS_COMMAND command, 
             {
                 sb.append("ServiceClass: UnConfirmed, ");
             }
-            xml->IntegerToHex((long)invokeId & 0xF, 2, tmp2);
+            xml->IntegerToHex(invokeId & 0xF, 2, tmp2);
             sb.append("Invoke ID: " + tmp2);
             xml->AppendComment(sb);
         }
-        xml->IntegerToHex((long)invokeId, 2, tmp2);
+        xml->IntegerToHex(invokeId, 2, tmp2);
         xml->AppendLine(DLMS_TRANSLATOR_TAGS_INVOKE_ID, "", tmp2);
     }
     return 0;
@@ -2093,7 +2093,7 @@ int HandleActionResponseWithBlock(
 {
     int ret = 0;
     unsigned char ch;
-    unsigned long number;
+    uint32_t number;
     std::string str;
     if ((ret = reply.GetData().GetUInt8(&ch)) == 0)
     {
@@ -2102,7 +2102,7 @@ int HandleActionResponseWithBlock(
             //Result start tag.
             reply.GetXml()->AppendStartTag(DLMS_TRANSLATOR_TAGS_PBLOCK);
             //LastBlock
-            reply.GetXml()->IntegerToHex((long)ch, 2, str);
+            reply.GetXml()->IntegerToHex((uint32_t)ch, 2, str);
             reply.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_LAST_BLOCK, "Value", str);
         }
         if (ch == 0)
@@ -2139,7 +2139,7 @@ int HandleActionResponseWithBlock(
             if (reply.GetData().Available() != 0)
             {
                 // Get data size.
-                unsigned long blockLength;
+                uint32_t blockLength;
                 GXHelpers::GetObjectCount(reply.GetData(), blockLength);
                 // if whole block is read.
                 if ((reply.GetMoreData() & DLMS_DATA_REQUEST_TYPES_FRAME) == 0)
@@ -2163,7 +2163,7 @@ int HandleActionResponseWithBlock(
         else if (reply.GetData().Available() != 0)
         {
             // Get data size.
-            unsigned long blockLength;
+            uint32_t blockLength;
             GXHelpers::GetObjectCount(reply.GetData(), blockLength);
             // if whole block is read.
             if ((reply.GetMoreData() & DLMS_DATA_REQUEST_TYPES_FRAME) == 0)
@@ -2248,7 +2248,7 @@ int CGXDLMS::HandleMethodResponse(
         data.GetXml()->AppendStartTag(DLMS_COMMAND_METHOD_RESPONSE);
         data.GetXml()->AppendStartTag(DLMS_COMMAND_METHOD_RESPONSE, type);
         //InvokeIdAndPriority
-        data.GetXml()->IntegerToHex((long)invoke, 2, str);
+        data.GetXml()->IntegerToHex((uint32_t)invoke, 2, str);
         data.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_INVOKE_ID, "", str);
     }
 #endif //DLMS_IGNORE_XML_TRANSLATOR
@@ -2268,7 +2268,7 @@ int CGXDLMS::HandleMethodResponse(
     }
     else if (type == DLMS_ACTION_RESPONSE_TYPE_NEXT_BLOCK)
     {
-        unsigned long number;
+        uint32_t number;
         if ((ret = data.GetData().GetUInt32(&number)) == 0)
         {
             if (data.GetXml() != NULL)
@@ -2308,9 +2308,9 @@ int CGXDLMS::HandleAccessResponse(
     int ret;
     std::string str;
     unsigned char ch;
-    unsigned long invokeId;
+    uint32_t invokeId;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    unsigned long len;
+    uint32_t len;
 #endif //DLMS_IGNORE_XML_TRANSLATOR
     //Get invoke id.
     if ((ret = reply.GetData().GetUInt32(&invokeId)) != 0)
@@ -2437,7 +2437,7 @@ int CGXDLMS::HandleDataNotification(
     CGXDLMSSettings& settings,
     CGXReplyData& reply)
 {
-    unsigned long invokeId;
+    uint32_t invokeId;
     int ret;
     int start = reply.GetData().GetPosition() - 1;
     // Get invoke id.
@@ -2530,7 +2530,7 @@ int CGXDLMS::HandleSetResponse(
         data.GetXml()->AppendStartTag(DLMS_COMMAND_SET_RESPONSE);
         data.GetXml()->AppendStartTag(DLMS_COMMAND_SET_RESPONSE, type);
         //InvokeIdAndPriority
-        data.GetXml()->IntegerToHex((long)invokeId, 2, str);
+        data.GetXml()->IntegerToHex((int32_t)invokeId, 2, str);
         data.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_INVOKE_ID, "", str);
     }
 #endif //DLMS_IGNORE_XML_TRANSLATOR
@@ -2558,7 +2558,7 @@ int CGXDLMS::HandleSetResponse(
     }
     else if (type == DLMS_SET_RESPONSE_TYPE_DATA_BLOCK)
     {
-        unsigned long number;
+        uint32_t number;
         if ((ret = data.GetData().GetUInt32(&number)) != 0)
         {
             return ret;
@@ -2573,7 +2573,7 @@ int CGXDLMS::HandleSetResponse(
     }
     else if (type == DLMS_SET_RESPONSE_TYPE_LAST_DATA_BLOCK)
     {
-        unsigned long number;
+        uint32_t number;
         if ((ret = data.GetData().GetUInt8(&ch)) != 0)
         {
             return ret;
@@ -2601,7 +2601,7 @@ int CGXDLMS::HandleSetResponse(
     }
     else if (type == DLMS_SET_RESPONSE_TYPE_WITH_LIST)
     {
-        unsigned long cnt;
+        uint32_t cnt;
         if ((ret = GXHelpers::GetObjectCount(data.GetData(), cnt)) != 0)
         {
             return ret;
@@ -2659,7 +2659,7 @@ int CGXDLMS::HandleGbt(CGXDLMSSettings& settings, CGXReplyData& data)
 {
     int ret;
     unsigned char bc;
-    unsigned long len;
+    uint32_t len;
     unsigned short bn, bna;
     int index = data.GetData().GetPosition() - 1;
     data.SetGbtWindowSize(settings.GetGbtWindowSize());
@@ -2735,11 +2735,11 @@ int CGXDLMS::HandleGbt(CGXDLMSSettings& settings, CGXReplyData& data)
             data.GetXml()->AppendComment("Window size: " + GXHelpers::IntToString(windowSize));
         }
         std::string str;
-        data.GetXml()->IntegerToHex((long)bc, 2, str);
+        data.GetXml()->IntegerToHex((int32_t)bc, 2, str);
         data.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_BLOCK_CONTROL, "", str);
-        data.GetXml()->IntegerToHex((long)data.GetBlockNumber(), 4, str);
+        data.GetXml()->IntegerToHex((int32_t)data.GetBlockNumber(), 4, str);
         data.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_BLOCK_NUMBER, "", str);
-        data.GetXml()->IntegerToHex((long)data.GetBlockNumberAck(), 4, str);
+        data.GetXml()->IntegerToHex((int32_t)data.GetBlockNumberAck(), 4, str);
         data.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_BLOCK_NUMBER_ACK, "", str);
 
         // If last block and comments.
@@ -3421,7 +3421,7 @@ int CGXDLMS::HandleGetResponseWithList(
 {
     int ret;
     unsigned char ch;
-    unsigned long count;
+    uint32_t count;
     CGXDLMSVariant values;
     values.vt = DLMS_DATA_TYPE_ARRAY;
     CGXByteBuffer& data = reply.GetData();
@@ -3537,8 +3537,8 @@ int CGXDLMS::HandleGetResponseNextDataBlock(
     int index)
 {
     int ret = 0;
-    unsigned long number;
-    unsigned long count;
+    uint32_t number;
+    uint32_t count;
     unsigned char ch;
     CGXByteBuffer& data = reply.GetData();
     // Is Last block.
@@ -3553,7 +3553,7 @@ int CGXDLMS::HandleGetResponseNextDataBlock(
         reply.GetXml()->AppendStartTag(DLMS_TRANSLATOR_TAGS_RESULT);
         //LastBlock
         std::string str;
-        reply.GetXml()->IntegerToHex((unsigned long)ch, 2, str);
+        reply.GetXml()->IntegerToHex((uint32_t)ch, 2, str);
         reply.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_LAST_BLOCK, "Value", str);
     }
 #endif //DLMS_IGNORE_XML_TRANSLATOR
@@ -3692,7 +3692,7 @@ int CGXDLMS::HandleGetResponse(
         reply.GetXml()->AppendStartTag(DLMS_COMMAND_GET_RESPONSE);
         reply.GetXml()->AppendStartTag(DLMS_COMMAND_GET_RESPONSE, type);
         //InvokeIdAndPriority
-        reply.GetXml()->IntegerToHex((long)ch, 2, str);
+        reply.GetXml()->IntegerToHex((int32_t)ch, 2, str);
         reply.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_INVOKE_ID, "", str);
     }
 #endif //DLMS_IGNORE_XML_TRANSLATOR
@@ -3732,7 +3732,7 @@ int CGXDLMS::HandleWriteResponse(CGXReplyData& data)
 {
     unsigned char ch;
     int ret;
-    unsigned long count;
+    uint32_t count;
     if ((ret = GXHelpers::GetObjectCount(data.GetData(), count)) != 0)
     {
         return ret;
@@ -3762,7 +3762,7 @@ int CGXDLMS::ReadResponseDataBlockResult(
 {
     int ret;
     unsigned short number;
-    unsigned long blockLength;
+    uint32_t blockLength;
     unsigned char lastBlock;
     if ((ret = reply.GetData().GetUInt8(&lastBlock)) != 0)
     {
@@ -3828,7 +3828,7 @@ int CGXDLMS::HandleReadResponse(
 {
     std::string str;
     unsigned char ch;
-    unsigned long pos, cnt = reply.GetTotalCount();
+    uint32_t pos, cnt = reply.GetTotalCount();
     int ret;
     // If we are reading value first time or block is handed.
     bool first = reply.GetTotalCount() == 0 || reply.GetCommandType() == DLMS_SINGLE_READ_RESPONSE_DATA_BLOCK_RESULT;
@@ -3844,7 +3844,7 @@ int CGXDLMS::HandleReadResponse(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     if (reply.GetXml() != NULL)
     {
-        reply.GetXml()->IntegerToHex(cnt, 2, str);
+        reply.GetXml()->IntegerToHex((uint32_t)cnt, 2, str);
         reply.GetXml()->AppendStartTag(DLMS_COMMAND_READ_RESPONSE, "Qty", str);
     }
 #endif //DLMS_IGNORE_XML_TRANSLATOR
@@ -4246,7 +4246,7 @@ int CGXDLMS::GetMBusData(
             return ret;
         }
         //A-Field.
-        unsigned long id;
+        uint32_t id;
         if ((ret = buff.GetUInt32(&id)) != 0)
         {
             return ret;
@@ -4908,8 +4908,8 @@ int CGXDLMS::ParseSnrmUaResponse(
     CGXHdlcSettings* limits)
 {
     unsigned char ch, id, len;
-    unsigned short ui;
-    unsigned long ul;
+    uint16_t ui;
+    uint32_t ul;
     int ret;
     //If default settings are used.
     if (data.GetSize() == 0)
@@ -5046,7 +5046,7 @@ int CGXDLMS::HandleConfirmedServiceError(CGXReplyData& data)
             {
                 return ret;
             }
-            data.GetXml()->IntegerToHex((long)ch, 2, str);
+            data.GetXml()->IntegerToHex((uint32_t)ch, 2, str);
             data.GetXml()->AppendLine(DLMS_TRANSLATOR_TAGS_SERVICE, "", str);
             if ((ret = data.GetData().GetUInt8(&ch)) != 0)
             {
@@ -5104,7 +5104,7 @@ int CGXDLMS::HandleExceptionResponse(CGXReplyData& data)
         return ret;
     }
     error = (DLMS_EXCEPTION_SERVICE_ERROR)ch;
-    unsigned long value = 0;
+    uint32_t value = 0;
     if (error == DLMS_EXCEPTION_SERVICE_ERROR_INVOCATION_COUNTER_ERROR && data.GetData().Available() > 3)
     {
         data.GetData().GetUInt32(&value);

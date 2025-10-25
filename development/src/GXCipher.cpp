@@ -61,7 +61,7 @@ void CGXCipher::Init(
 
 CGXCipher::CGXCipher(CGXByteBuffer& systemTitle)
 {
-    Init((unsigned char*)systemTitle.m_Data, (unsigned char)systemTitle.m_Size);
+    Init((unsigned char*)systemTitle.GetData(), (unsigned char)systemTitle.GetSize());
 }
 
 CGXCipher::CGXCipher(const char* systemTitle)
@@ -573,7 +573,7 @@ int CGXCipher::Encrypt(
     {
         return ret;
     }
-    if ((ret = Int(aes, key.m_Data, suite == DLMS_SECURITY_SUITE_V2 ? 32 * 8 : 16 * 8)) != 0)
+    if ((ret = Int(aes, key.GetData(), suite == DLMS_SECURITY_SUITE_V2 ? 32 * 8 : 16 * 8)) != 0)
     {
         return ret;
     }
@@ -587,7 +587,7 @@ int CGXCipher::Encrypt(
     }
     //Hash subkey.
     AesEncrypt(aes, aes[60], H, H);
-    Init_j0(nonse.m_Data, (unsigned char)nonse.GetSize(), H, J0);
+    Init_j0(nonse.GetData(), (unsigned char)nonse.GetSize(), H, J0);
 
     //Allocate space for authentication tag.
     if (security != DLMS_SECURITY_ENCRYPTION && !encrypt)
@@ -608,27 +608,27 @@ int CGXCipher::Encrypt(
     }
     if (security == DLMS_SECURITY_AUTHENTICATION)
     {
-        input.Move(input.m_Position, offset, input.Available());
-        input.m_Position = 0;
+        input.Move(input.GetPosition(), offset, input.Available());
+        input.SetPosition(0);
         input.SetUInt8(0, security | suite);
-        memcpy(input.m_Data + 1, m_AuthenticationKey.m_Data, m_AuthenticationKey.GetSize());
-        AesGcmGhash(H, input.m_Data, input.m_Size, input.m_Data, 0, S);
+        memcpy(input.GetData() + 1, m_AuthenticationKey.GetData(), m_AuthenticationKey.GetSize());
+        AesGcmGhash(H, input.GetData(), input.GetSize(), input.GetData(), 0, S);
         if (type == DLMS_COUNT_TYPE_TAG)
         {
-            input.m_Size = 0;
+            input.SetSize(0);
         }
         else
         {
-            input.Move(offset, 0, input.m_Size - offset);
+            input.Move(offset, 0, input.GetSize() - offset);
         }
-        Gctr(aes, J0, S, sizeof(S), input.m_Data + input.m_Size);
+        Gctr(aes, J0, S, sizeof(S), input.GetData() + input.GetSize());
         if (encrypt)
         {
-            input.m_Size += 12;
+            input.IncreaseSize(12);
         }
         else
         {
-            if (memcmp(nonse.m_Data, input.m_Data + input.m_Size, 12) != 0)
+            if (memcmp(nonse.GetData(), input.GetData() + input.GetSize(), 12) != 0)
             {
                 ret = DLMS_ERROR_CODE_INVALID_TAG;
             }
@@ -637,36 +637,36 @@ int CGXCipher::Encrypt(
     else if (security == DLMS_SECURITY_ENCRYPTION)
     {
         //Encrypt the data.
-        AesGcmGctr(aes, J0, input.m_Data + input.GetPosition(), input.Available(), NULL);
+        AesGcmGctr(aes, J0, input.GetData() + input.GetPosition(), input.Available(), NULL);
     }
     else if (security == DLMS_SECURITY_AUTHENTICATION_ENCRYPTION)
     {
         if (encrypt)
         {
             //Encrypt the data.
-            AesGcmGctr(aes, J0, input.m_Data + input.m_Position, input.Available(), NULL);
+            AesGcmGctr(aes, J0, input.GetData() + input.GetPosition(), input.Available(), NULL);
         }
         //Count authentication.
-        input.Move(input.m_Position, offset, input.Available());
-        input.m_Position = 0;
+        input.Move(input.GetPosition(), offset, input.Available());
+        input.SetPosition(0);
         input.SetUInt8(0, security | suite);
-        memcpy(input.m_Data + 1, m_AuthenticationKey.m_Data, m_AuthenticationKey.GetSize());
-        AesGcmGhash(H, input.m_Data, offset, input.m_Data + offset, input.m_Size - offset, S);
-        input.Move(offset, 0, input.m_Size - offset);
-        Gctr(aes, J0, S, sizeof(S), input.m_Data + input.m_Size);
+        memcpy(input.GetData() + 1, m_AuthenticationKey.GetData(), m_AuthenticationKey.GetSize());
+        AesGcmGhash(H, input.GetData(), offset, input.GetData() + offset, input.GetSize() - offset, S);
+        input.Move(offset, 0, input.GetSize() - offset);
+        Gctr(aes, J0, S, sizeof(S), input.GetData() + input.GetSize());
         if (!encrypt)
         {
             //Decrypt the data.
-            AesGcmGctr(aes, J0, input.m_Data + input.m_Position, input.Available(), NULL);
+            AesGcmGctr(aes, J0, input.GetData() + input.GetPosition(), input.Available(), NULL);
         }
-        Gctr(aes, J0, S, sizeof(S), input.m_Data + input.m_Size);
+        Gctr(aes, J0, S, sizeof(S), input.GetData() + input.GetSize());
         if (encrypt)
         {
-            input.m_Size += 12;
+            input.IncreaseSize(12);
         }
         else
         {
-            if (memcmp(nonse.m_Data, input.m_Data + input.m_Size, 12) != 0)
+            if (memcmp(nonse.GetData(), input.GetData() + input.GetSize(), 12) != 0)
             {
                 ret = DLMS_ERROR_CODE_INVALID_TAG;
             }
@@ -692,7 +692,7 @@ int CGXCipher::Encrypt(
                 (ret = nonse.SetUInt32(frameCounter)) == 0)
             {
                 input.Move(0, nonse.GetSize(), input.GetSize());
-                memcpy(input.m_Data, nonse.m_Data, nonse.GetSize());
+                memcpy(input.GetData(), nonse.GetData(), nonse.GetSize());
             }
         }
     }
@@ -707,10 +707,10 @@ int CGXCipher::Decrypt(
     DLMS_SECURITY_SUITE& suite,
     uint64_t& InvocationCounter)
 {
-    unsigned long length;
+    uint32_t length;
     int ret;
     unsigned char ch;
-    unsigned long frameCounter;
+    uint32_t frameCounter;
     DLMS_COMMAND cmd;
     CGXByteBuffer* pTitle = &title;
     CGXByteBuffer systemTitle, countTag;
@@ -733,7 +733,7 @@ int CGXCipher::Decrypt(
         }
         if (length != 0)
         {
-            systemTitle.Set(&data, data.m_Position, length);
+            systemTitle.Set(&data, data.GetPosition(), length);
             pTitle = &systemTitle;
         }
         break;
@@ -822,8 +822,8 @@ int CGXCipher::Aes1Encrypt(
     CGXByteBuffer& secret)
 {
     unsigned char buf1, buf2, buf3, buf4, round, i;
-    unsigned char* key = secret.m_Data;
-    unsigned char* data = buff.m_Data;
+    unsigned char* key = secret.GetData();
+    unsigned char* data = buff.GetData();
     for (round = 0; round < 10; ++round)
     {
         for (i = 0; i < 16; ++i)
@@ -1029,7 +1029,7 @@ int CGXCipher::SetSystemTitle(CGXByteBuffer& value)
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     m_SystemTitle.Clear();
-    m_SystemTitle.Set(value.m_Data, value.m_Size - value.m_Position);
+    m_SystemTitle.Set(value.GetData(), value.GetSize() - value.GetPosition());
     return 0;
 }
 
@@ -1047,7 +1047,7 @@ int CGXCipher::SetBlockCipherKey(CGXByteBuffer& value)
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     m_BlockCipherKey.Clear();
-    m_BlockCipherKey.Set(value.m_Data, value.m_Size - value.m_Position);
+    m_BlockCipherKey.Set(value.GetData(), value.GetSize() - value.GetPosition());
     return 0;
 }
 
@@ -1065,7 +1065,7 @@ int CGXCipher::SetAuthenticationKey(CGXByteBuffer& value)
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     m_AuthenticationKey.Clear();
-    m_AuthenticationKey.Set(value.m_Data, value.m_Size - value.m_Position);
+    m_AuthenticationKey.Set(value.GetData(), value.GetSize() - value.GetPosition());
     return 0;
 }
 

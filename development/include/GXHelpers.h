@@ -136,7 +136,7 @@ public:
     // data ; received data.
     // Returns Object count.
     /////////////////////////////////////////////////////////////////////////////
-    static int GetObjectCount(CGXByteBuffer& data, unsigned long& count);
+    static int GetObjectCount(CGXByteBuffer& data, uint32_t& count);
 
     /**
         * Return how many bytes object count takes.

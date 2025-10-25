@@ -373,12 +373,12 @@ int CGXByteArray::Set(
     {
         if (count == (unsigned long)-1)
         {
-            count = data->m_Size - index;
+            count = data->GetSize() - index;
         }
-        int ret = CGXByteArray::Set(data->m_Data + index, count);
+        int ret = CGXByteArray::Set(data->GetData() + index, count);
         if (ret == 0)
         {
-            data->m_Position += count;
+            data->SetPosition(count);
         }
     }
     return 0;
@@ -634,7 +634,7 @@ CGXByteArray& CGXByteArray::operator=(
     m_Size = 0;
     if (value.GetSize() != 0)
     {
-        Set(value.m_Data, value.m_Size);
+        Set(value.GetData(), value.GetSize());
     }
     return *this;
 }
@@ -863,11 +863,11 @@ CGXByteArray& CGXByteArray::operator=(
     const CGXByteBuffer& value)
 {
     Clear();
-    Capacity(value.m_Capacity);
-    if (value.m_Size != 0)
+    Capacity(value.Capacity());
+    if (value.GetSize() != 0)
     {
-        memcpy(m_Data, value.m_Data, value.m_Size);
-        m_Size = value.m_Size;
+        memcpy(m_Data, value.GetData(), value.GetSize());
+        m_Size = value.GetSize();
     }
     return *this;
 }

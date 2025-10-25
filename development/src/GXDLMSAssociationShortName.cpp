@@ -288,7 +288,7 @@ int CGXDLMSAssociationShortName::Invoke(CGXDLMSSettings& settings, CGXDLMSValueE
     if (e.GetIndex() == 8)
     {
         int ret;
-        unsigned long ic = 0;
+        uint32_t ic = 0;
         CGXByteBuffer secret;
         CGXByteBuffer* readSecret;
         if (settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_GMAC)

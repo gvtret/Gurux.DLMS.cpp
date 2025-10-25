@@ -419,7 +419,7 @@ int CGXDLMSClient::ParseSNObjects(
     CGXDataInfo info;
     //Get array tag.
     unsigned char ch;
-    unsigned long cnt;
+    uint32_t cnt;
     //Check that data is in the array
     // Get array tag.
     if ((ret = buff.GetUInt8(&ch)) != 0)
@@ -579,7 +579,7 @@ int CGXDLMSClient::ParseLNObjectItem(
 int CGXDLMSClient::ParseLNObjects(CGXByteBuffer& buff, bool onlyKnownObjects, bool ignoreInactiveObjects)
 {
     int ret;
-    unsigned long cnt;
+    uint32_t cnt;
     unsigned char ch;
     CGXDataInfo info;
     // Get array tag.
@@ -1019,7 +1019,7 @@ int CGXDLMSClient::ParseApplicationAssociationResponse(
         bool equals = false;
         CGXByteBuffer secret;
         int ret;
-        unsigned long ic = 0;
+        uint32_t ic = 0;
         CGXDLMSVariant value;
         if ((ret = GXHelpers::GetData(&m_Settings, reply, info, value)) != 0)
         {
@@ -2322,7 +2322,7 @@ int CGXDLMSClient::AccessRequest(struct tm* time, std::vector<CGXDLMSAccessItem>
 int CGXDLMSClient::ParseAccessResponse(std::vector<CGXDLMSAccessItem>& list, CGXByteBuffer& data)
 {
     unsigned char ch;
-    unsigned long count;
+    uint32_t count;
     int ret;
     //Get count
     CGXDataInfo info;

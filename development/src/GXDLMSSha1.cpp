@@ -47,7 +47,7 @@
 /*
 * Hash block is a single 512-bit block.
 */
-void CGXDLMSSha1::Transform(unsigned long *block, unsigned int *digest, unsigned int *transforms)
+void CGXDLMSSha1::Transform(uint32_t *block, unsigned int *digest, unsigned int *transforms)
 {
     unsigned int a = digest[0];
     unsigned int b = digest[1];
@@ -148,7 +148,7 @@ void CGXDLMSSha1::Transform(unsigned long *block, unsigned int *digest, unsigned
 void CGXDLMSSha1::Update(CGXByteBuffer& data, unsigned int *digest, unsigned int *transforms)
 {
     unsigned int pos;
-    unsigned long block[16];
+    uint32_t block[16];
     while (data.GetSize() - data.GetPosition() > 64)
     {
         for (pos = 0; pos != 16; ++pos)
@@ -171,7 +171,7 @@ int CGXDLMSSha1::Final(CGXByteBuffer& data, unsigned int *digest, unsigned int *
     reply.SetUInt8(0x80);
     unsigned int orig_size = reply.GetSize();
     reply.Zero(reply.GetSize(), 64 - reply.GetSize());
-    unsigned long block[16];
+    uint32_t block[16];
     for (pos = 0; pos != 16; ++pos)
     {
         reply.GetUInt32(&block[pos]);

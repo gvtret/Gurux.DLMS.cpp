@@ -207,12 +207,12 @@ int CGXBigInteger::FromByteBuffer(CGXByteArray& value)
 int CGXBigInteger::FromByteBuffer(CGXByteBuffer& value)
 {
     int ret = 0;
-    unsigned long tmp;
+    uint32_t tmp;
     unsigned char ch;
     unsigned short ival;
     Clear();
     Capacity((uint16_t)(value.GetSize() / 4));
-    for (int pos = value.GetSize() - 4; pos > -1; pos = pos - 4)
+    for (uint32_t pos = value.GetSize() - 4; pos > -1; pos = pos - 4)
     {
         ret = value.GetUInt32(pos, &tmp);
         if (ret != 0)

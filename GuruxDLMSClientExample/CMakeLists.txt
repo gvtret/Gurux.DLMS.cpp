@@ -21,7 +21,11 @@ file(GLOB CLIENT_EXAMPLE_SOURCES
 add_executable(GuruxDLMSClientExample ${CLIENT_EXAMPLE_SOURCES})
 
 # Link against the DLMS library
-target_link_libraries(GuruxDLMSClientExample PRIVATE ${GURUX_TARGET} ws2_32)
+if (WIN32)
+    target_link_libraries(GuruxDLMSClientExample PRIVATE ${GURUX_TARGET} ws2_32)
+else()
+    target_link_libraries(GuruxDLMSClientExample PRIVATE ${GURUX_TARGET})
+endif()
 
 # Include library headers
 target_include_directories(GuruxDLMSClientExample PRIVATE
@@ -41,3 +45,5 @@ endif()
 set_target_properties(GuruxDLMSClientExample PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+print_target_size(GuruxDLMSClientExample)

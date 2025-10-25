@@ -172,35 +172,35 @@ void CGXDLMSTranslatorStructure::AppendLine(std::string tag, std::string name, C
     std::string str;
     if (value.vt == DLMS_DATA_TYPE_UINT8)
     {
-        IntegerToHex((long)value.bVal, 2, str);
+        IntegerToHex((int32_t)value.bVal, 2, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_INT8)
     {
-        IntegerToHex((long)value.cVal, 2, str);
+        IntegerToHex((int32_t)value.cVal, 2, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_UINT16)
     {
-        IntegerToHex((unsigned long)value.uiVal, 4, str);
+        IntegerToHex((uint32_t)value.uiVal, 4, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_INT16)
     {
-        IntegerToHex((long)value.iVal, 4, str);
+        IntegerToHex((int32_t)value.iVal, 4, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_UINT32)
     {
-        IntegerToHex((unsigned long)value.ullVal, 8, str);
+        IntegerToHex((uint32_t)value.ullVal, 8, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_INT32)
     {
-        IntegerToHex(value.lVal, 8, str);
+        IntegerToHex((int32_t)value.lVal, 8, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_UINT64)
     {
-        IntegerToHex(value.ullVal, str);
+        IntegerToHex((uint64_t)value.ullVal, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_INT64)
     {
-        IntegerToHex(value.llVal, str);
+        IntegerToHex((int64_t)value.llVal, str);
     }
     else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING)
     {
@@ -428,17 +428,17 @@ void CGXDLMSTranslatorStructure::SetXmlLength(int value)
     m_Sb.seekp(value);
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(long value, int desimals, std::string& result)
+int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, std::string& result)
 {
     return IntegerToHex(value, desimals, false, result);
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, int desimals, std::string& result)
+int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, std::string& result)
 {
     return IntegerToHex(value, desimals, false, result);
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(long value, int desimals, bool forceHex, std::string& result)
+int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, bool forceHex, std::string& result)
 {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
     {
@@ -470,7 +470,7 @@ int CGXDLMSTranslatorStructure::IntegerToHex(long value, int desimals, bool forc
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, int desimals, bool forceHex, std::string& result)
+int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, bool forceHex, std::string& result)
 {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
     {
@@ -494,7 +494,7 @@ int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, int desimals, 
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, std::string& result)
+int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, std::string& result)
 {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
     {
@@ -516,7 +516,7 @@ int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, std::string& r
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(long long value, std::string& result)
+int CGXDLMSTranslatorStructure::IntegerToHex(int64_t value, std::string& result)
 {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
     {
@@ -543,7 +543,7 @@ int CGXDLMSTranslatorStructure::IntegerToHex(long long value, std::string& resul
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long long value, std::string& result)
+int CGXDLMSTranslatorStructure::IntegerToHex(uint64_t value, std::string& result)
 {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
     {

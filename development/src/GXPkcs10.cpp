@@ -187,7 +187,7 @@ int CGXPkcs10::Init(
                                         {
                                             //Get raw data.
                                             CGXDLMSVariant value;
-                                            unsigned long count;
+                                            uint32_t count;
                                             CGXByteBuffer tmp2;
                                             data.SetPosition(0);
                                             ret = tmp2.Set(data.GetData(), data.Available());

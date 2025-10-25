@@ -219,8 +219,8 @@ int CGXDLMSTranslator::PduToXml(CGXByteBuffer& value, bool omitDeclaration, bool
 int GetUa(CGXByteBuffer& data, CGXDLMSTranslatorStructure* xml)
 {
     unsigned char ch, id, len;
-    unsigned short ui;
-    unsigned long ul;
+    uint16_t ui;
+    uint32_t ul;
     int ret;
     // Skip FromatID
     if ((ret = data.GetUInt8(&ch)) != 0)
@@ -336,7 +336,7 @@ int CGXDLMSTranslator::PduToXml(CGXDLMSTranslatorStructure* xml, CGXByteBuffer& 
     std::string str;
     CGXReplyData data;
     unsigned char cmd, ch;
-    unsigned long len;
+    uint32_t len;
     CGXDLMSSettings settings(true);
     output.clear();
     if ((ret = value.GetUInt8(&cmd)) != 0)
@@ -563,7 +563,7 @@ int CGXDLMSTranslator::PduToXml(CGXDLMSTranslatorStructure* xml, CGXByteBuffer& 
             value.SetPosition(originalPosition);
         }
 
-        unsigned long cnt;
+        uint32_t cnt;
         if ((ret = GXHelpers::GetObjectCount(value, cnt)) != 0)
         {
             return ret;

@@ -844,7 +844,7 @@ int CGXDLMSServer::HandleGeneralBlockTransfer(
     unsigned short blockNumber = 0, blockNumberAck = 0;
     if (!sr.IsStreaming())
     {
-        unsigned long len;
+        uint32_t len;
         //BlockControl
         data.GetUInt8(&bc);
         //Block number.

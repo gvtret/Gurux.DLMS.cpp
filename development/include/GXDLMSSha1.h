@@ -41,7 +41,7 @@
 class CGXDLMSSha1
 {
 private:
-    static void Transform(unsigned long *block, unsigned int *digest, unsigned int *transforms);
+    static void Transform(uint32_t *block, unsigned int *digest, unsigned int *transforms);
     static void Update(CGXByteBuffer& data, unsigned int *digest, unsigned int *transforms);
     static int Final(CGXByteBuffer& data, unsigned int *digest, unsigned int *transforms, CGXByteBuffer& reply);
 

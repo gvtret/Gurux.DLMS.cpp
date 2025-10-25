@@ -135,7 +135,7 @@ public:
     /*Get integer value as int.*/
     long ToInt()
     {
-        long value;
+        int32_t value;
         m_Value.GetInt32(&value);
         return value;
     }
@@ -144,7 +144,7 @@ public:
     */
     long long ToLong()
     {
-        long long value;
+        int64_t value;
         m_Value.GetInt64(&value);
         return value;
     }

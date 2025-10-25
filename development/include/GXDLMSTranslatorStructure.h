@@ -172,42 +172,42 @@ public:
     // value: Conveted value.
     // <param name="desimals">Desimal count.
     // returns: Integer value as a string.
-    int IntegerToHex(long value, int desimals, std::string& result);
+    int IntegerToHex(int32_t value, int desimals, std::string& result);
 
     // Convert integer to string.
     // value: Conveted value.
     // <param name="desimals">Desimal count.
     // returns: Integer value as a string.
-    int IntegerToHex(unsigned long value, int desimals, std::string& result);
-
-    // Convert integer to string.
-    // value: Conveted value.
-    // <param name="desimals">Desimal count.
-    // <param name="forceHex">Force value as hex.
-    // returns: Integer value as a string.
-    int IntegerToHex(long value, int desimals, bool forceHex, std::string& result);
+    int IntegerToHex(uint32_t value, int desimals, std::string& result);
 
     // Convert integer to string.
     // value: Conveted value.
     // <param name="desimals">Desimal count.
     // <param name="forceHex">Force value as hex.
     // returns: Integer value as a string.
-    int IntegerToHex(unsigned long value, int desimals, bool forceHex, std::string& result);
+    int IntegerToHex(int32_t value, int desimals, bool forceHex, std::string& result);
+
+    // Convert integer to string.
+    // value: Conveted value.
+    // <param name="desimals">Desimal count.
+    // <param name="forceHex">Force value as hex.
+    // returns: Integer value as a string.
+    int IntegerToHex(uint32_t value, int desimals, bool forceHex, std::string& result);
 
     // Convert integer to string.
     // value: Conveted value.
     // returns: Integer value as a string.
-    int IntegerToHex(unsigned long value, std::string& result);
+    int IntegerToHex(uint32_t value, std::string& result);
 
     // Convert integer to string.
     // value: Conveted value.
     // returns: Integer value as a string.
-    int IntegerToHex(long long value, std::string& result);
+    int IntegerToHex(int64_t value, std::string& result);
 
     // Convert integer to string.
     // value: Conveted value.
     // returns: Integer value as a string.
-    int IntegerToHex(unsigned long long value, std::string& result);
+    int IntegerToHex(uint64_t value, std::string& result);
 };
 #endif //DLMS_IGNORE_XML_TRANSLATOR
 #endif //GXDLMSTRANSLATOR_STRUCTURE_H

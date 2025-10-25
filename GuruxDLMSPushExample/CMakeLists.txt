@@ -18,7 +18,11 @@ file(GLOB PUSH_EXAMPLE_SOURCES
 
 add_executable(GuruxDLMSPushExample ${PUSH_EXAMPLE_SOURCES})
 
-target_link_libraries(GuruxDLMSPushExample PRIVATE ${GURUX_TARGET} ws2_32)
+if (WIN32)
+    target_link_libraries(GuruxDLMSPushExample PRIVATE ${GURUX_TARGET} ws2_32)
+else()
+    target_link_libraries(GuruxDLMSPushExample PRIVATE ${GURUX_TARGET})
+endif()
 
 target_include_directories(GuruxDLMSPushExample PRIVATE
     ${CMAKE_SOURCE_DIR}/development/include
@@ -36,3 +40,5 @@ endif()
 set_target_properties(GuruxDLMSPushExample PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
 )
+
+print_target_size(GuruxDLMSPushExample)
