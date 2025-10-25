@@ -100,6 +100,34 @@ TEST_F(GXByteBufferTest, DataRetrieval) {
     EXPECT_EQ(0x789ABCDE, u32);
 }
 
+TEST_F(GXByteBufferTest, IndexedMultiByteGetters) {
+    CGXByteBuffer buffer;
+    buffer.SetUInt32(0x11223344);
+    buffer.SetUInt64(0x5566778899AABBCCULL);
+
+    const uint8_t pattern[16] = {
+        0xDE, 0xAD, 0xBE, 0xEF,
+        0xCA, 0xFE, 0xBA, 0xBE,
+        0x12, 0x34, 0x56, 0x78,
+        0x9A, 0xBC, 0xDE, 0xF0
+    };
+    buffer.Set(pattern, sizeof(pattern));
+
+    uint32_t u32 = 0;
+    EXPECT_EQ(0, buffer.GetUInt32(0, &u32));
+    EXPECT_EQ(0x11223344u, u32);
+
+    uint64_t u64 = 0;
+    EXPECT_EQ(0, buffer.GetUInt64(4, &u64));
+    EXPECT_EQ(0x5566778899AABBCCULL, u64);
+
+    uint8_t u128[16] = {};
+    EXPECT_EQ(0, buffer.GetUInt128(12, u128));
+    for (size_t i = 0; i < sizeof(pattern); ++i) {
+        EXPECT_EQ(pattern[i], u128[i]);
+    }
+}
+
 TEST_F(GXByteBufferTest, PositionManagement) {
     CGXByteBuffer buffer;
     buffer.SetUInt8(0x12);
