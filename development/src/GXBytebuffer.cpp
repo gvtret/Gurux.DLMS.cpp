@@ -29,6 +29,7 @@
 #include <cstring>
 #include <codecvt>
 #include <locale>
+#include <vector>
 
 CGXByteBuffer::CGXByteBuffer(): m_Position(0) {
 }
@@ -857,7 +858,9 @@ int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::string 
                 return DLMS_ERROR_CODE_OUTOFMEMORY;
         }
 
-        if (count % sizeof(wchar_t) != 0) {
+        size_t wcharSize = sizeof(wchar_t);
+
+        if ((index % wcharSize) != 0 || (count % wcharSize) != 0) {
                 return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
 
@@ -866,11 +869,13 @@ int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::string 
                 return 0;
         }
 
-        const wchar_t *wideStr = reinterpret_cast<const wchar_t *>(m_Data.data() + index);
-        size_t wideLen = count / sizeof(wchar_t);
+        size_t wideLen = count / wcharSize;
 
         try {
-                std::wstring wstr(wideStr, wideLen);
+                std::vector<wchar_t> buffer(wideLen);
+                std::memcpy(buffer.data(), m_Data.data() + index, count);
+
+                std::wstring wstr(buffer.begin(), buffer.end());
                 std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
                 value = converter.to_bytes(wstr);
                 return 0;
@@ -882,15 +887,31 @@ int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::string 
 }
 
 int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::wstring &value) {
-	if (index + count > m_Data.size()) {
-		return DLMS_ERROR_CODE_OUTOFMEMORY;
-	}
+        if (index + count > m_Data.size()) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
 
-	const wchar_t *wideStr = reinterpret_cast<const wchar_t *>(m_Data.data() + index);
-	size_t wideLen = count / sizeof(wchar_t);
+        size_t wcharSize = sizeof(wchar_t);
 
-	value.assign(wideStr, wideLen);
-	return 0;
+        if ((index % wcharSize) != 0 || (count % wcharSize) != 0) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
+
+        if (count == 0) {
+                value.clear();
+                return 0;
+        }
+
+        size_t wideLen = count / wcharSize;
+
+        try {
+                std::vector<wchar_t> buffer(wideLen);
+                std::memcpy(buffer.data(), m_Data.data() + index, count);
+                value.assign(buffer.begin(), buffer.end());
+                return 0;
+        } catch (const std::bad_alloc &) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
 }
 
 static int GetIndex(char ch) {
