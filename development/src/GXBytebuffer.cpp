@@ -27,6 +27,8 @@
 #include "GXBytebuffer.h"
 #include <algorithm>
 #include <cstring>
+#include <codecvt>
+#include <locale>
 
 CGXByteBuffer::CGXByteBuffer(): m_Position(0) {
 }
@@ -355,13 +357,15 @@ int CGXByteBuffer::AddString(std::string &&value) {
 }
 
 int CGXByteBuffer::AddString(const std::wstring &value) {
-	try {
-		// Convert wide string to narrow string (simplified approach)
-		std::string narrowStr(value.begin(), value.end());
-		return AddString(narrowStr);
-	} catch (const std::bad_alloc &) {
-		return DLMS_ERROR_CODE_OUTOFMEMORY;
-	}
+        try {
+                std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+                std::string utf8Str = converter.to_bytes(value);
+                return AddString(utf8Str);
+        } catch (const std::range_error &) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        } catch (const std::bad_alloc &) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
 }
 
 int CGXByteBuffer::AddString(const char *value) {
@@ -849,18 +853,32 @@ int CGXByteBuffer::GetString(uint32_t index, uint32_t count, std::string &value)
 }
 
 int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::string &value) {
-	// Simplified implementation - convert wide to narrow
-	if (index + count > m_Data.size()) {
-		return DLMS_ERROR_CODE_OUTOFMEMORY;
-	}
+        if (index > m_Data.size() || count > m_Data.size() - index) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
 
-	// This is a simplified approach - proper Unicode handling would be more complex
-	const wchar_t *wideStr = reinterpret_cast<const wchar_t *>(m_Data.data() + index);
-	size_t wideLen = count / sizeof(wchar_t);
+        if (count % sizeof(wchar_t) != 0) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
 
-	std::wstring wstr(wideStr, wideLen);
-	value.assign(wstr.begin(), wstr.end());
-	return 0;
+        if (count == 0) {
+                value.clear();
+                return 0;
+        }
+
+        const wchar_t *wideStr = reinterpret_cast<const wchar_t *>(m_Data.data() + index);
+        size_t wideLen = count / sizeof(wchar_t);
+
+        try {
+                std::wstring wstr(wideStr, wideLen);
+                std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+                value = converter.to_bytes(wstr);
+                return 0;
+        } catch (const std::range_error &) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        } catch (const std::bad_alloc &) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
 }
 
 int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::wstring &value) {
