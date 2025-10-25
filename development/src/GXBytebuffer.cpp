@@ -928,14 +928,19 @@ int CGXByteBuffer::FromBase64(std::string &input) {
 	}
 	std::string inChars;
 	int b[4];
-	for (pos = 0; pos != input.length(); pos += 4) {
-		inChars = input.substr(pos, pos + 4);
-		b[0] = GetIndex(inChars[0]);
-		b[1] = GetIndex(inChars[1]);
-		b[2] = GetIndex(inChars[2]);
-		b[3] = GetIndex(inChars[3]);
-		SetUInt8((b[0] << 2) | (b[1] >> 4));
-		if (b[2] < 64) {
+        for (pos = 0; pos != input.length(); pos += 4) {
+                inChars = input.substr(pos, 4);
+                b[0] = GetIndex(inChars[0]);
+                b[1] = GetIndex(inChars[1]);
+                b[2] = GetIndex(inChars[2]);
+                b[3] = GetIndex(inChars[3]);
+                for (int idx = 0; idx < 4; ++idx) {
+                        if (b[idx] == -1) {
+                                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+                        }
+                }
+                SetUInt8((b[0] << 2) | (b[1] >> 4));
+                if (b[2] < 64) {
 			SetUInt8((b[1] << 4) | (b[2] >> 2));
 			if (b[3] < 64) {
 				SetUInt8((b[2] << 6) | b[3]);
