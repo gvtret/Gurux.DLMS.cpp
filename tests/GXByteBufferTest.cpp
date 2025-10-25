@@ -279,6 +279,7 @@ TEST_F(GXByteBufferTest, FromBase64MultiBlockDecoding) {
     CGXByteBuffer buffer;
     EXPECT_EQ(0, buffer.FromBase64(base64));
     EXPECT_EQ(expected.size(), buffer.GetSize());
+    EXPECT_GE(buffer.Capacity(), expected.size());
 
     std::string decoded(reinterpret_cast<const char *>(buffer.GetData()),
                         buffer.GetSize());

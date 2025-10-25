@@ -942,11 +942,14 @@ int CGXByteBuffer::FromBase64(std::string &input) {
 	if (input.length() % 4 != 0) {
 		return DLMS_ERROR_CODE_INVALID_PARAMETER;
 	}
-	size_t len = (input.length() * 3) / 4;
-	size_t pos = input.find('=', 0);
-	if (pos > 0) {
-		len -= input.length() - pos;
-	}
+        size_t len = (input.length() * 3) / 4;
+        size_t pos = input.find('=', 0);
+        if (pos != std::string::npos) {
+                len -= input.length() - pos;
+        }
+        if (len > 0) {
+                m_Data.reserve(m_Data.size() + len);
+        }
 	std::string inChars;
 	int b[4];
         for (pos = 0; pos != input.length(); pos += 4) {
