@@ -454,18 +454,32 @@ int CGXByteBuffer::GetUInt24(unsigned int *value) {
 }
 
 int CGXByteBuffer::GetUInt32(uint32_t *value) {
-	if (value == nullptr) {
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
+        if (value == nullptr) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
 
-	if (m_Position + 4 > m_Data.size()) {
-		return DLMS_ERROR_CODE_OUTOFMEMORY;
-	}
+        if (m_Position + 4 > m_Data.size()) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
 
-	*value = (static_cast<uint32_t>(m_Data[m_Position]) << 24) | (static_cast<uint32_t>(m_Data[m_Position + 1]) << 16) |
-	    (static_cast<uint32_t>(m_Data[m_Position + 2]) << 8) | static_cast<uint32_t>(m_Data[m_Position + 3]);
-	m_Position += 4;
-	return 0;
+        *value = (static_cast<uint32_t>(m_Data[m_Position]) << 24) | (static_cast<uint32_t>(m_Data[m_Position + 1]) << 16) |
+            (static_cast<uint32_t>(m_Data[m_Position + 2]) << 8) | static_cast<uint32_t>(m_Data[m_Position + 3]);
+        m_Position += 4;
+        return 0;
+}
+
+int CGXByteBuffer::GetUInt32(uint32_t index, uint32_t *value) {
+        if (value == nullptr) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
+
+        if (index + 4 > m_Data.size()) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
+
+        *value = (static_cast<uint32_t>(m_Data[index]) << 24) | (static_cast<uint32_t>(m_Data[index + 1]) << 16) |
+            (static_cast<uint32_t>(m_Data[index + 2]) << 8) | static_cast<uint32_t>(m_Data[index + 3]);
+        return 0;
 }
 
 int CGXByteBuffer::GetInt8(char *value) {
@@ -514,20 +528,49 @@ int CGXByteBuffer::GetInt64(int64_t *value) {
 }
 
 int CGXByteBuffer::GetUInt64(uint64_t *value) {
-	if (value == nullptr) {
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
+        if (value == nullptr) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
 
 	if (m_Position + 8 > m_Data.size()) {
 		return DLMS_ERROR_CODE_OUTOFMEMORY;
 	}
 
-	*value = (static_cast<uint64_t>(m_Data[m_Position]) << 56) | (static_cast<uint64_t>(m_Data[m_Position + 1]) << 48) |
-	    (static_cast<uint64_t>(m_Data[m_Position + 2]) << 40) | (static_cast<uint64_t>(m_Data[m_Position + 3]) << 32) |
-	    (static_cast<uint64_t>(m_Data[m_Position + 4]) << 24) | (static_cast<uint64_t>(m_Data[m_Position + 5]) << 16) |
-	    (static_cast<uint64_t>(m_Data[m_Position + 6]) << 8) | static_cast<uint64_t>(m_Data[m_Position + 7]);
-	m_Position += 8;
-	return 0;
+        *value = (static_cast<uint64_t>(m_Data[m_Position]) << 56) | (static_cast<uint64_t>(m_Data[m_Position + 1]) << 48) |
+            (static_cast<uint64_t>(m_Data[m_Position + 2]) << 40) | (static_cast<uint64_t>(m_Data[m_Position + 3]) << 32) |
+            (static_cast<uint64_t>(m_Data[m_Position + 4]) << 24) | (static_cast<uint64_t>(m_Data[m_Position + 5]) << 16) |
+            (static_cast<uint64_t>(m_Data[m_Position + 6]) << 8) | static_cast<uint64_t>(m_Data[m_Position + 7]);
+        m_Position += 8;
+        return 0;
+}
+
+int CGXByteBuffer::GetUInt64(uint32_t index, uint64_t *value) {
+        if (value == nullptr) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
+
+        if (index + 8 > m_Data.size()) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
+
+        *value = (static_cast<uint64_t>(m_Data[index]) << 56) | (static_cast<uint64_t>(m_Data[index + 1]) << 48) |
+            (static_cast<uint64_t>(m_Data[index + 2]) << 40) | (static_cast<uint64_t>(m_Data[index + 3]) << 32) |
+            (static_cast<uint64_t>(m_Data[index + 4]) << 24) | (static_cast<uint64_t>(m_Data[index + 5]) << 16) |
+            (static_cast<uint64_t>(m_Data[index + 6]) << 8) | static_cast<uint64_t>(m_Data[index + 7]);
+        return 0;
+}
+
+int CGXByteBuffer::GetUInt128(uint32_t index, uint8_t *value) {
+        if (value == nullptr) {
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
+
+        if (index + 16 > m_Data.size()) {
+                return DLMS_ERROR_CODE_OUTOFMEMORY;
+        }
+
+        std::copy(m_Data.begin() + index, m_Data.begin() + index + 16, value);
+        return 0;
 }
 
 int CGXByteBuffer::GetFloat(float *value) {
