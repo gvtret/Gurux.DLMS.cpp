@@ -212,11 +212,40 @@ install(
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/development/include/
         DESTINATION include)
 
+# ----------------------------------------------------------
+# Tests
+# ----------------------------------------------------------
 if(BUILD_TESTS)
   include(CTest)
 	enable_testing()
   add_subdirectory(tests)
 endif()
+
+# ----------------------------------------------------------
+# Documentation
+# ----------------------------------------------------------
+# ----------------------------------------------------------
+# Documentation target (doc)
+# ----------------------------------------------------------
+find_package(Doxygen QUIET)
+
+if(DOXYGEN_FOUND)
+	set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in)
+	set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+
+	configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
+
+	add_custom_target(
+		doc
+		COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+		COMMENT "Generating API documentation with Doxygen"
+		VERBATIM
+	)
+else()
+	message(WARNING "Doxygen not found. Documentation target 'doc' will be unavailable.")
+endif()
+
 # ----------------------------------------------------------
 # Summary
 # ----------------------------------------------------------
