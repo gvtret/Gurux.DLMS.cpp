@@ -43,22 +43,22 @@
  * Enumerated data protection types.
  */
 typedef enum {
-	/**
+    /**
      * Authentication.
      */
-	DLMS_PROTECTION_TYPE_AUTHENTICATION,
-	/**
+    DLMS_PROTECTION_TYPE_AUTHENTICATION,
+    /**
      * Encryption
      */
-	DLMS_PROTECTION_TYPE_ENCRYPTION,
-	/**
+    DLMS_PROTECTION_TYPE_ENCRYPTION,
+    /**
      * Authentication and encryption.
      */
-	DLMS_PROTECTION_TYPE_AUTHENTICATION_ENCRYPTION,
-	/**
+    DLMS_PROTECTION_TYPE_AUTHENTICATION_ENCRYPTION,
+    /**
      * Digital signature
      */
-	DLMS_PROTECTION_TYPE_DIGITAL_SIGNATURE
+    DLMS_PROTECTION_TYPE_DIGITAL_SIGNATURE
 } DLMS_PROTECTION_TYPE;
 
 /**
@@ -66,120 +66,120 @@ Push protection parameters.
 */
 class CGXPushProtectionParameters {
 private:
-	/**
+    /**
     * Protection type.
     */
-	DLMS_PROTECTION_TYPE m_ProtectionType;
+    DLMS_PROTECTION_TYPE m_ProtectionType;
 
-	/**
+    /**
      * Transaction Id.
      */
-	CGXByteBuffer m_TransactionId;
+    CGXByteBuffer m_TransactionId;
 
-	/**
+    /**
      * Originator system title.
      */
-	CGXByteBuffer m_OriginatorSystemTitle;
+    CGXByteBuffer m_OriginatorSystemTitle;
 
-	/**
+    /**
      * Recipient system title.
      */
-	CGXByteBuffer m_RecipientSystemTitle;
+    CGXByteBuffer m_RecipientSystemTitle;
 
-	/**
+    /**
      * Other information.
      */
-	CGXByteBuffer m_OtherInformation;
+    CGXByteBuffer m_OtherInformation;
 
-	/**
+    /**
      * Key info.
      */
-	CGXDLMSDataProtectionKey m_KeyInfo;
+    CGXDLMSDataProtectionKey m_KeyInfo;
 
 public:
-	/**
+    /**
      * Constructor.
      */
-	CGXPushProtectionParameters() {
-		m_ProtectionType = DLMS_PROTECTION_TYPE_AUTHENTICATION;
-	}
+    CGXPushProtectionParameters() {
+        m_ProtectionType = DLMS_PROTECTION_TYPE_AUTHENTICATION;
+    }
 
-	/**
+    /**
      * Returns Protection type.
      */
-	DLMS_PROTECTION_TYPE GetProtectionType() {
-		return m_ProtectionType;
-	}
+    DLMS_PROTECTION_TYPE GetProtectionType() {
+        return m_ProtectionType;
+    }
 
-	/**
+    /**
      * value: Protection type.
      */
-	void SetProtectionType(DLMS_PROTECTION_TYPE value) {
-		m_ProtectionType = value;
-	}
+    void SetProtectionType(DLMS_PROTECTION_TYPE value) {
+        m_ProtectionType = value;
+    }
 
-	/**
+    /**
      * Returns Transaction Id.
      */
-	CGXByteBuffer &GetTransactionId() {
-		return m_TransactionId;
-	}
+    CGXByteBuffer &GetTransactionId() {
+        return m_TransactionId;
+    }
 
-	/**
+    /**
      * value: Transaction Id.
      */
-	void SetTransactionId(CGXByteBuffer &value) {
-		m_TransactionId = value;
-	}
+    void SetTransactionId(CGXByteBuffer &value) {
+        m_TransactionId = value;
+    }
 
-	/**
+    /**
      * Returns Originator system title.
      */
-	CGXByteBuffer &GetOriginatorSystemTitle() {
-		return m_OriginatorSystemTitle;
-	}
+    CGXByteBuffer &GetOriginatorSystemTitle() {
+        return m_OriginatorSystemTitle;
+    }
 
-	/**
+    /**
      * value: Originator system title.
      */
-	void SetOriginatorSystemTitle(CGXByteBuffer &value) {
-		m_OriginatorSystemTitle = value;
-	}
+    void SetOriginatorSystemTitle(CGXByteBuffer &value) {
+        m_OriginatorSystemTitle = value;
+    }
 
-	/**
+    /**
      * Returns Recipient system title.
      */
-	CGXByteBuffer &GetRecipientSystemTitle() {
-		return m_RecipientSystemTitle;
-	}
+    CGXByteBuffer &GetRecipientSystemTitle() {
+        return m_RecipientSystemTitle;
+    }
 
-	/**
+    /**
      * value: Recipient system title.
      */
-	void SetRecipientSystemTitle(CGXByteBuffer &value) {
-		m_RecipientSystemTitle = value;
-	}
+    void SetRecipientSystemTitle(CGXByteBuffer &value) {
+        m_RecipientSystemTitle = value;
+    }
 
-	/**
+    /**
      * Returns Other information.
      */
-	CGXByteBuffer &GetOtherInformation() {
-		return m_OtherInformation;
-	}
+    CGXByteBuffer &GetOtherInformation() {
+        return m_OtherInformation;
+    }
 
-	/**
+    /**
      * value: Other information.
      */
-	void SetOtherInformation(CGXByteBuffer &value) {
-		m_OtherInformation = value;
-	}
+    void SetOtherInformation(CGXByteBuffer &value) {
+        m_OtherInformation = value;
+    }
 
-	/**
+    /**
      * Returns Key info.
      */
-	CGXDLMSDataProtectionKey &GetKeyInfo() {
-		return m_KeyInfo;
-	}
+    CGXDLMSDataProtectionKey &GetKeyInfo() {
+        return m_KeyInfo;
+    }
 };
 #endif  //DLMS_IGNORE_PUSH_SETUP
 #endif  //GXPUSHPROTECTIONPARAMETERS_H

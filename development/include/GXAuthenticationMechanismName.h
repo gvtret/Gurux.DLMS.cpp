@@ -40,41 +40,41 @@
 
 class CGXAuthenticationMechanismName {
 private:
-	int m_JointIsoCtt;
-	int m_Country;
-	int m_CountryName;
-	int m_IdentifiedOrganization;
-	int m_DlmsUA;
-	int m_AuthenticationMechanismName;
-	DLMS_AUTHENTICATION m_MechanismId;
+    int m_JointIsoCtt;
+    int m_Country;
+    int m_CountryName;
+    int m_IdentifiedOrganization;
+    int m_DlmsUA;
+    int m_AuthenticationMechanismName;
+    DLMS_AUTHENTICATION m_MechanismId;
 
 public:
-	/*
+    /*
      * Constructor.
      */
-	CGXAuthenticationMechanismName();
+    CGXAuthenticationMechanismName();
 
-	int GetJointIsoCtt();
-	void SetJointIsoCtt(int value);
+    int GetJointIsoCtt();
+    void SetJointIsoCtt(int value);
 
-	int GetCountry();
-	void SetCountry(int value);
+    int GetCountry();
+    void SetCountry(int value);
 
-	int GetCountryName();
-	void SetCountryName(int value);
+    int GetCountryName();
+    void SetCountryName(int value);
 
-	int GetIdentifiedOrganization();
-	void SetIdentifiedOrganization(int value);
+    int GetIdentifiedOrganization();
+    void SetIdentifiedOrganization(int value);
 
-	int GetDlmsUA();
-	void SetDlmsUA(int value);
+    int GetDlmsUA();
+    void SetDlmsUA(int value);
 
-	int GetAuthenticationMechanismName();
-	void SetAuthenticationMechanismName(int value);
+    int GetAuthenticationMechanismName();
+    void SetAuthenticationMechanismName(int value);
 
-	DLMS_AUTHENTICATION GetMechanismId();
-	void SetMechanismId(DLMS_AUTHENTICATION value);
+    DLMS_AUTHENTICATION GetMechanismId();
+    void SetMechanismId(DLMS_AUTHENTICATION value);
 
-	std::string ToString();
+    std::string ToString();
 };
 #endif  //GXAUTHENTICATIONMECHANISMNAME_H

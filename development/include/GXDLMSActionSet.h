@@ -38,26 +38,26 @@
 #include "GXDLMSActionItem.h"
 
 class CGXDLMSActionSet {
-	CGXDLMSActionItem m_ActionUp;
-	CGXDLMSActionItem m_ActionDown;
+    CGXDLMSActionItem m_ActionUp;
+    CGXDLMSActionItem m_ActionDown;
 
 public:
-	/**
+    /**
      Constructor.
     */
-	CGXDLMSActionSet();
+    CGXDLMSActionSet();
 
-	/**
+    /**
      Destructor.
     */
-	~CGXDLMSActionSet() {
-	}
+    ~CGXDLMSActionSet() {
+    }
 
-	CGXDLMSActionItem &GetActionUp();
+    CGXDLMSActionItem &GetActionUp();
 
-	CGXDLMSActionItem &GetActionDown();
+    CGXDLMSActionItem &GetActionDown();
 
-	std::string ToString();
+    std::string ToString();
 };
 
 #endif  //GXDLMSACTIONSET_H

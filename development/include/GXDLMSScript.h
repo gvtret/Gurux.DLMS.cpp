@@ -38,41 +38,41 @@
 #include "GXDLMSScriptAction.h"
 
 class CGXDLMSScript {
-	/**
+    /**
      * Script identifier.
      */
-	int m_ID;
+    int m_ID;
 
-	/**
+    /**
      * Script actions.
      */
-	std::vector<CGXDLMSScriptAction *> m_Actions;
+    std::vector<CGXDLMSScriptAction *> m_Actions;
 
 public:
-	/**
+    /**
      * Constructor.
      */
-	CGXDLMSScript();
+    CGXDLMSScript();
 
-	/**
+    /**
     * Destructor.
     */
-	~CGXDLMSScript();
+    ~CGXDLMSScript();
 
-	/**
+    /**
      * @return Script identifier.
      */
-	int GetID();
+    int GetID();
 
-	/**
+    /**
      * @param value
      *            Script identifier.
      */
-	void SetID(int value);
+    void SetID(int value);
 
-	/**
+    /**
      * @return Script actions.
      */
-	std::vector<CGXDLMSScriptAction *> &GetActions();
+    std::vector<CGXDLMSScriptAction *> &GetActions();
 };
 #endif  //GXDLMSSCRIPT_H

@@ -36,33 +36,33 @@
 #include <sstream>
 
 PPP_SETUP_IPCP_OPTION_TYPE CGXDLMSPppSetupIPCPOption::GetType() {
-	return m_Type;
+    return m_Type;
 }
 
 void CGXDLMSPppSetupIPCPOption::SetType(PPP_SETUP_IPCP_OPTION_TYPE value) {
-	m_Type = value;
+    m_Type = value;
 }
 
 int CGXDLMSPppSetupIPCPOption::GetLength() {
-	return m_Length;
+    return m_Length;
 }
 
 void CGXDLMSPppSetupIPCPOption::SetLength(int value) {
-	m_Length = value;
+    m_Length = value;
 }
 
 CGXDLMSVariant &CGXDLMSPppSetupIPCPOption::GetData() {
-	return m_Data;
+    return m_Data;
 }
 
 void CGXDLMSPppSetupIPCPOption::SetData(CGXDLMSVariant &value) {
-	m_Data = value;
+    m_Data = value;
 }
 
 std::string CGXDLMSPppSetupIPCPOption::ToString() {
-	std::stringstream sb;
-	sb << m_Type;
-	sb << " ";
-	sb << m_Length;
-	return sb.str();
+    std::stringstream sb;
+    sb << m_Type;
+    sb << " ";
+    sb << m_Length;
+    return sb.str();
 }

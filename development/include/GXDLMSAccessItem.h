@@ -41,88 +41,88 @@
 Access item is used to generate Access Service message.
 */
 class CGXDLMSAccessItem {
-	/**
+    /**
      * COSEM target object.
      */
-	CGXDLMSObject *m_Target;
-	/**
+    CGXDLMSObject *m_Target;
+    /**
      * Executed command type.
      */
-	DLMS_ACCESS_SERVICE_COMMAND_TYPE m_Command;
+    DLMS_ACCESS_SERVICE_COMMAND_TYPE m_Command;
 
-	/**
+    /**
      * Attribute index.
      */
-	unsigned char m_Index;
+    unsigned char m_Index;
 
-	//Reply error code.
-	DLMS_ERROR_CODE m_Error;
+    //Reply error code.
+    DLMS_ERROR_CODE m_Error;
 
-	// Reply value.
-	CGXDLMSVariant m_Value;
+    // Reply value.
+    CGXDLMSVariant m_Value;
 
 public:
-	/**
+    /**
      * Returns COSEM target object.
      */
-	CGXDLMSObject *GetTarget();
+    CGXDLMSObject *GetTarget();
 
-	/**
+    /**
      * value: COSEM target object.
      */
-	void SetTarget(CGXDLMSObject *value);
+    void SetTarget(CGXDLMSObject *value);
 
-	/**
+    /**
      * Returns Executed command type.
      */
-	DLMS_ACCESS_SERVICE_COMMAND_TYPE GetCommand();
+    DLMS_ACCESS_SERVICE_COMMAND_TYPE GetCommand();
 
-	/**
+    /**
      * value: Executed command type.
      */
-	void SetCommand(DLMS_ACCESS_SERVICE_COMMAND_TYPE value);
+    void SetCommand(DLMS_ACCESS_SERVICE_COMMAND_TYPE value);
 
-	/**
+    /**
      * Returns Attribute index.
      */
-	unsigned char GetIndex();
+    unsigned char GetIndex();
 
-	/**
+    /**
      * value: Attribute index.
      */
-	void SetIndex(unsigned char value);
+    void SetIndex(unsigned char value);
 
-	/**
+    /**
      * value: Reply error code.
      */
-	void SetError(DLMS_ERROR_CODE value);
+    void SetError(DLMS_ERROR_CODE value);
 
-	/**
+    /**
      * Returns reply error code.
      */
-	DLMS_ERROR_CODE GetError();
+    DLMS_ERROR_CODE GetError();
 
-	/**
+    /**
      * value:  Reply value.
      */
-	void SetValue(CGXDLMSVariant &value);
-	/**
+    void SetValue(CGXDLMSVariant &value);
+    /**
      *  Returns reply value.
      */
-	CGXDLMSVariant &GetValue();
+    CGXDLMSVariant &GetValue();
 
-	/**
+    /**
      * Constructor.
      */
-	CGXDLMSAccessItem();
+    CGXDLMSAccessItem();
 
-	/**
+    /**
      * Constructor.
      *
      * command: Command to execute.
      * target: COSEM target object.
      * attributeIndex: Attribute index.
      */
-	CGXDLMSAccessItem(DLMS_ACCESS_SERVICE_COMMAND_TYPE command, CGXDLMSObject *target, unsigned char attributeIndex);
+    CGXDLMSAccessItem(DLMS_ACCESS_SERVICE_COMMAND_TYPE command, CGXDLMSObject *target, unsigned char attributeIndex);
 };
 #endif  //CGXDLMSACCESSITEM_H

@@ -44,150 +44,150 @@ Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPrimeNbOfdmPlcMacSetup
 */
 class CGXDLMSPrimeNbOfdmPlcMacSetup: public CGXDLMSObject {
-	/**
+    /**
     * PIB attribute 0x0010.
     */
-	unsigned char m_MacMinSwitchSearchTime;
+    unsigned char m_MacMinSwitchSearchTime;
 
-	/**
+    /**
      * PIB attribute 0x0011.
      */
-	unsigned char m_MacMaxPromotionPdu;
+    unsigned char m_MacMaxPromotionPdu;
 
-	/**
+    /**
      * PIB attribute 0x0012.
      */
-	unsigned char m_MacPromotionPduTxPeriod;
-	/**
+    unsigned char m_MacPromotionPduTxPeriod;
+    /**
      * PIB attribute 0x0013.
      */
-	unsigned char m_MacBeaconsPerFrame;
-	/**
+    unsigned char m_MacBeaconsPerFrame;
+    /**
      * PIB attribute 0x0014.
      */
-	unsigned char m_MacScpMaxTxAttempts;
-	/**
+    unsigned char m_MacScpMaxTxAttempts;
+    /**
      * PIB attribute 0x0015.
      */
-	unsigned char m_MacCtlReTxTimer;
-	/**
+    unsigned char m_MacCtlReTxTimer;
+    /**
      * PIB attribute 0x0018.
      */
-	unsigned char m_MacMaxCtlReTx;
+    unsigned char m_MacMaxCtlReTx;
 
 public:
-	//Constructor.
-	CGXDLMSPrimeNbOfdmPlcMacSetup();
+    //Constructor.
+    CGXDLMSPrimeNbOfdmPlcMacSetup();
 
-	//SN Constructor.
-	CGXDLMSPrimeNbOfdmPlcMacSetup(std::string ln, unsigned short sn);
+    //SN Constructor.
+    CGXDLMSPrimeNbOfdmPlcMacSetup(std::string ln, unsigned short sn);
 
-	//LN Constructor.
-	CGXDLMSPrimeNbOfdmPlcMacSetup(std::string ln);
+    //LN Constructor.
+    CGXDLMSPrimeNbOfdmPlcMacSetup(std::string ln);
 
-	/*
+    /*
      * Returns PIB attribute 0x0010.
      */
-	unsigned char GetMacMinSwitchSearchTime();
+    unsigned char GetMacMinSwitchSearchTime();
 
-	/*
+    /*
      * value
      *            PIB attribute 0x0010.
      */
-	void SetMacMinSwitchSearchTime(unsigned char value);
+    void SetMacMinSwitchSearchTime(unsigned char value);
 
-	/*
+    /*
      * Returns PIB attribute 0x0011.
      */
-	unsigned char GetMacMaxPromotionPdu();
+    unsigned char GetMacMaxPromotionPdu();
 
-	/*
+    /*
      * value
      *            PIB attribute 0x0011.
      */
-	void SetMacMaxPromotionPdu(unsigned char value);
+    void SetMacMaxPromotionPdu(unsigned char value);
 
-	/*
+    /*
      * Returns PIB attribute 0x0012.
      */
-	unsigned char GetMacPromotionPduTxPeriod();
+    unsigned char GetMacPromotionPduTxPeriod();
 
-	/*
+    /*
      * value
      *            PIB attribute 0x0012.
      */
-	void SetMacPromotionPduTxPeriod(unsigned char value);
+    void SetMacPromotionPduTxPeriod(unsigned char value);
 
-	/*
+    /*
      * Returns PIB attribute 0x0013.
      */
-	unsigned char GetMacBeaconsPerFrame();
+    unsigned char GetMacBeaconsPerFrame();
 
-	/*
+    /*
      * value
      *            PIB attribute 0x0013.
      */
-	void SetMacBeaconsPerFrame(unsigned char value);
+    void SetMacBeaconsPerFrame(unsigned char value);
 
-	/*
+    /*
      * Returns PIB attribute 0x0014.
      */
-	unsigned char GetMacScpMaxTxAttempts();
+    unsigned char GetMacScpMaxTxAttempts();
 
-	/*
+    /*
      * value
      *            PIB attribute 0x0014.
      */
-	void SetMacScpMaxTxAttempts(unsigned char value);
+    void SetMacScpMaxTxAttempts(unsigned char value);
 
-	/*
+    /*
      * Returns PIB attribute 0x0015.
      */
-	unsigned char GetMacCtlReTxTimer();
+    unsigned char GetMacCtlReTxTimer();
 
-	/*
+    /*
      * value
      *            PIB attribute 0x0015.
      */
-	void SetMacCtlReTxTimer(unsigned char value);
+    void SetMacCtlReTxTimer(unsigned char value);
 
-	/*
+    /*
      * Returns PIB attribute 0x0018.
      */
-	unsigned char GetMacMaxCtlReTx();
+    unsigned char GetMacMaxCtlReTx();
 
-	/*
+    /*
      * value
      *            PIB attribute 0x0018.
      */
-	void SetMacMaxCtlReTx(unsigned char value);
+    void SetMacMaxCtlReTx(unsigned char value);
 
-	// Returns amount of attributes.
-	int GetAttributeCount();
+    // Returns amount of attributes.
+    int GetAttributeCount();
 
-	// Returns amount of methods.
-	int GetMethodCount();
+    // Returns amount of methods.
+    int GetMethodCount();
 
-	//Get attribute values of object.
-	void GetValues(std::vector<std::string> &values);
+    //Get attribute values of object.
+    void GetValues(std::vector<std::string> &values);
 
-	/////////////////////////////////////////////////////////////////////////
-	// Returns collection of attributes to read.
-	//
-	// If attribute is static and already read or device is returned
-	// HW error it is not returned.
-	//
-	// all: All items are returned even if they are read already.
-	// attributes: Collection of attributes to read.
-	void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    /////////////////////////////////////////////////////////////////////////
+    // Returns collection of attributes to read.
+    //
+    // If attribute is static and already read or device is returned
+    // HW error it is not returned.
+    //
+    // all: All items are returned even if they are read already.
+    // attributes: Collection of attributes to read.
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-	int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-	// Returns value of given attribute.
-	int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Returns value of given attribute.
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-	// Set value of given attribute.
-	int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Set value of given attribute.
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_SETUP
 #endif  //GXDLMSPRIMENBOFDMPLCMACSETUP_H

@@ -45,165 +45,165 @@
 #include "GXDLMSVariant.h"
 
 class CGXDLMSTranslatorStructure {
-	DLMS_TRANSLATOR_OUTPUT_TYPE m_OutputType;
-	bool m_OmitNameSpace;
+    DLMS_TRANSLATOR_OUTPUT_TYPE m_OutputType;
+    bool m_OmitNameSpace;
 
-	// Amount of spaces.
-	int m_Offset;
+    // Amount of spaces.
+    int m_Offset;
 
-	std::ostringstream m_Sb;
+    std::ostringstream m_Sb;
 
-	std::map<unsigned long, std::string> m_Tags;
-	/**
+    std::map<unsigned long, std::string> m_Tags;
+    /**
      * Are numeric values shows as hex.
      */
-	bool m_ShowNumericsAsHex;
+    bool m_ShowNumericsAsHex;
 
-	bool m_ShowStringAsHex;
+    bool m_ShowStringAsHex;
 
-	// Are comments added.
-	bool m_Comments;
-	//Are spaces ignored.
-	bool m_IgnoreSpaces;
+    // Are comments added.
+    bool m_Comments;
+    //Are spaces ignored.
+    bool m_IgnoreSpaces;
 
-	std::string GetTag(unsigned long tag);
-	char tmp[20];
+    std::string GetTag(unsigned long tag);
+    char tmp[20];
 
 public:
-	DLMS_TRANSLATOR_OUTPUT_TYPE GetOutputType();
+    DLMS_TRANSLATOR_OUTPUT_TYPE GetOutputType();
 
-	bool GetOmitNameSpace();
+    bool GetOmitNameSpace();
 
-	int GetOffset();
+    int GetOffset();
 
-	void SetOffset(int value);
+    void SetOffset(int value);
 
-	std::string GetDataType(DLMS_DATA_TYPE type);
+    std::string GetDataType(DLMS_DATA_TYPE type);
 
-	bool GetShowStringAsHex();
+    bool GetShowStringAsHex();
 
-	void SetShowStringAsHex(bool value);
+    void SetShowStringAsHex(bool value);
 
-	bool GetComments();
+    bool GetComments();
 
-	void SetComments(bool value);
+    void SetComments(bool value);
 
-	// Are spaces ignored.
-	bool GetIgnoreSpaces();
+    // Are spaces ignored.
+    bool GetIgnoreSpaces();
 
-	// Are spaces ignored.
-	void SetIgnoreSpaces(bool value);
+    // Are spaces ignored.
+    void SetIgnoreSpaces(bool value);
 
-	// Constructor.
-	CGXDLMSTranslatorStructure(
-	    DLMS_TRANSLATOR_OUTPUT_TYPE type, bool omitNameSpace, bool numericsAshex, bool hex, bool comments, std::map<unsigned long, std::string> list
-	);
+    // Constructor.
+    CGXDLMSTranslatorStructure(
+        DLMS_TRANSLATOR_OUTPUT_TYPE type, bool omitNameSpace, bool numericsAshex, bool hex, bool comments, std::map<unsigned long, std::string> list
+    );
 
-	std::string ToString();
+    std::string ToString();
 
-	// Append spaces.
-	void AppendSpaces();
+    // Append spaces.
+    void AppendSpaces();
 
-	void AppendLine(std::string str);
+    void AppendLine(std::string str);
 
-	void AppendLine(unsigned long tag, std::string name, CGXDLMSVariant &value);
+    void AppendLine(unsigned long tag, std::string name, CGXDLMSVariant &value);
 
-	void AppendLine(unsigned long tag, std::string name, std::string &value);
+    void AppendLine(unsigned long tag, std::string name, std::string &value);
 
-	void AppendLine(std::string tag, std::string name, CGXDLMSVariant &value);
+    void AppendLine(std::string tag, std::string name, CGXDLMSVariant &value);
 
-	// Start comment section.
-	// comment: Comment to add.
-	void StartComment(std::string comment);
+    // Start comment section.
+    // comment: Comment to add.
+    void StartComment(std::string comment);
 
-	void AppendLine(std::string tag, std::string name, std::string &value);
+    void AppendLine(std::string tag, std::string name, std::string &value);
 
-	// End comment section.
-	void EndComment();
+    // End comment section.
+    void EndComment();
 
-	// Append comment.
-	// comment: Comment to add.
-	void AppendComment(std::string comment);
+    // Append comment.
+    // comment: Comment to add.
+    void AppendComment(std::string comment);
 
-	void Append(std::string &value);
+    void Append(std::string &value);
 
-	void Append(unsigned long tag, bool start);
+    void Append(unsigned long tag, bool start);
 
-	void AppendStartTag(unsigned long tag, std::string name, std::string &value);
+    void AppendStartTag(unsigned long tag, std::string name, std::string &value);
 
-	void AppendStartTag(unsigned long tag, std::string name, std::string &value, bool plain);
+    void AppendStartTag(unsigned long tag, std::string name, std::string &value, bool plain);
 
-	void AppendStartTag(unsigned long cmd);
+    void AppendStartTag(unsigned long cmd);
 
-	void AppendStartTag2(unsigned long cmd, bool plain);
+    void AppendStartTag2(unsigned long cmd, bool plain);
 
-	void AppendStartTag(unsigned long cmd, unsigned long type);
+    void AppendStartTag(unsigned long cmd, unsigned long type);
 
-	void AppendStartTag(std::string tag, bool plain);
+    void AppendStartTag(std::string tag, bool plain);
 
-	void AppendStartTag(std::string tag);
+    void AppendStartTag(std::string tag);
 
-	void AppendEndTag(unsigned long cmd, unsigned long type);
+    void AppendEndTag(unsigned long cmd, unsigned long type);
 
-	void AppendEndTag(unsigned long tag);
+    void AppendEndTag(unsigned long tag);
 
-	void AppendEndTag(unsigned long tag, bool plain);
+    void AppendEndTag(unsigned long tag, bool plain);
 
-	void AppendEndTag(std::string &tag);
+    void AppendEndTag(std::string &tag);
 
-	void AppendEmptyTag(unsigned long tag);
+    void AppendEmptyTag(unsigned long tag);
 
-	void AppendEmptyTag(std::string tag);
+    void AppendEmptyTag(std::string tag);
 
-	// Remove \r\n.
-	void Trim();
+    // Remove \r\n.
+    void Trim();
 
-	// Get XML Length.
-	int GetXmlLength();
+    // Get XML Length.
+    int GetXmlLength();
 
-	// Set XML Length.
-	void SetXmlLength(int value);
+    // Set XML Length.
+    void SetXmlLength(int value);
 
-	// Convert integer to string.
-	// value: Conveted value.
-	// <param name="desimals">Desimal count.
-	// returns: Integer value as a string.
-	int IntegerToHex(int32_t value, int desimals, std::string &result);
+    // Convert integer to string.
+    // value: Conveted value.
+    // <param name="desimals">Desimal count.
+    // returns: Integer value as a string.
+    int IntegerToHex(int32_t value, int desimals, std::string &result);
 
-	// Convert integer to string.
-	// value: Conveted value.
-	// <param name="desimals">Desimal count.
-	// returns: Integer value as a string.
-	int IntegerToHex(uint32_t value, int desimals, std::string &result);
+    // Convert integer to string.
+    // value: Conveted value.
+    // <param name="desimals">Desimal count.
+    // returns: Integer value as a string.
+    int IntegerToHex(uint32_t value, int desimals, std::string &result);
 
-	// Convert integer to string.
-	// value: Conveted value.
-	// <param name="desimals">Desimal count.
-	// <param name="forceHex">Force value as hex.
-	// returns: Integer value as a string.
-	int IntegerToHex(int32_t value, int desimals, bool forceHex, std::string &result);
+    // Convert integer to string.
+    // value: Conveted value.
+    // <param name="desimals">Desimal count.
+    // <param name="forceHex">Force value as hex.
+    // returns: Integer value as a string.
+    int IntegerToHex(int32_t value, int desimals, bool forceHex, std::string &result);
 
-	// Convert integer to string.
-	// value: Conveted value.
-	// <param name="desimals">Desimal count.
-	// <param name="forceHex">Force value as hex.
-	// returns: Integer value as a string.
-	int IntegerToHex(uint32_t value, int desimals, bool forceHex, std::string &result);
+    // Convert integer to string.
+    // value: Conveted value.
+    // <param name="desimals">Desimal count.
+    // <param name="forceHex">Force value as hex.
+    // returns: Integer value as a string.
+    int IntegerToHex(uint32_t value, int desimals, bool forceHex, std::string &result);
 
-	// Convert integer to string.
-	// value: Conveted value.
-	// returns: Integer value as a string.
-	int IntegerToHex(uint32_t value, std::string &result);
+    // Convert integer to string.
+    // value: Conveted value.
+    // returns: Integer value as a string.
+    int IntegerToHex(uint32_t value, std::string &result);
 
-	// Convert integer to string.
-	// value: Conveted value.
-	// returns: Integer value as a string.
-	int IntegerToHex(int64_t value, std::string &result);
+    // Convert integer to string.
+    // value: Conveted value.
+    // returns: Integer value as a string.
+    int IntegerToHex(int64_t value, std::string &result);
 
-	// Convert integer to string.
-	// value: Conveted value.
-	// returns: Integer value as a string.
-	int IntegerToHex(uint64_t value, std::string &result);
+    // Convert integer to string.
+    // value: Conveted value.
+    // returns: Integer value as a string.
+    int IntegerToHex(uint64_t value, std::string &result);
 };
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
 #endif  //GXDLMSTRANSLATOR_STRUCTURE_H

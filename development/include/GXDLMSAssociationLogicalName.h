@@ -48,125 +48,125 @@ http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAssociationLogicalName
 */
 class CGXDLMSAssociationLogicalName: public CGXDLMSObject {
 private:
-	DLMS_ASSOCIATION_STATUS m_AssociationStatus;
-	CGXDLMSObjectCollection m_ObjectList;
-	unsigned char m_ClientSAP;
-	unsigned short m_ServerSAP;
-	CGXApplicationContextName m_ApplicationContextName;
-	CGXDLMSContextType m_XDLMSContextInfo;
-	CGXAuthenticationMechanismName m_AuthenticationMechanismName;
+    DLMS_ASSOCIATION_STATUS m_AssociationStatus;
+    CGXDLMSObjectCollection m_ObjectList;
+    unsigned char m_ClientSAP;
+    unsigned short m_ServerSAP;
+    CGXApplicationContextName m_ApplicationContextName;
+    CGXDLMSContextType m_XDLMSContextInfo;
+    CGXAuthenticationMechanismName m_AuthenticationMechanismName;
 
-	/**
+    /**
     * Secret.
     */
-	CGXByteBuffer m_Secret;
+    CGXByteBuffer m_Secret;
 
-	std::string m_SecuritySetupReference;
+    std::string m_SecuritySetupReference;
 
-	std::vector<std::pair<unsigned char, std::string>> m_UserList;
+    std::vector<std::pair<unsigned char, std::string>> m_UserList;
 
-	std::pair<unsigned char, std::string> m_CurrentUser;
+    std::pair<unsigned char, std::string> m_CurrentUser;
 
-	void UpdateAccessRights(CGXDLMSObject *pObj, CGXDLMSVariant data);
+    void UpdateAccessRights(CGXDLMSObject *pObj, CGXDLMSVariant data);
 
-	int GetAccessRights(CGXDLMSObject *pItem, CGXDLMSServer *server, CGXByteBuffer &data);
+    int GetAccessRights(CGXDLMSObject *pItem, CGXDLMSServer *server, CGXByteBuffer &data);
 
-	// Returns LN Association View.
-	int GetObjects(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
+    // Returns LN Association View.
+    int GetObjects(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
 
-	int GetUsers(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
+    int GetUsers(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
 
 public:
-	/**
+    /**
      Constructor.
     */
-	CGXDLMSAssociationLogicalName();
+    CGXDLMSAssociationLogicalName();
 
-	/**
+    /**
      Constructor.
      ln: Logical Name of the object.
     */
-	CGXDLMSAssociationLogicalName(std::string ln);
+    CGXDLMSAssociationLogicalName(std::string ln);
 
-	/**
+    /**
      Destructor.
     */
-	~CGXDLMSAssociationLogicalName();
+    ~CGXDLMSAssociationLogicalName();
 
-	CGXDLMSObjectCollection &GetObjectList();
-
-
-	// Contains the identifiers of the COSEM client APs within the physical devices hosting these APs,
-	// which belong to the AA modelled by the Association LN object.
-	unsigned char GetClientSAP();
-	void SetClientSAP(unsigned char value);
-
-	// Contains the identifiers of the COSEM server (logical device) APs within the physical
-	// devices hosting these APs, which belong to the AA modelled by the Association LN object.
-	unsigned short GetServerSAP();
-	void SetServerSAP(unsigned short value);
-
-	CGXApplicationContextName &GetApplicationContextName();
-
-	CGXDLMSContextType &GetXDLMSContextInfo();
-
-	CGXAuthenticationMechanismName &GetAuthenticationMechanismName();
-
-	CGXByteBuffer &GetSecret();
-
-	void SetSecret(CGXByteBuffer &value);
-
-	std::vector<std::pair<unsigned char, std::string>> &GetUserList();
-
-	void SetUserList(std::vector<std::pair<unsigned char, std::string>> &value);
-
-	std::pair<unsigned char, std::string> &GetCurrentUser();
-
-	void SetCurrentUser(std::pair<unsigned char, std::string> &value);
+    CGXDLMSObjectCollection &GetObjectList();
 
 
-	// Updates secret.
-	int UpdateSecret(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    // Contains the identifiers of the COSEM client APs within the physical devices hosting these APs,
+    // which belong to the AA modelled by the Association LN object.
+    unsigned char GetClientSAP();
+    void SetClientSAP(unsigned char value);
 
-	// Add user to user list.
-	int AddUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply);
+    // Contains the identifiers of the COSEM server (logical device) APs within the physical
+    // devices hosting these APs, which belong to the AA modelled by the Association LN object.
+    unsigned short GetServerSAP();
+    void SetServerSAP(unsigned short value);
 
-	// Remove user fro user list.
-	int RemoveUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply);
+    CGXApplicationContextName &GetApplicationContextName();
+
+    CGXDLMSContextType &GetXDLMSContextInfo();
+
+    CGXAuthenticationMechanismName &GetAuthenticationMechanismName();
+
+    CGXByteBuffer &GetSecret();
+
+    void SetSecret(CGXByteBuffer &value);
+
+    std::vector<std::pair<unsigned char, std::string>> &GetUserList();
+
+    void SetUserList(std::vector<std::pair<unsigned char, std::string>> &value);
+
+    std::pair<unsigned char, std::string> &GetCurrentUser();
+
+    void SetCurrentUser(std::pair<unsigned char, std::string> &value);
 
 
-	DLMS_ASSOCIATION_STATUS GetAssociationStatus();
+    // Updates secret.
+    int UpdateSecret(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
 
-	void SetAssociationStatus(DLMS_ASSOCIATION_STATUS value);
+    // Add user to user list.
+    int AddUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply);
 
-	std::string GetSecuritySetupReference();
-	void SetSecuritySetupReference(std::string value);
+    // Remove user fro user list.
+    int RemoveUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply);
 
-	// Returns amount of attributes.
-	int GetAttributeCount();
 
-	// Returns amount of methods.
-	int GetMethodCount();
+    DLMS_ASSOCIATION_STATUS GetAssociationStatus();
 
-	//Get attribute values of object.
-	void GetValues(std::vector<std::string> &values);
+    void SetAssociationStatus(DLMS_ASSOCIATION_STATUS value);
 
-	/////////////////////////////////////////////////////////////////////////
-	// Returns collection of attributes to read.
-	//
-	// If attribute is static and already read or device is returned
-	// HW error it is not returned.
-	//
-	// all: All items are returned even if they are read already.
-	// attributes: Collection of attributes to read.
-	void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    std::string GetSecuritySetupReference();
+    void SetSecuritySetupReference(std::string value);
 
-	int GetDataType(int index, DLMS_DATA_TYPE &type);
+    // Returns amount of attributes.
+    int GetAttributeCount();
 
-	int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Returns amount of methods.
+    int GetMethodCount();
 
-	int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-	int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    //Get attribute values of object.
+    void GetValues(std::vector<std::string> &values);
+
+    /////////////////////////////////////////////////////////////////////////
+    // Returns collection of attributes to read.
+    //
+    // If attribute is static and already read or device is returned
+    // HW error it is not returned.
+    //
+    // all: All items are returned even if they are read already.
+    // attributes: Collection of attributes to read.
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
+
+    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
 #endif  //GXDLMSASSOCIATIONLOGICALNAME_H

@@ -46,7 +46,7 @@ CGXChargePerUnitScaling::CGXChargePerUnitScaling() {
  * @return Commodity scale.
  */
 signed char CGXChargePerUnitScaling::GetCommodityScale() {
-	return m_CommodityScale;
+    return m_CommodityScale;
 }
 
 /**
@@ -57,7 +57,7 @@ signed char CGXChargePerUnitScaling::GetCommodityScale() {
  *            Commodity scale.
  */
 void CGXChargePerUnitScaling::SetCommodityScale(signed char value) {
-	m_CommodityScale = value;
+    m_CommodityScale = value;
 }
 
 /**
@@ -67,7 +67,7 @@ void CGXChargePerUnitScaling::SetCommodityScale(signed char value) {
  * @return Price scale.
  */
 signed char CGXChargePerUnitScaling::GetPriceScale() {
-	return m_PriceScale;
+    return m_PriceScale;
 }
 
 /**
@@ -78,12 +78,12 @@ signed char CGXChargePerUnitScaling::GetPriceScale() {
  *            Price scale.
  */
 void CGXChargePerUnitScaling::SetPriceScale(signed char value) {
-	m_PriceScale = value;
+    m_PriceScale = value;
 }
 
 std::string CGXChargePerUnitScaling::ToString() {
-	std::string str = GXHelpers::IntToString(m_CommodityScale);
-	str.append(", ");
-	str = GXHelpers::IntToString(m_PriceScale);
-	return str;
+    std::string str = GXHelpers::IntToString(m_CommodityScale);
+    str.append(", ");
+    str = GXHelpers::IntToString(m_PriceScale);
+    return str;
 }

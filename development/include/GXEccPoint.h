@@ -40,30 +40,30 @@
 /*ECC x and y points in the curve.*/
 class CGXEccPoint {
 public:
-	CGXBigInteger X;
-	CGXBigInteger Y;
+    CGXBigInteger X;
+    CGXBigInteger Y;
 
-	/**
+    /**
      Constructor.
     */
-	CGXEccPoint() {
-	}
+    CGXEccPoint() {
+    }
 
-	/**
+    /**
      Constructor.
     */
-	CGXEccPoint(CGXBigInteger &x, CGXBigInteger &y) {
-		X = x;
-		Y = y;
-	}
+    CGXEccPoint(CGXBigInteger &x, CGXBigInteger &y) {
+        X = x;
+        Y = y;
+    }
 
-	/**
+    /**
      Constructor.
     */
-	CGXEccPoint(int x, int y) {
-		X = CGXBigInteger(x);
-		Y = CGXBigInteger(y);
-	}
+    CGXEccPoint(int x, int y) {
+        X = CGXBigInteger(x);
+        Y = CGXBigInteger(y);
+    }
 };
 
 #endif  //GXEccPoint_H

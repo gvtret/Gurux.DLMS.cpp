@@ -46,87 +46,87 @@ class CGXPkcs10;
 /// </summary>
 class CGXCertificateRequest {
 private:
-	friend class CGXPkcs10;
-	/**
+    friend class CGXPkcs10;
+    /**
      * Certificate type.
      */
-	DLMS_CERTIFICATE_TYPE m_CertificateType;
-	/**
+    DLMS_CERTIFICATE_TYPE m_CertificateType;
+    /**
      * Indicates the purpose for which the certified public key is used.
      */
-	DLMS_EXTENDED_KEY_USAGE m_ExtendedKeyUsage;
-	/**
+    DLMS_EXTENDED_KEY_USAGE m_ExtendedKeyUsage;
+    /**
      * Certificate Signing Request.
      */
-	CGXPkcs10 *m_Certificate;
+    CGXPkcs10 *m_Certificate;
 
 public:
-	/**
+    /**
     * Constructor.
     */
-	CGXCertificateRequest() {
-		m_Certificate = NULL;
-		m_CertificateType = DLMS_CERTIFICATE_TYPE_DIGITAL_SIGNATURE;
-		m_ExtendedKeyUsage = DLMS_EXTENDED_KEY_USAGE_NONE;
-	}
+    CGXCertificateRequest() {
+        m_Certificate = NULL;
+        m_CertificateType = DLMS_CERTIFICATE_TYPE_DIGITAL_SIGNATURE;
+        m_ExtendedKeyUsage = DLMS_EXTENDED_KEY_USAGE_NONE;
+    }
 
-	/**
+    /**
      * Constructor.
      * 
      * certificateType: Certificate type.
      * certificate: PKCS 10 certificate.
      */
-	CGXCertificateRequest(DLMS_CERTIFICATE_TYPE certificateType, CGXPkcs10 *certificate) {
-		m_Certificate = NULL;
-		m_ExtendedKeyUsage = DLMS_EXTENDED_KEY_USAGE_NONE;
-		m_Certificate = certificate;
-		m_CertificateType = certificateType;
-	}
+    CGXCertificateRequest(DLMS_CERTIFICATE_TYPE certificateType, CGXPkcs10 *certificate) {
+        m_Certificate = NULL;
+        m_ExtendedKeyUsage = DLMS_EXTENDED_KEY_USAGE_NONE;
+        m_Certificate = certificate;
+        m_CertificateType = certificateType;
+    }
 
-	/**
+    /**
      * Returns Certificate type.
      */
-	DLMS_CERTIFICATE_TYPE GetCertificateType() {
-		return m_CertificateType;
-	}
+    DLMS_CERTIFICATE_TYPE GetCertificateType() {
+        return m_CertificateType;
+    }
 
-	/**
+    /**
      * value: Certificate type.
      */
-	void SetCertificateType(DLMS_CERTIFICATE_TYPE value) {
-		m_CertificateType = value;
-	}
+    void SetCertificateType(DLMS_CERTIFICATE_TYPE value) {
+        m_CertificateType = value;
+    }
 
-	/**
+    /**
      *
      * @return Indicates the purpose for which the certified public key is used.
      */
-	DLMS_EXTENDED_KEY_USAGE GetExtendedKeyUsage() {
-		return m_ExtendedKeyUsage;
-	}
+    DLMS_EXTENDED_KEY_USAGE GetExtendedKeyUsage() {
+        return m_ExtendedKeyUsage;
+    }
 
-	/**
+    /**
      * value: Indicates the purpose for which 
      *        the certified public key is used.
      */
-	void SetExtendedKeyUsage(DLMS_EXTENDED_KEY_USAGE value) {
-		m_ExtendedKeyUsage = value;
-	}
+    void SetExtendedKeyUsage(DLMS_EXTENDED_KEY_USAGE value) {
+        m_ExtendedKeyUsage = value;
+    }
 
-	/**
+    /**
      *
      * @return Certificate Signing Request.
      */
-	CGXPkcs10 *GetCertificate() {
-		return m_Certificate;
-	}
+    CGXPkcs10 *GetCertificate() {
+        return m_Certificate;
+    }
 
-	/**
+    /**
      * value: Certificate Signing Request.
      */
-	void SetCertificate(CGXPkcs10 *value) {
-		m_Certificate = value;
-	}
+    void SetCertificate(CGXPkcs10 *value) {
+        m_Certificate = value;
+    }
 };
 
 #endif  //GXCERTIFICATEREQUEST_H

@@ -117,6 +117,6 @@ TabWidth: 4
 
 UseCRLF: true
 
-UseTab: ForIndentation  # Tabs vs Spaces = CustomizableCodeView vs ReproducibleCodeView
+UseTab: Never  # Tabs vs Spaces = CustomizableCodeView vs ReproducibleCodeView
 # Spaces argument: A tab could be a different number of columns depending on your environment, but a space is always one column.
 # Tabs argument: They allow developers with different preferences in indentation size to change how the code looks without changing the code.

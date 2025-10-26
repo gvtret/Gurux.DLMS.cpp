@@ -40,10 +40,10 @@
 //This class is used to handle SHA-384.
 class CGXDLMSSha384 {
 private:
-	static void Transform(uint64_t *h, const unsigned char *message, unsigned int messageLength);
+    static void Transform(uint64_t *h, const unsigned char *message, unsigned int messageLength);
 
 public:
-	/*Count hash for the given data.*/
-	static int Hash(CGXByteBuffer &data, CGXByteBuffer &crypted);
+    /*Count hash for the given data.*/
+    static int Hash(CGXByteBuffer &data, CGXByteBuffer &crypted);
 };
 #endif  //GXDLMSSHA384_H

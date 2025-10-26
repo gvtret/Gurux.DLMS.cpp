@@ -59,86 +59,86 @@ const uint64_t sha384_k[] = {0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfe
 #define SHA364_F3(x)      (SHA2_ROTR(x, 1) ^ SHA2_ROTR(x, 8) ^ SHA2_SHFR(x, 7))
 #define SHA364_F4(x)      (SHA2_ROTR(x, 19) ^ SHA2_ROTR(x, 61) ^ SHA2_SHFR(x, 6))
 #define SHA2_UNPACK64(x, str) \
-	{ \
-		*((str) + 7) = (unsigned char)((x)); \
-		*((str) + 6) = (unsigned char)((x) >> 8); \
-		*((str) + 5) = (unsigned char)((x) >> 16); \
-		*((str) + 4) = (unsigned char)((x) >> 24); \
-		*((str) + 3) = (unsigned char)((x) >> 32); \
-		*((str) + 2) = (unsigned char)((x) >> 40); \
-		*((str) + 1) = (unsigned char)((x) >> 48); \
-		*((str) + 0) = (unsigned char)((x) >> 56); \
-	}
+    { \
+        *((str) + 7) = (unsigned char)((x)); \
+        *((str) + 6) = (unsigned char)((x) >> 8); \
+        *((str) + 5) = (unsigned char)((x) >> 16); \
+        *((str) + 4) = (unsigned char)((x) >> 24); \
+        *((str) + 3) = (unsigned char)((x) >> 32); \
+        *((str) + 2) = (unsigned char)((x) >> 40); \
+        *((str) + 1) = (unsigned char)((x) >> 48); \
+        *((str) + 0) = (unsigned char)((x) >> 56); \
+    }
 #define SHA2_PACK64(str, x) \
-	{ \
-		*(x) = ((uint64_t)*((str) + 7)) | ((uint64_t)*((str) + 6) << 8) | ((uint64_t)*((str) + 5) << 16) | ((uint64_t)*((str) + 4) << 24) | \
-		    ((uint64_t)*((str) + 3) << 32) | ((uint64_t)*((str) + 2) << 40) | ((uint64_t)*((str) + 1) << 48) | ((uint64_t)*((str) + 0) << 56); \
-	}
+    { \
+        *(x) = ((uint64_t)*((str) + 7)) | ((uint64_t)*((str) + 6) << 8) | ((uint64_t)*((str) + 5) << 16) | ((uint64_t)*((str) + 4) << 24) | \
+            ((uint64_t)*((str) + 3) << 32) | ((uint64_t)*((str) + 2) << 40) | ((uint64_t)*((str) + 1) << 48) | ((uint64_t)*((str) + 0) << 56); \
+    }
 
 void CGXDLMSSha384::Transform(uint64_t *h, const unsigned char *message, unsigned int messageLength) {
-	uint64_t w[80];
-	uint64_t wv[8];
-	uint64_t t1, t2;
-	unsigned char pos;
-	for (pos = 0; pos < 16; pos++) {
-		SHA2_PACK64(&message[pos << 3], &w[pos]);
-	}
-	for (pos = 16; pos < 80; pos++) {
-		w[pos] = SHA364_F3(w[pos - 15]) + w[pos - 7] + SHA364_F4(w[pos - 2]) + w[pos - 16];
-	}
-	for (pos = 0; pos < 8; pos++) {
-		wv[pos] = h[pos];
-	}
-	for (pos = 0; pos < 80; pos++) {
-		t1 = wv[7] + SHA364_F2(wv[4]) + SHA2_CH(wv[4], wv[5], wv[6]) + sha384_k[pos] + w[pos];
-		t2 = SHA364_F1(wv[0]) + SHA2_MAJ(wv[0], wv[1], wv[2]);
-		wv[7] = wv[6];
-		wv[6] = wv[5];
-		wv[5] = wv[4];
-		wv[4] = wv[3] + t1;
-		wv[3] = wv[2];
-		wv[2] = wv[1];
-		wv[1] = wv[0];
-		wv[0] = t1 + t2;
-	}
-	for (pos = 0; pos < 8; pos++) {
-		h[pos] += wv[pos];
-	}
+    uint64_t w[80];
+    uint64_t wv[8];
+    uint64_t t1, t2;
+    unsigned char pos;
+    for (pos = 0; pos < 16; pos++) {
+        SHA2_PACK64(&message[pos << 3], &w[pos]);
+    }
+    for (pos = 16; pos < 80; pos++) {
+        w[pos] = SHA364_F3(w[pos - 15]) + w[pos - 7] + SHA364_F4(w[pos - 2]) + w[pos - 16];
+    }
+    for (pos = 0; pos < 8; pos++) {
+        wv[pos] = h[pos];
+    }
+    for (pos = 0; pos < 80; pos++) {
+        t1 = wv[7] + SHA364_F2(wv[4]) + SHA2_CH(wv[4], wv[5], wv[6]) + sha384_k[pos] + w[pos];
+        t2 = SHA364_F1(wv[0]) + SHA2_MAJ(wv[0], wv[1], wv[2]);
+        wv[7] = wv[6];
+        wv[6] = wv[5];
+        wv[5] = wv[4];
+        wv[4] = wv[3] + t1;
+        wv[3] = wv[2];
+        wv[2] = wv[1];
+        wv[1] = wv[0];
+        wv[0] = t1 + t2;
+    }
+    for (pos = 0; pos < 8; pos++) {
+        h[pos] += wv[pos];
+    }
 }
 
 int CGXDLMSSha384::Hash(CGXByteBuffer &data, CGXByteBuffer &digest) {
-	uint32_t len = data.GetSize();
-	uint64_t h[8] = {0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939,
-	                 0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4};
-	unsigned char block[128];
-	unsigned char pos, size = sizeof(block);
-	bool bidsAdded = false;
-	bool eofAdded = false;
-	while (!bidsAdded) {
-		if (data.Available() < 128) {
-			size = (unsigned char)data.Available();
-		}
-		memcpy(block, data.GetData() + data.GetPosition(), size);
-		memset(block + size, 0, sizeof(block) - size);
-		if (data.Available() < 128 && !eofAdded) {
-			// Append a bit 1.
-			block[size] = 0x80;
-			eofAdded = true;
-		}
-		if (data.Available() < 112) {
-			bidsAdded = true;
-			//Add bit length to the end of last block.
-			uint64_t len_b = (len) << 3;
-			SHA2_UNPACK64(len_b, block + sizeof(block) - 8);
-		}
-		Transform(h, block, size);
-		data.SetPosition(size + data.GetPosition());
-	}
-	digest.Capacity(48);
-	digest.SetSize(0);
-	for (pos = 0; pos < 6; ++pos) {
-		digest.SetUInt64(h[pos]);
-	}
-	digest.SetSize(48);
-	return 0;
+    uint32_t len = data.GetSize();
+    uint64_t h[8] = {0xcbbb9d5dc1059ed8, 0x629a292a367cd507, 0x9159015a3070dd17, 0x152fecd8f70e5939,
+                     0x67332667ffc00b31, 0x8eb44a8768581511, 0xdb0c2e0d64f98fa7, 0x47b5481dbefa4fa4};
+    unsigned char block[128];
+    unsigned char pos, size = sizeof(block);
+    bool bidsAdded = false;
+    bool eofAdded = false;
+    while (!bidsAdded) {
+        if (data.Available() < 128) {
+            size = (unsigned char)data.Available();
+        }
+        memcpy(block, data.GetData() + data.GetPosition(), size);
+        memset(block + size, 0, sizeof(block) - size);
+        if (data.Available() < 128 && !eofAdded) {
+            // Append a bit 1.
+            block[size] = 0x80;
+            eofAdded = true;
+        }
+        if (data.Available() < 112) {
+            bidsAdded = true;
+            //Add bit length to the end of last block.
+            uint64_t len_b = (len) << 3;
+            SHA2_UNPACK64(len_b, block + sizeof(block) - 8);
+        }
+        Transform(h, block, size);
+        data.SetPosition(size + data.GetPosition());
+    }
+    digest.Capacity(48);
+    digest.SetSize(0);
+    for (pos = 0; pos < 6; ++pos) {
+        digest.SetUInt64(h[pos]);
+    }
+    digest.SetSize(48);
+    return 0;
 }

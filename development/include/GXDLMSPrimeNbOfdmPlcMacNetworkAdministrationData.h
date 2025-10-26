@@ -48,118 +48,118 @@ Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData
 */
 class CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData: public CGXDLMSObject {
-	/**
+    /**
      * List of entries in multicast switching table.
      */
-	std::vector<CGXMacMulticastEntry *> m_MulticastEntries;
-	/**
+    std::vector<CGXMacMulticastEntry *> m_MulticastEntries;
+    /**
      * Switch table.
      */
-	std::vector<short> m_SwitchTable;
+    std::vector<short> m_SwitchTable;
 
-	/**
+    /**
      * List of entries in multicast switching table.
      */
-	std::vector<CGXMacDirectTable *> m_DirectTable;
-	/**
+    std::vector<CGXMacDirectTable *> m_DirectTable;
+    /**
      * List of available switches.
      */
-	std::vector<CGXMacAvailableSwitch *> m_AvailableSwitches;
-	/**
+    std::vector<CGXMacAvailableSwitch *> m_AvailableSwitches;
+    /**
      * List of PHY communication parameters.
      */
-	std::vector<CGXMacPhyCommunication *> m_Communications;
+    std::vector<CGXMacPhyCommunication *> m_Communications;
 
-	int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-	int GetMulticastEntries(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-	int GetSwitchTable(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-	int GetDirectTable(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-	int GetAvailableSwitches(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-	int GetCommunications(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetMulticastEntries(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetSwitchTable(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetDirectTable(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetAvailableSwitches(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetCommunications(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
 
-	int SetMulticastEntry(std::vector<CGXDLMSVariant> &list);
-	int SetSwitchTable(std::vector<CGXDLMSVariant> &list);
-	int SetDirectTable(std::vector<CGXDLMSVariant> &list);
-	int SetAvailableSwitches(std::vector<CGXDLMSVariant> &list);
-	int SetCommunications(std::vector<CGXDLMSVariant> &list);
+    int SetMulticastEntry(std::vector<CGXDLMSVariant> &list);
+    int SetSwitchTable(std::vector<CGXDLMSVariant> &list);
+    int SetDirectTable(std::vector<CGXDLMSVariant> &list);
+    int SetAvailableSwitches(std::vector<CGXDLMSVariant> &list);
+    int SetCommunications(std::vector<CGXDLMSVariant> &list);
 
 public:
-	//Constructor.
-	CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData();
+    //Constructor.
+    CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData();
 
-	//SN Constructor.
-	CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData(std::string ln, unsigned short sn);
+    //SN Constructor.
+    CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData(std::string ln, unsigned short sn);
 
-	//LN Constructor.
-	CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData(std::string ln);
+    //LN Constructor.
+    CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData(std::string ln);
 
-	//Destructor.
-	~CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData();
+    //Destructor.
+    ~CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData();
 
-	/**
+    /**
     * Returns List of entries in multicast switching table.
     */
-	std::vector<CGXMacMulticastEntry *> &GetMulticastEntries();
+    std::vector<CGXMacMulticastEntry *> &GetMulticastEntries();
 
-	/**
+    /**
      * Returns Switch table.
      */
-	std::vector<short> &GetSwitchTable();
+    std::vector<short> &GetSwitchTable();
 
-	/**
+    /**
      * Returns List of entries in multicast switching table.
      */
-	std::vector<CGXMacDirectTable *> &GetDirectTable();
+    std::vector<CGXMacDirectTable *> &GetDirectTable();
 
 
-	/**
+    /**
      * Returns List of available switches.
      */
-	std::vector<CGXMacAvailableSwitch *> &GetAvailableSwitches();
+    std::vector<CGXMacAvailableSwitch *> &GetAvailableSwitches();
 
-	/**
+    /**
      * Returns List of PHY communication parameters.
      */
-	std::vector<CGXMacPhyCommunication *> &GetCommunications();
+    std::vector<CGXMacPhyCommunication *> &GetCommunications();
 
-	int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
 
-	void ClearMulticastEntry();
+    void ClearMulticastEntry();
 
-	void ClearDirectTable();
+    void ClearDirectTable();
 
-	void ClearAvailableSwitches();
+    void ClearAvailableSwitches();
 
-	void ClearCommunications();
+    void ClearCommunications();
 
-	// Returns amount of attributes.
-	int GetAttributeCount();
+    // Returns amount of attributes.
+    int GetAttributeCount();
 
-	// Returns amount of methods.
-	int GetMethodCount();
+    // Returns amount of methods.
+    int GetMethodCount();
 
-	//Get attribute values of object.
-	void GetValues(std::vector<std::string> &values);
+    //Get attribute values of object.
+    void GetValues(std::vector<std::string> &values);
 
-	/////////////////////////////////////////////////////////////////////////
-	// Returns collection of attributes to read.
-	//
-	// If attribute is static and already read or device is returned
-	// HW error it is not returned.
-	//
-	// all: All items are returned even if they are read already.
-	// attributes: Collection of attributes to read.
-	void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    /////////////////////////////////////////////////////////////////////////
+    // Returns collection of attributes to read.
+    //
+    // If attribute is static and already read or device is returned
+    // HW error it is not returned.
+    //
+    // all: All items are returned even if they are read already.
+    // attributes: Collection of attributes to read.
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-	int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-	// Returns value of given attribute.
-	int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Returns value of given attribute.
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-	// Set value of given attribute.
-	int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Set value of given attribute.
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_NETWORK_ADMINISTRATION_DATA
 #endif  //GXDLMSPRIMENBOFDMPLCMACNETWORKADMINISTRATIONDATA_H

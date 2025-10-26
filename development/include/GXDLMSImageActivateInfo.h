@@ -38,42 +38,42 @@
 #include "GXBytebuffer.h"
 
 class CGXDLMSImageActivateInfo {
-	long m_Size;
-	CGXByteBuffer m_Identification;
-	CGXByteBuffer m_Signature;
+    long m_Size;
+    CGXByteBuffer m_Identification;
+    CGXByteBuffer m_Signature;
 
 public:
-	/**
+    /**
      * Constructor.
      */
-	CGXDLMSImageActivateInfo();
+    CGXDLMSImageActivateInfo();
 
-	/**
+    /**
      * Constructor.
      */
-	CGXDLMSImageActivateInfo(long size, CGXByteBuffer &identification, CGXByteBuffer &signature);
+    CGXDLMSImageActivateInfo(long size, CGXByteBuffer &identification, CGXByteBuffer &signature);
 
-	/**
+    /**
      *  Image_size is the size of the Image(s) to be activated.
      *  Expressed in octets;
     */
-	long GetSize();
-	void SetSize(long value);
+    long GetSize();
+    void SetSize(long value);
 
-	/**
+    /**
      * Image identification is the identification of the Image(s)
      * to be activated, and may contain information like
      * manufacturer, device type, version information, etc.
     */
-	CGXByteBuffer &GetIdentification();
-	void SetIdentification(CGXByteBuffer &value);
+    CGXByteBuffer &GetIdentification();
+    void SetIdentification(CGXByteBuffer &value);
 
-	/**
+    /**
      * Image signature is the signature of the Image(s) to be activated.
     */
-	CGXByteBuffer &GetSignature();
-	void SetSignature(CGXByteBuffer &value);
+    CGXByteBuffer &GetSignature();
+    void SetSignature(CGXByteBuffer &value);
 
-	std::string ToString();
+    std::string ToString();
 };
 #endif  //GXDLMSIMAGEACTIVATEINFO_H

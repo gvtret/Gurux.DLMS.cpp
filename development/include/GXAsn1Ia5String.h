@@ -40,34 +40,34 @@
 
 class CGXAsn1Ia5String: public CGXAsn1Base {
 private:
-	std::string m_Ia5String;
+    std::string m_Ia5String;
 
 public:
-	/////////////////////////////////////////////////////////////////////////////
-	// Constructor.
-	/////////////////////////////////////////////////////////////////////////////
-	CGXAsn1Ia5String() {
-	}
+    /////////////////////////////////////////////////////////////////////////////
+    // Constructor.
+    /////////////////////////////////////////////////////////////////////////////
+    CGXAsn1Ia5String() {
+    }
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Constructor.
-	// value: IA5 string.
-	/////////////////////////////////////////////////////////////////////////////
-	CGXAsn1Ia5String(std::string &value) {
-		m_Ia5String = value;
-	}
+    /////////////////////////////////////////////////////////////////////////////
+    // Constructor.
+    // value: IA5 string.
+    /////////////////////////////////////////////////////////////////////////////
+    CGXAsn1Ia5String(std::string &value) {
+        m_Ia5String = value;
+    }
 
-	std::string &GetValue() {
-		return m_Ia5String;
-	}
+    std::string &GetValue() {
+        return m_Ia5String;
+    }
 
-	void SetValue(std::string &value) {
-		m_Ia5String = value;
-	}
+    void SetValue(std::string &value) {
+        m_Ia5String = value;
+    }
 
-	std::string ToString() {
-		return m_Ia5String;
-	}
+    std::string ToString() {
+        return m_Ia5String;
+    }
 };
 
 #endif  //GXASN1IA5STRING_H

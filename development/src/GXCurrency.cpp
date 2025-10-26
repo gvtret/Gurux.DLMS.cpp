@@ -37,15 +37,15 @@
 
 // Constructor.
 CGXCurrency::CGXCurrency() {
-	m_Scale = 0;
-	m_Unit = DLMS_CURRENCY_TIME;
+    m_Scale = 0;
+    m_Unit = DLMS_CURRENCY_TIME;
 };
 
 /**
  * @return Currency name.
  */
 std::string &CGXCurrency::GetName() {
-	return m_Name;
+    return m_Name;
 }
 
 /**
@@ -53,14 +53,14 @@ std::string &CGXCurrency::GetName() {
  *            Currency name.
  */
 void CGXCurrency::SetName(std::string &value) {
-	m_Name = value;
+    m_Name = value;
 }
 
 /**
  * @return Currency scale.
  */
 char CGXCurrency::GetScale() {
-	return m_Scale;
+    return m_Scale;
 }
 
 /**
@@ -68,14 +68,14 @@ char CGXCurrency::GetScale() {
  *            Currency scale.
  */
 void CGXCurrency::SetScale(char value) {
-	m_Scale = value;
+    m_Scale = value;
 }
 
 /**
  * @return Currency unit.
  */
 DLMS_CURRENCY CGXCurrency::GetUnit() {
-	return m_Unit;
+    return m_Unit;
 }
 
 /**
@@ -83,14 +83,14 @@ DLMS_CURRENCY CGXCurrency::GetUnit() {
  *            Currency unit.
  */
 void CGXCurrency::SetUnit(DLMS_CURRENCY value) {
-	m_Unit = value;
+    m_Unit = value;
 }
 
 std::string CGXCurrency::ToString() {
-	std::string str = m_Name;
-	str.append(", ");
-	str.append(GXHelpers::IntToString(m_Scale));
-	str.append(", ");
-	str.append(GXHelpers::IntToString(m_Unit));
-	return str;
+    std::string str = m_Name;
+    str.append(", ");
+    str.append(GXHelpers::IntToString(m_Scale));
+    str.append(", ");
+    str.append(GXHelpers::IntToString(m_Unit));
+    return str;
 }

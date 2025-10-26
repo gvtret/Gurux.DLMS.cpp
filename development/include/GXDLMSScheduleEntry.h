@@ -42,198 +42,198 @@
 */
 class CGXDLMSScheduleEntry {
 private:
-	/**
+    /**
     * Schedule entry index.
     */
-	unsigned short m_Index;
+    unsigned short m_Index;
 
-	/**
+    /**
      * Is Schedule entry enabled.
      */
-	bool m_Enable;
+    bool m_Enable;
 
-	/**
+    /**
      * Logical name of the Script table object.
      */
-	std::string m_LogicalName;
+    std::string m_LogicalName;
 
-	/**
+    /**
      * Script identifier of the script to be executed.
      */
-	unsigned short m_ScriptSelector;
+    unsigned short m_ScriptSelector;
 
-	/**
+    /**
     * Switch time.
     */
-	CGXTime m_SwitchTime;
+    CGXTime m_SwitchTime;
 
-	/**
+    /**
      * Defines a period in minutes, in which an entry shall be processed after
      * power fail.
      */
-	unsigned short m_ValidityWindow;
+    unsigned short m_ValidityWindow;
 
-	/**
+    /**
      * Days of the week on which the entry is valid.
      */
-	DLMS_WEEKDAYS m_ExecWeekdays;
+    DLMS_WEEKDAYS m_ExecWeekdays;
 
-	/**
+    /**
      * Perform the link to the IC Special days table, day_id.
      */
-	std::string m_ExecSpecDays;
+    std::string m_ExecSpecDays;
 
-	/**
+    /**
      * Date starting period in which the entry is valid.
      */
-	CGXDate m_BeginDate;
+    CGXDate m_BeginDate;
 
-	/**
+    /**
      * Date starting period in which the entry is valid.
      */
-	CGXDate m_EndDate;
+    CGXDate m_EndDate;
 
 public:
-	/**
+    /**
      * Get schedule entry index.
      *
      * Returns Entry index.
      */
-	unsigned short GetIndex();
+    unsigned short GetIndex();
 
-	/**
+    /**
      * Set schedule entry index.
      *
      * value:
      *            Entry index.
      */
-	void SetIndex(unsigned short value);
+    void SetIndex(unsigned short value);
 
-	/**
+    /**
      * Is Schedule entry enabled.
      *
      * Returns True, if schedule entry is enabled.
      */
-	bool GetEnable();
+    bool GetEnable();
 
-	/**
+    /**
      * Enable schedule entry.
      *
      * value:
      *            Is Schedule entry enabled.
      */
-	void SetEnable(bool value);
+    void SetEnable(bool value);
 
-	/**
+    /**
      * Returns logical name of the Script table object.
      *
      * Returns Logical name of the Script table object.
      */
-	std::string GetLogicalName();
+    std::string GetLogicalName();
 
-	void SetLogicalName(std::string value);
+    void SetLogicalName(std::string value);
 
-	/**
+    /**
      * Get script identifier of the script to be executed.
      *
      * Returns Script identifier.
      */
-	unsigned short GetScriptSelector();
+    unsigned short GetScriptSelector();
 
-	/**
+    /**
      * Set script identifier of the script to be executed.
      *
      * value:
      *            Script identifier.
      */
-	void SetScriptSelector(unsigned short value);
+    void SetScriptSelector(unsigned short value);
 
-	/**
+    /**
      * Returns Switch time.
      */
-	CGXTime &GetSwitchTime();
+    CGXTime &GetSwitchTime();
 
-	/**
+    /**
      * value: Switch time.
      */
-	void SetSwitchTime(CGXTime &value);
+    void SetSwitchTime(CGXTime &value);
 
-	/**
+    /**
      * Defines a period in minutes, in which an entry shall be processed after
      * power fail.
      *
      * Returns Validity period in minutes.
      */
-	unsigned short GetValidityWindow();
+    unsigned short GetValidityWindow();
 
-	/**
+    /**
      * Defines a period in minutes, in which an entry shall be processed after
      * power fail.
      *
      * value:
      *            Validity period in minutes.
      */
-	void SetValidityWindow(unsigned short value);
+    void SetValidityWindow(unsigned short value);
 
-	/**
+    /**
      * Get days of the week on which the entry is valid.
      *
      * Returns Bit array of valid week days.
      */
-	DLMS_WEEKDAYS GetExecWeekdays();
+    DLMS_WEEKDAYS GetExecWeekdays();
 
-	/**
+    /**
      * Set days of the week on which the entry is valid.
      *
      * value:
      *            Bit array of valid week days.
      */
-	void SetExecWeekdays(DLMS_WEEKDAYS value);
+    void SetExecWeekdays(DLMS_WEEKDAYS value);
 
-	/**
+    /**
      * Perform the link to the IC Special days table.
      *
      * Returns day_id.
      */
-	std::string &GetExecSpecDays();
+    std::string &GetExecSpecDays();
 
-	/**
+    /**
      * Perform the link to the IC Special days table.
      *
      * value:
      *            day_id
      */
-	void SetExecSpecDays(std::string &value);
+    void SetExecSpecDays(std::string &value);
 
-	/**
+    /**
      * Date starting period in which the entry is valid.
      *
      * Returns Begin date.
      */
-	CGXDate &GetBeginDate();
+    CGXDate &GetBeginDate();
 
-	/**
+    /**
      * Date starting period in which the entry is valid.
      *
      * value:
      *            Begin date.
      */
-	void SetBeginDate(CGXDate &value);
+    void SetBeginDate(CGXDate &value);
 
-	/**
+    /**
      * Get date starting period in which the entry is valid.
      *
      * Returns End date.
      */
-	CGXDate &GetEndDate();
+    CGXDate &GetEndDate();
 
-	/**
+    /**
      * Set date starting period in which the entry is valid.
      *
      * value:
      *            End date.
      */
-	void SetEndDate(CGXDate &value);
+    void SetEndDate(CGXDate &value);
 };
 
 #endif  //GXDLMSSCHEDULEENTRY_H

@@ -40,26 +40,26 @@
 
 class CGXDLMSObjectDefinition {
 private:
-	DLMS_OBJECT_TYPE m_ObjectType;
-	std::string m_LogicalName;
+    DLMS_OBJECT_TYPE m_ObjectType;
+    std::string m_LogicalName;
 
 public:
-	DLMS_OBJECT_TYPE GetObjectType();
-	void SetObjectType(DLMS_OBJECT_TYPE value);
+    DLMS_OBJECT_TYPE GetObjectType();
+    void SetObjectType(DLMS_OBJECT_TYPE value);
 
-	std::string GetLogicalName();
-	void SetLogicalName(std::string value);
+    std::string GetLogicalName();
+    void SetLogicalName(std::string value);
 
-	/*
+    /*
      * Constructor
      */
-	CGXDLMSObjectDefinition();
+    CGXDLMSObjectDefinition();
 
-	/*
+    /*
      * Constructor
      */
-	CGXDLMSObjectDefinition(DLMS_OBJECT_TYPE classId, std::string logicalName);
+    CGXDLMSObjectDefinition(DLMS_OBJECT_TYPE classId, std::string logicalName);
 
-	std::string ToString();
+    std::string ToString();
 };
 #endif  //GXDLMSOBJECTDEFINITION_H
