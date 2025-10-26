@@ -27,6 +27,7 @@ set(TEST_SOURCES
     GXByteBufferTest.cpp
     GXAPDUTest.cpp
     GXDLMSVariantTest.cpp
+    GXCipherTest.cpp
 )
 
 # Create test executable

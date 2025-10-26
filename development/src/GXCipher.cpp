@@ -426,7 +426,7 @@ int CGXCipher::Encrypt(
 	                                                          // sprintf("Data: %s\r\n", input.ToHexString().c_str());
 #endif                                                        //defined(_WIN32) || defined(_WIN64) || defined(__linux__)//If Windows or Linux
 #endif                                                        // _DEBUG
-	int ret;
+	int ret = 0;
 	uint32_t aes[61] = {0};
 	unsigned char H[16] = {0};
 	unsigned char J0[16] = {0};
@@ -480,7 +480,7 @@ int CGXCipher::Encrypt(
 			input.IncreaseSize(12);
 		} else {
 			if (memcmp(nonse.GetData(), input.GetData() + input.GetSize(), 12) != 0) {
-				ret = DLMS_ERROR_CODE_INVALID_TAG;
+				return DLMS_ERROR_CODE_INVALID_TAG;
 			}
 		}
 	} else if (security == DLMS_SECURITY_ENCRYPTION) {
@@ -508,7 +508,7 @@ int CGXCipher::Encrypt(
 			input.IncreaseSize(12);
 		} else {
 			if (memcmp(nonse.GetData(), input.GetData() + input.GetSize(), 12) != 0) {
-				ret = DLMS_ERROR_CODE_INVALID_TAG;
+				return DLMS_ERROR_CODE_INVALID_TAG;
 			}
 		}
 	}
@@ -517,19 +517,31 @@ int CGXCipher::Encrypt(
 	}
 	if (encrypt && type == DLMS_COUNT_TYPE_PACKET) {
 		nonse.Clear();
-		if ((ret = nonse.SetUInt8(tag)) == 0) {
-			if (tag == DLMS_COMMAND_GENERAL_GLO_CIPHERING || tag == DLMS_COMMAND_GENERAL_DED_CIPHERING) {
-				GXHelpers::SetObjectCount(8, nonse);
-				nonse.Set(systemTitle.GetData(), 8);
+		if ((ret = nonse.SetUInt8(tag)) != 0) {
+			return ret;
+		}
+		if (tag == DLMS_COMMAND_GENERAL_GLO_CIPHERING || tag == DLMS_COMMAND_GENERAL_DED_CIPHERING) {
+			if ((ret = GXHelpers::SetObjectCount(8, nonse)) != 0) {
+				return ret;
 			}
-			GXHelpers::SetObjectCount(5 + input.GetSize(), nonse);
-			if ((ret = nonse.SetUInt8(security | suite)) == 0 && (ret = nonse.SetUInt32(frameCounter)) == 0) {
-				input.Move(0, nonse.GetSize(), input.GetSize());
-				memcpy(input.GetData(), nonse.GetData(), nonse.GetSize());
+			ret = nonse.Set(systemTitle.GetData(), 8);
+			if (ret != 0) {
+				return ret;
 			}
 		}
+		if ((ret = GXHelpers::SetObjectCount(5 + input.GetSize(), nonse)) != 0) {
+			return ret;
+		}
+		if ((ret = nonse.SetUInt8(security | suite)) != 0) {
+			return ret;
+		}
+		if ((ret = nonse.SetUInt32(frameCounter)) != 0) {
+			return ret;
+		}
+		input.Move(0, nonse.GetSize(), input.GetSize());
+		memcpy(input.GetData(), nonse.GetData(), nonse.GetSize());
 	}
-	return 0;
+	return ret;
 }
 
 int CGXCipher::Decrypt(
