@@ -320,8 +320,8 @@ int CGXAPDU::Parse(
             xml->AppendStartTag(DLMS_COMMAND_INITIATE_RESPONSE);
         }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-        // Optional usage field of the negotiated quality of service
-        // component
+    // Optional usage field of the negotiated quality of service
+    // component
         if ((ret = data.GetUInt8(&tag)) != 0) {
             return ret;
         }
@@ -344,8 +344,8 @@ int CGXAPDU::Parse(
         if (xml != NULL) {
             xml->AppendStartTag(DLMS_COMMAND_INITIATE_REQUEST);
         }
-#endif  //DLMS_IGNORE_XML_TRANSLATOR
-        //Optional usage field of dedicated key.
+#endif  //DLMS_IGNORE_XML_TRANSLATOR \
+    //Optional usage field of dedicated key.
         if ((ret = data.GetUInt8(&tag)) != 0) {
             return ret;
         }
@@ -567,8 +567,8 @@ int CGXAPDU::Parse(
             xml->IntegerToHex((int32_t)pduSize, 4, str);
             xml->AppendLine(TRANSLATOR_GENERAL_TAGS_PROPOSED_MAX_PDU_SIZE, "", str);
         }
-#endif  //DLMS_IGNORE_XML_TRANSLATOR
-        //If client asks too high PDU.
+#endif  //DLMS_IGNORE_XML_TRANSLATOR \
+    //If client asks too high PDU.
         if (pduSize > settings.GetMaxServerPDUSize()) {
             settings.SetMaxReceivePDUSize(settings.GetMaxServerPDUSize());
         }

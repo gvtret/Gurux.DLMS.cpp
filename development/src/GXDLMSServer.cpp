@@ -252,8 +252,9 @@ int CGXDLMSServer::Initialize() {
     if (associationObject == NULL) {
         if (GetUseLogicalNameReferencing()) {
 #ifndef DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
-            CGXDLMSAssociationLogicalName *it2 = (CGXDLMSAssociationLogicalName *
-            )CGXDLMSObjectFactory::CreateObject(DLMS_OBJECT_TYPE_ASSOCIATION_LOGICAL_NAME);
+            CGXDLMSAssociationLogicalName *it2 = (CGXDLMSAssociationLogicalName *)CGXDLMSObjectFactory::CreateObject(
+                DLMS_OBJECT_TYPE_ASSOCIATION_LOGICAL_NAME
+            );
             CGXDLMSObjectCollection &list = it2->GetObjectList();
             GetItems().push_back(it2);
             list.insert(list.end(), GetItems().begin(), GetItems().end());
@@ -269,8 +270,9 @@ int CGXDLMSServer::Initialize() {
 #endif  //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
         } else {
 #ifndef DLMS_IGNORE_ASSOCIATION_SHORT_NAME
-            CGXDLMSAssociationShortName *it2 = (CGXDLMSAssociationShortName *
-            )CGXDLMSObjectFactory::CreateObject(DLMS_OBJECT_TYPE_ASSOCIATION_SHORT_NAME);
+            CGXDLMSAssociationShortName *it2 = (CGXDLMSAssociationShortName *)CGXDLMSObjectFactory::CreateObject(
+                DLMS_OBJECT_TYPE_ASSOCIATION_SHORT_NAME
+            );
             CGXDLMSObjectCollection &list = it2->GetObjectList();
             GetItems().push_back(it2);
             list.insert(list.end(), GetItems().begin(), GetItems().end());

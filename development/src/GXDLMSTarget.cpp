@@ -34,7 +34,7 @@
 
 #include "../include/GXDLMSTarget.h"
 
-CGXDLMSTarget::CGXDLMSTarget(): m_Target(NULL), m_AttributeIndex(0), m_DataIndex(0) {};
+CGXDLMSTarget::CGXDLMSTarget(): m_Target(NULL), m_AttributeIndex(0), m_DataIndex(0){};
 
 CGXDLMSTarget::~CGXDLMSTarget() {
     Clear();
