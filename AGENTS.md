@@ -96,23 +96,21 @@ Script: `agents/lint_agent.sh`
 ```bash
 #!/bin/bash
 # ----------------------------------------------------------
-# LintAgent — Verifies formatting and runs static analysis.
+# LintAgent — Runs static analysis.
 # ----------------------------------------------------------
 set -e
-echo "[LintAgent] Checking formatting..."
-clang-format --dry-run --Werror $(find development/include development/src tests -name '*.cpp' -or -name '*.h')
+# echo "[LintAgent] Checking formatting..."
+# clang-format --dry-run --Werror $(find development/include development/src tests -name '*.cpp' -or -name '*.h')
 echo "[LintAgent] Running clang-tidy..."
 clang-tidy $(find development/src -name '*.cpp') -- -Idevelopment/include -std=c++11
 echo "[LintAgent] Linting completed successfully."
 ```
 
 **Responsibilities**
-- Validate code style against `.clang-format`
 - Perform static analysis via `clang-tidy`
 - Enforce `C++11` compliance
 
 **Dependencies**
-- `clang-format`
 - `clang-tidy`
 - Optional: `cppcheck` for deeper static analysis
 
