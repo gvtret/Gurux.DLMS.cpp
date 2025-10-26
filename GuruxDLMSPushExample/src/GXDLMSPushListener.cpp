@@ -54,12 +54,13 @@
 #include <errno.h>
 #endif
 
+#include <string>
+#include <vector>
+
 #include "../include/GXDLMSPushListener.h"
 #include "../../development/include/GXDLMSData.h"
 #include "../../development/include/GXDLMSTranslator.h"
 #include "../../development/include/GXDLMSClock.h"
-
-using namespace std;
 
 void ListenerThread(void* pVoid)
 {
@@ -83,7 +84,7 @@ void ListenerThread(void* pVoid)
     struct sockaddr_in client;
     memset(&client, 0, sizeof(client));
     //Get buffer data
-    basic_string<char> senderInfo;
+    std::string senderInfo;
 
     /**
     * Received data. This is used if GBT is used and data is received on
@@ -193,7 +194,7 @@ void ListenerThread(void* pVoid)
                             result.clear();
                         }
                         //Show data as XML.
-                        string xml;
+                        std::string xml;
                         CGXDLMSTranslator t(DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML);
                         t.DataToXml(notify.GetData(), xml);
                         printf(xml.c_str());                       
