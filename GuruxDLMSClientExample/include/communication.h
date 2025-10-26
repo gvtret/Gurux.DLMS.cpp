@@ -70,8 +70,9 @@
 
 class CGXCommunication
 {
-    GX_TRACE_LEVEL m_Trace;
     CGXDLMSSecureClient* m_Parser;
+    uint16_t m_WaitTime;
+    GX_TRACE_LEVEL m_Trace;
     int m_socket;
     static const unsigned int RECEIVE_BUFFER_SIZE = 200;
     unsigned char   m_Receivebuff[RECEIVE_BUFFER_SIZE];
@@ -83,7 +84,6 @@ class CGXCommunication
 #else
     int             m_hComPort;
 #endif
-    uint16_t m_WaitTime;
     int Read(unsigned char eop, CGXByteBuffer& reply, uint16_t waitTime = 0);
     /// Read Invocation counter (frame counter) from the meter and update it.
     int UpdateFrameCounter();

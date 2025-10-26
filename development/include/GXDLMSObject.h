@@ -136,7 +136,7 @@ public:
     void SetDescription(std::string &value);
 
     //Get values as std::string.
-    virtual void GetValues(std::vector<std::string> &values) {
+    virtual void GetValues(std::vector<std::string> &/*values*/) {
         assert(0);
     }
 
@@ -148,7 +148,7 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    virtual void GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+    virtual void GetAttributeIndexToRead(bool /*all*/, std::vector<int>& /*attributes*/) {
         assert(0);
     }
 
@@ -177,19 +177,19 @@ public:
     }
 
     // Returns value of given attribute.
-    virtual int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    virtual int GetValue(CGXDLMSSettings &/*settings*/, CGXDLMSValueEventArg &e) {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         return DLMS_ERROR_CODE_OK;
     }
 
     // Set value of given attribute.
-    virtual int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    virtual int SetValue(CGXDLMSSettings &/*settings*/, CGXDLMSValueEventArg &e) {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         return DLMS_ERROR_CODE_OK;
     }
 
     // Set value of given attribute.
-    virtual int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    virtual int Invoke(CGXDLMSSettings &/*settings*/, CGXDLMSValueEventArg &e) {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         return DLMS_ERROR_CODE_OK;
     }
