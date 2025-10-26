@@ -20,6 +20,8 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+include(GoogleTest)
+
 # Test source files
 set(TEST_SOURCES
     GXByteBufferTest.cpp
@@ -42,14 +44,15 @@ target_include_directories(gurux_tests
     ${CMAKE_SOURCE_DIR}/tests
 )
 
-# Add test to CTest
-# gtest_discover_tests(gurux_tests
-#     EXTRA_ARGS --gtest_output=xml:${CMAKE_BINARY_DIR}/test_results.xml
-# )
+# Automatically register tests with CTest
+gtest_discover_tests(gurux_tests
+    DISCOVERY_TIMEOUT 30
+    EXTRA_ARGS --gtest_output=xml:${CMAKE_BINARY_DIR}/test_results.xml
+)
 
-# Add custom test target for convenience
-# add_custom_target(run_tests
-#     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-#     DEPENDS gurux_tests
-#     COMMENT "Running unit tests..."
-# )
+# Optional custom target to run tests directly
+add_custom_target(run_tests
+    COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+    DEPENDS gurux_tests
+    COMMENT "Running unit tests..."
+)
