@@ -1514,7 +1514,7 @@ int CGXDLMSVariant::GetBytes(CGXByteBuffer& value)
     }
     else if (vt == DLMS_DATA_TYPE_UINT8)
     {
-        value.SetUInt8(cVal);
+        value.SetUInt8(bVal);
     }
     else if (vt == DLMS_DATA_TYPE_UINT16)
     {
@@ -1530,7 +1530,7 @@ int CGXDLMSVariant::GetBytes(CGXByteBuffer& value)
     }
     else if (vt == DLMS_DATA_TYPE_INT8)
     {
-        value.SetInt8(bVal);
+        value.SetInt8(cVal);
     }
     else if (vt == DLMS_DATA_TYPE_INT16)
     {
