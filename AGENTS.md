@@ -150,6 +150,7 @@ echo "[DocAgent] Documentation generated at build/docs/html"
 
 **Dependencies**
 - `doxygen`
+- `dot`
 - `graphviz` (for class and call graphs)
 - `plantuml` (optional)
 
