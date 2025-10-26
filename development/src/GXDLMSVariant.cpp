@@ -45,7 +45,7 @@ int CGXDLMSVariant::Convert(CGXDLMSVariant* item, DLMS_DATA_TYPE type)
         return DLMS_ERROR_CODE_OK;
     }
     CGXDLMSVariant tmp(item);
-    if (type == DLMS_DATA_TYPE_STRING)
+    if (type == DLMS_DATA_TYPE_STRING || type == DLMS_DATA_TYPE_STRING_UTF8)
     {
         item->Clear();
         if (tmp.vt == DLMS_DATA_TYPE_ARRAY || tmp.vt == DLMS_DATA_TYPE_STRUCTURE)
@@ -67,6 +67,18 @@ int CGXDLMSVariant::Convert(CGXDLMSVariant* item, DLMS_DATA_TYPE type)
             }
             sb << "}";
             item->strVal = sb.str();
+            item->vt = type;
+            return DLMS_ERROR_CODE_OK;
+        }
+        if (tmp.vt == DLMS_DATA_TYPE_STRING_UTF8)
+        {
+            item->strVal = tmp.strVal;
+            item->vt = type;
+            return DLMS_ERROR_CODE_OK;
+        }
+        if (tmp.vt == DLMS_DATA_TYPE_STRING && type == DLMS_DATA_TYPE_STRING_UTF8)
+        {
+            item->strVal = tmp.strVal;
             item->vt = type;
             return DLMS_ERROR_CODE_OK;
         }
@@ -632,7 +644,9 @@ CGXDLMSVariant::CGXDLMSVariant(
     std::wstring value)
 {
     vt = DLMS_DATA_TYPE_STRING_UTF8;
-    //TODO: strVal = value;
+    byteArr = NULL;
+    size = 0;
+    strVal = GXHelpers::WideToUtf8(value);
 }
 
 CGXDLMSVariant::CGXDLMSVariant(unsigned char* value, int count)
@@ -975,9 +989,30 @@ int CGXDLMSVariant::ChangeType(DLMS_DATA_TYPE newType)
     {
         return Convert(this, newType);
     }
+    if (vt == DLMS_DATA_TYPE_STRING_UTF8)
+    {
+        if (newType == DLMS_DATA_TYPE_STRING_UTF8)
+        {
+            return DLMS_ERROR_CODE_OK;
+        }
+        if (newType == DLMS_DATA_TYPE_STRING)
+        {
+            vt = DLMS_DATA_TYPE_STRING;
+            return DLMS_ERROR_CODE_OK;
+        }
+        CGXDLMSVariant tmp(this);
+        tmp.vt = DLMS_DATA_TYPE_STRING;
+        int ret = tmp.ChangeType(newType);
+        if (ret == DLMS_ERROR_CODE_OK)
+        {
+            *this = tmp;
+        }
+        return ret;
+    }
     switch (newType)
     {
     case DLMS_DATA_TYPE_STRING:
+    case DLMS_DATA_TYPE_STRING_UTF8:
     case DLMS_DATA_TYPE_BOOLEAN:
     case DLMS_DATA_TYPE_INT32:
     case DLMS_DATA_TYPE_UINT32:
@@ -1299,6 +1334,10 @@ int CGXDLMSVariant::GetSize(DLMS_DATA_TYPE vt)
 
 std::string CGXDLMSVariant::ToString()
 {
+    if (vt == DLMS_DATA_TYPE_STRING_UTF8)
+    {
+        return strVal;
+    }
     CGXDLMSVariant tmp(this);
     tmp.ChangeType(DLMS_DATA_TYPE_STRING);
     if (tmp.strVal.length() == 0)
@@ -1508,6 +1547,10 @@ int CGXDLMSVariant::GetBytes(CGXByteBuffer& value)
     else if (vt == DLMS_DATA_TYPE_STRING)
     {
         value.AddString(strVal.c_str());
+    }
+    else if (vt == DLMS_DATA_TYPE_STRING_UTF8)
+    {
+        value.AddString(strVal);
     }
     else if (vt == DLMS_DATA_TYPE_FLOAT32)
     {

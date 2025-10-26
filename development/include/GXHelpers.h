@@ -163,6 +163,11 @@ public:
 
     static bool EndsWith(const std::string& value, const std::string& ending);
 
+    /**
+     * Convert wide string to UTF-8 encoded std::string.
+     */
+    static std::string WideToUtf8(const std::wstring& value);
+
     /////////////////////////////////////////////////////////////////////////////
     // Trim from start.
     /////////////////////////////////////////////////////////////////////////////
