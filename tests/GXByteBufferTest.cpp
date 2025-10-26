@@ -350,8 +350,3 @@ TEST_F(GXByteBufferTest, HexStringOperations) {
     // Format might vary based on GXHelpers implementation
     EXPECT_FALSE(hexWithSpaces.empty());
 }
-
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
