@@ -96,6 +96,8 @@ int CGXAPDU::GenerateApplicationContextName(
     CGXByteBuffer& data,
     CGXCipher* cipher)
 {
+    CGXCipher* settingsCipher = settings.GetCipher();
+    CGXCipher* activeCipher = cipher != NULL ? cipher : settingsCipher;
     //ProtocolVersion
     if (settings.GetProtocolVersion() != NULL)
     {
@@ -112,7 +114,7 @@ int CGXAPDU::GenerateApplicationContextName(
     data.SetUInt8(BER_TYPE_OBJECT_IDENTIFIER);
     // Len
     data.SetUInt8(0x07);
-    bool ciphered = cipher != NULL && cipher->IsCiphered();
+    bool ciphered = activeCipher != NULL && activeCipher->IsCiphered();
 
     data.SetUInt8(0x60);
     data.SetUInt8(0x85);
@@ -135,18 +137,22 @@ int CGXAPDU::GenerateApplicationContextName(
             settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_SHA256 ||
             settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_ECDSA))
     {
-        if (cipher->GetSystemTitle().GetSize() == 0)
+        if (activeCipher == NULL)
+        {
+            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
+        if (activeCipher->GetSystemTitle().GetSize() == 0)
         {
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
         // Add calling-AP-title
         data.SetUInt8((BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | 6));
         // LEN
-        GXHelpers::SetObjectCount(2 + cipher->GetSystemTitle().GetSize(), data);
+        GXHelpers::SetObjectCount(2 + activeCipher->GetSystemTitle().GetSize(), data);
         data.SetUInt8(BER_TYPE_OCTET_STRING);
         // LEN
-        GXHelpers::SetObjectCount(cipher->GetSystemTitle().GetSize(), data);
-        data.Set(cipher->GetSystemTitle().GetData(), cipher->GetSystemTitle().GetSize());
+        GXHelpers::SetObjectCount(activeCipher->GetSystemTitle().GetSize(), data);
+        data.Set(activeCipher->GetSystemTitle().GetData(), activeCipher->GetSystemTitle().GetSize());
         unsigned long len = settings.GetClientPublicKeyCertificate().m_RawData.GetSize();
         if (len != 0)
         {
@@ -161,7 +167,8 @@ int CGXAPDU::GenerateApplicationContextName(
         }
     }
     //Add CallingAEInvocationId.
-    if (!settings.IsServer() && settings.GetUserID() != 0 && settings.GetCipher()->GetSecurity() != DLMS_SECURITY_NONE)
+    if (!settings.IsServer() && settings.GetUserID() != 0 &&
+        settingsCipher != NULL && settingsCipher->GetSecurity() != DLMS_SECURITY_NONE)
     {
         data.SetUInt8(BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | PDU_TYPE_CALLING_AE_INVOCATION_ID);
         //LEN

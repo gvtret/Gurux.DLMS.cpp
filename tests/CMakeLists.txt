@@ -25,6 +25,7 @@ include(GoogleTest)
 # Test source files
 set(TEST_SOURCES
     GXByteBufferTest.cpp
+    GXAPDUTest.cpp
 )
 
 # Create test executable
