@@ -44,8 +44,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSArbitrator
 */
-class CGXDLMSArbitrator : public CGXDLMSObject
-{
+class CGXDLMSArbitrator: public CGXDLMSObject {
     /**
     * Requested actions.
     */
@@ -59,7 +58,7 @@ class CGXDLMSArbitrator : public CGXDLMSObject
      * Weight allocated for each actor and to each possible action of that
      * actor.
      */
-    std::vector< std::vector<uint16_t> > m_WeightingsTable;
+    std::vector<std::vector<uint16_t>> m_WeightingsTable;
     /**
      * The most recent requests of each actor.
      */
@@ -68,6 +67,7 @@ class CGXDLMSArbitrator : public CGXDLMSObject
      * The number identifies a bit in the Actions.
      */
     unsigned char m_LastOutcome;
+
 public:
     //Constructor.
     CGXDLMSArbitrator();
@@ -81,16 +81,14 @@ public:
     /**
      * Requested actions.
      */
-    std::vector<CGXDLMSActionItem>& GetActions()
-    {
+    std::vector<CGXDLMSActionItem> &GetActions() {
         return m_Actions;
     }
 
     /**
      * Permissions for each actor to request actions.
      */
-    std::vector<std::string>& GetPermissionsTable()
-    {
+    std::vector<std::string> &GetPermissionsTable() {
         return m_PermissionsTable;
     }
 
@@ -98,28 +96,25 @@ public:
      * Weight allocated for each actor and to each possible action of
      *         that actor.
      */
-    std::vector< std::vector<uint16_t> >& GetWeightingsTable()
-    {
+    std::vector<std::vector<uint16_t>> &GetWeightingsTable() {
         return m_WeightingsTable;
     }
 
     /**
      * The most recent requests of each actor.
      */
-    std::vector<std::string>& GetMostRecentRequestsTable()
-    {
+    std::vector<std::string> &GetMostRecentRequestsTable() {
         return m_MostRecentRequestsTable;
     }
 
     /**
      * The number identifies a bit in the Actions.
      */
-    unsigned char GetLastOutcome()
-    {
+    unsigned char GetLastOutcome() {
         return m_LastOutcome;
     }
-    void SetLastOutcome(unsigned char value)
-    {
+
+    void SetLastOutcome(unsigned char value) {
         m_LastOutcome = value;
     }
 
@@ -130,7 +125,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -140,15 +135,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_ARBITRATOR
-#endif //GXDLMSArbitrator_H
+#endif  //DLMS_IGNORE_ARBITRATOR
+#endif  //GXDLMSArbitrator_H

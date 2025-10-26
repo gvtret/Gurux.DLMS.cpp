@@ -39,12 +39,10 @@
 #ifndef DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS
 #include "GXDLMSObject.h"
 
-
 /**
  * Present functional state of the node.
  */
-typedef enum
-{
+typedef enum {
     /**
     * Disconnected.
     */
@@ -61,14 +59,12 @@ typedef enum
     * Base.
     */
     DLMS_MAC_STATE_BASE
-}DLMS_MAC_STATE;
-
+} DLMS_MAC_STATE;
 
 /**
  * Present functional state of the node.
  */
-typedef enum
-{
+typedef enum {
     DLMS_MAC_CAPABILITIES_NONE = 0,
     /**
     * Switch capable.
@@ -118,15 +114,13 @@ typedef enum
     * ARQ Buffering Switching Capability.
     */
     DLMS_MAC_CAPABILITIES_ARQ_BUFFERING_SWITCHING_CAPABILITY = 0x800
-}
-DLMS_MAC_CAPABILITIES;
+} DLMS_MAC_CAPABILITIES;
 
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPrimeNbOfdmPlcMacFunctionalParameters
 */
-class CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters : public CGXDLMSObject
-{
+class CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters: public CGXDLMSObject {
     /*
     * LNID allocated to this node at time of its registration.
     */
@@ -233,13 +227,13 @@ public:
     /*
      * Returns Subnetwork address to which this node is registered.
      */
-    CGXByteBuffer& GetSna();
+    CGXByteBuffer &GetSna();
 
     /*
      * value:
      *            Subnetwork address to which this node is registered.
      */
-    void SetSna(CGXByteBuffer& value);
+    void SetSna(CGXByteBuffer &value);
 
     /*
      * Returns Present functional state of the node.
@@ -347,7 +341,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -357,15 +351,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS
-#endif //GXDLMSPrimeNbOfdmPlcMacFunctionalParameters_H
+#endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS
+#endif  //GXDLMSPrimeNbOfdmPlcMacFunctionalParameters_H

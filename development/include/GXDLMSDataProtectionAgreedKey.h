@@ -41,8 +41,7 @@
 /**
     Data protection agreed key.
 */
-class CGXDLMSDataProtectionAgreedKey
-{
+class CGXDLMSDataProtectionAgreedKey {
 private:
     /**
      * Key parameters.
@@ -53,22 +52,20 @@ private:
      * Key ciphered data.
      */
     CGXByteBuffer m_Data;
+
 public:
-    CGXByteBuffer& GetParameters()
-    {
+    CGXByteBuffer &GetParameters() {
         return m_Parameters;
     }
 
-    void SetParameters(CGXByteBuffer& value)
-    {
+    void SetParameters(CGXByteBuffer &value) {
         m_Parameters = value;
     }
 
     /**
      * @return Key ciphered data.
      */
-    CGXByteBuffer& GetData()
-    {
+    CGXByteBuffer &GetData() {
         return m_Data;
     }
 
@@ -76,13 +73,11 @@ public:
      * @param value
      *            Key ciphered data.
      */
-    void SetData(CGXByteBuffer& value)
-    {
+    void SetData(CGXByteBuffer &value) {
         m_Data = value;
     }
 
-    std::string ToString()
-    {
+    std::string ToString() {
         std::string str;
         str += m_Parameters.ToString();
         str += ", ";
@@ -90,5 +85,5 @@ public:
         return str;
     }
 };
-#endif //DLMS_IGNORE_PUSH_SETUP
-#endif //GXDLMSDATAPROTECTIONAGREEDKEY_H
+#endif  //DLMS_IGNORE_PUSH_SETUP
+#endif  //GXDLMSDATAPROTECTIONAGREEDKEY_H

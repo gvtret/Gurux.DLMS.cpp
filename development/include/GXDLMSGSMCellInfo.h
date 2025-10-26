@@ -153,4 +153,4 @@ public:
     std::string ToString();
 };
 
-#endif //GXDLMSGSMCELLINFO_H
+#endif  //GXDLMSGSMCELLINFO_H

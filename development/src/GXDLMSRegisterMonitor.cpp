@@ -36,69 +36,55 @@
 #include "../include/GXDLMSClient.h"
 
 #ifndef DLMS_IGNORE_REGISTER_MONITOR
-CGXDLMSRegisterMonitor::CGXDLMSRegisterMonitor() :
-    CGXDLMSRegisterMonitor("", 0)
-{
+CGXDLMSRegisterMonitor::CGXDLMSRegisterMonitor(): CGXDLMSRegisterMonitor("", 0) {
 }
 
-
-CGXDLMSRegisterMonitor::CGXDLMSRegisterMonitor(std::string ln) :
-    CGXDLMSRegisterMonitor(ln, 0)
-{
+CGXDLMSRegisterMonitor::CGXDLMSRegisterMonitor(std::string ln): CGXDLMSRegisterMonitor(ln, 0) {
 }
 
-CGXDLMSRegisterMonitor::CGXDLMSRegisterMonitor(std::string ln, unsigned short sn) :
-    CGXDLMSObject(DLMS_OBJECT_TYPE_REGISTER_MONITOR, ln, sn)
-{
+CGXDLMSRegisterMonitor::CGXDLMSRegisterMonitor(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_REGISTER_MONITOR, ln, sn) {
 }
 
-CGXDLMSRegisterMonitor::~CGXDLMSRegisterMonitor()
-{
-    for (std::vector<CGXDLMSActionSet*>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it)
-    {
+CGXDLMSRegisterMonitor::~CGXDLMSRegisterMonitor() {
+    for (std::vector<CGXDLMSActionSet *>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it) {
         delete *it;
     }
     m_Actions.clear();
     m_Thresholds.clear();
 }
 
-std::vector<CGXDLMSVariant>& CGXDLMSRegisterMonitor::GetThresholds()
-{
+std::vector<CGXDLMSVariant> &CGXDLMSRegisterMonitor::GetThresholds() {
     return m_Thresholds;
 }
-void CGXDLMSRegisterMonitor::SetThresholds(std::vector<CGXDLMSVariant>& value)
-{
+
+void CGXDLMSRegisterMonitor::SetThresholds(std::vector<CGXDLMSVariant> &value) {
     m_Thresholds = value;
 }
 
-CGXDLMSMonitoredValue& CGXDLMSRegisterMonitor::GetMonitoredValue()
-{
+CGXDLMSMonitoredValue &CGXDLMSRegisterMonitor::GetMonitoredValue() {
     return m_MonitoredValue;
 }
-void CGXDLMSRegisterMonitor::SetMonitoredValue(CGXDLMSMonitoredValue& value)
-{
+
+void CGXDLMSRegisterMonitor::SetMonitoredValue(CGXDLMSMonitoredValue &value) {
     m_MonitoredValue = value;
 }
 
-std::vector<CGXDLMSActionSet*>& CGXDLMSRegisterMonitor::GetActions()
-{
+std::vector<CGXDLMSActionSet *> &CGXDLMSRegisterMonitor::GetActions() {
     return m_Actions;
 }
 
 // Returns amount of attributes.
-int CGXDLMSRegisterMonitor::GetAttributeCount()
-{
+int CGXDLMSRegisterMonitor::GetAttributeCount() {
     return 4;
 }
 
 // Returns amount of methods.
-int CGXDLMSRegisterMonitor::GetMethodCount()
-{
+int CGXDLMSRegisterMonitor::GetMethodCount() {
     return 0;
 }
 
-void CGXDLMSRegisterMonitor::GetValues(std::vector<std::string>& values)
-{
+void CGXDLMSRegisterMonitor::GetValues(std::vector<std::string> &values) {
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -106,10 +92,8 @@ void CGXDLMSRegisterMonitor::GetValues(std::vector<std::string>& values)
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<CGXDLMSVariant>::iterator it = m_Thresholds.begin(); it != m_Thresholds.end(); ++it)
-    {
-        if (!empty)
-        {
+    for (std::vector<CGXDLMSVariant>::iterator it = m_Thresholds.begin(); it != m_Thresholds.end(); ++it) {
+        if (!empty) {
             sb << ", ";
         }
         empty = false;
@@ -124,10 +108,8 @@ void CGXDLMSRegisterMonitor::GetValues(std::vector<std::string>& values)
     sb.str(std::string());
     sb << '[';
     empty = true;
-    for (std::vector<CGXDLMSActionSet*>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it)
-    {
-        if (!empty)
-        {
+    for (std::vector<CGXDLMSActionSet *>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it) {
+        if (!empty) {
             sb << ", ";
         }
         empty = false;
@@ -138,49 +120,39 @@ void CGXDLMSRegisterMonitor::GetValues(std::vector<std::string>& values)
     values.push_back(sb.str());
 }
 
-void CGXDLMSRegisterMonitor::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
-{
+void CGXDLMSRegisterMonitor::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
-    {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
         attributes.push_back(1);
     }
     //Thresholds
-    if (all || !IsRead(2))
-    {
+    if (all || !IsRead(2)) {
         attributes.push_back(2);
     }
     //MonitoredValue
-    if (all || !IsRead(3))
-    {
+    if (all || !IsRead(3)) {
         attributes.push_back(3);
     }
     //Actions
-    if (all || !IsRead(4))
-    {
+    if (all || !IsRead(4)) {
         attributes.push_back(4);
     }
 }
 
-int CGXDLMSRegisterMonitor::GetDataType(int index, DLMS_DATA_TYPE& type)
-{
-    if (index == 1)
-    {
+int CGXDLMSRegisterMonitor::GetDataType(int index, DLMS_DATA_TYPE &type) {
+    if (index == 1) {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 2)
-    {
+    if (index == 2) {
         type = DLMS_DATA_TYPE_ARRAY;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 3)
-    {
+    if (index == 3) {
         type = DLMS_DATA_TYPE_ARRAY;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 4)
-    {
+    if (index == 4) {
         type = DLMS_DATA_TYPE_ARRAY;
         return DLMS_ERROR_CODE_OK;
     }
@@ -190,42 +162,35 @@ int CGXDLMSRegisterMonitor::GetDataType(int index, DLMS_DATA_TYPE& type)
 /*
  * Returns value of given attribute.
  */
-int CGXDLMSRegisterMonitor::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
+int CGXDLMSRegisterMonitor::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
     CGXByteBuffer data;
     CGXDLMSVariant ln;
-    if (e.GetIndex() == 1)
-    {
+    if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0)
-        {
+        if ((ret = GetLogicalName(this, tmp)) != 0) {
             return ret;
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 2)
-    {
+    if (e.GetIndex() == 2) {
         e.SetByteArray(true);
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         //Add count
         GXHelpers::SetObjectCount((unsigned long)m_Thresholds.size(), data);
         int ret;
         CGXDLMSVariant tmp;
-        for (std::vector<CGXDLMSVariant>::iterator it = m_Thresholds.begin(); it != m_Thresholds.end(); ++it)
-        {
+        for (std::vector<CGXDLMSVariant>::iterator it = m_Thresholds.begin(); it != m_Thresholds.end(); ++it) {
             tmp = *it;
-            if ((ret = GXHelpers::SetData(&settings, data, it->vt, tmp)) != 0)
-            {
+            if ((ret = GXHelpers::SetData(&settings, data, it->vt, tmp)) != 0) {
                 return ret;
             }
         }
         e.SetValue(data);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 3)
-    {
+    if (e.GetIndex() == 3) {
         e.SetByteArray(true);
         data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
         data.SetUInt8(3);
@@ -234,24 +199,21 @@ int CGXDLMSRegisterMonitor::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEven
         CGXDLMSVariant type = m_MonitoredValue.GetObjectType();
         CGXDLMSVariant index = m_MonitoredValue.GetAttributeIndex();
         if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, type)) != DLMS_ERROR_CODE_OK ||  //ClassID
-            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, ln)) != DLMS_ERROR_CODE_OK || //LN
-            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_INT8, index)) != DLMS_ERROR_CODE_OK)
-        {
+            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, ln)) != DLMS_ERROR_CODE_OK ||  //LN
+            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_INT8, index)) != DLMS_ERROR_CODE_OK) {
             return ret;
         }
         e.SetValue(data);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 4)
-    {
+    if (e.GetIndex() == 4) {
         e.SetByteArray(true);
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         int ret;
         //Add count
         GXHelpers::SetObjectCount((unsigned long)m_Actions.size(), data);
         CGXDLMSVariant selector;
-        for (std::vector<CGXDLMSActionSet*>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it)
-        {
+        for (std::vector<CGXDLMSActionSet *>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(2);
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -259,8 +221,7 @@ int CGXDLMSRegisterMonitor::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEven
             GXHelpers::SetLogicalName((*it)->GetActionUp().GetLogicalName().c_str(), ln);
             selector = (*it)->GetActionUp().GetScriptSelector();
             if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, ln)) != DLMS_ERROR_CODE_OK ||
-                (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, selector)) != DLMS_ERROR_CODE_OK)
-            {
+                (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, selector)) != DLMS_ERROR_CODE_OK) {
                 return ret;
             }
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -268,8 +229,7 @@ int CGXDLMSRegisterMonitor::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEven
             GXHelpers::SetLogicalName((*it)->GetActionDown().GetLogicalName().c_str(), ln);
             selector = (*it)->GetActionDown().GetScriptSelector();
             if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, ln)) != DLMS_ERROR_CODE_OK ||
-                (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, selector)) != DLMS_ERROR_CODE_OK)
-            {
+                (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, selector)) != DLMS_ERROR_CODE_OK) {
                 return ret;
             }
         }
@@ -282,19 +242,15 @@ int CGXDLMSRegisterMonitor::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEven
 /*
  * Set value of given attribute.
  */
-int CGXDLMSRegisterMonitor::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() == 1)
-    {
+int CGXDLMSRegisterMonitor::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     }
-    if (e.GetIndex() == 2)
-    {
+    if (e.GetIndex() == 2) {
         SetThresholds(e.GetValue().Arr);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 3)
-    {
+    if (e.GetIndex() == 3) {
         GetMonitoredValue().SetObjectType((DLMS_OBJECT_TYPE)e.GetValue().Arr[0].ToInteger());
         std::string ln;
         GXHelpers::GetLogicalName(e.GetValue().Arr[1].byteArr, ln);
@@ -302,22 +258,20 @@ int CGXDLMSRegisterMonitor::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEven
         m_MonitoredValue.SetAttributeIndex(e.GetValue().Arr[2].ToInteger());
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 4)
-    {
-        for (std::vector<CGXDLMSActionSet*>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it)
-        {
+    if (e.GetIndex() == 4) {
+        for (std::vector<CGXDLMSActionSet *>::iterator it = m_Actions.begin(); it != m_Actions.end(); ++it) {
             delete *it;
         }
         m_Actions.clear();
         std::string ln;
-        for (std::vector<CGXDLMSVariant>::iterator action_set = e.GetValue().Arr.begin(); action_set != e.GetValue().Arr.end(); ++action_set)
-        {
+        for (std::vector<CGXDLMSVariant>::iterator action_set = e.GetValue().Arr.begin();
+             action_set != e.GetValue().Arr.end(); ++action_set) {
             CGXDLMSActionSet *set = new CGXDLMSActionSet();
-            CGXDLMSVariant& up = action_set->Arr[0];
+            CGXDLMSVariant &up = action_set->Arr[0];
             GXHelpers::GetLogicalName(up.Arr[0].byteArr, ln);
             set->GetActionUp().SetLogicalName(ln);
             set->GetActionUp().SetScriptSelector(up.Arr[1].ToInteger());
-            CGXDLMSVariant& down = action_set->Arr[1];
+            CGXDLMSVariant &down = action_set->Arr[1];
             GXHelpers::GetLogicalName(down.Arr[0].byteArr, ln);
             set->GetActionDown().SetLogicalName(ln);
             set->GetActionDown().SetScriptSelector(down.Arr[1].ToInteger());
@@ -327,4 +281,4 @@ int CGXDLMSRegisterMonitor::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEven
     }
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
-#endif //DLMS_IGNORE_REGISTER_MONITOR
+#endif  //DLMS_IGNORE_REGISTER_MONITOR

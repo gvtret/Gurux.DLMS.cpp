@@ -37,10 +37,10 @@
 
 #include "GXDLMSActionItem.h"
 
-class CGXDLMSActionSet
-{
+class CGXDLMSActionSet {
     CGXDLMSActionItem m_ActionUp;
     CGXDLMSActionItem m_ActionDown;
+
 public:
     /**
      Constructor.
@@ -50,15 +50,14 @@ public:
     /**
      Destructor.
     */
-    ~CGXDLMSActionSet()
-    {
+    ~CGXDLMSActionSet() {
     }
 
-    CGXDLMSActionItem& GetActionUp();
+    CGXDLMSActionItem &GetActionUp();
 
-    CGXDLMSActionItem& GetActionDown();
+    CGXDLMSActionItem &GetActionDown();
 
     std::string ToString();
 };
 
-#endif //GXDLMSACTIONSET_H
+#endif  //GXDLMSACTIONSET_H

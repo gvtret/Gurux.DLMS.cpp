@@ -37,82 +37,64 @@
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
 #include "../include/GXHelpers.h"
 
-std::string CGXDLMSTranslatorStructure::GetTag(unsigned long tag)
-{
-    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML || m_OmitNameSpace)
-    {
+std::string CGXDLMSTranslatorStructure::GetTag(unsigned long tag) {
+    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML || m_OmitNameSpace) {
         return m_Tags[tag];
     }
     return "x:" + m_Tags[tag];
 }
 
-DLMS_TRANSLATOR_OUTPUT_TYPE CGXDLMSTranslatorStructure::GetOutputType()
-{
+DLMS_TRANSLATOR_OUTPUT_TYPE CGXDLMSTranslatorStructure::GetOutputType() {
     return m_OutputType;
 }
 
-bool CGXDLMSTranslatorStructure::GetOmitNameSpace()
-{
+bool CGXDLMSTranslatorStructure::GetOmitNameSpace() {
     return m_OmitNameSpace;
 }
 
-int CGXDLMSTranslatorStructure::GetOffset()
-{
+int CGXDLMSTranslatorStructure::GetOffset() {
     return m_Offset;
 }
 
-void CGXDLMSTranslatorStructure::SetOffset(int value)
-{
-    if (value < 0)
-    {
+void CGXDLMSTranslatorStructure::SetOffset(int value) {
+    if (value < 0) {
         assert(0);
     }
     m_Offset = value;
 }
 
-std::string CGXDLMSTranslatorStructure::GetDataType(DLMS_DATA_TYPE type)
-{
+std::string CGXDLMSTranslatorStructure::GetDataType(DLMS_DATA_TYPE type) {
     return GetTag(DATA_TYPE_OFFSET + (unsigned long)type);
 }
 
-bool CGXDLMSTranslatorStructure::GetShowStringAsHex()
-{
+bool CGXDLMSTranslatorStructure::GetShowStringAsHex() {
     return m_ShowStringAsHex;
 }
 
-void CGXDLMSTranslatorStructure::SetShowStringAsHex(bool value)
-{
+void CGXDLMSTranslatorStructure::SetShowStringAsHex(bool value) {
     m_ShowStringAsHex = value;
 }
 
-bool CGXDLMSTranslatorStructure::GetComments()
-{
+bool CGXDLMSTranslatorStructure::GetComments() {
     return m_Comments;
 }
 
-void CGXDLMSTranslatorStructure::SetComments(bool value)
-{
+void CGXDLMSTranslatorStructure::SetComments(bool value) {
     m_Comments = value;
 }
 
-bool CGXDLMSTranslatorStructure::GetIgnoreSpaces()
-{
+bool CGXDLMSTranslatorStructure::GetIgnoreSpaces() {
     return m_IgnoreSpaces;
 }
 
-void CGXDLMSTranslatorStructure::SetIgnoreSpaces(bool value)
-{
+void CGXDLMSTranslatorStructure::SetIgnoreSpaces(bool value) {
     m_IgnoreSpaces = value;
 }
 
 CGXDLMSTranslatorStructure::CGXDLMSTranslatorStructure(
-    DLMS_TRANSLATOR_OUTPUT_TYPE type,
-    bool omitNameSpace,
-    bool numericsAshex,
-    bool hex,
-    bool comments,
-    std::map<unsigned long, std::string> list)
-{
+    DLMS_TRANSLATOR_OUTPUT_TYPE type, bool omitNameSpace, bool numericsAshex, bool hex, bool comments,
+    std::map<unsigned long, std::string> list
+) {
     m_OutputType = type;
     m_OmitNameSpace = omitNameSpace;
     m_ShowNumericsAsHex = numericsAshex;
@@ -123,100 +105,66 @@ CGXDLMSTranslatorStructure::CGXDLMSTranslatorStructure(
     m_Offset = 0;
 }
 
-std::string CGXDLMSTranslatorStructure::ToString()
-{
+std::string CGXDLMSTranslatorStructure::ToString() {
     return m_Sb.str();
 }
 
-void CGXDLMSTranslatorStructure::AppendSpaces()
-{
-    if (m_IgnoreSpaces)
-    {
+void CGXDLMSTranslatorStructure::AppendSpaces() {
+    if (m_IgnoreSpaces) {
         m_Sb << ' ';
-    }
-    else
-    {
-        for (int pos = 0; pos != m_Offset; ++pos)
-        {
+    } else {
+        for (int pos = 0; pos != m_Offset; ++pos) {
             m_Sb << "  ";
         }
     }
 }
 
-void CGXDLMSTranslatorStructure::AppendLine(std::string str)
-{
-    if (m_IgnoreSpaces)
-    {
+void CGXDLMSTranslatorStructure::AppendLine(std::string str) {
+    if (m_IgnoreSpaces) {
         m_Sb << str;
-    }
-    else
-    {
+    } else {
         AppendSpaces();
         m_Sb << str;
         m_Sb << "\r\n";
     }
 }
 
-void CGXDLMSTranslatorStructure::AppendLine(unsigned long tag, std::string name, CGXDLMSVariant& value)
-{
+void CGXDLMSTranslatorStructure::AppendLine(unsigned long tag, std::string name, CGXDLMSVariant &value) {
     AppendLine(GetTag(tag), name, value);
 }
 
-void CGXDLMSTranslatorStructure::AppendLine(unsigned long tag, std::string name, std::string& value)
-{
+void CGXDLMSTranslatorStructure::AppendLine(unsigned long tag, std::string name, std::string &value) {
     AppendLine(GetTag(tag), name, value);
 }
 
-void CGXDLMSTranslatorStructure::AppendLine(std::string tag, std::string name, CGXDLMSVariant& value)
-{
+void CGXDLMSTranslatorStructure::AppendLine(std::string tag, std::string name, CGXDLMSVariant &value) {
     std::string str;
-    if (value.vt == DLMS_DATA_TYPE_UINT8)
-    {
-        IntegerToHex((long)value.bVal, 2, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_INT8)
-    {
-        IntegerToHex((long)value.cVal, 2, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_UINT16)
-    {
-        IntegerToHex((unsigned long)value.uiVal, 4, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_INT16)
-    {
-        IntegerToHex((long)value.iVal, 4, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_UINT32)
-    {
-        IntegerToHex((unsigned long)value.ullVal, 8, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_INT32)
-    {
-        IntegerToHex(value.lVal, 8, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_UINT64)
-    {
-        IntegerToHex(value.ullVal, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_INT64)
-    {
-        IntegerToHex(value.llVal, str);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING)
-    {
+    if (value.vt == DLMS_DATA_TYPE_UINT8) {
+        IntegerToHex((int32_t)value.bVal, 2, str);
+    } else if (value.vt == DLMS_DATA_TYPE_INT8) {
+        IntegerToHex((int32_t)value.cVal, 2, str);
+    } else if (value.vt == DLMS_DATA_TYPE_UINT16) {
+        IntegerToHex((uint32_t)value.uiVal, 4, str);
+    } else if (value.vt == DLMS_DATA_TYPE_INT16) {
+        IntegerToHex((int32_t)value.iVal, 4, str);
+    } else if (value.vt == DLMS_DATA_TYPE_UINT32) {
+        IntegerToHex((uint32_t)value.ullVal, 8, str);
+    } else if (value.vt == DLMS_DATA_TYPE_INT32) {
+        IntegerToHex((int32_t)value.lVal, 8, str);
+    } else if (value.vt == DLMS_DATA_TYPE_UINT64) {
+        IntegerToHex((uint64_t)value.ullVal, str);
+    } else if (value.vt == DLMS_DATA_TYPE_INT64) {
+        IntegerToHex((int64_t)value.llVal, str);
+    } else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
         str = GXHelpers::BytesToHex(value.byteArr, value.GetSize());
-    }
-    else
-    {
+    } else {
         str = value.ToString();
     }
     AppendLine(tag, name, str);
 }
 
-void CGXDLMSTranslatorStructure::StartComment(std::string comment)
-{
-    if (m_Comments)
-    {
+void CGXDLMSTranslatorStructure::StartComment(std::string comment) {
+    if (m_Comments) {
         AppendSpaces();
         m_Sb << "<!--";
         m_Sb << comment;
@@ -226,35 +174,25 @@ void CGXDLMSTranslatorStructure::StartComment(std::string comment)
     }
 }
 
-void CGXDLMSTranslatorStructure::AppendLine(std::string tag, std::string name, std::string& value)
-{
+void CGXDLMSTranslatorStructure::AppendLine(std::string tag, std::string name, std::string &value) {
     AppendSpaces();
     m_Sb << '<';
     m_Sb << tag;
-    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-    {
+    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
         m_Sb << ' ';
-        if (name == "")
-        {
+        if (name == "") {
             m_Sb << "Value";
-        }
-        else
-        {
+        } else {
             m_Sb << name;
         }
         m_Sb << "=\"";
-    }
-    else
-    {
+    } else {
         m_Sb << '>';
     }
     m_Sb << value;
-    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-    {
+    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
         m_Sb << "\" />";
-    }
-    else
-    {
+    } else {
         m_Sb << "</";
         m_Sb << tag;
         m_Sb << '>';
@@ -263,10 +201,8 @@ void CGXDLMSTranslatorStructure::AppendLine(std::string tag, std::string name, s
     m_Sb << '\n';
 }
 
-void CGXDLMSTranslatorStructure::EndComment()
-{
-    if (m_Comments)
-    {
+void CGXDLMSTranslatorStructure::EndComment() {
+    if (m_Comments) {
         --m_Offset;
         AppendSpaces();
         m_Sb << "-->";
@@ -275,10 +211,8 @@ void CGXDLMSTranslatorStructure::EndComment()
     }
 }
 
-void CGXDLMSTranslatorStructure::AppendComment(std::string comment)
-{
-    if (m_Comments)
-    {
+void CGXDLMSTranslatorStructure::AppendComment(std::string comment) {
+    if (m_Comments) {
         AppendSpaces();
         m_Sb << "<!--";
         m_Sb << comment;
@@ -288,102 +222,81 @@ void CGXDLMSTranslatorStructure::AppendComment(std::string comment)
     }
 }
 
-void CGXDLMSTranslatorStructure::Append(std::string& value)
-{
+void CGXDLMSTranslatorStructure::Append(std::string &value) {
     m_Sb << value;
 }
 
-void CGXDLMSTranslatorStructure::Append(unsigned long tag, bool start)
-{
-    if (start)
-    {
+void CGXDLMSTranslatorStructure::Append(unsigned long tag, bool start) {
+    if (start) {
         m_Sb << '<';
-    }
-    else
-    {
+    } else {
         m_Sb << "</";
     }
     m_Sb << GetTag(tag);
     m_Sb << '>';
 }
 
-void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long tag, std::string name, std::string& value)
-{
+void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long tag, std::string name, std::string &value) {
     AppendStartTag(tag, name, value, false);
 }
 
-void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long tag, std::string name, std::string& value, bool plain)
-{
+void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long tag, std::string name, std::string &value, bool plain) {
     AppendSpaces();
     m_Sb << '<';
     m_Sb << GetTag(tag);
-    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML && !name.empty())
-    {
+    if (m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML && !name.empty()) {
         m_Sb << ' ';
         m_Sb << name;
         m_Sb << "=\"";
         m_Sb << value;
         m_Sb << "\" >";
-    }
-    else
-    {
+    } else {
         m_Sb << ">";
     }
-    if (!plain)
-    {
+    if (!plain) {
         m_Sb << "\r\n";
     }
     ++m_Offset;
 }
 
-void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long cmd)
-{
+void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long cmd) {
     AppendStartTag(GetTag(cmd), false);
 }
 
-void CGXDLMSTranslatorStructure::AppendStartTag2(unsigned long cmd, bool plain)
-{
+void CGXDLMSTranslatorStructure::AppendStartTag2(unsigned long cmd, bool plain) {
     AppendStartTag(GetTag(cmd), plain);
 }
 
-void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long cmd, unsigned long type)
-{
+void CGXDLMSTranslatorStructure::AppendStartTag(unsigned long cmd, unsigned long type) {
     AppendStartTag(GetTag(cmd << 8 | type));
 }
 
-void CGXDLMSTranslatorStructure::AppendStartTag(std::string tag, bool plain)
-{
+void CGXDLMSTranslatorStructure::AppendStartTag(std::string tag, bool plain) {
     AppendSpaces();
     m_Sb << "<";
     m_Sb << tag;
     m_Sb << ">";
-    if (!plain)
-    {
+    if (!plain) {
         m_Sb << "\r\n";
     }
     ++m_Offset;
 }
 
-void CGXDLMSTranslatorStructure::AppendStartTag(std::string tag)
-{
+void CGXDLMSTranslatorStructure::AppendStartTag(std::string tag) {
     AppendStartTag(tag, false);
 }
 
-void CGXDLMSTranslatorStructure::AppendEndTag(unsigned long cmd, unsigned long type)
-{
+void CGXDLMSTranslatorStructure::AppendEndTag(unsigned long cmd, unsigned long type) {
     AppendEndTag(cmd << 8 | type);
 }
 
-void CGXDLMSTranslatorStructure::AppendEndTag(unsigned long tag)
-{
+void CGXDLMSTranslatorStructure::AppendEndTag(unsigned long tag) {
     AppendEndTag(tag, false);
 }
 
-void CGXDLMSTranslatorStructure::AppendEndTag(unsigned long tag, bool plain)
-{
+void CGXDLMSTranslatorStructure::AppendEndTag(unsigned long tag, bool plain) {
     --m_Offset;
-    if (!plain)
-    {
+    if (!plain) {
         AppendSpaces();
     }
     m_Sb << "</";
@@ -391,8 +304,7 @@ void CGXDLMSTranslatorStructure::AppendEndTag(unsigned long tag, bool plain)
     m_Sb << ">\r\n";
 }
 
-void CGXDLMSTranslatorStructure::AppendEndTag(std::string& tag)
-{
+void CGXDLMSTranslatorStructure::AppendEndTag(std::string &tag) {
     --m_Offset;
     AppendSpaces();
     m_Sb << "</";
@@ -400,48 +312,39 @@ void CGXDLMSTranslatorStructure::AppendEndTag(std::string& tag)
     m_Sb << ">\r\n";
 }
 
-void CGXDLMSTranslatorStructure::AppendEmptyTag(unsigned long tag)
-{
+void CGXDLMSTranslatorStructure::AppendEmptyTag(unsigned long tag) {
     AppendEmptyTag(m_Tags[tag]);
 }
 
-void CGXDLMSTranslatorStructure::AppendEmptyTag(std::string tag)
-{
+void CGXDLMSTranslatorStructure::AppendEmptyTag(std::string tag) {
     AppendSpaces();
     m_Sb << "<";
     m_Sb << tag;
     m_Sb << "/>\r\n";
 }
 
-void CGXDLMSTranslatorStructure::Trim()
-{
+void CGXDLMSTranslatorStructure::Trim() {
     SetXmlLength(GetXmlLength() - 2);
 }
 
-int CGXDLMSTranslatorStructure::GetXmlLength()
-{
+int CGXDLMSTranslatorStructure::GetXmlLength() {
     return (int)m_Sb.tellp();
 }
 
-void CGXDLMSTranslatorStructure::SetXmlLength(int value)
-{
+void CGXDLMSTranslatorStructure::SetXmlLength(int value) {
     m_Sb.seekp(value);
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(long value, int desimals, std::string& result)
-{
+int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, std::string &result) {
     return IntegerToHex(value, desimals, false, result);
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, int desimals, std::string& result)
-{
+int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, std::string &result) {
     return IntegerToHex(value, desimals, false, result);
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(long value, int desimals, bool forceHex, std::string& result)
-{
-    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-    {
+int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, bool forceHex, std::string &result) {
+    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
         std::string f = "%." + GXHelpers::IntToString(desimals);
         f.append("X");
 #if _MSC_VER > 1000
@@ -450,30 +353,25 @@ int CGXDLMSTranslatorStructure::IntegerToHex(long value, int desimals, bool forc
         sprintf(tmp, f.c_str(), value);
 #endif
         //Negative values are handled wrong.
-        if (value < 0)
-        {
+        if (value < 0) {
             f.clear();
             f.append(tmp);
             result = f.substr(f.length() - desimals);
             return 0;
         }
-    }
-    else
-    {
+    } else {
 #if _MSC_VER > 1000
-            sprintf_s(tmp, 20, "%ld", value);
+        sprintf_s(tmp, 20, "%ld", value);
 #else
-            sprintf(tmp, "%ld", value);
+        sprintf(tmp, "%ld", value);
 #endif
     }
     result = tmp;
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, int desimals, bool forceHex, std::string& result)
-{
-    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-    {
+int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, bool forceHex, std::string &result) {
+    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
         std::string f = "%." + GXHelpers::IntToString(desimals);
         f.append("X");
 #if _MSC_VER > 1000
@@ -481,9 +379,7 @@ int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, int desimals, 
 #else
         sprintf(tmp, f.c_str(), value);
 #endif
-    }
-    else
-    {
+    } else {
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%lu", value);
 #else
@@ -494,18 +390,14 @@ int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, int desimals, 
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, std::string& result)
-{
-    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-    {
+int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, std::string &result) {
+    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%.8X", value);
 #else
         sprintf(tmp, "%.8lX", value);
 #endif
-    }
-    else
-    {
+    } else {
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%lu", value);
 #else
@@ -516,19 +408,15 @@ int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long value, std::string& r
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(long long value, std::string& result)
-{
-    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-    {
+int CGXDLMSTranslatorStructure::IntegerToHex(int64_t value, std::string &result) {
+    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%.16llX", value);
 #else
         sprintf(tmp, "%.16llX", value);
 #endif
-    }
-    else
-    {
-#if defined(_WIN32) || defined(_WIN64)//Windows
+    } else {
+#if defined(_WIN32) || defined(_WIN64)  //Windows
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%lld", value);
 #else
@@ -543,18 +431,14 @@ int CGXDLMSTranslatorStructure::IntegerToHex(long long value, std::string& resul
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long long value, std::string& result)
-{
-    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-    {
+int CGXDLMSTranslatorStructure::IntegerToHex(uint64_t value, std::string &result) {
+    if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%.16I64X", value);
 #else
         sprintf(tmp, "%.16llX", value);
 #endif
-    }
-    else
-    {
+    } else {
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%I64u", value);
 #else
@@ -564,4 +448,4 @@ int CGXDLMSTranslatorStructure::IntegerToHex(unsigned long long value, std::stri
     result = tmp;
     return 0;
 }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR

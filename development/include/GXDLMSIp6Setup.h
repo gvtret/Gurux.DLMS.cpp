@@ -40,9 +40,9 @@
 #include "GXDLMSObject.h"
 #include "GXNeighborDiscoverySetup.h"
 
-#if defined(_WIN32) || defined(_WIN64)//Windows includes
+#if defined(_WIN32) || defined(_WIN64)  //Windows includes
 #include <ws2tcpip.h>
-#else //Linux includes.
+#else  //Linux includes.
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -59,14 +59,13 @@ typedef enum {
     DLMS_IP6_ADDRESS_CONFIG_MODE_MANUAL,
     // Neighbour Discovery.
     DLMS_IP6_ADDRESS_CONFIG_MODE_NEIGHBOUR_DISCOVERY
-}DLMS_IP6_ADDRESS_CONFIG_MODE;
+} DLMS_IP6_ADDRESS_CONFIG_MODE;
 
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSIp6Setup
 */
-class CGXDLMSIp6Setup : public CGXDLMSObject
-{
+class CGXDLMSIp6Setup: public CGXDLMSObject {
     friend class CGXXmlWriter;
     std::string m_DataLinkLayerReference;
     DLMS_IP6_ADDRESS_CONFIG_MODE m_AddressConfigMode;
@@ -76,7 +75,8 @@ class CGXDLMSIp6Setup : public CGXDLMSObject
     IN6_ADDR m_PrimaryDNSAddress;
     IN6_ADDR m_SecondaryDNSAddress;
     unsigned char m_TrafficClass;
-    std::vector<CGXNeighborDiscoverySetup*> m_NeighborDiscoverySetup;
+    std::vector<CGXNeighborDiscoverySetup *> m_NeighborDiscoverySetup;
+
 public:
     //Constructor.
     CGXDLMSIp6Setup();
@@ -90,72 +90,59 @@ public:
     //Destructor.
     ~CGXDLMSIp6Setup();
 
-    std::string& GetDataLinkLayerReference() {
+    std::string &GetDataLinkLayerReference() {
         return m_DataLinkLayerReference;
     }
 
-    void SetDataLinkLayerReference(std::string& value)
-    {
+    void SetDataLinkLayerReference(std::string &value) {
         m_DataLinkLayerReference = value;
     }
 
-    DLMS_IP6_ADDRESS_CONFIG_MODE GetAddressConfigMode()
-    {
+    DLMS_IP6_ADDRESS_CONFIG_MODE GetAddressConfigMode() {
         return m_AddressConfigMode;
     }
 
-    void SetAddressConfigMode(DLMS_IP6_ADDRESS_CONFIG_MODE value)
-    {
+    void SetAddressConfigMode(DLMS_IP6_ADDRESS_CONFIG_MODE value) {
         m_AddressConfigMode = value;
     }
 
-    std::vector<IN6_ADDR>& GetUnicastIPAddress()
-    {
+    std::vector<IN6_ADDR> &GetUnicastIPAddress() {
         return m_UnicastIPAddress;
     }
 
-    void SetUnicastIPAddress(std::vector<IN6_ADDR>& value)
-    {
+    void SetUnicastIPAddress(std::vector<IN6_ADDR> &value) {
         m_UnicastIPAddress = value;
     }
 
-    std::vector<IN6_ADDR>& GetMulticastIPAddress()
-    {
+    std::vector<IN6_ADDR> &GetMulticastIPAddress() {
         return m_MulticastIPAddress;
     }
 
-    void setMulticastIPAddress(std::vector<IN6_ADDR>& value)
-    {
+    void setMulticastIPAddress(std::vector<IN6_ADDR> &value) {
         m_MulticastIPAddress = value;
     }
 
-    std::vector<IN6_ADDR>& GetGatewayIPAddress()
-    {
+    std::vector<IN6_ADDR> &GetGatewayIPAddress() {
         return m_GatewayIPAddress;
     }
 
-    void SetGatewayIPAddress(std::vector<IN6_ADDR>& value)
-    {
+    void SetGatewayIPAddress(std::vector<IN6_ADDR> &value) {
         m_GatewayIPAddress = value;
     }
 
-    IN6_ADDR& GetPrimaryDNSAddress()
-    {
+    IN6_ADDR &GetPrimaryDNSAddress() {
         return m_PrimaryDNSAddress;
     }
 
-    void SetPrimaryDNSAddress(IN6_ADDR& value)
-    {
+    void SetPrimaryDNSAddress(IN6_ADDR &value) {
         m_PrimaryDNSAddress = value;
     }
 
-    IN6_ADDR& GetSecondaryDNSAddress()
-    {
+    IN6_ADDR &GetSecondaryDNSAddress() {
         return m_SecondaryDNSAddress;
     }
 
-    void m_SetSecondaryDNSAddress(IN6_ADDR& value)
-    {
+    void m_SetSecondaryDNSAddress(IN6_ADDR &value) {
         m_SecondaryDNSAddress = value;
     }
 
@@ -167,7 +154,7 @@ public:
         m_TrafficClass = value;
     }
 
-    std::vector<CGXNeighborDiscoverySetup*>& GetNeighborDiscoverySetup() {
+    std::vector<CGXNeighborDiscoverySetup *> &GetNeighborDiscoverySetup() {
         return m_NeighborDiscoverySetup;
     }
 
@@ -178,7 +165,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -188,15 +175,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_IP6_SETUP
-#endif //GXDLMSIP6SETUP_H
+#endif  //DLMS_IGNORE_IP6_SETUP
+#endif  //GXDLMSIP6SETUP_H

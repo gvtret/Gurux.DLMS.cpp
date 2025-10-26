@@ -41,8 +41,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSRegister
 */
-class CGXDLMSRegister : public CGXDLMSObject
-{
+class CGXDLMSRegister: public CGXDLMSObject {
 protected:
     CGXDLMSVariant m_Value;
     signed char m_Scaler;
@@ -66,12 +65,12 @@ public:
     /// <summary>
     /// Get value of COSEM Data object.
     /// </summary>
-    CGXDLMSVariant& GetValue();
+    CGXDLMSVariant &GetValue();
 
     /// <summary>
     /// Set value of COSEM Data object.
     /// </summary>
-    void SetValue(CGXDLMSVariant& value);
+    void SetValue(CGXDLMSVariant &value);
 
     // Scaler of COSEM Register object.
     double GetScaler();
@@ -96,14 +95,12 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     //Reset the register value.
-    int Reset(
-        CGXDLMSClient* client,
-        std::vector<CGXByteBuffer>& reply);
+    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
 
-    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -113,13 +110,13 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_REGISTER
-#endif //GXDLMSREGISTER_H
+#endif  //DLMS_IGNORE_REGISTER
+#endif  //GXDLMSREGISTER_H

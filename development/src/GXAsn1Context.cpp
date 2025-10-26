@@ -34,8 +34,7 @@
 
 #include "../include/GXAsn1Context.h"
 
-CGXAsn1Context::CGXAsn1Context()
-{
+CGXAsn1Context::CGXAsn1Context() {
     m_Index = 0;
     m_Constructed = true;
 }
@@ -43,38 +42,33 @@ CGXAsn1Context::CGXAsn1Context()
 /////////////////////////////////////////////////////////////////////////////
 // Destructor.
 /////////////////////////////////////////////////////////////////////////////
-CGXAsn1Context::~CGXAsn1Context()
-{
-    for (std::vector<CGXAsn1Base*>::iterator it = m_Values.begin(); it != m_Values.end(); ++it)
-    {
+CGXAsn1Context::~CGXAsn1Context() {
+    for (std::vector<CGXAsn1Base *>::iterator it = m_Values.begin(); it != m_Values.end(); ++it) {
         delete (*it);
     }
     m_Values.clear();
 }
+
 /* Context index.*/
-int CGXAsn1Context::GetIndex()
-{
-	return m_Index;
+int CGXAsn1Context::GetIndex() {
+    return m_Index;
 }
 
 /* Context index.*/
-void CGXAsn1Context::SetIndex(int value)
-{
-	m_Index = value;
+void CGXAsn1Context::SetIndex(int value) {
+    m_Index = value;
 }
 
 /**
  Constructed.
 */
-bool CGXAsn1Context::GetConstructed()
-{
-	return m_Constructed;
+bool CGXAsn1Context::GetConstructed() {
+    return m_Constructed;
 }
 
 /**
  Constructed.
 */
-void CGXAsn1Context::SetConstructed(bool value)
-{
-	m_Constructed = value;
+void CGXAsn1Context::SetConstructed(bool value) {
+    m_Constructed = value;
 }

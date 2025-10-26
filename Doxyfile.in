@@ -1,0 +1,77 @@
+# ==========================================================
+# Doxyfile template for GuruxDLMS (CMake + Doxygen)
+# ==========================================================
+
+# Project settings
+PROJECT_NAME           = "GuruxDLMS"
+PROJECT_NUMBER         = @PROJECT_VERSION@
+PROJECT_BRIEF          = "Gurux DLMS/COSEM C++ Library"
+OUTPUT_DIRECTORY       = "@CMAKE_BINARY_DIR@/docs"
+CREATE_SUBDIRS         = YES
+
+# Input sources
+INPUT                  = "@CMAKE_SOURCE_DIR@/development/include" \
+                         "@CMAKE_SOURCE_DIR@/development/src"
+RECURSIVE              = YES
+
+# File patterns
+FILE_PATTERNS          = *.h \
+                         *.hpp \
+                         *.cpp
+
+# Exclude patterns
+EXCLUDE_PATTERNS       = */tests/* \
+                         */build/*
+
+# Documentation options
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = NO
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_ANON_NSPACES   = NO
+
+# Build related
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+GENERATE_MAN           = NO
+GENERATE_XML           = NO
+
+# Formatting
+FULL_PATH_NAMES        = NO
+STRIP_FROM_PATH        = "@CMAKE_SOURCE_DIR@"
+TAB_SIZE               = 2
+OPTIMIZE_OUTPUT_FOR_C  = NO
+OPTIMIZE_OUTPUT_JAVA   = NO
+OPTIMIZE_OUTPUT_VHDL   = NO
+OPTIMIZE_FOR_CPLUSPLUS = YES
+
+# Warnings
+QUIET                  = YES
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = YES
+WARN_IF_DOC_ERROR      = YES
+
+# Source browsing
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = NO
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+# Index and search
+GENERATE_TREEVIEW      = YES
+SEARCHENGINE           = YES
+
+# Dot (graphviz) support
+HAVE_DOT               = YES
+DOT_NUM_THREADS        = 2
+DOT_IMAGE_FORMAT       = svg
+CALL_GRAPH             = YES
+CALLER_GRAPH           = NO
+CLASS_DIAGRAMS         = YES
+DOT_TRANSPARENT        = YES
+
+# Optional PlantUML support (if enabled in the future)
+# PLANTUML_JAR_PATH     = /usr/share/plantuml/plantuml.jar
+# UML_LOOK              = YES
+# UML_LIMIT_NUM_FIELDS  = 50

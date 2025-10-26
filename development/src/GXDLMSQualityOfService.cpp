@@ -34,54 +34,47 @@
 #include <sstream>
 #include "../include/GXDLMSQualityOfService.h"
 
-int CGXDLMSQualityOfService::GetPrecedence()
-{
+int CGXDLMSQualityOfService::GetPrecedence() {
     return m_Precedence;
 }
-void CGXDLMSQualityOfService::SetPrecedence(int value)
-{
+
+void CGXDLMSQualityOfService::SetPrecedence(int value) {
     m_Precedence = value;
 }
 
-int CGXDLMSQualityOfService::GetDelay()
-{
+int CGXDLMSQualityOfService::GetDelay() {
     return m_Delay;
 }
-void CGXDLMSQualityOfService::SetDelay(int value)
-{
+
+void CGXDLMSQualityOfService::SetDelay(int value) {
     m_Delay = value;
 }
 
-int CGXDLMSQualityOfService::GetReliability()
-{
+int CGXDLMSQualityOfService::GetReliability() {
     return m_Reliability;
 }
-void CGXDLMSQualityOfService::SetReliability(int value)
-{
+
+void CGXDLMSQualityOfService::SetReliability(int value) {
     m_Reliability = value;
 }
 
-int CGXDLMSQualityOfService::GetPeakThroughput()
-{
+int CGXDLMSQualityOfService::GetPeakThroughput() {
     return m_PeakThroughput;
 }
-void CGXDLMSQualityOfService::SetPeakThroughput(int value)
-{
+
+void CGXDLMSQualityOfService::SetPeakThroughput(int value) {
     m_PeakThroughput = value;
 }
 
-int CGXDLMSQualityOfService::GetMeanThroughput()
-{
+int CGXDLMSQualityOfService::GetMeanThroughput() {
     return m_MeanThroughput;
 }
-void CGXDLMSQualityOfService::SetMeanThroughput(int value)
-{
+
+void CGXDLMSQualityOfService::SetMeanThroughput(int value) {
     m_MeanThroughput = value;
 }
 
-
-std::string CGXDLMSQualityOfService::ToString()
-{
+std::string CGXDLMSQualityOfService::ToString() {
     std::stringstream sb;
     sb << m_Precedence;
     sb << " ";

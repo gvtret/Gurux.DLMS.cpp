@@ -39,8 +39,7 @@
 #include "../include/GXBytebuffer.h"
 #include "../include/GXDLMSSettings.h"
 
-class CGXSecure
-{
+class CGXSecure {
 public:
     /**
     * Generates challenge.
@@ -49,9 +48,7 @@ public:
     *            Used authentication.
     * @return Generated challenge.
     */
-    static int GenerateChallenge(
-        DLMS_AUTHENTICATION authentication,
-        CGXByteBuffer& challenge);
+    static int GenerateChallenge(DLMS_AUTHENTICATION authentication, CGXByteBuffer &challenge);
 
     /**
     * Chipher text.
@@ -65,15 +62,12 @@ public:
     * @return Chiphered text.
     */
     static int Secure(
-        CGXDLMSSettings& settings,
-        CGXCipher* cipher,
-        unsigned long ic,
-        CGXByteBuffer& data,
-        CGXByteBuffer& secret,
-        CGXByteBuffer& reply);
+        CGXDLMSSettings &settings, CGXCipher *cipher, unsigned long ic, CGXByteBuffer &data, CGXByteBuffer &secret,
+        CGXByteBuffer &reply
+    );
 
-    static int EncryptAesKeyWrapping(CGXByteBuffer& data, CGXByteBuffer& kek, CGXByteBuffer& reply);
-    static int DecryptAesKeyWrapping(CGXByteBuffer& data, CGXByteBuffer& kek, CGXByteBuffer& reply);
+    static int EncryptAesKeyWrapping(CGXByteBuffer &data, CGXByteBuffer &kek, CGXByteBuffer &reply);
+    static int DecryptAesKeyWrapping(CGXByteBuffer &data, CGXByteBuffer &kek, CGXByteBuffer &reply);
 };
 
-#endif //GXSECURE_H
+#endif  //GXSECURE_H

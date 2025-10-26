@@ -37,8 +37,7 @@
 
 #include <string>
 
-class GXAdjacentCell
-{
+class GXAdjacentCell {
 private:
     /**
     * Four byte cell ID.
@@ -49,6 +48,7 @@ private:
     * Signal quality.
     */
     unsigned char m_SignalQuality;
+
 public:
     /**
     * @return Four byte cell ID.
@@ -72,4 +72,4 @@ public:
     */
     void SetSignalQuality(unsigned char value);
 };
-#endif //GXADJACENTCELL_H
+#endif  //GXADJACENTCELL_H

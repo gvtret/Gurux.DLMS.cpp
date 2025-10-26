@@ -42,36 +42,28 @@
 /// <summary>
 /// ASN1 helper class.
 /// </summary>
-class CGXAsn1Helpers
-{
+class CGXAsn1Helpers {
 public:
-    static CGXAsn1Base* Clone(CGXAsn1Base* value)
-    {
-        if (CGXAsn1Sequence* a = dynamic_cast<CGXAsn1Sequence*>(value))
-        {
-            CGXAsn1Sequence* tmp = new CGXAsn1Sequence();
-            for (std::vector<CGXAsn1Base*>::iterator it = a->GetValues()->begin(); it != a->GetValues()->end(); ++it)
-            {
+    static CGXAsn1Base *Clone(CGXAsn1Base *value) {
+        if (CGXAsn1Sequence *a = dynamic_cast<CGXAsn1Sequence *>(value)) {
+            CGXAsn1Sequence *tmp = new CGXAsn1Sequence();
+            for (std::vector<CGXAsn1Base *>::iterator it = a->GetValues()->begin(); it != a->GetValues()->end(); ++it) {
                 tmp->GetValues()->push_back(Clone(*it));
             }
             return tmp;
         }
-        if (CGXAsn1Variant* a = dynamic_cast<CGXAsn1Variant*>(value))
-        {
-            CGXAsn1Variant* tmp = new CGXAsn1Variant();
+        if (CGXAsn1Variant *a = dynamic_cast<CGXAsn1Variant *>(value)) {
+            CGXAsn1Variant *tmp = new CGXAsn1Variant();
             tmp->SetValue(a->GetValue());
             return tmp;
         }
-        if (CGXAsn1ObjectIdentifier* a = dynamic_cast<CGXAsn1ObjectIdentifier*>(value))
-        {
+        if (CGXAsn1ObjectIdentifier *a = dynamic_cast<CGXAsn1ObjectIdentifier *>(value)) {
             return new CGXAsn1ObjectIdentifier(a->GetObjectIdentifier());
         }
-        if (CGXAsn1Ia5String* a = dynamic_cast<CGXAsn1Ia5String*>(value))
-        {
+        if (CGXAsn1Ia5String *a = dynamic_cast<CGXAsn1Ia5String *>(value)) {
             return new CGXAsn1Ia5String(a->GetValue());
         }
-        if (CGXAsn1Utf8String* a = dynamic_cast<CGXAsn1Utf8String*>(value))
-        {
+        if (CGXAsn1Utf8String *a = dynamic_cast<CGXAsn1Utf8String *>(value)) {
             return new CGXAsn1Utf8String(a->GetValue());
         }
         assert(0);
@@ -79,4 +71,4 @@ public:
     }
 };
 
-#endif //GXASNHELPERS_H
+#endif  //GXASNHELPERS_H

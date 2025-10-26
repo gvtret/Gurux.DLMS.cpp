@@ -41,10 +41,10 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
 */
-class CGXChargePerUnitScaling
-{
+class CGXChargePerUnitScaling {
     signed char m_CommodityScale;
     signed char m_PriceScale;
+
 public:
     // Constructor.
     CGXChargePerUnitScaling();
@@ -85,4 +85,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXCHARGE_PER_UNIT_SCALING_H
+#endif  //GXCHARGE_PER_UNIT_SCALING_H

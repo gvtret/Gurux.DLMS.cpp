@@ -46,9 +46,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSLimiter
 */
-class CGXDLMSLimiter : public CGXDLMSObject
-{
-    CGXDLMSObject* m_MonitoredValue;
+class CGXDLMSLimiter: public CGXDLMSObject {
+    CGXDLMSObject *m_MonitoredValue;
     int m_MonitoredAttributeIndex;
     CGXDLMSVariant m_ThresholdActive;
     CGXDLMSVariant m_ThresholdNormal;
@@ -60,6 +59,7 @@ class CGXDLMSLimiter : public CGXDLMSObject
     bool m_EmergencyProfileActive;
     CGXDLMSActionItem m_ActionOverThreshold;
     CGXDLMSActionItem m_ActionUnderThreshold;
+
 public:
     //Constructor.
     CGXDLMSLimiter();
@@ -74,28 +74,28 @@ public:
     /**
      Defines an attribute of an object to be monitored.
     */
-    CGXDLMSObject* GetMonitoredValue();
-    void SetMonitoredValue(CGXDLMSObject* value);
+    CGXDLMSObject *GetMonitoredValue();
+    void SetMonitoredValue(CGXDLMSObject *value);
 
     /**
      Provides the active threshold value to which the attribute monitored is compared.
     */
-    CGXDLMSVariant& GetThresholdActive();
-    void SetThresholdActive(CGXDLMSVariant& value);
+    CGXDLMSVariant &GetThresholdActive();
+    void SetThresholdActive(CGXDLMSVariant &value);
 
     /**
      Provides the threshold value to which the attribute monitored
      is compared when in normal operation.
     */
-    CGXDLMSVariant& GetThresholdNormal();
-    void SetThresholdNormal(CGXDLMSVariant& value);
+    CGXDLMSVariant &GetThresholdNormal();
+    void SetThresholdNormal(CGXDLMSVariant &value);
 
     /**
      Provides the threshold value to which the attribute monitored
      is compared when an emergency profile is active.
     */
-    CGXDLMSVariant& GetThresholdEmergency();
-    void SetThresholdEmergency(CGXDLMSVariant& value);
+    CGXDLMSVariant &GetThresholdEmergency();
+    void SetThresholdEmergency(CGXDLMSVariant &value);
 
     /**
      Defines minimal over threshold duration in seconds required
@@ -111,10 +111,10 @@ public:
     long GetMinUnderThresholdDuration();
     void SetMinUnderThresholdDuration(long value);
 
-    CGXDLMSEmergencyProfile& GetEmergencyProfile();
+    CGXDLMSEmergencyProfile &GetEmergencyProfile();
     void SetEmergencyProfile(CGXDLMSEmergencyProfile value);
 
-    std::vector<int>& GetEmergencyProfileGroupIDs();
+    std::vector<int> &GetEmergencyProfileGroupIDs();
     void SetEmergencyProfileGroupIDs(std::vector<int> value);
 
     /**
@@ -127,14 +127,14 @@ public:
      Defines the scripts to be executed when the monitored value
      crosses the threshold for minimal duration time.
     */
-    CGXDLMSActionItem& GetActionOverThreshold();
+    CGXDLMSActionItem &GetActionOverThreshold();
     void SetActionOverThreshold(CGXDLMSActionItem value);
 
     /**
      Defines the scripts to be executed when the monitored value
      crosses the threshold for minimal duration time.
     */
-    CGXDLMSActionItem& GetActionUnderThreshold();
+    CGXDLMSActionItem &GetActionUnderThreshold();
     void SetActionUnderThreshold(CGXDLMSActionItem value);
 
     // Returns amount of attributes.
@@ -144,7 +144,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -154,15 +154,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_LIMITER
-#endif //GXDLMSLIMITER_H
+#endif  //DLMS_IGNORE_LIMITER
+#endif  //GXDLMSLIMITER_H

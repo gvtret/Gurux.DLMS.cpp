@@ -38,70 +38,59 @@
 #include <string>
 #include "GXAsn1Base.h"
 
-class CGXAsn1Set : public CGXAsn1Base
-{
+class CGXAsn1Set: public CGXAsn1Base {
 private:
-    CGXAsn1Base* m_Key;
-    CGXAsn1Base* m_Value;
+    CGXAsn1Base *m_Key;
+    CGXAsn1Base *m_Value;
+
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Set()
-    {
+    CGXAsn1Set() {
         m_Value = m_Key = NULL;
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Set(CGXAsn1Base* key, CGXAsn1Base* value)
-    {
+    CGXAsn1Set(CGXAsn1Base *key, CGXAsn1Base *value) {
         m_Key = key;
         m_Value = value;
     }
 
-
     /////////////////////////////////////////////////////////////////////////////
     // Destructor.
     /////////////////////////////////////////////////////////////////////////////
-    ~CGXAsn1Set()
-    {
-        if (m_Value != NULL)
-        {
+    ~CGXAsn1Set() {
+        if (m_Value != NULL) {
             delete m_Value;
             m_Value = NULL;
         }
-        if (m_Key != NULL)
-        {
+        if (m_Key != NULL) {
             delete m_Key;
             m_Key = NULL;
         }
     }
 
-    CGXAsn1Base* GetKey()
-    {
+    CGXAsn1Base *GetKey() {
         return m_Key;
     }
 
-    CGXAsn1Base* GetValue()
-    {
+    CGXAsn1Base *GetValue() {
         return m_Value;
     }
 
-    std::string ToString()
-    {
+    std::string ToString() {
         std::string value;
-        if (m_Key != NULL)
-        {
+        if (m_Key != NULL) {
             value += m_Key->ToString();
         }
-        if (m_Value != NULL)
-        {
+        if (m_Value != NULL) {
             value += m_Value->ToString();
         }
         return value;
     }
 };
 
-#endif //GXASNSET_H
+#endif  //GXASNSET_H

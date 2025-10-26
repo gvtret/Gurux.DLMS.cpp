@@ -39,8 +39,7 @@
 #include "enums.h"
 #include "GXBigInteger.h"
 
-class CGXDLMSCertificateInfo
-{
+class CGXDLMSCertificateInfo {
 private:
     friend class CGXDLMSSecuritySetup;
     /**
@@ -104,46 +103,46 @@ public:
     /**
      * @return Certificate serial number.
      */
-    CGXBigInteger& GetSerialNumber();
+    CGXBigInteger &GetSerialNumber();
 
     /**
      *  Certificate serial number.
      */
-    void SetSerialNumber(CGXBigInteger& value);
+    void SetSerialNumber(CGXBigInteger &value);
 
     /**
      * Certificate issuer.
      */
-    std::string& GetIssuer();
+    std::string &GetIssuer();
 
     /**
      * Certificate issuer.
      */
-    void SetIssuer(std::string& value);
+    void SetIssuer(std::string &value);
 
     /**
     * Certificate issuer in ASN1 format.
     */
-    CGXByteBuffer& GetIssuerRaw();
+    CGXByteBuffer &GetIssuerRaw();
 
     /**
      * Certificate subject.
      */
-    std::string& GetSubject();
+    std::string &GetSubject();
 
     /**
      * Certificate subject.
      */
-    void SetSubject(std::string& value);
+    void SetSubject(std::string &value);
 
     /**
      * Certificate subject alt name.
      */
-    std::string& GetSubjectAltName();
+    std::string &GetSubjectAltName();
 
     /**
      * Certificate subject alt name.
      */
-    void SetSubjectAltName(std::string& value);
+    void SetSubjectAltName(std::string &value);
 };
-#endif //GXDLMSCERTIFICATEINFO_H
+#endif  //GXDLMSCERTIFICATEINFO_H

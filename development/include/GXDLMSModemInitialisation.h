@@ -37,8 +37,7 @@
 
 #include <string>
 
-class CGXDLMSModemInitialisation
-{
+class CGXDLMSModemInitialisation {
     std::string m_Request;
     std::string m_Response;
     int m_Delay;
@@ -54,4 +53,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXDLMSMODEMINITIALISATION_H
+#endif  //GXDLMSMODEMINITIALISATION_H

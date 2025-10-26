@@ -35,17 +35,16 @@
 #ifndef GXDLMSEMERGENCYPROFILE_H
 #define GXDLMSEMERGENCYPROFILE_H
 
-class CGXDLMSEmergencyProfile
-{
+class CGXDLMSEmergencyProfile {
     int m_ID;
     CGXDateTime m_ActivationTime;
     int m_Duration;
-public:
 
+public:
     int GetID();
     void SetID(int value);
 
-    CGXDateTime& GetActivationTime();
+    CGXDateTime &GetActivationTime();
     void SetActivationTime(CGXDateTime value);
 
     int GetDuration();
@@ -54,4 +53,4 @@ public:
     std::string ToString();
 };
 
-#endif //GXDLMSEMERGENCYPROFILE_H
+#endif  //GXDLMSEMERGENCYPROFILE_H

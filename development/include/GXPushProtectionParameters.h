@@ -59,13 +59,12 @@ typedef enum {
      * Digital signature
      */
     DLMS_PROTECTION_TYPE_DIGITAL_SIGNATURE
-}DLMS_PROTECTION_TYPE;
+} DLMS_PROTECTION_TYPE;
 
 /**
 Push protection parameters.
 */
-class CGXPushProtectionParameters
-{
+class CGXPushProtectionParameters {
 private:
     /**
     * Protection type.
@@ -101,97 +100,86 @@ public:
     /**
      * Constructor.
      */
-    CGXPushProtectionParameters()
-    {
+    CGXPushProtectionParameters() {
         m_ProtectionType = DLMS_PROTECTION_TYPE_AUTHENTICATION;
     }
+
     /**
      * Returns Protection type.
      */
-    DLMS_PROTECTION_TYPE GetProtectionType()
-    {
+    DLMS_PROTECTION_TYPE GetProtectionType() {
         return m_ProtectionType;
     }
 
     /**
      * value: Protection type.
      */
-    void SetProtectionType(DLMS_PROTECTION_TYPE value)
-    {
+    void SetProtectionType(DLMS_PROTECTION_TYPE value) {
         m_ProtectionType = value;
     }
 
     /**
      * Returns Transaction Id.
      */
-    CGXByteBuffer& GetTransactionId()
-    {
+    CGXByteBuffer &GetTransactionId() {
         return m_TransactionId;
     }
 
     /**
      * value: Transaction Id.
      */
-    void SetTransactionId(CGXByteBuffer& value)
-    {
+    void SetTransactionId(CGXByteBuffer &value) {
         m_TransactionId = value;
     }
 
     /**
      * Returns Originator system title.
      */
-    CGXByteBuffer& GetOriginatorSystemTitle()
-    {
+    CGXByteBuffer &GetOriginatorSystemTitle() {
         return m_OriginatorSystemTitle;
     }
 
     /**
      * value: Originator system title.
      */
-    void SetOriginatorSystemTitle(CGXByteBuffer& value)
-    {
+    void SetOriginatorSystemTitle(CGXByteBuffer &value) {
         m_OriginatorSystemTitle = value;
     }
 
     /**
      * Returns Recipient system title.
      */
-    CGXByteBuffer& GetRecipientSystemTitle()
-    {
+    CGXByteBuffer &GetRecipientSystemTitle() {
         return m_RecipientSystemTitle;
     }
 
     /**
      * value: Recipient system title.
      */
-    void SetRecipientSystemTitle(CGXByteBuffer& value)
-    {
+    void SetRecipientSystemTitle(CGXByteBuffer &value) {
         m_RecipientSystemTitle = value;
     }
 
     /**
      * Returns Other information.
      */
-    CGXByteBuffer& GetOtherInformation()
-    {
+    CGXByteBuffer &GetOtherInformation() {
         return m_OtherInformation;
     }
 
     /**
      * value: Other information.
      */
-    void SetOtherInformation(CGXByteBuffer& value)
-    {
+    void SetOtherInformation(CGXByteBuffer &value) {
         m_OtherInformation = value;
     }
 
     /**
      * Returns Key info.
      */
-    CGXDLMSDataProtectionKey& GetKeyInfo()
-    {
+    CGXDLMSDataProtectionKey &GetKeyInfo() {
         return m_KeyInfo;
     }
 };
-#endif //DLMS_IGNORE_PUSH_SETUP
-#endif //GXPUSHPROTECTIONPARAMETERS_H
+#endif  //DLMS_IGNORE_PUSH_SETUP
+#endif  //GXPUSHPROTECTIONPARAMETERS_H

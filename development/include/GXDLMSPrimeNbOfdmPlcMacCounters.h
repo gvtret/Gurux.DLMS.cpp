@@ -43,8 +43,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPrimeNbOfdmPlcMacCounters
 */
-class CGXDLMSPrimeNbOfdmPlcMacCounters : public CGXDLMSObject
-{
+class CGXDLMSPrimeNbOfdmPlcMacCounters: public CGXDLMSObject {
     /*
     * Count of successfully transmitted MSDUs.
     */
@@ -74,7 +73,8 @@ class CGXDLMSPrimeNbOfdmPlcMacCounters : public CGXDLMSObject
     */
     unsigned long m_CsmaChBusyCount;
 
-    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+
 public:
     //Constructor.
     CGXDLMSPrimeNbOfdmPlcMacCounters();
@@ -158,7 +158,7 @@ public:
     void SetCsmaChBusyCount(unsigned int value);
 
     //Reset the values.
-    int Reset(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
+    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -167,7 +167,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -177,15 +177,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_COUNTERS
-#endif //GXDLMSPrimeNbOfdmPlcMacCounters_H
+#endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_COUNTERS
+#endif  //GXDLMSPrimeNbOfdmPlcMacCounters_H

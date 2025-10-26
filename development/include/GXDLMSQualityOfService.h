@@ -37,8 +37,7 @@
 #include <string>
 #include "enums.h"
 
-class CGXDLMSQualityOfService
-{
+class CGXDLMSQualityOfService {
 private:
     int m_Precedence;
     int m_Delay;
@@ -64,4 +63,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXDLMSQUALITYOFSERVICE_H
+#endif  //GXDLMSQUALITYOFSERVICE_H

@@ -44,8 +44,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSIp4Setup
 */
-class CGXDLMSIp4Setup : public CGXDLMSObject
-{
+class CGXDLMSIp4Setup: public CGXDLMSObject {
     std::string m_DataLinkLayerReference;
     unsigned int m_IPAddress;
     std::vector<unsigned int> m_MulticastIPAddress;
@@ -57,6 +56,7 @@ class CGXDLMSIp4Setup : public CGXDLMSObject
     unsigned int m_SecondaryDNSAddress;
 
     CGXDLMSVariant m_Value;
+
 public:
     //Constructor.
     CGXDLMSIp4Setup();
@@ -67,53 +67,53 @@ public:
     //LN Constructor.
     CGXDLMSIp4Setup(std::string ln);
 
-    std::string& GetDataLinkLayerReference();
+    std::string &GetDataLinkLayerReference();
     void SetDataLinkLayerReference(std::string value);
 
     unsigned int GetIPAddress();
     void SetIPAddress(unsigned int value);
 
-    void GetIPAddress(std::string& value);
+    void GetIPAddress(std::string &value);
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-    void SetIPAddress(std::string& value);
-#endif//defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    void SetIPAddress(std::string &value);
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
-    std::vector<unsigned int>& GetMulticastIPAddress();
+    std::vector<unsigned int> &GetMulticastIPAddress();
 
-    std::vector<CGXDLMSIp4SetupIpOption>& GetIPOptions();
+    std::vector<CGXDLMSIp4SetupIpOption> &GetIPOptions();
 
-    void SetIPOptions(std::vector<CGXDLMSIp4SetupIpOption>& value);
+    void SetIPOptions(std::vector<CGXDLMSIp4SetupIpOption> &value);
 
     unsigned int GetSubnetMask();
     void SetSubnetMask(unsigned int value);
-    void GetSubnetMask(std::string& value);
+    void GetSubnetMask(std::string &value);
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-    void SetSubnetMask(std::string& value);
-#endif//defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    void SetSubnetMask(std::string &value);
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
     unsigned int GetGatewayIPAddress();
     void SetGatewayIPAddress(unsigned int value);
-    void GetGatewayIPAddress(std::string& value);
+    void GetGatewayIPAddress(std::string &value);
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-    void SetGatewayIPAddress(std::string& value);
-#endif//defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    void SetGatewayIPAddress(std::string &value);
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
     bool GetUseDHCP();
     void SetUseDHCP(bool value);
 
     unsigned int GetPrimaryDNSAddress();
     void SetPrimaryDNSAddress(unsigned int value);
-    void GetPrimaryDNSAddress(std::string& value);
+    void GetPrimaryDNSAddress(std::string &value);
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-    void SetPrimaryDNSAddress(std::string& value);
-#endif//defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    void SetPrimaryDNSAddress(std::string &value);
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
     unsigned int GetSecondaryDNSAddress();
     void SetSecondaryDNSAddress(unsigned int value);
-    void GetSecondaryDNSAddress(std::string& value);
+    void GetSecondaryDNSAddress(std::string &value);
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-    void SetSecondaryDNSAddress(std::string& value);
-#endif//defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    void SetSecondaryDNSAddress(std::string &value);
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -122,7 +122,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -132,15 +132,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_IP4_SETUP
-#endif //GXDLMSIP4SETUP_H
+#endif  //DLMS_IGNORE_IP4_SETUP
+#endif  //GXDLMSIP4SETUP_H

@@ -34,12 +34,7 @@
 
 #include "../include/GXShamirs.h"
 
-int CGXShamirs::Trick(CGXCurve& curve,
-    CGXPublicKey& pub,
-    CGXEccPoint& ret,
-    CGXBigInteger& u1,
-    CGXBigInteger& u2)
-{
+int CGXShamirs::Trick(CGXCurve &curve, CGXPublicKey &pub, CGXEccPoint &ret, CGXBigInteger &u1, CGXBigInteger &u2) {
     CGXEccPoint sum;
     CGXByteArray x = pub.GetX(), y = pub.GetY();
     CGXBigInteger x1(x);
@@ -50,18 +45,13 @@ int CGXShamirs::Trick(CGXCurve& curve,
     uint16_t bits2 = u2.GetUsedBits();
     uint16_t pos = bits1 > bits2 ? bits1 : bits2;
     --pos;
-    if (u1.IsBitSet(pos) && u2.IsBitSet(pos))
-    {
+    if (u1.IsBitSet(pos) && u2.IsBitSet(pos)) {
         ret.X = sum.X;
         ret.Y = sum.Y;
-    }
-    else if (u1.IsBitSet(pos))
-    {
+    } else if (u1.IsBitSet(pos)) {
         ret.X = curve.m_G.X;
         ret.Y = curve.m_G.Y;
-    }
-    else if (u2.IsBitSet(pos))
-    {
+    } else if (u2.IsBitSet(pos)) {
         CGXByteArray tmp = pub.GetX();
         ret.X = CGXBigInteger(tmp);
         tmp = pub.GetY();
@@ -69,27 +59,20 @@ int CGXShamirs::Trick(CGXCurve& curve,
     }
     CGXEccPoint tmp;
     --pos;
-    while (true)
-    {
+    while (true) {
         tmp.X = ret.X;
         tmp.Y = ret.Y;
         PointDouble(curve, ret, tmp);
         tmp.X = ret.X;
         tmp.Y = ret.Y;
-        if (u1.IsBitSet(pos) && u2.IsBitSet(pos))
-        {
+        if (u1.IsBitSet(pos) && u2.IsBitSet(pos)) {
             PointAdd(curve, ret, tmp, sum);
-        }
-        else if (u1.IsBitSet(pos))
-        {
+        } else if (u1.IsBitSet(pos)) {
             PointAdd(curve, ret, tmp, curve.m_G);
-        }
-        else if (u2.IsBitSet(pos))
-        {
+        } else if (u2.IsBitSet(pos)) {
             PointAdd(curve, ret, tmp, op2);
         }
-        if (pos == 0)
-        {
+        if (pos == 0) {
             break;
         }
         --pos;
@@ -97,11 +80,7 @@ int CGXShamirs::Trick(CGXCurve& curve,
     return 0;
 }
 
-int CGXShamirs::PointAdd(CGXCurve& curve,
-    CGXEccPoint& ret,
-    CGXEccPoint& p1,
-    CGXEccPoint& p2)
-{
+int CGXShamirs::PointAdd(CGXCurve &curve, CGXEccPoint &ret, CGXEccPoint &p1, CGXEccPoint &p2) {
     CGXBigInteger negy(curve.m_P);
     negy.Sub(p2.Y);
     // Calculate lambda.
@@ -128,10 +107,7 @@ int CGXShamirs::PointAdd(CGXCurve& curve,
     return 0;
 }
 
-int CGXShamirs::PointDouble(CGXCurve& curve,
-    CGXEccPoint& ret,
-    CGXEccPoint& p1)
-{
+int CGXShamirs::PointDouble(CGXCurve &curve, CGXEccPoint &ret, CGXEccPoint &p1) {
     CGXBigInteger numer(p1.X);
     numer.Multiply(p1.X);
     numer.Multiply(3);
@@ -157,11 +133,7 @@ int CGXShamirs::PointDouble(CGXCurve& curve,
     return 0;
 }
 
-int CGXShamirs::PointMulti(CGXCurve& curve,
-    CGXEccPoint& ret,
-    CGXEccPoint& point,
-    CGXBigInteger& scalar)
-{
+int CGXShamirs::PointMulti(CGXCurve &curve, CGXEccPoint &ret, CGXEccPoint &point, CGXBigInteger &scalar) {
     CGXBigInteger x(point.X);
     CGXBigInteger y(point.Y);
     CGXEccPoint R0(x, y);
@@ -170,19 +142,15 @@ int CGXShamirs::PointMulti(CGXCurve& curve,
     PointDouble(curve, R1, point);
     uint16_t dbits = scalar.GetUsedBits();
     dbits -= 2;
-    while (true)
-    {
-        if (scalar.IsBitSet(dbits))
-        {
+    while (true) {
+        if (scalar.IsBitSet(dbits)) {
             tmp.X = R0.X;
             tmp.Y = R0.Y;
             PointAdd(curve, R0, R1, tmp);
             tmp.X = R1.X;
             tmp.Y = R1.Y;
             PointDouble(curve, R1, tmp);
-        }
-        else
-        {
+        } else {
             tmp.X = R1.X;
             tmp.Y = R1.Y;
             PointAdd(curve, R1, R0, tmp);
@@ -190,8 +158,7 @@ int CGXShamirs::PointMulti(CGXCurve& curve,
             tmp.Y = R0.Y;
             PointDouble(curve, R0, tmp);
         }
-        if (dbits == 0)
-        {
+        if (dbits == 0) {
             break;
         }
         --dbits;

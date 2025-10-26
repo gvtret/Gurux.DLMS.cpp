@@ -38,15 +38,12 @@
 #include <vector>
 #include <string>
 
-class CGXSerialNumberCounter
-{
+class CGXSerialNumberCounter {
 private:
     /**
     * Constructor.
     */
-    CGXSerialNumberCounter()
-    {
-
+    CGXSerialNumberCounter() {
     }
 
     /**
@@ -56,23 +53,22 @@ private:
     *            Unformatted math expression.
     * @return Formatted math expression.
     */
-    static int FormatString(std::string& expression, std::string& value);
+    static int FormatString(std::string &expression, std::string &value);
     /*
      * Get values to count together.
      */
-    static int GetValues(std::string& expressions, std::vector<std::string>& values);
+    static int GetValues(std::string &expressions, std::vector<std::string> &values);
 
-    static int GetValue(std::string& value, int sn);
+    static int GetValue(std::string &value, int sn);
+
 public:
-
-
     /// <summary>
     /// Count serial number using formula.
     /// </summary>
     /// <param name="sn">Serial number</param>
     /// <param name="formula">Formula to used.</param>
     /// <returns></returns>
-    static int Count(unsigned long sn, const char* formula);
+    static int Count(unsigned long sn, const char *formula);
 };
 
-#endif //GXSERIALNUMBERCOUNTER_H
+#endif  //GXSERIALNUMBERCOUNTER_H

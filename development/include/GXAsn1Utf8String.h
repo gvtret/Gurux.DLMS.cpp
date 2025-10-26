@@ -38,42 +38,36 @@
 #include <string>
 #include "GXAsn1Base.h"
 
-class CGXAsn1Utf8String : public CGXAsn1Base
-{
+class CGXAsn1Utf8String: public CGXAsn1Base {
 private:
     std::string m_Value;
+
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Utf8String()
-    {
-
+    CGXAsn1Utf8String() {
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     // value: IA5 string.
     /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Utf8String(std::string& value)
-    {
+    CGXAsn1Utf8String(std::string &value) {
         m_Value = value;
     }
 
-    std::string& GetValue()
-    {
+    std::string &GetValue() {
         return m_Value;
     }
 
-    void SetValue(std::string& value)
-    {
+    void SetValue(std::string &value) {
         m_Value = value;
     }
 
-    std::string ToString()
-    {
+    std::string ToString() {
         return m_Value;
     }
 };
 
-#endif //GXASN1UTF8STRING_H
+#endif  //GXASN1UTF8STRING_H

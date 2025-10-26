@@ -38,8 +38,7 @@
 #include "enums.h"
 #include <string>
 
-class CGXAuthenticationMechanismName
-{
+class CGXAuthenticationMechanismName {
 private:
     int m_JointIsoCtt;
     int m_Country;
@@ -78,4 +77,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXAUTHENTICATIONMECHANISMNAME_H
+#endif  //GXAUTHENTICATIONMECHANISMNAME_H

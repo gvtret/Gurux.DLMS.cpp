@@ -38,49 +38,39 @@
 
 #ifndef DLMS_IGNORE_PPP_SETUP
 //Constructor.
-CGXDLMSPppSetup::CGXDLMSPppSetup() :
-    CGXDLMSPppSetup("", 0)
-{
+CGXDLMSPppSetup::CGXDLMSPppSetup(): CGXDLMSPppSetup("", 0) {
     m_Authentication = PPP_AUTHENTICATION_TYPE_NONE;
 }
 
 //SN Constructor.
-CGXDLMSPppSetup::CGXDLMSPppSetup(std::string ln, unsigned short sn) :
-    CGXDLMSObject(DLMS_OBJECT_TYPE_PPP_SETUP, ln, sn)
-{
+CGXDLMSPppSetup::CGXDLMSPppSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_PPP_SETUP, ln, sn) {
     m_Authentication = PPP_AUTHENTICATION_TYPE_NONE;
 }
 
 //LN Constructor.
-CGXDLMSPppSetup::CGXDLMSPppSetup(std::string ln) :
-    CGXDLMSPppSetup(ln, 0)
-{
+CGXDLMSPppSetup::CGXDLMSPppSetup(std::string ln): CGXDLMSPppSetup(ln, 0) {
     m_Authentication = PPP_AUTHENTICATION_TYPE_NONE;
 }
 
-PPP_AUTHENTICATION_TYPE CGXDLMSPppSetup::GetAuthentication()
-{
+PPP_AUTHENTICATION_TYPE CGXDLMSPppSetup::GetAuthentication() {
     return m_Authentication;
 }
-void CGXDLMSPppSetup::SetAuthentication(PPP_AUTHENTICATION_TYPE value)
-{
+
+void CGXDLMSPppSetup::SetAuthentication(PPP_AUTHENTICATION_TYPE value) {
     m_Authentication = value;
 }
 
 #ifdef UNICODE
-CGXByteBuffer& CGXDLMSPppSetup::GetUserNameW()
-{
+CGXByteBuffer &CGXDLMSPppSetup::GetUserNameW() {
     return m_UserName;
 }
-#endif //UNICODE
+#endif  //UNICODE
 
-CGXByteBuffer& CGXDLMSPppSetup::GetUserName()
-{
+CGXByteBuffer &CGXDLMSPppSetup::GetUserName() {
     return m_UserName;
 }
 
-void CGXDLMSPppSetup::SetUserName(CGXByteBuffer& value)
-{
+void CGXDLMSPppSetup::SetUserName(CGXByteBuffer &value) {
     m_UserName = value;
 }
 
@@ -88,50 +78,41 @@ void CGXDLMSPppSetup::SetUserName(CGXByteBuffer& value)
  PPP authentication procedure password.
 */
 
-CGXByteBuffer& CGXDLMSPppSetup::GetPassword()
-{
+CGXByteBuffer &CGXDLMSPppSetup::GetPassword() {
     return m_Password;
 }
 
-void CGXDLMSPppSetup::SetPassword(CGXByteBuffer value)
-{
+void CGXDLMSPppSetup::SetPassword(CGXByteBuffer value) {
     m_Password = value;
 }
 
-std::string CGXDLMSPppSetup::GetPHYReference()
-{
+std::string CGXDLMSPppSetup::GetPHYReference() {
     return m_PHYReference;
 }
-void CGXDLMSPppSetup::SetPHYReference(std::string value)
-{
+
+void CGXDLMSPppSetup::SetPHYReference(std::string value) {
     m_PHYReference = value;
 }
 
-std::vector<CGXDLMSPppSetupLcpOption>& CGXDLMSPppSetup::GetLCPOptions()
-{
+std::vector<CGXDLMSPppSetupLcpOption> &CGXDLMSPppSetup::GetLCPOptions() {
     return m_LCPOptions;
 }
 
-
-std::vector<CGXDLMSPppSetupIPCPOption>& CGXDLMSPppSetup::GetIPCPOptions()
-{
+std::vector<CGXDLMSPppSetupIPCPOption> &CGXDLMSPppSetup::GetIPCPOptions() {
     return m_IPCPOptions;
 }
 
 // Returns amount of attributes.
-int CGXDLMSPppSetup::GetAttributeCount()
-{
+int CGXDLMSPppSetup::GetAttributeCount() {
     return 5;
 }
 
 // Returns amount of methods.
-int CGXDLMSPppSetup::GetMethodCount()
-{
+int CGXDLMSPppSetup::GetMethodCount() {
     return 0;
 }
 
-void CGXDLMSPppSetup::GetValues(std::vector<std::string>& values)
-{
+void CGXDLMSPppSetup::GetValues(std::vector<std::string> &values) {
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -140,10 +121,8 @@ void CGXDLMSPppSetup::GetValues(std::vector<std::string>& values)
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<CGXDLMSPppSetupLcpOption>::iterator it = m_LCPOptions.begin(); it != m_LCPOptions.end(); ++it)
-    {
-        if (!empty)
-        {
+    for (std::vector<CGXDLMSPppSetupLcpOption>::iterator it = m_LCPOptions.begin(); it != m_LCPOptions.end(); ++it) {
+        if (!empty) {
             sb << ", ";
         }
         empty = false;
@@ -157,10 +136,8 @@ void CGXDLMSPppSetup::GetValues(std::vector<std::string>& values)
     sb.str(std::string());
     sb << '[';
     empty = true;
-    for (std::vector<CGXDLMSPppSetupIPCPOption>::iterator it = m_IPCPOptions.begin(); it != m_IPCPOptions.end(); ++it)
-    {
-        if (!empty)
-        {
+    for (std::vector<CGXDLMSPppSetupIPCPOption>::iterator it = m_IPCPOptions.begin(); it != m_IPCPOptions.end(); ++it) {
+        if (!empty) {
             sb << ", ";
         }
         empty = false;
@@ -175,101 +152,75 @@ void CGXDLMSPppSetup::GetValues(std::vector<std::string>& values)
     values.push_back(str);
 }
 
-void CGXDLMSPppSetup::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
-{
+void CGXDLMSPppSetup::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
-    {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
         attributes.push_back(1);
     }
     //PHYReference
-    if (all || !IsRead(2))
-    {
+    if (all || !IsRead(2)) {
         attributes.push_back(2);
     }
     //LCPOptions
-    if (all || !IsRead(3))
-    {
+    if (all || !IsRead(3)) {
         attributes.push_back(3);
     }
     //IPCPOptions
-    if (all || !IsRead(4))
-    {
+    if (all || !IsRead(4)) {
         attributes.push_back(4);
     }
     //PPPAuthentication
-    if (all || !IsRead(5))
-    {
+    if (all || !IsRead(5)) {
         attributes.push_back(5);
     }
 }
 
-int CGXDLMSPppSetup::GetDataType(int index, DLMS_DATA_TYPE& type)
-{
-    if (index == 1)
-    {
+int CGXDLMSPppSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
+    if (index == 1) {
         type = DLMS_DATA_TYPE_OCTET_STRING;
-    }
-    else if (index == 2)
-    {
+    } else if (index == 2) {
         type = DLMS_DATA_TYPE_OCTET_STRING;
-    }
-    else if (index == 3)
-    {
+    } else if (index == 3) {
         type = DLMS_DATA_TYPE_ARRAY;
-    }
-    else if (index == 4)
-    {
+    } else if (index == 4) {
         type = DLMS_DATA_TYPE_ARRAY;
-    }
-    else if (index == 5)
-    {
-        if (m_UserName.GetSize() == 0)
-        {
+    } else if (index == 5) {
+        if (m_UserName.GetSize() == 0) {
             type = DLMS_DATA_TYPE_NONE;
-        }
-        else
-        {
+        } else {
             type = DLMS_DATA_TYPE_STRUCTURE;
         }
-    }
-    else
-    {
+    } else {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
 
 // Returns value of given attribute.
-int CGXDLMSPppSetup::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
+int CGXDLMSPppSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
     CGXByteBuffer data;
-    if (e.GetIndex() == 1)
-    {
+    if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0)
-        {
+        if ((ret = GetLogicalName(this, tmp)) != 0) {
             return ret;
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 2)
-    {
+    if (e.GetIndex() == 2) {
         CGXDLMSVariant tmp;
         GXHelpers::SetLogicalName(m_PHYReference.c_str(), tmp);
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 3)
-    {
+    if (e.GetIndex() == 3) {
         e.SetByteArray(true);
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         GXHelpers::SetObjectCount((unsigned long)m_LCPOptions.size(), data);
         CGXDLMSVariant type, len;
-        for (std::vector<CGXDLMSPppSetupLcpOption>::iterator it = m_LCPOptions.begin(); it != m_LCPOptions.end(); ++it)
-        {
+        for (std::vector<CGXDLMSPppSetupLcpOption>::iterator it = m_LCPOptions.begin(); it != m_LCPOptions.end();
+             ++it) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(3);
             type = it->GetType();
@@ -282,14 +233,13 @@ int CGXDLMSPppSetup::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e
         e.SetValue(data);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 4)
-    {
+    if (e.GetIndex() == 4) {
         e.SetByteArray(true);
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         GXHelpers::SetObjectCount((unsigned long)m_IPCPOptions.size(), data);
         CGXDLMSVariant type, len;
-        for (std::vector<CGXDLMSPppSetupIPCPOption>::iterator it = m_IPCPOptions.begin(); it != m_IPCPOptions.end(); ++it)
-        {
+        for (std::vector<CGXDLMSPppSetupIPCPOption>::iterator it = m_IPCPOptions.begin(); it != m_IPCPOptions.end();
+             ++it) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(3);
             type = it->GetType();
@@ -300,11 +250,8 @@ int CGXDLMSPppSetup::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e
         }
         e.SetValue(data);
         return DLMS_ERROR_CODE_OK;
-    }
-    else if (e.GetIndex() == 5)
-    {
-        if (m_UserName.GetSize() != 0)
-        {
+    } else if (e.GetIndex() == 5) {
+        if (m_UserName.GetSize() != 0) {
             e.SetByteArray(true);
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(2);
@@ -324,30 +271,20 @@ int CGXDLMSPppSetup::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e
 }
 
 // Set value of given attribute.
-int CGXDLMSPppSetup::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() == 1)
-    {
+int CGXDLMSPppSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
-    }
-    else if (e.GetIndex() == 2)
-    {
-        if (e.GetValue().vt == DLMS_DATA_TYPE_STRING)
-        {
+    } else if (e.GetIndex() == 2) {
+        if (e.GetValue().vt == DLMS_DATA_TYPE_STRING) {
             m_PHYReference = e.GetValue().ToString();
-        }
-        else
-        {
+        } else {
             GXHelpers::GetLogicalName(e.GetValue().byteArr, m_PHYReference);
         }
-    }
-    else if (e.GetIndex() == 3)
-    {
+    } else if (e.GetIndex() == 3) {
         m_LCPOptions.clear();
-        if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY)
-        {
-            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item)
-            {
+        if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
+            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+                 ++item) {
                 CGXDLMSPppSetupLcpOption it;
                 it.SetType((PPP_SETUP_LCP_OPTION_TYPE)(*item).Arr[0].ToInteger());
                 it.SetLength((*item).Arr[1].ToInteger());
@@ -355,14 +292,11 @@ int CGXDLMSPppSetup::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e
                 m_LCPOptions.push_back(it);
             }
         }
-    }
-    else if (e.GetIndex() == 4)
-    {
+    } else if (e.GetIndex() == 4) {
         m_IPCPOptions.clear();
-        if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY)
-        {
-            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item)
-            {
+        if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
+            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+                 ++item) {
                 CGXDLMSPppSetupIPCPOption it;
                 it.SetType((PPP_SETUP_IPCP_OPTION_TYPE)(*item).Arr[0].ToInteger());
                 it.SetLength((*item).Arr[1].ToInteger());
@@ -370,25 +304,18 @@ int CGXDLMSPppSetup::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e
                 m_IPCPOptions.push_back(it);
             }
         }
-    }
-    else if (e.GetIndex() == 5)
-    {
+    } else if (e.GetIndex() == 5) {
         m_UserName.Clear();
         m_Password.Clear();
-        if (e.GetValue().Arr.size() == 2)
-        {
+        if (e.GetValue().Arr.size() == 2) {
             m_UserName.Set(e.GetValue().Arr[0].byteArr, e.GetValue().Arr[0].size);
             m_Password.Set(e.GetValue().Arr[1].byteArr, e.GetValue().Arr[1].size);
-        }
-        else if (e.GetValue().Arr.size() != 0)
-        {
+        } else if (e.GetValue().Arr.size() != 0) {
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
-    }
-    else
-    {
+    } else {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
-#endif //DLMS_IGNORE_PPP_SETUP
+#endif  //DLMS_IGNORE_PPP_SETUP

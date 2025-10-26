@@ -40,14 +40,12 @@
 /**
  * LN Parameters
  */
-class CGXDLMSLNParameters
-{
+class CGXDLMSLNParameters {
 private:
-
     /**
      * DLMS settings.
      */
-    CGXDLMSSettings* m_Settings;
+    CGXDLMSSettings *m_Settings;
     /**
      * DLMS command.
      */
@@ -64,15 +62,15 @@ private:
     /**
      * Attribute descriptor.
      */
-    CGXByteBuffer* m_AttributeDescriptor;
+    CGXByteBuffer *m_AttributeDescriptor;
     /**
      * Data.
      */
-    CGXByteBuffer* m_Data;
+    CGXByteBuffer *m_Data;
     /**
      * Send date and time. This is used in Data notification messages.
      */
-    struct tm* m_Time;
+    struct tm *m_Time;
     /**
      * Reply status.
      */
@@ -126,19 +124,15 @@ public:
      * @param data
      *            Data.
      */
-    CGXDLMSLNParameters(CGXDLMSSettings* settings,
-        unsigned long invokeId,
-        DLMS_COMMAND command,
-        int commandType,
-        CGXByteBuffer* attributeDescriptor,
-        CGXByteBuffer* data,
-        int status,
-        unsigned char cipheredCommand);
+    CGXDLMSLNParameters(
+        CGXDLMSSettings *settings, unsigned long invokeId, DLMS_COMMAND command, int commandType,
+        CGXByteBuffer *attributeDescriptor, CGXByteBuffer *data, int status, unsigned char cipheredCommand
+    );
 
     /**
      * Returns DLMS settings.
      */
-    CGXDLMSSettings* GetSettings();
+    CGXDLMSSettings *GetSettings();
 
     /**
      * Returns DLMS command.
@@ -164,23 +158,23 @@ public:
     /**
      * Returns the attributeDescriptor
      */
-    CGXByteBuffer* GetAttributeDescriptor();
+    CGXByteBuffer *GetAttributeDescriptor();
 
     /**
      * Returns the data
      */
-    CGXByteBuffer* GetData();
+    CGXByteBuffer *GetData();
 
     /**
      * Returns the time
      */
-    struct tm* GetTime();
+    struct tm *GetTime();
 
     /**
      * @param value
      *            the time to set
      */
-    void SetTime(struct tm* value);
+    void SetTime(struct tm *value);
 
     /**
      * Returns Status.
@@ -242,24 +236,21 @@ public:
     /*
     * GBT block number.
     */
-    int GetBlockNumber()
-    {
+    int GetBlockNumber() {
         return m_BlockNumber;
     }
 
     /*
      * GBT block number.
      */
-    void SetBlockNumber(int value)
-    {
+    void SetBlockNumber(int value) {
         m_BlockNumber = value;
     }
 
     /**
      * GBT block number ACK.
      */
-    int GetBlockNumberAck()
-    {
+    int GetBlockNumberAck() {
         return m_BlockNumberAck;
     }
 
@@ -267,24 +258,21 @@ public:
      * @param value
      *            GBT block number ACK.
      */
-    void SetBlockNumberAck(int value)
-    {
+    void SetBlockNumberAck(int value) {
         m_BlockNumberAck = value;
     }
 
     /**
      * Returns Is GBT streaming in use.
      */
-    bool GetStreaming()
-    {
+    bool GetStreaming() {
         return m_Streaming;
     }
 
     /**
      * Is GBT streaming in use.
      */
-    void SetStreaming(bool value)
-    {
+    void SetStreaming(bool value) {
         m_Streaming = value;
     }
 
@@ -298,19 +286,16 @@ public:
     /**
      * GBT Window size. This is for internal use.
      */
-    void SetWindowSize(unsigned char value)
-    {
+    void SetWindowSize(unsigned char value) {
         m_WindowSize = value;
     }
-
 
     /**
      * Returns ciphered DLMS Command.
      */
-    unsigned char GetCipheredCommand()
-    {
+    unsigned char GetCipheredCommand() {
         return m_CipheredCommand;
     }
 };
 
-#endif //GXDLMSLNPARAMETERS_H
+#endif  //GXDLMSLNPARAMETERS_H

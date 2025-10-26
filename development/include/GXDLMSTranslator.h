@@ -45,9 +45,7 @@
 #include "GXDLMSTranslatorStructure.h"
 #include "GXDLMSSettings.h"
 
-
-class CGXDLMSTranslator
-{
+class CGXDLMSTranslator {
     DLMS_TRANSLATOR_OUTPUT_TYPE m_OutputType;
     unsigned short m_SAck, m_RAck;
     bool sending;
@@ -70,10 +68,14 @@ class CGXDLMSTranslator
     // If only PDUs are shown and PDU is received on parts.
     CGXByteBuffer m_PduFrames;
 
-    int PduToXml(CGXByteBuffer& value, bool omitDeclaration, bool omitNameSpace, std::string& output);
+    int PduToXml(CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace, std::string &output);
 
-    int PduToXml(CGXDLMSTranslatorStructure* xml, CGXByteBuffer& value, bool omitDeclaration, bool omitNameSpace, bool allowUnknownCommand, std::string& output);
-    void GetCiphering(CGXDLMSSettings& settings, bool force);
+    int PduToXml(
+        CGXDLMSTranslatorStructure *xml, CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace,
+        bool allowUnknownCommand, std::string &output
+    );
+    void GetCiphering(CGXDLMSSettings &settings, bool force);
+
 public:
     // Are comments added.
     bool GetComments();
@@ -151,12 +153,11 @@ public:
     * list: List of tags by ID.
     * tagsByName: List of tags by name.
     */
-    static void GetTags(DLMS_TRANSLATOR_OUTPUT_TYPE type,
-        std::map<unsigned long, std::string>& list,
-        std::map<std::string, unsigned long>& tagsByName)
-    {
-        if (type == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-        {
+    static void GetTags(
+        DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list,
+        std::map<std::string, unsigned long> &tagsByName
+    ) {
+        if (type == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
             CTranslatorSimpleTags::GetGeneralTags(type, list);
             CTranslatorSimpleTags::GetSnTags(type, list);
             CTranslatorSimpleTags::GetLnTags(type, list);
@@ -164,9 +165,7 @@ public:
             CTranslatorSimpleTags::GetDedTags(type, list);
             CTranslatorSimpleTags::GetTranslatorTags(type, list);
             CTranslatorSimpleTags::GetDataTypeTags(list);
-        }
-        else
-        {
+        } else {
             CTranslatorStandardTags::GetGeneralTags(type, list);
             CTranslatorStandardTags::GetSnTags(type, list);
             CTranslatorStandardTags::GetLnTags(type, list);
@@ -177,15 +176,12 @@ public:
         }
         // Simple is not case sensitive.
         bool lowercase = type == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML;
-        for (std::map<unsigned long, std::string>::iterator it = list.begin(); it != list.end(); ++it)
-        {
+        for (std::map<unsigned long, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
             std::string str = it->second;
-            if (lowercase)
-            {
+            if (lowercase) {
                 std::transform(str.begin(), str.end(), str.begin(), ::tolower);
             }
-            if (tagsByName.find(str) == tagsByName.end())
-            {
+            if (tagsByName.find(str) == tagsByName.end()) {
                 tagsByName[str] = it->first;
             }
         }
@@ -210,55 +206,55 @@ public:
     /**
      * @return System title.
      */
-    CGXByteBuffer& GetSystemTitle();
+    CGXByteBuffer &GetSystemTitle();
 
     /**
     *  @param value System title.
     */
-    void SetSystemTitle(CGXByteBuffer& value);
+    void SetSystemTitle(CGXByteBuffer &value);
 
 
     /*
      * Returns System title.
      */
-    CGXByteBuffer& GetServerSystemTitle();
+    CGXByteBuffer &GetServerSystemTitle();
 
     /*
     *  value: System title.
     */
-    void SetServerSystemTitle(CGXByteBuffer& value);
+    void SetServerSystemTitle(CGXByteBuffer &value);
 
     /*
      * Returns dedicated key.
     */
-    CGXByteBuffer& GetDedicatedKey();
+    CGXByteBuffer &GetDedicatedKey();
 
     /*
     *  value: Dedicated ky.
     */
-    void SetDedicatedKey(CGXByteBuffer& value);
+    void SetDedicatedKey(CGXByteBuffer &value);
 
 
     /**
      * @return Block cipher key.
      */
-    CGXByteBuffer& GetBlockCipherKey();
+    CGXByteBuffer &GetBlockCipherKey();
 
     /**
     *  @param value Block cipher key.
     */
-    void SetBlockCipherKey(CGXByteBuffer& value);
+    void SetBlockCipherKey(CGXByteBuffer &value);
 
     /**
      * @return Authentication key.
      */
-    CGXByteBuffer& GetAuthenticationKey();
+    CGXByteBuffer &GetAuthenticationKey();
 
     /**
      * @param value
      *            Authentication key.
      */
-    void SetAuthenticationKey(CGXByteBuffer& value);
+    void SetAuthenticationKey(CGXByteBuffer &value);
 
     /**
      * @return Frame counter. Invocation counter.
@@ -270,26 +266,19 @@ public:
     // Convert bytes to xml.
     // value: Bytes to convert.
     // Returns Converted xml.
-    int PduToXml(CGXByteBuffer& value, std::string& output)
-    {
+    int PduToXml(CGXByteBuffer &value, std::string &output) {
         return PduToXml(value, m_OmitXmlDeclaration, m_OmitXmlNameSpace, output);
     }
 
-    static DLMS_ERROR_CODE ValueOfErrorCode(
-        DLMS_TRANSLATOR_OUTPUT_TYPE type,
-        std::string& value);
+    static DLMS_ERROR_CODE ValueOfErrorCode(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::string &value);
 
-    static int ErrorCodeToString(
-        DLMS_TRANSLATOR_OUTPUT_TYPE type,
-        DLMS_ERROR_CODE value,
-        std::string& result);
+    static int ErrorCodeToString(DLMS_TRANSLATOR_OUTPUT_TYPE type, DLMS_ERROR_CODE value, std::string &result);
 
     // Convert data bytes to XML.
     // <param name="data">Data to parse.</param>
     // <param name="xml">Generated xml.</param>
     // <returns>Error code.</returns>
-    int DataToXml(CGXByteBuffer& data, std::string& xml);
-
+    int DataToXml(CGXByteBuffer &data, std::string &xml);
 };
-#endif //DLMS_IGNORE_XML_TRANSLATOR
-#endif //GXDLMSTRANSLATOR_H
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //GXDLMSTRANSLATOR_H

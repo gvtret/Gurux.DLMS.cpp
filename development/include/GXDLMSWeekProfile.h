@@ -37,8 +37,7 @@
 #include <string>
 #include "GXBytebuffer.h"
 
-class CGXDLMSWeekProfile
-{
+class CGXDLMSWeekProfile {
     CGXByteBuffer m_Name;
     int m_Monday;
     int m_Tuesday;
@@ -47,6 +46,7 @@ class CGXDLMSWeekProfile
     int m_Friday;
     int m_Saturday;
     int m_Sunday;
+
 public:
     /**
      Constructor.
@@ -56,15 +56,17 @@ public:
     /**
      Constructor.
     */
-    CGXDLMSWeekProfile(std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday);
+    CGXDLMSWeekProfile(
+        std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday
+    );
 
     std::string GetName();
 
     void SetName(std::string value);
 
-    void GetName(CGXByteBuffer& value);
+    void GetName(CGXByteBuffer &value);
 
-    void SetName(CGXByteBuffer& value);
+    void SetName(CGXByteBuffer &value);
 
     int GetMonday();
 
@@ -97,4 +99,4 @@ public:
     std::string ToString();
 };
 
-#endif //GXDLMSWEEKPROFILE_H
+#endif  //GXDLMSWEEKPROFILE_H

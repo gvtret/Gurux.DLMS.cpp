@@ -34,10 +34,7 @@
 
 #include "../include/GXDLMSSettings.h"
 
-CGXDLMSSettings::CGXDLMSSettings(bool isServer) :
-    m_Server(isServer),
-    m_PlcSettings(this)
-{
+CGXDLMSSettings::CGXDLMSSettings(bool isServer): m_Server(isServer), m_PlcSettings(this) {
     m_UseCustomChallenge = false;
     m_BlockIndex = 1;
     m_Connected = DLMS_CONNECTION_STATE_NONE;
@@ -72,72 +69,56 @@ CGXDLMSSettings::CGXDLMSSettings(bool isServer) :
 }
 
 //Destructor.
-CGXDLMSSettings::~CGXDLMSSettings()
-{
+CGXDLMSSettings::~CGXDLMSSettings() {
     m_Objects.Free();
     m_AllocatedObjects.Free();
 }
 
-CGXByteBuffer& CGXDLMSSettings::GetCtoSChallenge()
-{
+CGXByteBuffer &CGXDLMSSettings::GetCtoSChallenge() {
     return m_CtoSChallenge;
 }
 
-
-void CGXDLMSSettings::SetCtoSChallenge(CGXByteBuffer& value)
-{
+void CGXDLMSSettings::SetCtoSChallenge(CGXByteBuffer &value) {
     m_CtoSChallenge = value;
 }
 
-CGXByteBuffer& CGXDLMSSettings::GetStoCChallenge()
-{
+CGXByteBuffer &CGXDLMSSettings::GetStoCChallenge() {
     return m_StoCChallenge;
 }
 
-void CGXDLMSSettings::SetStoCChallenge(CGXByteBuffer& value)
-{
+void CGXDLMSSettings::SetStoCChallenge(CGXByteBuffer &value) {
     m_StoCChallenge = value;
 }
 
-DLMS_AUTHENTICATION CGXDLMSSettings::GetAuthentication()
-{
+DLMS_AUTHENTICATION CGXDLMSSettings::GetAuthentication() {
     return m_Authentication;
 }
 
-void CGXDLMSSettings::SetAuthentication(DLMS_AUTHENTICATION value)
-{
+void CGXDLMSSettings::SetAuthentication(DLMS_AUTHENTICATION value) {
     m_Authentication = value;
 }
 
-CGXByteBuffer& CGXDLMSSettings::GetPassword()
-{
+CGXByteBuffer &CGXDLMSSettings::GetPassword() {
     return m_Password;
 }
 
-void CGXDLMSSettings::SetPassword(CGXByteBuffer& value)
-{
+void CGXDLMSSettings::SetPassword(CGXByteBuffer &value) {
     m_Password = value;
 }
 
-unsigned char CGXDLMSSettings::GetDlmsVersionNumber()
-{
+unsigned char CGXDLMSSettings::GetDlmsVersionNumber() {
     return m_DlmsVersionNumber;
 }
 
-void CGXDLMSSettings::SetDlmsVersionNumber(unsigned char value)
-{
+void CGXDLMSSettings::SetDlmsVersionNumber(unsigned char value) {
     m_DlmsVersionNumber = value;
 }
 
-void CGXDLMSSettings::ResetFrameSequence()
-{
-    if (m_Server)
-    {
+void CGXDLMSSettings::ResetFrameSequence() {
+    if (m_Server) {
         m_SenderFrame = SERVER_START_SENDER_FRAME_SEQUENCE;
         m_ReceiverFrame = SERVER_START_RECEIVER_FRAME_SEQUENCE;
-    }
-    else
-    {
+    } else {
         m_SenderFrame = CLIENT_START_SENDER_FRAME_SEQUENCE;
         m_ReceiverFrame = CLIENT_START_RCEIVER_FRAME_SEQUENCE;
     }
@@ -148,8 +129,7 @@ void CGXDLMSSettings::ResetFrameSequence()
 // @param value
 //            Frame value.
 // Increased receiver frame sequence.
-static unsigned char IncreaseReceiverSequence(unsigned char value)
-{
+static unsigned char IncreaseReceiverSequence(unsigned char value) {
     return ((value + 0x20) | 0x10 | (value & 0xE));
 }
 
@@ -158,56 +138,45 @@ static unsigned char IncreaseReceiverSequence(unsigned char value)
 // @param value
 //            Frame value.
 // Increased sender frame sequence.
-static unsigned char IncreaseSendSequence(unsigned char value)
-{
+static unsigned char IncreaseSendSequence(unsigned char value) {
     return (unsigned char)((value & 0xF0) | ((value + 0x2) & 0xE));
 }
 
-bool CGXDLMSSettings::CheckFrame(unsigned char frame)
-{
+bool CGXDLMSSettings::CheckFrame(unsigned char frame) {
     //If notify
-    if (frame == 0x13)
-    {
+    if (frame == 0x13) {
         return true;
     }
     // If U frame.
-    if ((frame & 0x3) == 3)
-    {
-        if (frame == 0x73 || frame == 0x93)
-        {
+    if ((frame & 0x3) == 3) {
+        if (frame == 0x73 || frame == 0x93) {
             ResetFrameSequence();
         }
         return true;
     }
     // If S -frame
-    if ((frame & 0x3) == 1)
-    {
+    if ((frame & 0x3) == 1) {
         m_ReceiverFrame = IncreaseReceiverSequence(m_ReceiverFrame);
         return true;
     }
 
     //Handle I-frame.
     unsigned char expected;
-    if ((m_SenderFrame & 0x1) == 0)
-    {
+    if ((m_SenderFrame & 0x1) == 0) {
         expected = IncreaseReceiverSequence(IncreaseSendSequence(m_ReceiverFrame));
-        if (frame == expected)
-        {
+        if (frame == expected) {
             m_ReceiverFrame = frame;
             return true;
         }
-        if (frame == (expected & ~0x10))
-        {
+        if (frame == (expected & ~0x10)) {
             m_ReceiverFrame = IncreaseSendSequence(m_ReceiverFrame);
             return true;
         }
     }
     //If answer for RR.
-    else
-    {
+    else {
         expected = IncreaseSendSequence(m_ReceiverFrame);
-        if (frame == expected)
-        {
+        if (frame == expected) {
             m_ReceiverFrame = frame;
             return true;
         }
@@ -215,130 +184,104 @@ bool CGXDLMSSettings::CheckFrame(unsigned char frame)
     return false;
 }
 
-unsigned char CGXDLMSSettings::GetNextSend(unsigned char first)
-{
-    if (first)
-    {
+unsigned char CGXDLMSSettings::GetNextSend(unsigned char first) {
+    if (first) {
         m_SenderFrame = IncreaseReceiverSequence(IncreaseSendSequence(m_SenderFrame));
-    }
-    else
-    {
+    } else {
         m_SenderFrame = IncreaseSendSequence(m_SenderFrame);
     }
     return m_SenderFrame;
 }
 
-unsigned char CGXDLMSSettings::GetReceiverReady()
-{
+unsigned char CGXDLMSSettings::GetReceiverReady() {
     m_SenderFrame = IncreaseReceiverSequence((unsigned char)(m_SenderFrame | 1));
     return (unsigned char)(m_SenderFrame & 0xF1);
 }
 
-unsigned char CGXDLMSSettings::GetKeepAlive()
-{
+unsigned char CGXDLMSSettings::GetKeepAlive() {
     m_SenderFrame = (unsigned char)(m_SenderFrame | 1);
     return (unsigned char)(m_SenderFrame & 0xF1);
 }
 
-unsigned long CGXDLMSSettings::GetBlockIndex()
-{
+unsigned long CGXDLMSSettings::GetBlockIndex() {
     return m_BlockIndex;
 }
 
-void CGXDLMSSettings::SetBlockIndex(unsigned long value)
-{
+void CGXDLMSSettings::SetBlockIndex(unsigned long value) {
     m_BlockIndex = value;
 }
 
-void CGXDLMSSettings::ResetBlockIndex()
-{
+void CGXDLMSSettings::ResetBlockIndex() {
     m_BlockIndex = 1;
     m_BlockNumberAck = 0;
 }
 
-void CGXDLMSSettings::IncreaseBlockIndex()
-{
+void CGXDLMSSettings::IncreaseBlockIndex() {
     m_BlockIndex += 1;
 }
 
-bool CGXDLMSSettings::IsServer()
-{
+bool CGXDLMSSettings::IsServer() {
     return m_Server;
 }
 
-CGXDLMSLimits& CGXDLMSSettings::GetHdlcSettings()
-{
+CGXDLMSLimits &CGXDLMSSettings::GetHdlcSettings() {
     return m_HdlcSettings;
 }
 
-CGXPlcSettings& CGXDLMSSettings::GetPlcSettings()
-{
+CGXPlcSettings &CGXDLMSSettings::GetPlcSettings() {
     return m_PlcSettings;
 }
 
-DLMS_INTERFACE_TYPE CGXDLMSSettings::GetInterfaceType()
-{
+DLMS_INTERFACE_TYPE CGXDLMSSettings::GetInterfaceType() {
     return m_InterfaceType;
 }
 
-void CGXDLMSSettings::SetInterfaceType(DLMS_INTERFACE_TYPE value)
-{
+void CGXDLMSSettings::SetInterfaceType(DLMS_INTERFACE_TYPE value) {
     m_InterfaceType = value;
 }
 
-unsigned long CGXDLMSSettings::GetClientAddress()
-{
+unsigned long CGXDLMSSettings::GetClientAddress() {
     return m_ClientAddress;
 }
 
-void CGXDLMSSettings::SetClientAddress(unsigned long value)
-{
+void CGXDLMSSettings::SetClientAddress(unsigned long value) {
     m_ClientAddress = value;
 }
 
-unsigned long CGXDLMSSettings::GetPushClientAddress()
-{
+unsigned long CGXDLMSSettings::GetPushClientAddress() {
     return m_PushClientAddress;
 }
 
-void CGXDLMSSettings::SetPushClientAddress(unsigned long value)
-{
+void CGXDLMSSettings::SetPushClientAddress(unsigned long value) {
     m_PushClientAddress = value;
 }
 
-unsigned long CGXDLMSSettings::GetServerAddress()
-{
+unsigned long CGXDLMSSettings::GetServerAddress() {
     return m_ServerAddress;
 }
 
 // Server address.
-void CGXDLMSSettings::SetServerAddress(unsigned long value)
-{
+void CGXDLMSSettings::SetServerAddress(unsigned long value) {
     m_ServerAddress = value;
 }
 
 // DLMS version number.
-unsigned char CGXDLMSSettings::GetDLMSVersion()
-{
+unsigned char CGXDLMSSettings::GetDLMSVersion() {
     return m_DlmsVersionNumber;
 }
 
 // DLMS version number.
-void CGXDLMSSettings::SetDLMSVersion(unsigned char value)
-{
+void CGXDLMSSettings::SetDLMSVersion(unsigned char value) {
     m_DlmsVersionNumber = value;
 }
 
 // Maximum PDU size.
-unsigned short CGXDLMSSettings::GetMaxPduSize()
-{
+unsigned short CGXDLMSSettings::GetMaxPduSize() {
     return m_MaxReceivePDUSize;
 }
 
-int CGXDLMSSettings::SetMaxReceivePDUSize(unsigned short value)
-{
-    if (value < 64 && !m_Server)
-    {
+int CGXDLMSSettings::SetMaxReceivePDUSize(unsigned short value) {
+    if (value < 64 && !m_Server) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     m_MaxReceivePDUSize = value;
@@ -346,138 +289,111 @@ int CGXDLMSSettings::SetMaxReceivePDUSize(unsigned short value)
 }
 
 // Maximum server PDU size.
-unsigned short CGXDLMSSettings::GetMaxServerPDUSize()
-{
+unsigned short CGXDLMSSettings::GetMaxServerPDUSize() {
     return m_MaxServerPDUSize;
 }
 
-int CGXDLMSSettings::SetMaxServerPDUSize(unsigned short value)
-{
-    if (value < 64)
-    {
+int CGXDLMSSettings::SetMaxServerPDUSize(unsigned short value) {
+    if (value < 64) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     m_MaxServerPDUSize = value;
     return 0;
 }
 
-
-bool CGXDLMSSettings::GetUseLogicalNameReferencing()
-{
+bool CGXDLMSSettings::GetUseLogicalNameReferencing() {
     return m_UseLogicalNameReferencing;
 }
 
-void CGXDLMSSettings::SetUseLogicalNameReferencing(bool value)
-{
+void CGXDLMSSettings::SetUseLogicalNameReferencing(bool value) {
     m_UseLogicalNameReferencing = value;
 }
 
-DLMS_PRIORITY CGXDLMSSettings::GetPriority()
-{
+DLMS_PRIORITY CGXDLMSSettings::GetPriority() {
     return m_Priority;
 }
 
-void CGXDLMSSettings::SetPriority(DLMS_PRIORITY value)
-{
+void CGXDLMSSettings::SetPriority(DLMS_PRIORITY value) {
     m_Priority = value;
 }
 
-DLMS_SERVICE_CLASS CGXDLMSSettings::GetServiceClass()
-{
+DLMS_SERVICE_CLASS CGXDLMSSettings::GetServiceClass() {
     return m_ServiceClass;
 }
 
-void CGXDLMSSettings::SetServiceClass(DLMS_SERVICE_CLASS value)
-{
+void CGXDLMSSettings::SetServiceClass(DLMS_SERVICE_CLASS value) {
     m_ServiceClass = value;
 }
 
-unsigned char CGXDLMSSettings::GetInvokeID()
-{
+unsigned char CGXDLMSSettings::GetInvokeID() {
     return m_InvokeID;
 }
 
-void CGXDLMSSettings::SetInvokeID(unsigned char value)
-{
+void CGXDLMSSettings::SetInvokeID(unsigned char value) {
     m_InvokeID = value;
 }
 
 void CGXDLMSSettings::UpdateInvokeId(unsigned char value) {
     if ((value & 0x80) != 0) {
         m_Priority = DLMS_PRIORITY_HIGH;
-    }
-    else {
+    } else {
         m_Priority = DLMS_PRIORITY_NORMAL;
     }
     if ((value & 0x40) != 0) {
         m_ServiceClass = DLMS_SERVICE_CLASS_CONFIRMED;
-    }
-    else
-    {
+    } else {
         m_ServiceClass = DLMS_SERVICE_CLASS_UN_CONFIRMED;
     }
     m_InvokeID = (unsigned char)(value & 0xF);
 }
 
-
-unsigned long CGXDLMSSettings::GetLongInvokeID()
-{
+unsigned long CGXDLMSSettings::GetLongInvokeID() {
     return m_LongInvokeID;
 }
-int CGXDLMSSettings::SetLongInvokeID(unsigned long value)
-{
-    if (value > 0xFFFFFF)
-    {
+
+int CGXDLMSSettings::SetLongInvokeID(unsigned long value) {
+    if (value > 0xFFFFFF) {
         //Invalid InvokeID.
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     m_LongInvokeID = value;
     return 0;
 }
-CGXDLMSObjectCollection& CGXDLMSSettings::GetObjects()
-{
+
+CGXDLMSObjectCollection &CGXDLMSSettings::GetObjects() {
     return m_Objects;
 }
 
-bool CGXDLMSSettings::GetUseCustomChallenge()
-{
+bool CGXDLMSSettings::GetUseCustomChallenge() {
     return m_UseCustomChallenge;
 }
 
-void CGXDLMSSettings::SetUseCustomChallenge(bool value)
-{
+void CGXDLMSSettings::SetUseCustomChallenge(bool value) {
     m_UseCustomChallenge = value;
 }
 
-DLMS_CONNECTION_STATE CGXDLMSSettings::GetConnected()
-{
+DLMS_CONNECTION_STATE CGXDLMSSettings::GetConnected() {
     return m_Connected;
 }
 
-void CGXDLMSSettings::SetConnected(DLMS_CONNECTION_STATE value)
-{
+void CGXDLMSSettings::SetConnected(DLMS_CONNECTION_STATE value) {
     m_Connected = value;
 }
 
-CGXCipher* CGXDLMSSettings::GetCipher()
-{
+CGXCipher *CGXDLMSSettings::GetCipher() {
     return m_Cipher;
 }
 
-void CGXDLMSSettings::SetCipher(CGXCipher* value)
-{
+void CGXDLMSSettings::SetCipher(CGXCipher *value) {
     m_Cipher = value;
 }
 
-CGXByteBuffer& CGXDLMSSettings::GetSourceSystemTitle()
-{
+CGXByteBuffer &CGXDLMSSettings::GetSourceSystemTitle() {
     return m_SourceSystemTitle;
 }
 
-int  CGXDLMSSettings::SetSourceSystemTitle(CGXByteBuffer& value)
-{
-    if (value.GetSize() != 8)
-    {
+int CGXDLMSSettings::SetSourceSystemTitle(CGXByteBuffer &value) {
+    if (value.GetSize() != 8) {
         //Invalid client system title.
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
@@ -485,15 +401,12 @@ int  CGXDLMSSettings::SetSourceSystemTitle(CGXByteBuffer& value)
     return DLMS_ERROR_CODE_OK;
 }
 
-CGXByteBuffer& CGXDLMSSettings::GetPreEstablishedSystemTitle()
-{
+CGXByteBuffer &CGXDLMSSettings::GetPreEstablishedSystemTitle() {
     return m_PreEstablishedSystemTitle;
 }
 
-int  CGXDLMSSettings::SetPreEstablishedSystemTitle(CGXByteBuffer& value)
-{
-    if (value.GetSize() != 8 && value.GetSize() != 0)
-    {
+int CGXDLMSSettings::SetPreEstablishedSystemTitle(CGXByteBuffer &value) {
+    if (value.GetSize() != 8 && value.GetSize() != 0) {
         //Invalid client system title.
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
@@ -504,8 +417,7 @@ int  CGXDLMSSettings::SetPreEstablishedSystemTitle(CGXByteBuffer& value)
 /**
  * @return Key Encrypting Key, also known as Master key.
  */
-CGXByteBuffer& CGXDLMSSettings::GetKek()
-{
+CGXByteBuffer &CGXDLMSSettings::GetKek() {
     return m_Kek;
 }
 
@@ -513,16 +425,14 @@ CGXByteBuffer& CGXDLMSSettings::GetKek()
  * @param value
  *            Key Encrypting Key, also known as Master key.
  */
-void CGXDLMSSettings::SetKek(CGXByteBuffer& value)
-{
+void CGXDLMSSettings::SetKek(CGXByteBuffer &value) {
     m_Kek = value;
 }
 
 /**
  * @return Long data count.
  */
-unsigned short CGXDLMSSettings::GetCount()
-{
+unsigned short CGXDLMSSettings::GetCount() {
     return m_Count;
 }
 
@@ -530,16 +440,14 @@ unsigned short CGXDLMSSettings::GetCount()
  * @param count
  *            Long data count.
  */
-void CGXDLMSSettings::SetCount(unsigned short value)
-{
+void CGXDLMSSettings::SetCount(unsigned short value) {
     m_Count = value;
 }
 
 /**
  * @return Long data index.
  */
-unsigned short CGXDLMSSettings::GetIndex()
-{
+unsigned short CGXDLMSSettings::GetIndex() {
     return m_Index;
 }
 
@@ -547,45 +455,36 @@ unsigned short CGXDLMSSettings::GetIndex()
  * @param index
  *            Long data index
  */
-void CGXDLMSSettings::SetIndex(unsigned short value)
-{
+void CGXDLMSSettings::SetIndex(unsigned short value) {
     m_Index = value;
 }
 
-DLMS_CONFORMANCE CGXDLMSSettings::GetNegotiatedConformance()
-{
+DLMS_CONFORMANCE CGXDLMSSettings::GetNegotiatedConformance() {
     return m_NegotiatedConformance;
 }
 
-void CGXDLMSSettings::SetNegotiatedConformance(DLMS_CONFORMANCE value)
-{
+void CGXDLMSSettings::SetNegotiatedConformance(DLMS_CONFORMANCE value) {
     m_NegotiatedConformance = value;
 }
 
-DLMS_CONFORMANCE CGXDLMSSettings::GetProposedConformance()
-{
+DLMS_CONFORMANCE CGXDLMSSettings::GetProposedConformance() {
     return m_ProposedConformance;
 }
 
-void CGXDLMSSettings::SetProposedConformance(DLMS_CONFORMANCE value)
-{
+void CGXDLMSSettings::SetProposedConformance(DLMS_CONFORMANCE value) {
     m_ProposedConformance = value;
 }
 
-char* CGXDLMSSettings::GetProtocolVersion()
-{
+char *CGXDLMSSettings::GetProtocolVersion() {
     return m_ProtocolVersion;
 }
 
-void CGXDLMSSettings::SetProtocolVersion(const char* value)
-{
-    if (m_ProtocolVersion != NULL)
-    {
+void CGXDLMSSettings::SetProtocolVersion(const char *value) {
+    if (m_ProtocolVersion != NULL) {
         delete m_ProtocolVersion;
         m_ProtocolVersion = NULL;
     }
-    if (value != NULL)
-    {
+    if (value != NULL) {
         short len = (short)strlen(value);
         m_ProtocolVersion = new char[len + 1];
         memcpy(m_ProtocolVersion, value, len);
@@ -593,149 +492,118 @@ void CGXDLMSSettings::SetProtocolVersion(const char* value)
     }
 }
 
-bool CGXDLMSSettings::GetUseUtc2NormalTime()
-{
+bool CGXDLMSSettings::GetUseUtc2NormalTime() {
     return m_UseUtc2NormalTime;
 }
 
-void CGXDLMSSettings::SetUseUtc2NormalTime(bool value)
-{
+void CGXDLMSSettings::SetUseUtc2NormalTime(bool value) {
     m_UseUtc2NormalTime = value;
 }
 
-uint64_t CGXDLMSSettings::GetExpectedInvocationCounter()
-{
+uint64_t CGXDLMSSettings::GetExpectedInvocationCounter() {
     return m_ExpectedInvocationCounter;
 }
 
-void CGXDLMSSettings::SetExpectedInvocationCounter(uint64_t value)
-{
+void CGXDLMSSettings::SetExpectedInvocationCounter(uint64_t value) {
     m_ExpectedInvocationCounter = value;
 }
 
-unsigned char CGXDLMSSettings::GetExpectedSecurityPolicy()
-{
+unsigned char CGXDLMSSettings::GetExpectedSecurityPolicy() {
     return m_ExpectedSecurityPolicy;
 }
 
-void CGXDLMSSettings::SetExpectedSecurityPolicy(unsigned char value)
-{
+void CGXDLMSSettings::SetExpectedSecurityPolicy(unsigned char value) {
     m_ExpectedSecurityPolicy = value;
 }
 
-void CGXDLMSSettings::SetExpectedSecuritySuite(unsigned char value)
-{
+void CGXDLMSSettings::SetExpectedSecuritySuite(unsigned char value) {
     m_ExpectedSecuritySuite = value;
 }
 
-unsigned char CGXDLMSSettings::GetExpectedSecuritySuite()
-{
+unsigned char CGXDLMSSettings::GetExpectedSecuritySuite() {
     return m_ExpectedSecuritySuite;
 }
 
-DATETIME_SKIPS CGXDLMSSettings::GetDateTimeSkips()
-{
+DATETIME_SKIPS CGXDLMSSettings::GetDateTimeSkips() {
     return m_DateTimeSkips;
 }
 
-void CGXDLMSSettings::SetDateTimeSkips(DATETIME_SKIPS value)
-{
+void CGXDLMSSettings::SetDateTimeSkips(DATETIME_SKIPS value) {
     m_DateTimeSkips = value;
 }
 
-
-unsigned char CGXDLMSSettings::GetUserID()
-{
+unsigned char CGXDLMSSettings::GetUserID() {
     return m_UserId;
 }
 
-void CGXDLMSSettings::SetUserID(unsigned char value)
-{
+void CGXDLMSSettings::SetUserID(unsigned char value) {
     m_UserId = value;
 }
 
-unsigned char CGXDLMSSettings::GetQualityOfService()
-{
+unsigned char CGXDLMSSettings::GetQualityOfService() {
     return m_QualityOfService;
 }
 
-void CGXDLMSSettings::SetQualityOfService(unsigned char value)
-{
+void CGXDLMSSettings::SetQualityOfService(unsigned char value) {
     m_QualityOfService = value;
 }
 
-bool CGXDLMSSettings::GetAutoIncreaseInvokeID()
-{
+bool CGXDLMSSettings::GetAutoIncreaseInvokeID() {
     return m_AutoIncreaseInvokeID;
 }
 
-void CGXDLMSSettings::SetAutoIncreaseInvokeID(bool value)
-{
+void CGXDLMSSettings::SetAutoIncreaseInvokeID(bool value) {
     m_AutoIncreaseInvokeID = value;
 }
 
-void CGXDLMSSettings::AddAllocateObject(CGXDLMSObject* pObj)
-{
+void CGXDLMSSettings::AddAllocateObject(CGXDLMSObject *pObj) {
     m_AllocatedObjects.push_back(pObj);
 }
 
-int CGXDLMSSettings::GetBlockNumberAck()
-{
+int CGXDLMSSettings::GetBlockNumberAck() {
     return m_BlockNumberAck;
 }
 
-void CGXDLMSSettings::SetBlockNumberAck(int value)
-{
+void CGXDLMSSettings::SetBlockNumberAck(int value) {
     m_BlockNumberAck = value;
 }
 
-unsigned char CGXDLMSSettings::GetGbtWindowSize()
-{
+unsigned char CGXDLMSSettings::GetGbtWindowSize() {
     return m_GbtWindowSize;
 }
 
-void CGXDLMSSettings::SetGbtWindowSize(unsigned char value)
-{
+void CGXDLMSSettings::SetGbtWindowSize(unsigned char value) {
     m_GbtWindowSize = value;
 }
 
-unsigned char CGXDLMSSettings::GetCommand()
-{
+unsigned char CGXDLMSSettings::GetCommand() {
     return m_Command;
 }
 
-void CGXDLMSSettings::SetCommand(unsigned char value)
-{
+void CGXDLMSSettings::SetCommand(unsigned char value) {
     m_Command = value;
 }
 
-unsigned char CGXDLMSSettings::GetCommandType()
-{
+unsigned char CGXDLMSSettings::GetCommandType() {
     return m_CommandType;
 }
 
-void CGXDLMSSettings::SetCommandType(unsigned char value)
-{
+void CGXDLMSSettings::SetCommandType(unsigned char value) {
     m_CommandType = value;
 }
 
-CGXx509Certificate& CGXDLMSSettings::GetClientPublicKeyCertificate()
-{
+CGXx509Certificate &CGXDLMSSettings::GetClientPublicKeyCertificate() {
     return m_ClientPublicKeyCertificate;
 }
 
-void CGXDLMSSettings::SetClientPublicKeyCertificate(CGXx509Certificate& value)
-{
+void CGXDLMSSettings::SetClientPublicKeyCertificate(CGXx509Certificate &value) {
     m_ClientPublicKeyCertificate = value;
 }
 
-
-CGXx509Certificate& CGXDLMSSettings::GetServerPublicKeyCertificate()
-{
+CGXx509Certificate &CGXDLMSSettings::GetServerPublicKeyCertificate() {
     return m_ServerPublicKeyCertificate;
 }
 
-void CGXDLMSSettings::SetServerPublicKeyCertificate(CGXx509Certificate& value)
-{
+void CGXDLMSSettings::SetServerPublicKeyCertificate(CGXx509Certificate &value) {
     m_ServerPublicKeyCertificate = value;
 }

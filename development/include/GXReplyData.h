@@ -40,9 +40,7 @@
 #include "GXDLMSVariant.h"
 #include "GXDLMSTranslatorStructure.h"
 
-
-class CGXReplyData
-{
+class CGXReplyData {
 private:
     /*
      * Is more data available.
@@ -61,8 +59,8 @@ private:
     /*
      * Received data.
      */
-    CGXByteBuffer  m_Data;
-    CGXByteBuffer* m_pData;
+    CGXByteBuffer m_Data;
+    CGXByteBuffer *m_pData;
     /*
      * Is frame complete.
      */
@@ -103,11 +101,11 @@ private:
     /*
      * Data notification date time.
      */
-    struct tm* m_Time;
+    struct tm *m_Time;
 
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    CGXDLMSTranslatorStructure* m_pXml;
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+    CGXDLMSTranslatorStructure *m_pXml;
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
 
     /*
     * Invoke ID.
@@ -158,11 +156,7 @@ public:
      * @param forComplete
      *            Is frame complete.
      */
-    CGXReplyData(
-        DLMS_DATA_REQUEST_TYPES more,
-        DLMS_COMMAND cmd,
-        CGXByteBuffer* buff,
-        bool complete);
+    CGXReplyData(DLMS_DATA_REQUEST_TYPES more, DLMS_COMMAND cmd, CGXByteBuffer *buff, bool complete);
 
     /*
      * Constructor.
@@ -174,10 +168,10 @@ public:
     void SetValueType(DLMS_DATA_TYPE value);
 
 
-    CGXDLMSVariant& GetValue();
+    CGXDLMSVariant &GetValue();
 
 
-    void SetValue(CGXDLMSVariant& value);
+    void SetValue(CGXDLMSVariant &value);
 
     unsigned long GetReadPosition();
 
@@ -194,7 +188,7 @@ public:
     unsigned char GetCommandType();
 
 
-    void SetData(CGXByteBuffer& value);
+    void SetData(CGXByteBuffer &value);
 
     void SetComplete(bool value);
 
@@ -232,7 +226,7 @@ public:
      *
      * @return Received data.
      */
-    CGXByteBuffer& GetData();
+    CGXByteBuffer &GetData();
 
     /*
      * Is frame complete.
@@ -291,28 +285,28 @@ public:
     /*
      * @return Data notification date time.
      */
-    struct tm* GetTime();
+    struct tm *GetTime();
 
 
     /*
      * @param time
      *            Data notification date time.
      */
-    void SetTime(struct tm* value);
+    void SetTime(struct tm *value);
 
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     /*
      * @return Data notification date time.
      */
-    CGXDLMSTranslatorStructure* GetXml();
+    CGXDLMSTranslatorStructure *GetXml();
 
 
     /*
      * @param time
      *            Data notification date time.
      */
-    void SetXml(CGXDLMSTranslatorStructure* value);
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+    void SetXml(CGXDLMSTranslatorStructure *value);
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
 
     /**
     * Invoke ID.
@@ -405,4 +399,4 @@ public:
     void SetCipheredCommand(unsigned char value);
 };
 
-#endif //GXREPLYDATA_H
+#endif  //GXREPLYDATA_H

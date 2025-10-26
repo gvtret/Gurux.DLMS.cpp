@@ -38,10 +38,10 @@
 #include <vector>
 #include "GXDLMSDayProfileAction.h"
 
-class CGXDLMSDayProfile
-{
+class CGXDLMSDayProfile {
     short m_DayId;
-    std::vector<CGXDLMSDayProfileAction*> m_DaySchedules;
+    std::vector<CGXDLMSDayProfileAction *> m_DaySchedules;
+
 public:
     /**
      Constructor.
@@ -51,7 +51,7 @@ public:
     /**
      Constructor.
     */
-    CGXDLMSDayProfile(short dayId, std::vector<CGXDLMSDayProfileAction*>& schedules);
+    CGXDLMSDayProfile(short dayId, std::vector<CGXDLMSDayProfileAction *> &schedules);
 
     //Destructor.
     ~CGXDLMSDayProfile();
@@ -63,9 +63,9 @@ public:
     short GetDayId();
     void SetDayId(short value);
 
-    std::vector<CGXDLMSDayProfileAction*>& GetDaySchedules();
-    void SetDaySchedules(std::vector<CGXDLMSDayProfileAction*>& value);
+    std::vector<CGXDLMSDayProfileAction *> &GetDaySchedules();
+    void SetDaySchedules(std::vector<CGXDLMSDayProfileAction *> &value);
     std::string ToString();
 };
 
-#endif //GXDLMSDAYPROFILE_H
+#endif  //GXDLMSDAYPROFILE_H

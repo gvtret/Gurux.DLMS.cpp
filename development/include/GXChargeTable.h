@@ -36,14 +36,15 @@
 #define GXCHARGE_TABLE_H
 
 #include <string>
+
 /**
  * Online help:<br>
  * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
  */
-class CGXChargeTable
-{
+class CGXChargeTable {
     std::string m_Index;
     short m_ChargePerUnit;
+
 public:
     // Constructor.
     CGXChargeTable();
@@ -54,7 +55,7 @@ public:
     *
     * @return Index.
     */
-    std::string& GetIndex();
+    std::string &GetIndex();
 
     /**
      * Online help:<br>
@@ -63,7 +64,7 @@ public:
      * @param value
      *            Index.
      */
-    void SetIndex(std::string& value);
+    void SetIndex(std::string &value);
 
     /**
      * Online help:<br>
@@ -84,4 +85,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXCHARGE_TABLE_H
+#endif  //GXCHARGE_TABLE_H

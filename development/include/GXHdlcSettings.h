@@ -37,10 +37,10 @@
 
 #include "GXDLMSVariant.h"
 
-class CGXHdlcSettings
-{
+class CGXHdlcSettings {
     unsigned short m_MaxInfoTX, m_MaxInfoRX;
     unsigned char m_WindowSizeRX, m_WindowSizeTX;
+
 public:
     static const unsigned short DEFAULT_MAX_INFO_RX = 128;
     static const unsigned short DEFAULT_MAX_INFO_TX = 128;
@@ -73,4 +73,4 @@ public:
 
     void SetWindowSizeRX(unsigned char value);
 };
-#endif //GXHDLCSETTINGS_H
+#endif  //GXHDLCSETTINGS_H

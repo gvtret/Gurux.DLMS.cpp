@@ -38,14 +38,13 @@
 #include "GXBytebuffer.h"
 #include "GXByteArray.h"
 
-class CGXBigInteger
-{
+class CGXBigInteger {
 private:
     friend class CGXPrivateKey;
     /**
      List of values. Least Significated is in the first item.
     */
-    uint32_t* m_Data;
+    uint32_t *m_Data;
 
     /**
      Items count in the data buffer.
@@ -69,19 +68,17 @@ private:
 
     @param value
    */
-    int FromByteBuffer(CGXByteBuffer& value);
-    int FromByteBuffer(CGXByteArray& value);
+    int FromByteBuffer(CGXByteBuffer &value);
+    int FromByteBuffer(CGXByteArray &value);
 
     void SetIsNegative(bool value);
 
     int Add(const uint32_t value);
 
-    int AddValue(uint32_t* list,
-        uint16_t length,
-        uint32_t value,
-        uint16_t index);
+    int AddValue(uint32_t *list, uint16_t length, uint32_t value, uint16_t index);
 
     int Capacity(uint16_t value);
+
 public:
     /**
     * Constructor.
@@ -93,7 +90,7 @@ public:
 
      @param value Big UInt32eger value in MSB.
     */
-    CGXBigInteger(std::string& value);
+    CGXBigInteger(std::string &value);
 
     CGXBigInteger(uint64_t value);
 
@@ -104,32 +101,32 @@ public:
     /**
      Constructor value.
     */
-    CGXBigInteger(const uint32_t* values, uint16_t count);
+    CGXBigInteger(const uint32_t *values, uint16_t count);
 
     /**
      Constructor value.
 
      @param value Byte array Data in MSB format.
     */
-    CGXBigInteger(const unsigned char* values, uint16_t count);
+    CGXBigInteger(const unsigned char *values, uint16_t count);
 
     /**
      Constructor value.
 
      @param value Byte array Data in MSB format.
     */
-    CGXBigInteger(CGXByteBuffer& value);
+    CGXBigInteger(CGXByteBuffer &value);
 
     /**
      Constructor value.
 
      @param value Byte array Data in MSB format.
     */
-    CGXBigInteger(CGXByteArray& value);
-    
-    CGXBigInteger(CGXBigInteger* value);
+    CGXBigInteger(CGXByteArray &value);
 
-    CGXBigInteger(const CGXBigInteger& value);
+    CGXBigInteger(CGXBigInteger *value);
+
+    CGXBigInteger(const CGXBigInteger &value);
 
     /**
     * Destructor.
@@ -175,31 +172,28 @@ public:
     /**
      Convert value to byte array.
     */
-    int ToArray(CGXByteBuffer& data,
-        bool removeLeadingZeroes);
+    int ToArray(CGXByteBuffer &data, bool removeLeadingZeroes);
 
     /**
      Convert value to byte array.
     */
-    int ToArray(CGXByteBuffer& data);
+    int ToArray(CGXByteBuffer &data);
 
     /*
      Convert value to byte array.
     */
-    int ToArray(uint32_t start,
-        uint32_t size,
-        CGXByteBuffer& data);
+    int ToArray(uint32_t start, uint32_t size, CGXByteBuffer &data);
 
-    int AddRange(const uint32_t* values, uint16_t count);
+    int AddRange(const uint32_t *values, uint16_t count);
 
-    void Or(CGXBigInteger& value);
-    int Add(CGXBigInteger& value);
-    void Sub(CGXBigInteger& value);
+    void Or(CGXBigInteger &value);
+    int Add(CGXBigInteger &value);
+    void Sub(CGXBigInteger &value);
 
     void Multiply(int value);
-    void Multiply(CGXBigInteger& value);
+    void Multiply(CGXBigInteger &value);
 
-    int Compare(CGXBigInteger& value);
+    int Compare(CGXBigInteger &value);
 
     /**
      Compare value to UInt32 integer value.
@@ -220,22 +214,21 @@ public:
 
     void Pow(uint32_t exponent);
 
-    void Div(CGXBigInteger* value);
+    void Div(CGXBigInteger *value);
 
     /**
      Modulus.
     */
-    void Mod(CGXBigInteger& mod);
+    void Mod(CGXBigInteger &mod);
 
     /**
      Invert value.
     */
-    void Inv(CGXBigInteger& value);
+    void Inv(CGXBigInteger &value);
 
     std::string ToString();
 
-    CGXBigInteger& operator=(
-        const CGXBigInteger& value);
+    CGXBigInteger &operator=(const CGXBigInteger &value);
 
     /// <summary>
     /// Used bits.
@@ -249,4 +242,4 @@ public:
     /// <returns></returns>
     bool IsBitSet(uint16_t index);
 };
-#endif //GXBIGINTEGER_H
+#endif  //GXBIGINTEGER_H

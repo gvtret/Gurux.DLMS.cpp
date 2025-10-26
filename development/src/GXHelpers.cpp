@@ -36,11 +36,12 @@
 #include <algorithm>
 #include <functional>
 
-#if defined(_WIN32) || defined(_WIN64)//Windows
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))  //Windows
 #include <direct.h>
-#endif
-#if defined(__linux__)
+#include <io.h>
+#else
 #include <sys/stat.h>
+#include <sys/types.h>
 #endif
 
 #include "../include/GXDate.h"
@@ -48,6 +49,7 @@
 #include "../include/GXHelpers.h"
 #include "../include/GXDLMSTranslatorStructure.h"
 #include "../include/GXDLMSClient.h"
+#include "GXHelpers.h"
 
 /**
     * Get array from DLMS data.
@@ -60,32 +62,28 @@
     *            starting index.
     * Returns  CGXDLMSVariant array.
     */
-static int GetArray(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDataInfo& info, int index, CGXDLMSVariant& value)
-{
+static int
+GetArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, int index, CGXDLMSVariant &value) {
     int ret;
-    unsigned long cnt = 0;
+    uint32_t cnt = 0;
     CGXDataInfo info2;
     CGXDLMSVariant tmp;
-    if (info.GetCount() == 0)
-    {
-        if ((ret = GXHelpers::GetObjectCount(buff, cnt)) != 0)
-        {
+    if (info.GetCount() == 0) {
+        if ((ret = GXHelpers::GetObjectCount(buff, cnt)) != 0) {
             return ret;
         }
         info.SetCount(cnt);
         value.Arr.reserve(cnt);
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
-        info.GetXml()->IntegerToHex((unsigned long)info.GetCount(), 2, tmp);
+        info.GetXml()->IntegerToHex((uint32_t)info.GetCount(), 2, tmp);
         info.GetXml()->AppendStartTag(DATA_TYPE_OFFSET | info.GetType(), "Qty", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     int size = buff.GetSize() - buff.GetPosition();
-    if (info.GetCount() != 0 && size < 1)
-    {
+    if (info.GetCount() != 0 && size < 1) {
         info.SetComplete(false);
         return 0;
     }
@@ -93,38 +91,31 @@ static int GetArray(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDataInfo&
     value.vt = DLMS_DATA_TYPE_ARRAY;
     // Position where last row was found. Cache uses this info.
     int pos = info.GetIndex();
-    for (; pos != info.GetCount(); ++pos)
-    {
+    for (; pos != info.GetCount(); ++pos) {
         info2.Clear();
         tmp.Clear();
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
         info2.SetXml(info.GetXml());
-#endif //DLMS_IGNORE_XML_TRANSLATOR
-        if ((ret = GXHelpers::GetData(settings, buff, info2, tmp)) != 0)
-        {
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
+        if ((ret = GXHelpers::GetData(settings, buff, info2, tmp)) != 0) {
             return ret;
         }
-        if (!info2.IsComplete())
-        {
+        if (!info2.IsComplete()) {
             buff.SetPosition(startIndex);
             info.SetComplete(false);
             break;
-        }
-        else
-        {
-            if (info2.GetCount() == info2.GetIndex())
-            {
+        } else {
+            if (info2.GetCount() == info2.GetIndex()) {
                 startIndex = buff.GetPosition();
                 value.Arr.push_back(tmp);
             }
         }
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         info.GetXml()->AppendEndTag(DATA_TYPE_OFFSET + info.GetType());
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     info.SetIndex(pos);
     return 0;
 }
@@ -138,60 +129,47 @@ static int GetArray(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDataInfo&
     *            Data info.
     * Returns  Parsed time.
     */
-int GetTime(CGXByteBuffer& buff,
-    CGXDataInfo& info,
-    CGXDLMSVariant& value)
-{
+int GetTime(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ms, ret;
     unsigned char hour, minute, second, ch;
-    if (buff.GetSize() - buff.GetPosition() < 4)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 4) {
         // If there is not enough data available.
         info.SetComplete(false);
         return 0;
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     std::string str;
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         str = buff.ToHexString(buff.GetPosition(), 4, false);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
 
     // Get time.
-    if ((ret = buff.GetUInt8(&hour)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&hour)) != 0) {
         return ret;
     }
-    if ((ret = buff.GetUInt8(&minute)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&minute)) != 0) {
         return ret;
     }
-    if ((ret = buff.GetUInt8(&second)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&second)) != 0) {
         return ret;
     }
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
-    if (ch != 0xFF)
-    {
+    if (ch != 0xFF) {
         ms = 10 * ch;
-    }
-    else
-    {
+    } else {
         ms = -1;
     }
     CGXTime dt(hour, minute, second, ms);
     value = dt;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         info.GetXml()->AppendComment(dt.ToString());
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -204,62 +182,48 @@ int GetTime(CGXByteBuffer& buff,
     *            Data info.
     * Returns  Parsed date.
     */
-int GetDate(CGXByteBuffer& buff,
-    CGXDataInfo& info,
-    CGXDLMSVariant& value)
-{
+int GetDate(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     unsigned short year;
     int ret;
     unsigned char ch, month, day;
-    if (buff.GetSize() - buff.GetPosition() < 5)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 5) {
         // If there is not enough data available.
         info.SetComplete(false);
         return 0;
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     std::string str;
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         str = buff.ToHexString(buff.GetPosition(), 5, false);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     // Get year.
-    if ((ret = buff.GetUInt16(&year)) != 0)
-    {
+    if ((ret = buff.GetUInt16(&year)) != 0) {
         return ret;
     }
     // Get month
-    if ((ret = buff.GetUInt8(&month)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&month)) != 0) {
         return ret;
     }
     int extra = DATE_TIME_EXTRA_INFO_NONE;
-    if (month == 0xFE)
-    {
+    if (month == 0xFE) {
         //Daylight savings begin.
         month = 1;
         extra |= DATE_TIME_EXTRA_INFO_DST_BEGIN;
-    }
-    else if (month == 0xFD)
-    {
+    } else if (month == 0xFD) {
         // Daylight savings end.
         month = 1;
         extra |= DATE_TIME_EXTRA_INFO_DST_END;
     }
     // Get day
-    if ((ret = buff.GetUInt8(&day)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&day)) != 0) {
         return ret;
     }
-    if (day == 0xFD)
-    {
+    if (day == 0xFD) {
         // 2nd last day of month.
         day = 1;
         extra |= DATE_TIME_EXTRA_INFO_LAST_DAY2;
-    }
-    else if (day == 0xFE)
-    {
+    } else if (day == 0xFE) {
         //Last day of month
         day = 1;
         extra |= DATE_TIME_EXTRA_INFO_LAST_DAY;
@@ -267,22 +231,19 @@ int GetDate(CGXByteBuffer& buff,
     CGXDate dt(year, month, day);
     dt.SetExtra((DATE_TIME_EXTRA_INFO)(extra));
     // Skip week day
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
-    if (ch == 0xFF)
-    {
+    if (ch == 0xFF) {
         dt.SetSkip((DATETIME_SKIPS)(dt.GetSkip() | DATETIME_SKIPS_DAYOFWEEK));
     }
     value = dt;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         info.GetXml()->AppendComment(dt.ToString());
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -295,179 +256,137 @@ int GetDate(CGXByteBuffer& buff,
 *            Data info.
 * Returns  Parsed date and time.
 */
-int GetDateTime(CGXDLMSSettings* settings,
-    CGXByteBuffer& buff,
-    CGXDataInfo& info,
-    CGXDLMSVariant& value)
-{
+int GetDateTime(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     DATETIME_SKIPS skip = DATETIME_SKIPS_NONE;
-    struct tm tm = { 0 };
+    struct tm tm = {0};
     unsigned short year;
     short deviation;
     int ret, ms, status;
     unsigned char ch;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 12)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 12) {
         info.SetComplete(false);
         return 0;
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     std::string str;
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         str = buff.ToHexString(buff.GetPosition(), 12, false);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     // Get year.
-    if ((ret = buff.GetUInt16(&year)) != 0)
-    {
+    if ((ret = buff.GetUInt16(&year)) != 0) {
         return ret;
     }
     tm.tm_year = year;
     // Get month
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     tm.tm_mon = ch;
     // Get day
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     tm.tm_mday = ch;
     // Skip week day
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     tm.tm_wday = ch;
     // Get time.
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     tm.tm_hour = ch;
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     tm.tm_min = ch;
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     tm.tm_sec = ch;
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     ms = ch;
-    if (ms != 0xFF)
-    {
+    if (ms != 0xFF) {
         ms *= 10;
-    }
-    else
-    {
+    } else {
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_MS);
         ms = 0;
     }
-    if ((ret = buff.GetInt16(&deviation)) != 0)
-    {
+    if ((ret = buff.GetInt16(&deviation)) != 0) {
         return ret;
     }
     //0x8000 == -32768
-    if (settings != NULL && settings->GetUseUtc2NormalTime() && deviation != -32768)
-    {
+    if (settings != NULL && settings->GetUseUtc2NormalTime() && deviation != -32768) {
         deviation = -deviation;
     }
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     status = ch;
     CGXDateTime dt;
-    if (status == 0xFF)
-    {
+    if (status == 0xFF) {
         status = 0;
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_STATUS);
     }
-    if (settings != NULL)
-    {
+    if (settings != NULL) {
         dt.SetUseUtc2NormalTime(settings->GetUseUtc2NormalTime());
     }
     dt.SetStatus((DLMS_CLOCK_STATUS)status);
-    if (year < 1 || year == 0xFFFF)
-    {
+    if (year < 1 || year == 0xFFFF) {
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_YEAR);
         tm.tm_year = 0;
-    }
-    else
-    {
+    } else {
         tm.tm_year -= 1900;
     }
-    if (tm.tm_wday < 0 || tm.tm_wday > 7)
-    {
+    if (tm.tm_wday < 0 || tm.tm_wday > 7) {
         tm.tm_wday = 0;
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_DAYOFWEEK);
     }
-    if (tm.tm_mon == 0xFE)
-    {
+    if (tm.tm_mon == 0xFE) {
         //Daylight savings begin.
         tm.tm_mon = 0;
         dt.SetExtra((DATE_TIME_EXTRA_INFO)(dt.GetExtra() | DATE_TIME_EXTRA_INFO_DST_BEGIN));
-    }
-    else if (tm.tm_mon == 0xFD)
-    {
+    } else if (tm.tm_mon == 0xFD) {
         // Daylight savings end.
         tm.tm_mon = 0;
         dt.SetExtra((DATE_TIME_EXTRA_INFO)(dt.GetExtra() | DATE_TIME_EXTRA_INFO_DST_END));
-    }
-    else if (tm.tm_mon < 1 || tm.tm_mon > 12)
-    {
+    } else if (tm.tm_mon < 1 || tm.tm_mon > 12) {
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_MONTH);
         tm.tm_mon = 0;
-    }
-    else
-    {
+    } else {
         tm.tm_mon -= 1;
     }
-    if (tm.tm_mday == 0xFD)
-    {
+    if (tm.tm_mday == 0xFD) {
         // 2nd last day of month.
         tm.tm_mday = 1;
         dt.SetExtra((DATE_TIME_EXTRA_INFO)(dt.GetExtra() | DATE_TIME_EXTRA_INFO_LAST_DAY2));
-    }
-    else if (tm.tm_mday == 0xFE)
-    {
+    } else if (tm.tm_mday == 0xFE) {
         //Last day of month
         tm.tm_mday = 1;
         dt.SetExtra((DATE_TIME_EXTRA_INFO)(dt.GetExtra() | DATE_TIME_EXTRA_INFO_LAST_DAY));
-    }
-    else if (tm.tm_mday < 1 || tm.tm_mday > 31)
-    {
+    } else if (tm.tm_mday < 1 || tm.tm_mday > 31) {
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_DAY);
         tm.tm_mday = 1;
     }
-    if (tm.tm_hour < 0 || tm.tm_hour > 24)
-    {
+    if (tm.tm_hour < 0 || tm.tm_hour > 24) {
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_HOUR);
         tm.tm_hour = 0;
     }
-    if (tm.tm_min < 0 || tm.tm_min > 60)
-    {
+    if (tm.tm_min < 0 || tm.tm_min > 60) {
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_MINUTE);
         tm.tm_min = 0;
     }
-    if (tm.tm_sec < 0 || tm.tm_sec > 60)
-    {
+    if (tm.tm_sec < 0 || tm.tm_sec > 60) {
         skip = (DATETIME_SKIPS)(skip | DATETIME_SKIPS_SECOND);
         tm.tm_sec = 0;
     }
     // If ms is Zero it's skipped.
-    if (ms < 1 || ms > 1000)
-    {
+    if (ms < 1 || ms > 1000) {
         ms = 0;
     }
     tm.tm_isdst = (status & DLMS_CLOCK_STATUS_DAYLIGHT_SAVE_ACTIVE) != 0;
@@ -476,12 +395,11 @@ int GetDateTime(CGXDLMSSettings* settings,
     dt.SetSkip(skip);
     value = dt;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         info.GetXml()->AppendComment(dt.ToString());
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -494,33 +412,28 @@ int GetDateTime(CGXDLMSSettings* settings,
 *            Data info.
 * Returns  Parsed double value.
 */
-int GetDouble(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetDouble(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 8)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 8) {
         info.SetComplete(false);
         return 0;
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     std::string str;
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         str = buff.ToHexString(buff.GetPosition(), 8, false);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     value.vt = DLMS_DATA_TYPE_FLOAT64;
     int ret = buff.GetDouble(&value.dblVal);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
-        if (info.GetXml()->GetComments())
-        {
+    if (info.GetXml() != NULL) {
+        if (info.GetXml()->GetComments()) {
             info.GetXml()->AppendComment(value.ToString());
         }
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return ret;
 }
 
@@ -533,33 +446,28 @@ int GetDouble(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  Parsed float value.
     */
-int GetFloat(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetFloat(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 4)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 4) {
         info.SetComplete(false);
         return 0;
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     std::string str;
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         str = buff.ToHexString(buff.GetPosition(), 4, false);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     value.vt = DLMS_DATA_TYPE_FLOAT32;
     int ret = buff.GetFloat(&value.fltVal);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
-        if (info.GetXml()->GetComments())
-        {
+    if (info.GetXml() != NULL) {
+        if (info.GetXml()->GetComments()) {
             info.GetXml()->AppendComment(value.ToString());
         }
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return ret;
 }
 
@@ -572,30 +480,26 @@ int GetFloat(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed enumeration value.
     */
-int GetEnum(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetEnum(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
     unsigned char ch;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 1)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 1) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     value = ch;
     value.vt = DLMS_DATA_TYPE_ENUM;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
-        info.GetXml()->IntegerToHex((long)ch, 2, tmp);
+        info.GetXml()->IntegerToHex((int32_t)ch, 2, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -608,29 +512,25 @@ int GetEnum(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed UInt64 value.
     */
-int GetUInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetUInt64(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
-    unsigned long long val;
+    uint64_t val;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 8)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 8) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetUInt64(&val)) != 0)
-    {
+    if ((ret = buff.GetUInt64(&val)) != 0) {
         return ret;
     }
     value = val;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
         info.GetXml()->IntegerToHex(val, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -643,29 +543,25 @@ int GetUInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int64 value.
     */
-int GetInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetInt64(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
-    long long val;
+    int64_t val;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 8)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 8) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetInt64(&val)) != 0)
-    {
+    if ((ret = buff.GetInt64(&val)) != 0) {
         return ret;
     }
     value = val;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
         info.GetXml()->IntegerToHex(val, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -678,29 +574,25 @@ int GetInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed UInt16 value.
     */
-int GetUInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetUInt16(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
     unsigned short val;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 2)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 2) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetUInt16(&val)) != 0)
-    {
+    if ((ret = buff.GetUInt16(&val)) != 0) {
         return ret;
     }
     value = val;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
-        info.GetXml()->IntegerToHex((long)val, 4, tmp);
+        info.GetXml()->IntegerToHex((int32_t)val, 4, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -713,29 +605,25 @@ int GetUInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed UInt8 value.
     */
-int GetUInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetUInt8(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
     unsigned char val;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 1)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 1) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetUInt8(&val)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&val)) != 0) {
         return ret;
     }
     value = val;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
-        info.GetXml()->IntegerToHex((long)val, 2, tmp);
+        info.GetXml()->IntegerToHex((int32_t)val, 2, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -748,29 +636,25 @@ int GetUInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int16 value.
     */
-int GetInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetInt16(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
     short val;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 2)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 2) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetInt16(&val)) != 0)
-    {
+    if ((ret = buff.GetInt16(&val)) != 0) {
         return ret;
     }
     value = val;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
-        info.GetXml()->IntegerToHex((long)val, 4, tmp);
+        info.GetXml()->IntegerToHex((int32_t)val, 4, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -783,29 +667,25 @@ int GetInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int8 value.
     */
-int GetInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetInt8(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
     char val;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 1)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 1) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetUInt8((unsigned char*)&val)) != 0)
-    {
+    if ((ret = buff.GetUInt8((unsigned char *)&val)) != 0) {
         return ret;
     }
     value = val;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
-        info.GetXml()->IntegerToHex((long)val, 2, tmp);
+        info.GetXml()->IntegerToHex((int32_t)val, 2, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -818,70 +698,53 @@ int GetInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 *            Data info.
 * Returns  parsed BCD value.
 */
-int GetBcd(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
-{
+int GetBcd(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
     unsigned char ch;
     // If there is not enough data available.
-    if (buff.GetUInt8(&ch) != 0)
-    {
+    if (buff.GetUInt8(&ch) != 0) {
         info.SetComplete(false);
         return 0;
     }
     value = ch;
     value.vt = DLMS_DATA_TYPE_BINARY_CODED_DESIMAL;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string tmp;
-        info.GetXml()->IntegerToHex((long)ch, 2, tmp);
+        info.GetXml()->IntegerToHex((int32_t)ch, 2, tmp);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", tmp);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
-int GXHelpers::GetObjectCount(CGXByteBuffer& data,
-    unsigned long& count)
-{
+int GXHelpers::GetObjectCount(CGXByteBuffer &data, uint32_t &count) {
     int ret;
     unsigned char cnt;
-    if ((ret = data.GetUInt8(&cnt)) != 0)
-    {
+    if ((ret = data.GetUInt8(&cnt)) != 0) {
         return ret;
     }
-    if (cnt > 0x80)
-    {
-        if (cnt == 0x81)
-        {
-            if ((ret = data.GetUInt8(&cnt)) != 0)
-            {
+    if (cnt > 0x80) {
+        if (cnt == 0x81) {
+            if ((ret = data.GetUInt8(&cnt)) != 0) {
                 return ret;
             }
             count = cnt;
             return DLMS_ERROR_CODE_OK;
-        }
-        else if (cnt == 0x82)
-        {
+        } else if (cnt == 0x82) {
             unsigned short tmp;
-            if ((ret = data.GetUInt16(&tmp)) != 0)
-            {
+            if ((ret = data.GetUInt16(&tmp)) != 0) {
                 return ret;
             }
             count = tmp;
             return DLMS_ERROR_CODE_OK;
-        }
-        else if (cnt == 0x84)
-        {
-            unsigned long tmp;
-            if ((ret = data.GetUInt32(&tmp)) != 0)
-            {
+        } else if (cnt == 0x84) {
+            uint32_t tmp;
+            if ((ret = data.GetUInt32(&tmp)) != 0) {
                 return ret;
             }
             count = tmp;
             return DLMS_ERROR_CODE_OK;
-        }
-        else
-        {
+        } else {
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
     }
@@ -889,39 +752,27 @@ int GXHelpers::GetObjectCount(CGXByteBuffer& data,
     return DLMS_ERROR_CODE_OK;
 }
 
-unsigned char GXHelpers::GetObjectCountSizeInBytes(unsigned long count)
-{
-    if (count < 0x80)
-    {
+unsigned char GXHelpers::GetObjectCountSizeInBytes(unsigned long count) {
+    if (count < 0x80) {
         return 1;
-    }
-    else if (count < 0x100)
-    {
+    } else if (count < 0x100) {
         return 2;
-    }
-    else if (count < 0x10000)
-    {
+    } else if (count < 0x10000) {
         return 3;
-    }
-    else
-    {
+    } else {
         return 5;
     }
 }
 
-int GXHelpers::SetObjectCount(unsigned long count, CGXByteBuffer& buff)
-{
-    if (count < 0x80)
-    {
+int GXHelpers::SetObjectCount(unsigned long count, CGXByteBuffer &buff) {
+    if (count < 0x80) {
         return buff.SetUInt8((unsigned char)count);
     }
-    if (count < 0x100)
-    {
+    if (count < 0x100) {
         buff.SetUInt8(0x81);
         return buff.SetUInt8((unsigned char)count);
     }
-    if (count < 0x10000)
-    {
+    if (count < 0x10000) {
         buff.SetUInt8(0x82);
         return buff.SetUInt16((unsigned short)count);
     }
@@ -929,23 +780,18 @@ int GXHelpers::SetObjectCount(unsigned long count, CGXByteBuffer& buff)
     return buff.SetUInt32(count);
 }
 
-std::vector< std::string > GXHelpers::Split(
-    std::string& s,
-    char separator)
-{
-    std::vector< std::string > items;
+std::vector<std::string> GXHelpers::Split(std::string &s, char separator) {
+    std::vector<std::string> items;
     int last = 0;
     int pos = -1;
-    while ((pos = (int)s.find(separator, pos + 1)) != -1)
-    {
+    while ((pos = (int)s.find(separator, pos + 1)) != -1) {
         std::string str;
         str.append(s, last, pos - last);
         items.push_back(str);
         last = pos + 1;
     }
     int len = (int)s.length();
-    if (last == 0 || last != len)
-    {
+    if (last == 0 || last != len) {
         std::string str;
         str.append(s, last, pos);
         items.push_back(str);
@@ -953,18 +799,12 @@ std::vector< std::string > GXHelpers::Split(
     return items;
 }
 
-std::vector< std::string > GXHelpers::Split(
-    std::string& s,
-    std::string separators,
-    bool ignoreEmpty)
-{
-    std::vector< std::string > items;
+std::vector<std::string> GXHelpers::Split(std::string &s, std::string separators, bool ignoreEmpty) {
+    std::vector<std::string> items;
     int last = 0;
     int pos = -1;
-    while ((pos = (int)s.find_first_of(separators, pos + 1)) != -1)
-    {
-        if (!ignoreEmpty || pos - last != 0)
-        {
+    while ((pos = (int)s.find_first_of(separators, pos + 1)) != -1) {
+        if (!ignoreEmpty || pos - last != 0) {
             std::string str;
             str.append(s, last, pos - last);
             items.push_back(str);
@@ -972,8 +812,7 @@ std::vector< std::string > GXHelpers::Split(
         last = pos + 1;
     }
     int len = (int)s.length();
-    if (!ignoreEmpty || len - last != 0)
-    {
+    if (!ignoreEmpty || len - last != 0) {
         std::string str;
         str.append(s, last, len - last);
         items.push_back(str);
@@ -981,75 +820,131 @@ std::vector< std::string > GXHelpers::Split(
     return items;
 }
 
-void GXHelpers::Replace(std::string& str, std::string oldString, std::string newString)
-{
+void GXHelpers::Replace(std::string &str, std::string oldString, std::string newString) {
     int index;
     int len = (int)oldString.length();
-    while ((index = (int)str.rfind(oldString)) != -1)
-    {
+    while ((index = (int)str.rfind(oldString)) != -1) {
         str.replace(index, len, newString);
     }
 }
 
-bool GXHelpers::EndsWith(const std::string& value, const std::string& ending)
-{
-    if (ending.size() > value.size())
-    {
+bool GXHelpers::EndsWith(const std::string &value, const std::string &ending) {
+    if (ending.size() > value.size()) {
         return false;
     }
     return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
-std::string& GXHelpers::ltrim(std::string& s)
-{
-    s.erase(s.begin(),
-        std::find_if(s.begin(), s.end(), [](int c)
-            {return !std::isspace(c);
+std::string GXHelpers::WideToUtf8(const std::wstring &value) {
+    std::string result;
+    result.reserve(value.size());
+    const uint32_t replacement = 0xFFFD;
+
+    auto appendCodePoint = [&result](uint32_t cp) {
+        if (cp <= 0x7F) {
+            result.push_back(static_cast<char>(cp));
+        } else if (cp <= 0x7FF) {
+            result.push_back(static_cast<char>(0xC0 | (cp >> 6)));
+            result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+        } else if (cp <= 0xFFFF) {
+            result.push_back(static_cast<char>(0xE0 | (cp >> 12)));
+            result.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+            result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+        } else if (cp <= 0x10FFFF) {
+            result.push_back(static_cast<char>(0xF0 | (cp >> 18)));
+            result.push_back(static_cast<char>(0x80 | ((cp >> 12) & 0x3F)));
+            result.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+            result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+        }
+    };
+
+    auto appendOrReplace = [&](uint32_t cp) {
+        if (cp > 0x10FFFF) {
+            appendCodePoint(replacement);
+        } else {
+            appendCodePoint(cp);
+        }
+    };
+
+    if (sizeof(wchar_t) == 2) {
+        for (size_t i = 0; i < value.size(); ++i) {
+            uint32_t wc = static_cast<uint16_t>(value[i]);
+            if (wc >= 0xD800 && wc <= 0xDBFF) {
+                if (i + 1 < value.size()) {
+                    uint32_t low = static_cast<uint16_t>(value[i + 1]);
+                    if (low >= 0xDC00 && low <= 0xDFFF) {
+                        uint32_t high = wc - 0xD800;
+                        uint32_t lowVal = low - 0xDC00;
+                        uint32_t codePoint = (high << 10) + lowVal + 0x10000;
+                        appendCodePoint(codePoint);
+                        ++i;
+                        continue;
+                    }
+                }
+                appendCodePoint(replacement);
+            } else if (wc >= 0xDC00 && wc <= 0xDFFF) {
+                appendCodePoint(replacement);
+            } else {
+                appendOrReplace(wc);
+            }
+        }
+    } else {
+        for (wchar_t wc: value) {
+            appendOrReplace(static_cast<uint32_t>(wc));
+        }
+    }
+
+    return result;
+}
+
+std::string &GXHelpers::ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) {
+                return !std::isspace(c);
             }));
     return s;
 }
 
-std::string& GXHelpers::rtrim(std::string& s)
-{
-    s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-        return !std::isspace(ch);
-        }).base(), s.end());
+std::string &GXHelpers::rtrim(std::string &s) {
+    s.erase(
+        std::find_if(
+            s.rbegin(), s.rend(),
+            [](unsigned char ch) {
+                return !std::isspace(ch);
+            }
+        ).base(),
+        s.end()
+    );
     return s;
 }
 
-std::string& GXHelpers::Trim(std::string& s)
-{
+std::string &GXHelpers::Trim(std::string &s) {
     return ltrim(rtrim(s));
 }
 
-std::string GXHelpers::BytesToHex(const unsigned char* pBytes, int count)
-{
-    return BytesToHex(pBytes, count, ' ');
+std::string GXHelpers::BytesToHex(const unsigned char *pBytes, int count) {
+    return BytesToHex(pBytes, count, '\0');
 }
 
-std::string GXHelpers::BytesToHex(const unsigned char* pBytes, int count, char addSpaces)
-{
-    const char hexArray[] = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+std::string GXHelpers::BytesToHex(const unsigned char *pBytes, int count, char addSpaces) {
+    const char hexArray[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
     std::string hexChars(addSpaces ? 3 * count : 2 * count, 0);
     int tmp;
     int index = 0;
-    for (int pos = 0; pos != count; ++pos)
-    {
+    for (int pos = 0; pos != count; ++pos) {
         tmp = pBytes[pos] & 0xFF;
         hexChars[index++] = hexArray[tmp >> 4];
         hexChars[index++] = hexArray[tmp & 0x0F];
-        if (addSpaces)
-        {
+        if (addSpaces) {
             hexChars[index++] = ' ';
         }
     }
     //Remove last separator.
-    if (addSpaces && count != 0)
-    {
+    if (addSpaces && count != 0) {
         hexChars.resize(hexChars.size() - 1);
     }
     return hexChars;
 }
+
 /**
 * Get UTF string value from DLMS data.
 *
@@ -1059,44 +954,34 @@ std::string GXHelpers::BytesToHex(const unsigned char* pBytes, int count, char a
 *            Data info.
 * Returns  parsed UTF string value.
 */
-int GetUtfString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
-{
+int GetUtfString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
     int ret;
-    unsigned long len = 0;
-    char* tmp;
-    if (knownType)
-    {
+    uint32_t len = 0;
+    char *tmp;
+    if (knownType) {
         len = buff.GetSize();
-    }
-    else
-    {
-        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0)
-        {
+    } else {
+        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0) {
             return ret;
         }
         // If there is not enough data available.
-        if (buff.GetSize() - buff.GetPosition() < len)
-        {
+        if (buff.GetSize() - buff.GetPosition() < len) {
             info.SetComplete(false);
             return 0;
         }
     }
-    if (len > 0)
-    {
+    if (len > 0) {
         tmp = new char[len];
-        buff.Get((unsigned char*)tmp, len);
+        buff.Get((unsigned char *)tmp, len);
         value.vt = DLMS_DATA_TYPE_STRING_UTF8;
         value.strVal.append(tmp, len);
         delete[] tmp;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        if (info.GetXml() != NULL)
-        {
+        if (info.GetXml() != NULL) {
             info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", value.strVal);
         }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
-    }
-    else
-    {
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
+    } else {
         value = "";
     }
     return 0;
@@ -1111,90 +996,65 @@ int GetUtfString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMS
     *            Data info.
     * Returns  parsed octet string value.
     */
-int GetOctetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
-{
+int GetOctetString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
     int ret;
-    unsigned long len = 0;
-    if (knownType)
-    {
+    uint32_t len = 0;
+    if (knownType) {
         len = buff.GetSize();
-    }
-    else
-    {
-        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0)
-        {
+    } else {
+        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0) {
             return ret;
         }
         // If there is not enough data available.
-        if (buff.GetSize() - buff.GetPosition() < len)
-        {
+        if (buff.GetSize() - buff.GetPosition() < len) {
             info.SetComplete(false);
             return 0;
         }
     }
     value.size = (unsigned short)len;
-    if (len == 0)
-    {
+    if (len == 0) {
         value.byteArr = NULL;
-    }
-    else
-    {
-        value.byteArr = (unsigned char*)malloc(len);
-        if ((ret = buff.Get(value.byteArr, len)) != 0)
-        {
+    } else {
+        value.byteArr = (unsigned char *)malloc(len);
+        if ((ret = buff.Get(value.byteArr, len)) != 0) {
             return ret;
         }
     }
     value.vt = DLMS_DATA_TYPE_OCTET_STRING;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string str;
-        if (info.GetXml()->GetComments() && value.GetSize() != 0)
-        {
+        if (info.GetXml()->GetComments() && value.GetSize() != 0) {
             // This might be logical name.
-            if (value.GetSize() == 6 && value.byteArr[5] == 0xFF)
-            {
+            if (value.GetSize() == 6 && value.byteArr[5] == 0xFF) {
                 std::string ln;
                 GXHelpers::GetLogicalName(value.byteArr, ln);
                 info.GetXml()->AppendComment(ln);
-            }
-            else
-            {
+            } else {
                 bool isString = true;
                 //Try to move octect string to DateTime, Date or time.
-                if (value.GetSize() == 12 || value.GetSize() == 5 || value.GetSize() == 4)
-                {
+                if (value.GetSize() == 12 || value.GetSize() == 5 || value.GetSize() == 4) {
                     DLMS_DATA_TYPE type = DLMS_DATA_TYPE_NONE;
-                    if (value.GetSize() == 12)
-                    {
+                    if (value.GetSize() == 12) {
                         type = DLMS_DATA_TYPE_DATETIME;
-                    }
-                    else if (value.GetSize() == 5)
-                    {
+                    } else if (value.GetSize() == 5) {
                         type = DLMS_DATA_TYPE_DATE;
-                    }
-                    else if (value.GetSize() == 4)
-                    {
+                    } else if (value.GetSize() == 4) {
                         type = DLMS_DATA_TYPE_TIME;
                     }
-                    if (type != DLMS_DATA_TYPE_NONE)
-                    {
+                    if (type != DLMS_DATA_TYPE_NONE) {
                         CGXDLMSVariant tmp;
-                        if (CGXDLMSClient::ChangeType(value, type, tmp) == 0)
-                        {
+                        if (CGXDLMSClient::ChangeType(value, type, tmp) == 0) {
                             info.GetXml()->AppendComment(tmp.dateTime.ToString());
                             isString = false;
                         }
                     }
                 }
-                if (isString)
-                {
+                if (isString) {
                     isString = CGXByteBuffer::IsAsciiString(value.byteArr, value.GetSize());
                 }
-                if (isString)
-                {
-                    str.append((char*)value.byteArr, value.GetSize());
+                if (isString) {
+                    str.append((char *)value.byteArr, value.GetSize());
                     info.GetXml()->AppendComment(str);
                 }
             }
@@ -1202,7 +1062,7 @@ int GetOctetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDL
         str = GXHelpers::BytesToHex(value.byteArr, value.GetSize(), false);
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -1215,54 +1075,42 @@ int GetOctetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDL
     *            Data info.
     * Returns  parsed string value.
     */
-int GetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
-{
+int GetString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
     int ret;
-    unsigned long len = 0;
-    char* tmp;
-    if (knownType)
-    {
+    uint32_t len = 0;
+    char *tmp;
+    if (knownType) {
         len = buff.GetSize();
-    }
-    else
-    {
-        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0)
-        {
+    } else {
+        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0) {
             return ret;
         }
         // If there is not enough data available.
-        if (buff.GetSize() - buff.GetPosition() < len)
-        {
+        if (buff.GetSize() - buff.GetPosition() < len) {
             info.SetComplete(false);
             return 0;
         }
     }
-    if (len > 0)
-    {
+    if (len > 0) {
         tmp = new char[len + 1];
-        if (tmp == NULL)
-        {
+        if (tmp == NULL) {
             return DLMS_ERROR_CODE_OUTOFMEMORY;
         }
         tmp[len] = '\0';
-        if ((ret = buff.Get((unsigned char*)tmp, len)) != 0)
-        {
+        if ((ret = buff.Get((unsigned char *)tmp, len)) != 0) {
             delete[] tmp;
             return ret;
         }
         value = tmp;
         delete[] tmp;
-    }
-    else
-    {
+    } else {
         value = "";
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", value.strVal);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
@@ -1275,22 +1123,19 @@ int GetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVar
     *            Data info.
     * Returns  parsed UInt32 value.
     */
-int GetUInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetUInt32(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 4)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 4) {
         info.SetComplete(false);
         return 0;
     }
     value.vt = DLMS_DATA_TYPE_UINT32;
-    int ret = buff.GetUInt32(&value.ulVal);
+    int ret = buff.GetUInt32((uint32_t *)&value.ulVal);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (ret == 0 && info.GetXml() != NULL)
-    {
+    if (ret == 0 && info.GetXml() != NULL) {
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", value);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return ret;
 }
 
@@ -1303,43 +1148,32 @@ int GetUInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int32 value.
     */
-int GetInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+int GetInt32(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 4)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 4) {
         info.SetComplete(false);
         return 0;
     }
     value.vt = DLMS_DATA_TYPE_INT32;
-    int ret = buff.GetInt32(&value.lVal);
+    int ret = buff.GetInt32((int32_t *)&value.lVal);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (ret == 0 && info.GetXml() != NULL)
-    {
+    if (ret == 0 && info.GetXml() != NULL) {
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", value);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return ret;
 }
 
-
 //Reserved for internal use.
-void GXHelpers::ToBitString(CGXByteBuffer& sb, unsigned char value, int count)
-{
-    if (count > 0)
-    {
-        if (count > 8)
-        {
+void GXHelpers::ToBitString(CGXByteBuffer &sb, unsigned char value, int count) {
+    if (count > 0) {
+        if (count > 8) {
             count = 8;
         }
-        for (int pos = 7; pos != 8 - count - 1; --pos)
-        {
-            if ((value & (1 << pos)) != 0)
-            {
+        for (int pos = 7; pos != 8 - count - 1; --pos) {
+            if ((value & (1 << pos)) != 0) {
                 sb.SetInt8('1');
-            }
-            else
-            {
+            } else {
                 sb.SetInt8('0');
             }
         }
@@ -1353,51 +1187,42 @@ void GXHelpers::ToBitString(CGXByteBuffer& sb, unsigned char value, int count)
 * info : Data info.
 * Returns parsed bit string value.
 */
-static int GetBitString(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
-    unsigned long cnt = 0;
+static int GetBitString(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
+    uint32_t cnt = 0;
     int ret;
     unsigned char ch;
-    if ((ret = GXHelpers::GetObjectCount(buff, cnt)) != 0)
-    {
+    if ((ret = GXHelpers::GetObjectCount(buff, cnt)) != 0) {
         return ret;
     }
     double t = cnt;
     t /= 8;
-    if (cnt % 8 != 0)
-    {
+    if (cnt % 8 != 0) {
         ++t;
     }
     unsigned int byteCnt = (unsigned int)t;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < byteCnt)
-    {
+    if (buff.GetSize() - buff.GetPosition() < byteCnt) {
         info.SetComplete(false);
         return 0;
     }
 
     CGXByteBuffer bb;
-    while (cnt > 0)
-    {
-        if ((ret = buff.GetUInt8(&ch)) != 0)
-        {
+    while (cnt > 0) {
+        if ((ret = buff.GetUInt8(&ch)) != 0) {
             return ret;
         }
         GXHelpers::ToBitString(bb, ch, cnt);
-        if (cnt < 8)
-        {
+        if (cnt < 8) {
             break;
         }
         cnt -= 8;
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string str = bb.ToString();
-        info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()),
-            "", str);
+        info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     value = bb.ToString();
     value.vt = DLMS_DATA_TYPE_BIT_STRING;
     return 0;
@@ -1412,56 +1237,42 @@ static int GetBitString(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& 
     *            Data info.
     * Returns  parsed bool value.
     */
-static int GetBool(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
-{
+static int GetBool(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
     unsigned char ch;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 1)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 1) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     value.vt = DLMS_DATA_TYPE_BOOLEAN;
     value.boolVal = ch != 0;
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    if (info.GetXml() != NULL)
-    {
+    if (info.GetXml() != NULL) {
         std::string str = value.boolVal != 0 ? "true" : "false";
         info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", str);
     }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     return 0;
 }
 
-
 int GXHelpers::GetCompactArrayItem(
-    CGXDLMSSettings* settings,
-    CGXByteBuffer& buff,
-    std::vector< CGXDLMSVariant>& dt,
-    std::vector< CGXDLMSVariant>& list,
-    int len)
-{
+    CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt, std::vector<CGXDLMSVariant> &list,
+    int len
+) {
     int ret;
     CGXDLMSVariant tmp;
     tmp.vt = DLMS_DATA_TYPE_ARRAY;
-    for (std::vector< CGXDLMSVariant>::iterator it = dt.begin(); it != dt.end(); ++it)
-    {
-        if (it->vt == DLMS_DATA_TYPE_ARRAY || it->vt == DLMS_DATA_TYPE_STRUCTURE)
-        {
-            if ((ret = GetCompactArrayItem(settings, buff, it->Arr, tmp.Arr, 1)) != 0)
-            {
+    for (std::vector<CGXDLMSVariant>::iterator it = dt.begin(); it != dt.end(); ++it) {
+        if (it->vt == DLMS_DATA_TYPE_ARRAY || it->vt == DLMS_DATA_TYPE_STRUCTURE) {
+            if ((ret = GetCompactArrayItem(settings, buff, it->Arr, tmp.Arr, 1)) != 0) {
                 return ret;
             }
-        }
-        else
-        {
-            if ((ret = GetCompactArrayItem(settings, buff, (DLMS_DATA_TYPE)it->bVal, tmp.Arr, 1)) != 0)
-            {
+        } else {
+            if ((ret = GetCompactArrayItem(settings, buff, (DLMS_DATA_TYPE)it->bVal, tmp.Arr, 1)) != 0) {
                 return ret;
             }
         }
@@ -1471,67 +1282,49 @@ int GXHelpers::GetCompactArrayItem(
 }
 
 int GXHelpers::GetCompactArrayItem(
-    CGXDLMSSettings* settings,
-    CGXByteBuffer& buff,
-    DLMS_DATA_TYPE dt,
-    std::vector< CGXDLMSVariant>& list,
-    int len)
-{
+    CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE dt, std::vector<CGXDLMSVariant> &list, int len
+) {
     int ret;
     CGXDataInfo tmp;
     tmp.SetType(dt);
     unsigned long start = buff.GetPosition();
     CGXDLMSVariant value;
-    if (dt == DLMS_DATA_TYPE_STRING)
-    {
-        while (buff.GetPosition() - start < (unsigned long)len)
-        {
+    if (dt == DLMS_DATA_TYPE_STRING) {
+        while (buff.GetPosition() - start < (unsigned long)len) {
             value.Clear();
             tmp.Clear();
             tmp.SetType(dt);
-            if ((ret = GetString(buff, tmp, false, value)) != 0)
-            {
+            if ((ret = GetString(buff, tmp, false, value)) != 0) {
                 return ret;
             }
             list.push_back(value);
-            if (!tmp.IsComplete())
-            {
+            if (!tmp.IsComplete()) {
                 break;
             }
         }
-    }
-    else if (dt == DLMS_DATA_TYPE_OCTET_STRING)
-    {
-        while (buff.GetPosition() - start < (unsigned long)len)
-        {
+    } else if (dt == DLMS_DATA_TYPE_OCTET_STRING) {
+        while (buff.GetPosition() - start < (unsigned long)len) {
             value.Clear();
             tmp.Clear();
             tmp.SetType(dt);
-            if ((ret = GetOctetString(buff, tmp, false, value)) != 0)
-            {
+            if ((ret = GetOctetString(buff, tmp, false, value)) != 0) {
                 return ret;
             }
             list.push_back(value);
-            if (!tmp.IsComplete())
-            {
+            if (!tmp.IsComplete()) {
                 break;
             }
         }
-    }
-    else
-    {
-        while (buff.GetPosition() - start < (unsigned long)len)
-        {
+    } else {
+        while (buff.GetPosition() - start < (unsigned long)len) {
             tmp.Clear();
             tmp.SetType(dt);
             CGXDLMSVariant value;
-            if ((ret = GetData(settings, buff, tmp, value)) != 0)
-            {
+            if ((ret = GetData(settings, buff, tmp, value)) != 0) {
                 return ret;
             }
             list.push_back(value);
-            if (!tmp.IsComplete())
-            {
+            if (!tmp.IsComplete()) {
                 break;
             }
         }
@@ -1539,26 +1332,18 @@ int GXHelpers::GetCompactArrayItem(
     return 0;
 }
 
-int GXHelpers::GetDataTypes(
-    CGXByteBuffer& buff,
-    std::vector<CGXDLMSVariant>& cols,
-    int len)
-{
+int GXHelpers::GetDataTypes(CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &cols, int len) {
     int ret;
     unsigned char ch;
     unsigned short cnt;
     DLMS_DATA_TYPE dt;
-    for (int pos = 0; pos != len; ++pos)
-    {
-        if ((ret = buff.GetUInt8(&ch)) != 0)
-        {
+    for (int pos = 0; pos != len; ++pos) {
+        if ((ret = buff.GetUInt8(&ch)) != 0) {
             return ret;
         }
         dt = (DLMS_DATA_TYPE)ch;
-        if (dt == DLMS_DATA_TYPE_ARRAY)
-        {
-            if ((ret = buff.GetUInt16(&cnt)) != 0)
-            {
+        if (dt == DLMS_DATA_TYPE_ARRAY) {
+            if ((ret = buff.GetUInt16(&cnt)) != 0) {
                 return ret;
             }
             std::vector<CGXDLMSVariant> tmp;
@@ -1569,238 +1354,176 @@ int GXHelpers::GetDataTypes(
                 tmp2.Arr.push_back(tmp[0]);
             }
             cols.push_back(tmp2);
-        }
-        else if (dt == DLMS_DATA_TYPE_STRUCTURE)
-        {
+        } else if (dt == DLMS_DATA_TYPE_STRUCTURE) {
             CGXDLMSVariant tmp;
-            if ((ret = buff.GetUInt8(&ch)) != 0)
-            {
+            if ((ret = buff.GetUInt8(&ch)) != 0) {
                 return ret;
             }
             tmp.vt = DLMS_DATA_TYPE_STRUCTURE;
             GetDataTypes(buff, tmp.Arr, ch);
             cols.push_back(tmp);
-        }
-        else
-        {
+        } else {
             cols.push_back(dt);
         }
     }
     return 0;
 }
 
-int GXHelpers::AppendDataTypeAsXml(
-    std::vector<CGXDLMSVariant>& cols,
-    CGXDataInfo info)
-{
+int GXHelpers::AppendDataTypeAsXml(std::vector<CGXDLMSVariant> &cols, CGXDataInfo info) {
     std::string val;
-    for (std::vector<CGXDLMSVariant>::iterator it = cols.begin(); it != cols.end(); ++it)
-    {
-        if (it->vt == DLMS_DATA_TYPE_ARRAY)
-        {
+    for (std::vector<CGXDLMSVariant>::iterator it = cols.begin(); it != cols.end(); ++it) {
+        if (it->vt == DLMS_DATA_TYPE_ARRAY) {
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             info.GetXml()->AppendStartTag(DATA_TYPE_OFFSET + DLMS_DATA_TYPE_ARRAY, "", val);
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
             AppendDataTypeAsXml(it->Arr, info);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             info.GetXml()->AppendEndTag(DATA_TYPE_OFFSET + DLMS_DATA_TYPE_ARRAY);
-#endif //DLMS_IGNORE_XML_TRANSLATOR
-        }
-        else if (it->vt == DLMS_DATA_TYPE_STRUCTURE)
-        {
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
+        } else if (it->vt == DLMS_DATA_TYPE_STRUCTURE) {
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             info.GetXml()->AppendStartTag(DATA_TYPE_OFFSET + DLMS_DATA_TYPE_STRUCTURE, "", val);
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
             AppendDataTypeAsXml(it->Arr, info);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             info.GetXml()->AppendEndTag(DATA_TYPE_OFFSET + DLMS_DATA_TYPE_STRUCTURE);
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
         }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        {
-            info.GetXml()->AppendEmptyTag(info.GetXml()->GetDataType((DLMS_DATA_TYPE)it->bVal));
-        }
-#endif //DLMS_IGNORE_XML_TRANSLATOR        else
+        { info.GetXml()->AppendEmptyTag(info.GetXml()->GetDataType((DLMS_DATA_TYPE)it->bVal)); }
+#endif  //DLMS_IGNORE_XML_TRANSLATOR        else
     }
     return 0;
 }
 
 int GXHelpers::GetCompactArray(
-    CGXDLMSSettings* settings,
-    CGXByteBuffer& buff,
-    CGXDataInfo& info,
-    CGXDLMSVariant& value)
-{
+    CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value
+) {
     std::string str;
     int ret;
     unsigned char ch;
-    unsigned long len;
+    uint32_t len;
     // If there is not enough data available.
-    if (buff.GetSize() - buff.GetPosition() < 2)
-    {
+    if (buff.GetSize() - buff.GetPosition() < 2) {
         info.SetComplete(false);
         return 0;
     }
-    if ((ret = buff.GetUInt8(&ch)) != 0)
-    {
+    if ((ret = buff.GetUInt8(&ch)) != 0) {
         return ret;
     }
     DLMS_DATA_TYPE dt = (DLMS_DATA_TYPE)ch;
-    if (dt == DLMS_DATA_TYPE_ARRAY)
-    {
+    if (dt == DLMS_DATA_TYPE_ARRAY) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0)
-    {
+    if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0) {
         return ret;
     }
 
-    if (dt == DLMS_DATA_TYPE_STRUCTURE)
-    {
+    if (dt == DLMS_DATA_TYPE_STRUCTURE) {
         // Get data types.
         std::vector<CGXDLMSVariant> cols;
-        if ((ret = GetDataTypes(buff, cols, len)) != 0)
-        {
+        if ((ret = GetDataTypes(buff, cols, len)) != 0) {
             return ret;
         }
-        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0)
-        {
+        if ((ret = GXHelpers::GetObjectCount(buff, len)) != 0) {
             return ret;
         }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        if (info.GetXml() != NULL)
-        {
+        if (info.GetXml() != NULL) {
             info.GetXml()->AppendStartTag(info.GetXml()->GetDataType(DLMS_DATA_TYPE_COMPACT_ARRAY));
             info.GetXml()->AppendStartTag(DLMS_TRANSLATOR_TAGS_CONTENTS_DESCRIPTION);
             AppendDataTypeAsXml(cols, info);
             info.GetXml()->AppendEndTag(DLMS_TRANSLATOR_TAGS_CONTENTS_DESCRIPTION);
-            if (info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_STANDARD_XML)
-            {
+            if (info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_STANDARD_XML) {
                 info.GetXml()->AppendStartTag2(DLMS_TRANSLATOR_TAGS_ARRAY_CONTENTS, true);
                 str = buff.ToHexString(buff.GetPosition(), buff.Available(), true);
                 info.GetXml()->Append(str);
                 info.GetXml()->AppendEndTag(DLMS_TRANSLATOR_TAGS_ARRAY_CONTENTS, true);
                 str = info.GetXml()->GetDataType(DLMS_DATA_TYPE_COMPACT_ARRAY);
                 info.GetXml()->AppendEndTag(str);
-            }
-            else
-            {
+            } else {
                 info.GetXml()->AppendStartTag(DLMS_TRANSLATOR_TAGS_ARRAY_CONTENTS);
             }
         }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
 
         value.vt = DLMS_DATA_TYPE_ARRAY;
         int start = buff.GetPosition();
-        while (buff.GetPosition() - start < len)
-        {
+        while (buff.GetPosition() - start < len) {
             CGXDLMSVariant row;
             row.vt = DLMS_DATA_TYPE_ARRAY;
-            for (unsigned long pos = 0; pos != (unsigned long)cols.size(); ++pos)
-            {
-                CGXDLMSVariant& tmp = cols.at(pos);
-                if (tmp.vt == DLMS_DATA_TYPE_STRUCTURE)
-                {
-                    if ((ret = GetCompactArrayItem(settings, buff, tmp.Arr, row.Arr, 1)) != 0)
-                    {
+            for (unsigned long pos = 0; pos != (unsigned long)cols.size(); ++pos) {
+                CGXDLMSVariant &tmp = cols.at(pos);
+                if (tmp.vt == DLMS_DATA_TYPE_STRUCTURE) {
+                    if ((ret = GetCompactArrayItem(settings, buff, tmp.Arr, row.Arr, 1)) != 0) {
                         return ret;
                     }
-                }
-                else if (tmp.vt == DLMS_DATA_TYPE_ARRAY)
-                {
+                } else if (tmp.vt == DLMS_DATA_TYPE_ARRAY) {
                     std::vector<CGXDLMSVariant> tmp2;
-                    if ((ret = GetCompactArrayItem(settings, buff, tmp.Arr, tmp2, 1)) != 0)
-                    {
+                    if ((ret = GetCompactArrayItem(settings, buff, tmp.Arr, tmp2, 1)) != 0) {
                         return ret;
                     }
                     row.Arr.insert(row.Arr.end(), tmp2.at(0).Arr.begin(), tmp2.at(0).Arr.end());
-                }
-                else
-                {
-                    if ((ret = GetCompactArrayItem(settings, buff, (DLMS_DATA_TYPE)tmp.cVal, row.Arr, 1)) != 0)
-                    {
+                } else {
+                    if ((ret = GetCompactArrayItem(settings, buff, (DLMS_DATA_TYPE)tmp.cVal, row.Arr, 1)) != 0) {
                         return ret;
                     }
                 }
-                if (buff.GetPosition() == buff.GetSize())
-                {
+                if (buff.GetPosition() == buff.GetSize()) {
                     break;
                 }
             }
             // If all columns are read.
-            if (row.Arr.size() >= cols.size())
-            {
+            if (row.Arr.size() >= cols.size()) {
                 value.Arr.push_back(row);
-            }
-            else
-            {
+            } else {
                 break;
             }
         }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        if (info.GetXml() != NULL && info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-        {
-            for (std::vector<CGXDLMSVariant>::iterator row = value.Arr.begin(); row != value.Arr.end(); ++row)
-            {
+        if (info.GetXml() != NULL && info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
+            for (std::vector<CGXDLMSVariant>::iterator row = value.Arr.begin(); row != value.Arr.end(); ++row) {
                 std::ostringstream sb;
-                for (std::vector<CGXDLMSVariant>::iterator it = row->Arr.begin(); it != row->Arr.end(); ++it)
-                {
-                    if (it->vt == DLMS_DATA_TYPE_OCTET_STRING)
-                    {
+                for (std::vector<CGXDLMSVariant>::iterator it = row->Arr.begin(); it != row->Arr.end(); ++it) {
+                    if (it->vt == DLMS_DATA_TYPE_OCTET_STRING) {
                         sb << GXHelpers::BytesToHex(it->byteArr, it->GetSize());
-                    }
-                    else if (it->vt == DLMS_DATA_TYPE_ARRAY ||
-                        it->vt == DLMS_DATA_TYPE_STRUCTURE)
-                    {
-                        for (std::vector<CGXDLMSVariant>::iterator it2 = it->Arr.begin(); it2 != it->Arr.end(); ++it2)
-                        {
-                            if (it2->vt == DLMS_DATA_TYPE_OCTET_STRING)
-                            {
+                    } else if (it->vt == DLMS_DATA_TYPE_ARRAY || it->vt == DLMS_DATA_TYPE_STRUCTURE) {
+                        for (std::vector<CGXDLMSVariant>::iterator it2 = it->Arr.begin(); it2 != it->Arr.end(); ++it2) {
+                            if (it2->vt == DLMS_DATA_TYPE_OCTET_STRING) {
                                 sb << GXHelpers::BytesToHex(it2->byteArr, it2->GetSize());
-                            }
-                            else
-                            {
+                            } else {
                                 sb << it2->ToString();
                             }
-                            if (it2 + 1 != it->Arr.end())
-                            {
+                            if (it2 + 1 != it->Arr.end()) {
                                 sb << ';';
                             }
                         }
-                    }
-                    else
-                    {
+                    } else {
                         sb << it->ToString();
                     }
-                    if (it + 1 != row->Arr.end())
-                    {
+                    if (it + 1 != row->Arr.end()) {
                         sb << ';';
                     }
                 }
                 info.GetXml()->AppendLine(sb.str());
             }
         }
-        if (info.GetXml() != NULL && info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-        {
+        if (info.GetXml() != NULL && info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
             info.GetXml()->AppendEndTag(DLMS_TRANSLATOR_TAGS_ARRAY_CONTENTS);
             str = info.GetXml()->GetDataType(DLMS_DATA_TYPE_COMPACT_ARRAY);
             info.GetXml()->AppendEndTag(str);
         }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
         return 0;
-    }
-    else
-    {
+    } else {
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        if (info.GetXml() != NULL)
-        {
+        if (info.GetXml() != NULL) {
             info.GetXml()->AppendStartTag(info.GetXml()->GetDataType(DLMS_DATA_TYPE_COMPACT_ARRAY));
             info.GetXml()->AppendStartTag(DLMS_TRANSLATOR_TAGS_CONTENTS_DESCRIPTION);
             info.GetXml()->AppendEmptyTag(info.GetXml()->GetDataType(dt));
             info.GetXml()->AppendEndTag(DLMS_TRANSLATOR_TAGS_CONTENTS_DESCRIPTION);
             info.GetXml()->AppendStartTag2(DLMS_TRANSLATOR_TAGS_ARRAY_CONTENTS, true);
-            if (info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_STANDARD_XML)
-            {
+            if (info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_STANDARD_XML) {
                 str = buff.ToHexString(buff.GetPosition(), buff.Available(), false);
                 info.GetXml()->Append(str);
                 info.GetXml()->AppendEndTag(DLMS_TRANSLATOR_TAGS_ARRAY_CONTENTS, true);
@@ -1808,145 +1531,130 @@ int GXHelpers::GetCompactArray(
                 info.GetXml()->AppendEndTag(str);
             }
         }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
         GetCompactArrayItem(settings, buff, dt, value.Arr, len);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        if (info.GetXml() != NULL && info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)
-        {
+        if (info.GetXml() != NULL && info.GetXml()->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
             std::string separator = ";";
-            for (std::vector<CGXDLMSVariant>::iterator it = value.Arr.begin(); it != value.Arr.end(); ++it)
-            {
+            for (std::vector<CGXDLMSVariant>::iterator it = value.Arr.begin(); it != value.Arr.end(); ++it) {
                 str = it->ToString();
                 info.GetXml()->Append(str);
                 info.GetXml()->Append(separator);
             }
-            if (value.Arr.size() != 0)
-            {
+            if (value.Arr.size() != 0) {
                 info.GetXml()->SetXmlLength(info.GetXml()->GetXmlLength() - 1);
             }
             info.GetXml()->AppendEndTag(DLMS_TRANSLATOR_TAGS_ARRAY_CONTENTS, true);
             str = info.GetXml()->GetDataType(DLMS_DATA_TYPE_COMPACT_ARRAY);
             info.GetXml()->AppendEndTag(str);
         }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     }
     return 0;
 }
 
-int GXHelpers::GetData(
-    CGXDLMSSettings* settings,
-    CGXByteBuffer& data,
-    CGXDataInfo& info,
-    CGXDLMSVariant& value)
-{
+int GXHelpers::GetData(CGXDLMSSettings *settings, CGXByteBuffer &data, CGXDataInfo &info, CGXDLMSVariant &value) {
     int ret;
     unsigned char ch;
     int startIndex = data.GetPosition();
     value.Clear();
-    if (data.GetPosition() == data.GetSize())
-    {
+    if (data.GetPosition() == data.GetSize()) {
         info.SetComplete(false);
         return 0;
     }
     info.SetComplete(true);
     bool knownType = info.GetType() != DLMS_DATA_TYPE_NONE;
     // Get data type if it is unknown.
-    if (!knownType)
-    {
-        if ((ret = data.GetUInt8(&ch)) != 0)
-        {
+    if (!knownType) {
+        if ((ret = data.GetUInt8(&ch)) != 0) {
             return ret;
         }
         info.SetType((DLMS_DATA_TYPE)ch);
     }
-    if (info.GetType() == DLMS_DATA_TYPE_NONE)
-    {
+    if (info.GetType() == DLMS_DATA_TYPE_NONE) {
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        if (info.GetXml() != NULL)
-        {
+        if (info.GetXml() != NULL) {
             info.GetXml()->AppendLine("<" + info.GetXml()->GetDataType(info.GetType()) + " />");
         }
-#endif //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
         return 0;
     }
-    if (data.GetPosition() == data.GetSize())
-    {
+    if (data.GetPosition() == data.GetSize()) {
         info.SetComplete(false);
         return 0;
     }
-    switch (info.GetType())
-    {
-    case DLMS_DATA_TYPE_ARRAY:
-    case DLMS_DATA_TYPE_STRUCTURE:
-        ret = GetArray(settings, data, info, startIndex, value);
-        value.vt = info.GetType();
-        break;
-    case DLMS_DATA_TYPE_BOOLEAN:
-        ret = GetBool(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_BIT_STRING:
-        ret = GetBitString(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_INT32:
-        ret = GetInt32(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_UINT32:
-        ret = GetUInt32(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_STRING:
-        ret = GetString(data, info, knownType, value);
-        break;
-    case DLMS_DATA_TYPE_STRING_UTF8:
-        ret = GetUtfString(data, info, knownType, value);
-        break;
-    case DLMS_DATA_TYPE_OCTET_STRING:
-        ret = GetOctetString(data, info, knownType, value);
-        break;
-    case DLMS_DATA_TYPE_BINARY_CODED_DESIMAL:
-        ret = GetBcd(data, info, knownType, value);
-        break;
-    case DLMS_DATA_TYPE_INT8:
-        ret = GetInt8(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_INT16:
-        ret = GetInt16(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_UINT8:
-        ret = GetUInt8(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_UINT16:
-        ret = GetUInt16(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_COMPACT_ARRAY:
-        ret = GetCompactArray(settings, data, info, value);
-        break;
-    case DLMS_DATA_TYPE_INT64:
-        ret = GetInt64(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_UINT64:
-        ret = GetUInt64(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_ENUM:
-        ret = GetEnum(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_FLOAT32:
-        ret = GetFloat(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_FLOAT64:
-        ret = GetDouble(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_DATETIME:
-        ret = GetDateTime(settings, data, info, value);
-        break;
-    case DLMS_DATA_TYPE_DATE:
-        ret = GetDate(data, info, value);
-        break;
-    case DLMS_DATA_TYPE_TIME:
-        ret = GetTime(data, info, value);
-        break;
-    default:
-        assert(0);
-        ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
+    switch (info.GetType()) {
+        case DLMS_DATA_TYPE_ARRAY:
+        case DLMS_DATA_TYPE_STRUCTURE:
+            ret = GetArray(settings, data, info, startIndex, value);
+            value.vt = info.GetType();
+            break;
+        case DLMS_DATA_TYPE_BOOLEAN:
+            ret = GetBool(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_BIT_STRING:
+            ret = GetBitString(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_INT32:
+            ret = GetInt32(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_UINT32:
+            ret = GetUInt32(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_STRING:
+            ret = GetString(data, info, knownType, value);
+            break;
+        case DLMS_DATA_TYPE_STRING_UTF8:
+            ret = GetUtfString(data, info, knownType, value);
+            break;
+        case DLMS_DATA_TYPE_OCTET_STRING:
+            ret = GetOctetString(data, info, knownType, value);
+            break;
+        case DLMS_DATA_TYPE_BINARY_CODED_DESIMAL:
+            ret = GetBcd(data, info, knownType, value);
+            break;
+        case DLMS_DATA_TYPE_INT8:
+            ret = GetInt8(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_INT16:
+            ret = GetInt16(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_UINT8:
+            ret = GetUInt8(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_UINT16:
+            ret = GetUInt16(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_COMPACT_ARRAY:
+            ret = GetCompactArray(settings, data, info, value);
+            break;
+        case DLMS_DATA_TYPE_INT64:
+            ret = GetInt64(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_UINT64:
+            ret = GetUInt64(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_ENUM:
+            ret = GetEnum(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_FLOAT32:
+            ret = GetFloat(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_FLOAT64:
+            ret = GetDouble(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_DATETIME:
+            ret = GetDateTime(settings, data, info, value);
+            break;
+        case DLMS_DATA_TYPE_DATE:
+            ret = GetDate(data, info, value);
+            break;
+        case DLMS_DATA_TYPE_TIME:
+            ret = GetTime(data, info, value);
+            break;
+        default:
+            assert(0);
+            ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return ret;
 }
@@ -1959,46 +1667,32 @@ int GXHelpers::GetData(
     * value
     *            Added value.
     */
-static int SetTime(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
+static int SetTime(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDLMSVariant &value) {
     DATETIME_SKIPS skip = value.dateTime.GetSkip();
     struct tm dt = value.dateTime.GetValue();
-    if (settings->GetDateTimeSkips() != DATETIME_SKIPS_NONE)
-    {
+    if (settings->GetDateTimeSkips() != DATETIME_SKIPS_NONE) {
         skip = (DATETIME_SKIPS)(skip | settings->GetDateTimeSkips());
     }
     // Add time.
-    if ((skip & DATETIME_SKIPS_HOUR) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_HOUR) != 0) {
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(dt.tm_hour);
     }
-    if ((skip & DATETIME_SKIPS_MINUTE) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_MINUTE) != 0) {
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(dt.tm_min);
     }
-    if ((skip & DATETIME_SKIPS_SECOND) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_SECOND) != 0) {
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(dt.tm_sec);
     }
-    if ((skip & DATETIME_SKIPS_MS) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_MS) != 0) {
         // Hundredths of second is not used.
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0);
     }
     return 0;
@@ -2012,68 +1706,45 @@ static int SetTime(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVarian
 * value
 *            Added value.
 */
-static int SetDate(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
+static int SetDate(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDLMSVariant &value) {
     struct tm dt = value.dateTime.GetValue();
     DATETIME_SKIPS skip = value.dateTime.GetSkip();
-    if (settings->GetDateTimeSkips() != DATETIME_SKIPS_NONE)
-    {
+    if (settings->GetDateTimeSkips() != DATETIME_SKIPS_NONE) {
         skip = (DATETIME_SKIPS)(skip | settings->GetDateTimeSkips());
     }
     // Add year.
-    if ((skip & DATETIME_SKIPS_YEAR) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_YEAR) != 0) {
         buff.SetUInt16(0xFFFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt16(1900 + dt.tm_year);
     }
     // Add month
-    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_BEGIN) != 0)
-    {
+    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_BEGIN) != 0) {
         buff.SetUInt8(0xFE);
-    }
-    else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_END) != 0)
-    {
+    } else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_END) != 0) {
         buff.SetUInt8(0xFD);
-    }
-    else if ((skip & DATETIME_SKIPS_MONTH) != 0)
-    {
+    } else if ((skip & DATETIME_SKIPS_MONTH) != 0) {
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(dt.tm_mon + 1);
     }
     // Add day
-    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY) != 0)
-    {
+    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY) != 0) {
         buff.SetUInt8(0xFE);
-    }
-    else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY2) != 0)
-    {
+    } else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY2) != 0) {
         buff.SetUInt8(0xFD);
-    }
-    else if ((skip & DATETIME_SKIPS_DAY) != 0)
-    {
+    } else if ((skip & DATETIME_SKIPS_DAY) != 0) {
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(dt.tm_mday);
     }
     //Add week day
-    if ((skip & DATETIME_SKIPS_DAYOFWEEK) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_DAYOFWEEK) != 0) {
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         int val = dt.tm_wday;
         //If Sunday.
-        if (val == 0)
-        {
+        if (val == 0) {
             val = 8;
         }
         buff.SetUInt8(val - 1);
@@ -2089,136 +1760,92 @@ static int SetDate(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVarian
 * value
 *            Added value.
 */
-static int SetDateTime(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
+static int SetDateTime(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDLMSVariant &value) {
     //Add year.
     unsigned short year = 0xFFFF;
     struct tm dt = value.dateTime.GetValue();
     DATETIME_SKIPS skip = value.dateTime.GetSkip();
-    if (settings->GetDateTimeSkips() != DATETIME_SKIPS_NONE)
-    {
+    if (settings->GetDateTimeSkips() != DATETIME_SKIPS_NONE) {
         skip = (DATETIME_SKIPS)(skip | settings->GetDateTimeSkips());
     }
-    if (dt.tm_year != -1 && (skip & DATETIME_SKIPS_YEAR) == 0)
-    {
+    if (dt.tm_year != -1 && (skip & DATETIME_SKIPS_YEAR) == 0) {
         year = 1900 + dt.tm_year;
     }
     buff.SetUInt16(year);
     //Add month
-    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_BEGIN) != 0)
-    {
+    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_BEGIN) != 0) {
         buff.SetUInt8(0xFE);
-    }
-    else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_END) != 0)
-    {
+    } else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_DST_END) != 0) {
         buff.SetUInt8(0xFD);
-    }
-    else if (dt.tm_mon != -1 && (skip & DATETIME_SKIPS_MONTH) == 0)
-    {
+    } else if (dt.tm_mon != -1 && (skip & DATETIME_SKIPS_MONTH) == 0) {
         buff.SetUInt8(dt.tm_mon + 1);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0xFF);
     }
     //Add day
-    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY) != 0)
-    {
+    if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY) != 0) {
         buff.SetUInt8(0xFE);
-    }
-    else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY2) != 0)
-    {
+    } else if ((value.dateTime.GetExtra() & DATE_TIME_EXTRA_INFO_LAST_DAY2) != 0) {
         buff.SetUInt8(0xFD);
-    }
-    else if (dt.tm_mday != -1 && (skip & DATETIME_SKIPS_DAY) == 0)
-    {
+    } else if (dt.tm_mday != -1 && (skip & DATETIME_SKIPS_DAY) == 0) {
         buff.SetUInt8(dt.tm_mday);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0xFF);
     }
     //Add week day
-    if ((skip & DATETIME_SKIPS_DAYOFWEEK) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_DAYOFWEEK) != 0) {
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         int val = dt.tm_wday;
         //If Sunday.
-        if (val == 0)
-        {
+        if (val == 0) {
             val = 7;
         }
         buff.SetUInt8(val);
     }
     //Add Hours
-    if (dt.tm_hour != -1 && (skip & DATETIME_SKIPS_HOUR) == 0)
-    {
+    if (dt.tm_hour != -1 && (skip & DATETIME_SKIPS_HOUR) == 0) {
         buff.SetUInt8(dt.tm_hour);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0xFF);
     }
     //Add Minutes
-    if (dt.tm_min != -1 && (skip & DATETIME_SKIPS_MINUTE) == 0)
-    {
+    if (dt.tm_min != -1 && (skip & DATETIME_SKIPS_MINUTE) == 0) {
         buff.SetUInt8(dt.tm_min);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0xFF);
     }
     //Add seconds.
-    if (dt.tm_sec != -1 && (skip & DATETIME_SKIPS_SECOND) == 0)
-    {
+    if (dt.tm_sec != -1 && (skip & DATETIME_SKIPS_SECOND) == 0) {
         buff.SetUInt8(dt.tm_sec);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0xFF);
     }
     //Add ms.
-    if ((skip & DATETIME_SKIPS_MS) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_MS) != 0) {
         // Hundredths of second is not used.
         buff.SetUInt8(0xFF);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0);
     }
     // devitation not used.
-    if ((skip & DATETIME_SKIPS_DEVITATION) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_DEVITATION) != 0) {
         buff.SetUInt16(0x8000);
-    }
-    else
-    {
+    } else {
         // Add devitation.
-        if (settings != NULL && settings->GetUseUtc2NormalTime())
-        {
+        if (settings != NULL && settings->GetUseUtc2NormalTime()) {
             buff.SetUInt16(-value.dateTime.GetDeviation());
-        }
-        else
-        {
+        } else {
             buff.SetUInt16(value.dateTime.GetDeviation());
         }
     }
     // Add clock_status
-    if ((skip & DATETIME_SKIPS_STATUS) != 0)
-    {
+    if ((skip & DATETIME_SKIPS_STATUS) != 0) {
         // Status is not used.
         buff.SetUInt8(0xFF);
-    }
-    else if (dt.tm_isdst)
-    {
+    } else if (dt.tm_isdst) {
         buff.SetUInt8(value.dateTime.GetStatus() | DLMS_CLOCK_STATUS_DAYLIGHT_SAVE_ACTIVE);
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(value.dateTime.GetStatus());
     }
     return 0;
@@ -2232,8 +1859,7 @@ static int SetDateTime(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVa
 * value
 *            Added value.
 */
-static int SetBcd(CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
+static int SetBcd(CGXByteBuffer &buff, CGXDLMSVariant &value) {
     // Standard supports only size of byte.
     buff.SetUInt8(value.bVal);
     return 0;
@@ -2247,14 +1873,11 @@ static int SetBcd(CGXByteBuffer& buff, CGXDLMSVariant& value)
     * value
     *            Added value.
     */
-static int SetArray(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
+static int SetArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDLMSVariant &value) {
     int ret;
     GXHelpers::SetObjectCount((unsigned long)value.Arr.size(), buff);
-    for (std::vector<CGXDLMSVariant>::iterator it = value.Arr.begin(); it != value.Arr.end(); ++it)
-    {
-        if ((ret = GXHelpers::SetData(settings, buff, it->vt, *it)) != 0)
-        {
+    for (std::vector<CGXDLMSVariant>::iterator it = value.Arr.begin(); it != value.Arr.end(); ++it) {
+        if ((ret = GXHelpers::SetData(settings, buff, it->vt, *it)) != 0) {
             return ret;
         }
     }
@@ -2269,26 +1892,18 @@ static int SetArray(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDLMSVaria
     * value
     *            Added value.
     */
-static int SetOctetString(CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
-    if (value.vt == DLMS_DATA_TYPE_STRING)
-    {
+static int SetOctetString(CGXByteBuffer &buff, CGXDLMSVariant &value) {
+    if (value.vt == DLMS_DATA_TYPE_STRING) {
         CGXByteBuffer bb;
         GXHelpers::HexToBytes(value.strVal, bb);
         GXHelpers::SetObjectCount(bb.GetSize(), buff);
         buff.Set(bb.GetData(), bb.GetSize());
-    }
-    else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING)
-    {
+    } else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
         GXHelpers::SetObjectCount(value.size, buff);
         buff.Set(value.byteArr, value.size);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_NONE)
-    {
+    } else if (value.vt == DLMS_DATA_TYPE_NONE) {
         GXHelpers::SetObjectCount(0, buff);
-    }
-    else
-    {
+    } else {
         // Invalid data type.
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
@@ -2303,39 +1918,30 @@ static int SetOctetString(CGXByteBuffer& buff, CGXDLMSVariant& value)
 * value
 *            Added value.
 */
-static int SetUtfString(CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
-    if (value.vt != DLMS_DATA_TYPE_NONE)
-    {
+static int SetUtfString(CGXByteBuffer &buff, CGXDLMSVariant &value) {
+    if (value.vt != DLMS_DATA_TYPE_NONE) {
         GXHelpers::SetObjectCount((unsigned long)value.strVal.size(), buff);
         buff.AddString(value.strVal.c_str());
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0);
     }
     return 0;
 }
 
-void GXHelpers::GetLogicalName(unsigned char* buff, std::string& ln)
-{
+void GXHelpers::GetLogicalName(unsigned char *buff, std::string &ln) {
     int dataSize;
     char tmp[25];
     //If Script Action target is not set it is NULL
-    if (buff == NULL)
-    {
+    if (buff == NULL) {
         ln.clear();
         ln.append("0.0.0.0.0.0");
-    }
-    else
-    {
+    } else {
 #if _MSC_VER > 1000
         dataSize = sprintf_s(tmp, 25, "%d.%d.%d.%d.%d.%d", buff[0], buff[1], buff[2], buff[3], buff[4], buff[5]) + 1;
 #else
         dataSize = sprintf(tmp, "%d.%d.%d.%d.%d.%d", buff[0], buff[1], buff[2], buff[3], buff[4], buff[5]) + 1;
 #endif
-        if (dataSize > 25)
-        {
+        if (dataSize > 25) {
             assert(0);
         }
         ln.clear();
@@ -2343,32 +1949,26 @@ void GXHelpers::GetLogicalName(unsigned char* buff, std::string& ln)
     }
 }
 
-void GXHelpers::GetLogicalName(CGXByteBuffer& buff, std::string& ln)
-{
+void GXHelpers::GetLogicalName(CGXByteBuffer &buff, std::string &ln) {
     unsigned char tmp[6];
     buff.Get(tmp, 6);
     GetLogicalName(tmp, ln);
 }
 
-
-int GXHelpers::SetLogicalName(const char* name, CGXDLMSVariant& value)
-{
-    unsigned char ln[6] = { 0 };
+int GXHelpers::SetLogicalName(const char *name, CGXDLMSVariant &value) {
+    unsigned char ln[6] = {0};
     int ret = 0;
-    if (name != NULL && *name != '\0')
-    {
+    if (name != NULL && *name != '\0') {
         ret = SetLogicalName(name, ln);
     }
-    if (ret == 0)
-    {
+    if (ret == 0) {
         value.Clear();
         value.Add(ln, 6);
     }
     return ret;
 }
 
-int GXHelpers::SetLogicalName(const char* name, unsigned char ln[6])
-{
+int GXHelpers::SetLogicalName(const char *name, unsigned char ln[6]) {
     int ret;
     int v1, v2, v3, v4, v5, v6;
 #if _MSC_VER > 1000
@@ -2376,8 +1976,7 @@ int GXHelpers::SetLogicalName(const char* name, unsigned char ln[6])
 #else
     ret = sscanf(name, "%u.%u.%u.%u.%u.%u", &v1, &v2, &v3, &v4, &v5, &v6);
 #endif
-    if (ret != 6)
-    {
+    if (ret != 6) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     ln[0] = (unsigned char)v1;
@@ -2397,228 +1996,177 @@ int GXHelpers::SetLogicalName(const char* name, unsigned char ln[6])
 * value
 *            Added value.
 */
-static int SetString(CGXByteBuffer& buff, CGXDLMSVariant& value)
-{
-    if (value.vt != DLMS_DATA_TYPE_NONE)
-    {
+static int SetString(CGXByteBuffer &buff, CGXDLMSVariant &value) {
+    if (value.vt != DLMS_DATA_TYPE_NONE) {
         GXHelpers::SetObjectCount((unsigned long)value.strVal.size(), buff);
         buff.AddString(value.strVal.c_str());
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(0);
     }
     return 0;
 }
 
-int GXHelpers::SetBitString(CGXByteBuffer& buff, CGXDLMSVariant& value, bool addCount)
-{
+int GXHelpers::SetBitString(CGXByteBuffer &buff, CGXDLMSVariant &value, bool addCount) {
     unsigned char val = 0;
     int index = 7;
-    if (value.vt == DLMS_DATA_TYPE_STRING)
-    {
-        if (addCount)
-        {
+    if (value.vt == DLMS_DATA_TYPE_STRING) {
+        if (addCount) {
             GXHelpers::SetObjectCount((unsigned long)value.strVal.size(), buff);
         }
-        for (std::string::iterator it = value.strVal.begin(); it != value.strVal.end(); ++it)
-        {
-            if (*it == '1')
-            {
+        for (std::string::iterator it = value.strVal.begin(); it != value.strVal.end(); ++it) {
+            if (*it == '1') {
                 val |= (1 << index);
-            }
-            else if (*it != '0')
-            {
+            } else if (*it != '0') {
                 return DLMS_ERROR_CODE_INVALID_PARAMETER;
             }
             --index;
-            if (index == -1)
-            {
+            if (index == -1) {
                 index = 7;
                 buff.SetUInt8(val);
                 val = 0;
             }
         }
-        if (index != 7)
-        {
+        if (index != 7) {
             buff.SetUInt8(val);
         }
-    }
-    else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING)
-    {
+    } else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
         GXHelpers::SetObjectCount(8 * value.size, buff);
         buff.Set(value.byteArr, value.size);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_NONE)
-    {
+    } else if (value.vt == DLMS_DATA_TYPE_NONE) {
         buff.SetUInt8(0);
-    }
-    else if (value.vt == DLMS_DATA_TYPE_UINT8)
-    {
+    } else if (value.vt == DLMS_DATA_TYPE_UINT8) {
         SetObjectCount(8, buff);
         buff.SetUInt8(value.cVal);
-    }
-    else
-    {
+    } else {
         //BitString must give as string.
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
 
-int GXHelpers::SetData2(CGXDLMSSettings* settings, CGXByteBuffer& buff, DLMS_DATA_TYPE type, CGXDLMSVariant value)
-{
+int GXHelpers::SetData2(CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE type, CGXDLMSVariant value) {
     return SetData(settings, buff, type, value);
 }
 
-int GXHelpers::SetData(CGXDLMSSettings* settings, CGXByteBuffer& buff, DLMS_DATA_TYPE type, CGXDLMSVariant& value)
-{
-    if ((type == DLMS_DATA_TYPE_ARRAY || type == DLMS_DATA_TYPE_STRUCTURE)
-        && value.vt == DLMS_DATA_TYPE_OCTET_STRING)
-    {
+int GXHelpers::SetData(CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE type, CGXDLMSVariant &value) {
+    if ((type == DLMS_DATA_TYPE_ARRAY || type == DLMS_DATA_TYPE_STRUCTURE) && value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
         // If byte array is added do not add type.
         buff.Set(value.byteArr, value.size);
         return 0;
-    }
-    else
-    {
+    } else {
         buff.SetUInt8(type);
     }
-    if (type == DLMS_DATA_TYPE_NONE)
-    {
+    if (type == DLMS_DATA_TYPE_NONE) {
         return 0;
     }
-    switch (type)
-    {
-    case DLMS_DATA_TYPE_BOOLEAN:
-        buff.SetUInt8(value.boolVal != 0);
-        break;
-    case DLMS_DATA_TYPE_INT8:
-    case DLMS_DATA_TYPE_UINT8:
-    case DLMS_DATA_TYPE_ENUM:
-        buff.SetUInt8(value.bVal);
-        break;
-    case DLMS_DATA_TYPE_INT16:
-    case DLMS_DATA_TYPE_UINT16:
-        buff.SetUInt16(value.iVal);
-        break;
-    case DLMS_DATA_TYPE_INT32:
-    case DLMS_DATA_TYPE_UINT32:
-        buff.SetUInt32(value.lVal);
-        break;
-    case DLMS_DATA_TYPE_INT64:
-    case DLMS_DATA_TYPE_UINT64:
-        buff.SetUInt64(value.llVal);
-        break;
-    case DLMS_DATA_TYPE_FLOAT32:
-        buff.SetFloat(value.fltVal);
-        break;
-    case DLMS_DATA_TYPE_FLOAT64:
-        buff.SetDouble(value.dblVal);
-        break;
-    case DLMS_DATA_TYPE_BIT_STRING:
-        return SetBitString(buff, value, true);
-        break;
-    case DLMS_DATA_TYPE_STRING:
-        return SetString(buff, value);
-        break;
-    case DLMS_DATA_TYPE_STRING_UTF8:
-        return SetUtfString(buff, value);
-        break;
-    case DLMS_DATA_TYPE_OCTET_STRING:
-        if (value.vt == DLMS_DATA_TYPE_DATE)
-        {
-            // Add size
-            buff.SetUInt8(5);
-            SetDate(settings, buff, value);
-        }
-        else if (value.vt == DLMS_DATA_TYPE_TIME)
-        {
-            // Add size
-            buff.SetUInt8(4);
-            SetTime(settings, buff, value);
-        }
-        else if (value.vt == DLMS_DATA_TYPE_DATETIME)
-        {
-            // Date an calendar are always written as date time.
-            buff.SetUInt8(12);
-            SetDateTime(settings, buff, value);
-        }
-        else
-        {
-            return SetOctetString(buff, value);
-        }
-        break;
-    case DLMS_DATA_TYPE_ARRAY:
-    case DLMS_DATA_TYPE_STRUCTURE:
-        return SetArray(settings, buff, value);
-        break;
-    case DLMS_DATA_TYPE_BINARY_CODED_DESIMAL:
-        return SetBcd(buff, value);
-        break;
-    case DLMS_DATA_TYPE_COMPACT_ARRAY:
-        assert(0);
-        return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        break;
-    case DLMS_DATA_TYPE_DATETIME:
-        return SetDateTime(settings, buff, value);
-        break;
-    case DLMS_DATA_TYPE_DATE:
-        return SetDate(settings, buff, value);
-        break;
-    case DLMS_DATA_TYPE_TIME:
-        return SetTime(settings, buff, value);
-        break;
-    default:
-        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    switch (type) {
+        case DLMS_DATA_TYPE_BOOLEAN:
+            buff.SetUInt8(value.boolVal != 0);
+            break;
+        case DLMS_DATA_TYPE_INT8:
+        case DLMS_DATA_TYPE_UINT8:
+        case DLMS_DATA_TYPE_ENUM:
+            buff.SetUInt8(value.bVal);
+            break;
+        case DLMS_DATA_TYPE_INT16:
+        case DLMS_DATA_TYPE_UINT16:
+            buff.SetUInt16(value.iVal);
+            break;
+        case DLMS_DATA_TYPE_INT32:
+        case DLMS_DATA_TYPE_UINT32:
+            buff.SetUInt32(value.lVal);
+            break;
+        case DLMS_DATA_TYPE_INT64:
+        case DLMS_DATA_TYPE_UINT64:
+            buff.SetUInt64(value.llVal);
+            break;
+        case DLMS_DATA_TYPE_FLOAT32:
+            buff.SetFloat(value.fltVal);
+            break;
+        case DLMS_DATA_TYPE_FLOAT64:
+            buff.SetDouble(value.dblVal);
+            break;
+        case DLMS_DATA_TYPE_BIT_STRING:
+            return SetBitString(buff, value, true);
+            break;
+        case DLMS_DATA_TYPE_STRING:
+            return SetString(buff, value);
+            break;
+        case DLMS_DATA_TYPE_STRING_UTF8:
+            return SetUtfString(buff, value);
+            break;
+        case DLMS_DATA_TYPE_OCTET_STRING:
+            if (value.vt == DLMS_DATA_TYPE_DATE) {
+                // Add size
+                buff.SetUInt8(5);
+                SetDate(settings, buff, value);
+            } else if (value.vt == DLMS_DATA_TYPE_TIME) {
+                // Add size
+                buff.SetUInt8(4);
+                SetTime(settings, buff, value);
+            } else if (value.vt == DLMS_DATA_TYPE_DATETIME) {
+                // Date an calendar are always written as date time.
+                buff.SetUInt8(12);
+                SetDateTime(settings, buff, value);
+            } else {
+                return SetOctetString(buff, value);
+            }
+            break;
+        case DLMS_DATA_TYPE_ARRAY:
+        case DLMS_DATA_TYPE_STRUCTURE:
+            return SetArray(settings, buff, value);
+            break;
+        case DLMS_DATA_TYPE_BINARY_CODED_DESIMAL:
+            return SetBcd(buff, value);
+            break;
+        case DLMS_DATA_TYPE_COMPACT_ARRAY:
+            assert(0);
+            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+            break;
+        case DLMS_DATA_TYPE_DATETIME:
+            return SetDateTime(settings, buff, value);
+            break;
+        case DLMS_DATA_TYPE_DATE:
+            return SetDate(settings, buff, value);
+            break;
+        case DLMS_DATA_TYPE_TIME:
+            return SetTime(settings, buff, value);
+            break;
+        default:
+            return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return 0;
 }
 
-unsigned char GXHelpers::GetValue(char c)
-{
+unsigned char GXHelpers::GetValue(char c) {
     unsigned char value;
-    if (c > '9')
-    {
-        if (c > 'Z')
-        {
+    if (c > '9') {
+        if (c > 'Z') {
             value = (c - 'a' + 10);
-        }
-        else
-        {
+        } else {
             value = (c - 'A' + 10);
         }
-    }
-    else
-    {
+    } else {
         value = (c - '0');
     }
     return value;
 }
 
-void GXHelpers::HexToBytes(std::string& value, CGXByteBuffer& buffer)
-{
+void GXHelpers::HexToBytes(std::string &value, CGXByteBuffer &buffer) {
     buffer.Clear();
     buffer.Capacity((unsigned long)(value.length() / 2));
     int lastValue = -1;
     int index = 0;
-    for (std::string::iterator ch = value.begin(); ch != value.end(); ++ch)
-    {
-        if (*ch >= '0' && *ch < 'g')
-        {
-            if (lastValue == -1)
-            {
+    for (std::string::iterator ch = value.begin(); ch != value.end(); ++ch) {
+        if (*ch >= '0' && *ch < 'g') {
+            if (lastValue == -1) {
                 lastValue = GetValue(*ch);
-            }
-            else if (lastValue != -1)
-            {
+            } else if (lastValue != -1) {
                 buffer.SetUInt8(lastValue << 4 | GetValue(*ch));
                 lastValue = -1;
                 ++index;
             }
-        }
-        else if (lastValue != -1)
-        {
+        } else if (lastValue != -1) {
             buffer.SetUInt8(GetValue(*ch));
             lastValue = -1;
             ++index;
@@ -2626,10 +2174,8 @@ void GXHelpers::HexToBytes(std::string& value, CGXByteBuffer& buffer)
     }
 }
 
-void GXHelpers::Write(char* fileName, char* pData, int len)
-{
-    if (len != 0 && pData != NULL)
-    {
+void GXHelpers::Write(char *fileName, char *pData, int len) {
+    if (len != 0 && pData != NULL) {
         std::ofstream trace;
         trace.open(fileName, std::ios::out | std::ios::app);
         trace.write(pData, len);
@@ -2637,10 +2183,8 @@ void GXHelpers::Write(char* fileName, char* pData, int len)
     }
 }
 
-void GXHelpers::Write(std::string fileName, std::string data)
-{
-    if (data.size() != 0)
-    {
+void GXHelpers::Write(std::string fileName, std::string data) {
+    if (data.size() != 0) {
         std::ofstream trace;
         trace.open(fileName.c_str(), std::ios::out | std::ios::app);
         trace.write(&data[0], data.size());
@@ -2648,91 +2192,112 @@ void GXHelpers::Write(std::string fileName, std::string data)
     }
 }
 
-bool GXHelpers::GetBits(unsigned char& tmp, unsigned char BitMask)
-{
+bool GXHelpers::GetBits(unsigned char &tmp, unsigned char BitMask) {
     return (tmp & BitMask) != 0;
 }
 
-bool GXHelpers::StringCompare(const char* c1, const char* c2)
-{
+bool GXHelpers::StringCompare(const char *c1, const char *c2) {
     return strcmp(c1, c2) == 0;
 }
 
-int GXHelpers::GetDataTypeSize(DLMS_DATA_TYPE type)
-{
+int GXHelpers::GetDataTypeSize(DLMS_DATA_TYPE type) {
     int size = -1;
-    switch (type)
-    {
-    case DLMS_DATA_TYPE_BINARY_CODED_DESIMAL:
-        size = 1;
-        break;
-    case DLMS_DATA_TYPE_BOOLEAN:
-        size = 1;
-        break;
-    case DLMS_DATA_TYPE_DATE:
-        size = 5;
-        break;
-    case DLMS_DATA_TYPE_DATETIME:
-        size = 12;
-        break;
-    case DLMS_DATA_TYPE_ENUM:
-        size = 1;
-        break;
-    case DLMS_DATA_TYPE_FLOAT32:
-        size = 4;
-        break;
-    case DLMS_DATA_TYPE_FLOAT64:
-        size = 8;
-        break;
-    case DLMS_DATA_TYPE_INT16:
-        size = 2;
-        break;
-    case DLMS_DATA_TYPE_INT32:
-        size = 4;
-        break;
-    case DLMS_DATA_TYPE_INT64:
-        size = 8;
-        break;
-    case DLMS_DATA_TYPE_INT8:
-        size = 1;
-        break;
-    case DLMS_DATA_TYPE_NONE:
-        size = 0;
-        break;
-    case DLMS_DATA_TYPE_TIME:
-        size = 4;
-        break;
-    case DLMS_DATA_TYPE_UINT16:
-        size = 2;
-        break;
-    case DLMS_DATA_TYPE_UINT32:
-        size = 4;
-        break;
-    case DLMS_DATA_TYPE_UINT64:
-        size = 8;
-        break;
-    case DLMS_DATA_TYPE_UINT8:
-        size = 1;
-        break;
-    default:
-        break;
+    switch (type) {
+        case DLMS_DATA_TYPE_BINARY_CODED_DESIMAL:
+            size = 1;
+            break;
+        case DLMS_DATA_TYPE_BOOLEAN:
+            size = 1;
+            break;
+        case DLMS_DATA_TYPE_DATE:
+            size = 5;
+            break;
+        case DLMS_DATA_TYPE_DATETIME:
+            size = 12;
+            break;
+        case DLMS_DATA_TYPE_ENUM:
+            size = 1;
+            break;
+        case DLMS_DATA_TYPE_FLOAT32:
+            size = 4;
+            break;
+        case DLMS_DATA_TYPE_FLOAT64:
+            size = 8;
+            break;
+        case DLMS_DATA_TYPE_INT16:
+            size = 2;
+            break;
+        case DLMS_DATA_TYPE_INT32:
+            size = 4;
+            break;
+        case DLMS_DATA_TYPE_INT64:
+            size = 8;
+            break;
+        case DLMS_DATA_TYPE_INT8:
+            size = 1;
+            break;
+        case DLMS_DATA_TYPE_NONE:
+            size = 0;
+            break;
+        case DLMS_DATA_TYPE_TIME:
+            size = 4;
+            break;
+        case DLMS_DATA_TYPE_UINT16:
+            size = 2;
+            break;
+        case DLMS_DATA_TYPE_UINT32:
+            size = 4;
+            break;
+        case DLMS_DATA_TYPE_UINT64:
+            size = 8;
+            break;
+        case DLMS_DATA_TYPE_UINT8:
+            size = 1;
+            break;
+        default:
+            break;
     }
     return size;
 }
 
-std::string GXHelpers::GeneralizedTime(struct tm* date)
-{
+std::string GXHelpers::GeneralizedTime(struct tm *date) {
     char tmp[20];
 #if _MSC_VER > 1000
-    sprintf_s(tmp, 20, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min, date->tm_sec);
+    sprintf_s(
+        tmp, 20, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min,
+        date->tm_sec
+    );
 #else
-    sprintf(tmp, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min, date->tm_sec);
+    sprintf(
+        tmp, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min,
+        date->tm_sec
+    );
 #endif
     return tmp;
 }
 
-std::string GXHelpers::IntToString(int value)
-{
+int GXHelpers::GetLocalTimeOffsetMinutes(const std::tm *) {
+    // Determine the difference between local and UTC time for "now".
+    std::time_t now = std::time(nullptr);
+
+    std::tm gm{};
+    std::tm loc{};
+
+#if defined(_WIN32) || defined(_WIN64)
+    // Thread-safe versions for MSVC / MinGW
+    gmtime_s(&gm, &now);
+    localtime_s(&loc, &now);
+#else
+    gmtime_r(&now, &gm);
+    localtime_r(&now, &loc);
+#endif
+
+    // Compute offset in minutes.
+    double diff_sec = std::difftime(std::mktime(&loc), std::mktime(&gm));
+    return static_cast<int>(diff_sec / 60.0);
+}
+
+std::string GXHelpers::IntToString(int value) {
     char buff[20];
 #if _MSC_VER > 1000
     sprintf_s(buff, 20, "%d", value);
@@ -2742,13 +2307,10 @@ std::string GXHelpers::IntToString(int value)
     return buff;
 }
 
-void GXHelpers::Join(std::string separator, std::vector< std::string >& list, std::string& res)
-{
+void GXHelpers::Join(std::string separator, std::vector<std::string> &list, std::string &res) {
     bool empty = true;
-    for (std::vector< std::string >::iterator it = list.begin(); it != list.end(); ++it)
-    {
-        if (!empty)
-        {
+    for (std::vector<std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+        if (!empty) {
             res.append(separator);
         }
         empty = false;
@@ -2756,11 +2318,9 @@ void GXHelpers::Join(std::string separator, std::vector< std::string >& list, st
     }
 }
 
-unsigned char GXHelpers::SwapBits(unsigned char value)
-{
+unsigned char GXHelpers::SwapBits(unsigned char value) {
     unsigned char ret = 0, pos;
-    for (pos = 0; pos != 8; ++pos)
-    {
+    for (pos = 0; pos != 8; ++pos) {
         ret = (unsigned char)((ret << 1) | (value & 0x01));
         value = (unsigned char)(value >> 1);
     }
@@ -2768,28 +2328,22 @@ unsigned char GXHelpers::SwapBits(unsigned char value)
 }
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-int GXHelpers::Load(std::string& path,
-    std::string& value)
-{
-#if defined(_WIN32) || defined(_WIN64)//Windows
-    FILE* f = NULL;
-    if (fopen_s(&f, path.c_str(), "r") != 0)
-    {
+int GXHelpers::Load(std::string &path, std::string &value) {
+#if defined(_WIN32) || defined(_WIN64)  //Windows
+    FILE *f = NULL;
+    if (fopen_s(&f, path.c_str(), "r") != 0) {
         return errno;
     }
 #else
-    FILE* f = fopen(path.c_str(), "r");
-    if (f == NULL)
-    {
+    FILE *f = fopen(path.c_str(), "r");
+    if (f == NULL) {
         return errno;
     }
 #endif
     char buffer[256];
-    while (!feof(f))
-    {
-        char* s = fgets(buffer, sizeof(buffer), f);
-        if (s == NULL)
-        {
+    while (!feof(f)) {
+        char *s = fgets(buffer, sizeof(buffer), f);
+        if (s == NULL) {
             break;
         }
         value.append(s);
@@ -2798,9 +2352,7 @@ int GXHelpers::Load(std::string& path,
     return 0;
 }
 
-int GXHelpers::Save(std::string& path,
-    std::string& value)
-{
+int GXHelpers::Save(std::string &path, std::string &value) {
     std::ofstream out(path);
     out << value;
     out.close();
@@ -2808,34 +2360,35 @@ int GXHelpers::Save(std::string& path,
 }
 
 #ifndef DLMS_IGNORE_DIRECTORY
-int GXHelpers::CreateDir(std::string& path)
-{
+int GXHelpers::CreateDir(std::string &path) {
     return CreateDir(path.c_str());
 }
 
-int GXHelpers::CreateDir(const char* path)
-{
-#if defined(_WIN32) || defined(_WIN64)//Windows
+int GXHelpers::CreateDir(const char *path) {
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))  //Windows MSVC
     return _mkdir(path);
 #else
+#if defined(__linux__)
     return mkdir(path, 0777);
+#else
+    return mkdir(path);
+#endif
 #endif
 }
 
-bool GXHelpers::DirectoryExists(std::string& path)
-{
+bool GXHelpers::DirectoryExists(std::string &path) {
     return DirectoryExists(path.c_str());
 }
 
-bool GXHelpers::DirectoryExists(const char* path)
-{
+bool GXHelpers::DirectoryExists(const char *path) {
+#if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))  //Windows
+    struct _stat sb;
+    return (_stat(path, &sb) == 0 && (sb.st_mode & _S_IFDIR));
+#else
     struct stat sb;
-    if (stat(path, &sb) == 0)
-    {
-        return true;
-    }
-    return false;
+    return (::stat(path, &sb) == 0 && S_ISDIR(sb.st_mode));
+#endif
 }
 
-#endif //DLMS_IGNORE_DIRECTORY
-#endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+#endif  //DLMS_IGNORE_DIRECTORY
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)

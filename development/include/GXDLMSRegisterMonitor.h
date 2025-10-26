@@ -44,9 +44,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSRegisterMonitor
 */
-class CGXDLMSRegisterMonitor : public CGXDLMSObject
-{
-    std::vector<CGXDLMSActionSet*> m_Actions;
+class CGXDLMSRegisterMonitor: public CGXDLMSObject {
+    std::vector<CGXDLMSActionSet *> m_Actions;
     CGXDLMSMonitoredValue m_MonitoredValue;
     std::vector<CGXDLMSVariant> m_Thresholds;
 
@@ -76,16 +75,16 @@ public:
     */
     CGXDLMSRegisterMonitor(std::string ln, unsigned short sn);
 
-    std::vector<CGXDLMSVariant>& GetThresholds();
+    std::vector<CGXDLMSVariant> &GetThresholds();
 
-    void SetThresholds(std::vector<CGXDLMSVariant>& value);
+    void SetThresholds(std::vector<CGXDLMSVariant> &value);
 
 
-    CGXDLMSMonitoredValue& GetMonitoredValue();
+    CGXDLMSMonitoredValue &GetMonitoredValue();
 
-    void SetMonitoredValue(CGXDLMSMonitoredValue& value);
+    void SetMonitoredValue(CGXDLMSMonitoredValue &value);
 
-    std::vector<CGXDLMSActionSet*>& GetActions();
+    std::vector<CGXDLMSActionSet *> &GetActions();
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -94,7 +93,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -104,20 +103,20 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     /*
      * Returns value of given attribute.
      */
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     /*
      * Set value of given attribute.
      */
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_REGISTER_MONITOR
+#endif  //DLMS_IGNORE_REGISTER_MONITOR
 
-#endif //GXDLMSREGISTERMONITOR_H
+#endif  //GXDLMSREGISTERMONITOR_H

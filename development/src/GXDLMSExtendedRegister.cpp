@@ -37,195 +37,150 @@
 #include "../include/GXDLMSExtendedRegister.h"
 
 #ifndef DLMS_IGNORE_EXTENDED_REGISTER
-bool CGXDLMSExtendedRegister::IsRead(int index)
-{
-    if (index == 3)
-    {
+bool CGXDLMSExtendedRegister::IsRead(int index) {
+    if (index == 3) {
         return m_Unit != 0;
     }
     return CGXDLMSObject::IsRead(index);
 }
+
 //Constructor.
-CGXDLMSExtendedRegister::CGXDLMSExtendedRegister() :
-    CGXDLMSExtendedRegister("", 0)
-{
+CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(): CGXDLMSExtendedRegister("", 0) {
 }
 
 //SN Constructor.
-CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(std::string ln, unsigned short sn) :
-    CGXDLMSRegister(DLMS_OBJECT_TYPE_EXTENDED_REGISTER, ln, sn)
-{
+CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(std::string ln, unsigned short sn)
+    : CGXDLMSRegister(DLMS_OBJECT_TYPE_EXTENDED_REGISTER, ln, sn) {
 }
 
 //LN Constructor.
-CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(std::string ln) :
-    CGXDLMSExtendedRegister(ln, 0)
-{
+CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(std::string ln): CGXDLMSExtendedRegister(ln, 0) {
 }
 
 // Get value of COSEM Data object.
-CGXDLMSVariant& CGXDLMSExtendedRegister::GetValue()
-{
+CGXDLMSVariant &CGXDLMSExtendedRegister::GetValue() {
     return CGXDLMSRegister::GetValue();
 }
 
 // Set value of COSEM Data object.
-void CGXDLMSExtendedRegister::SetValue(CGXDLMSVariant& value)
-{
+void CGXDLMSExtendedRegister::SetValue(CGXDLMSVariant &value) {
     CGXDLMSRegister::SetValue(value);
 }
 
 /**
  Status of COSEM Extended Register object.
 */
-CGXDLMSVariant& CGXDLMSExtendedRegister::GetStatus()
-{
+CGXDLMSVariant &CGXDLMSExtendedRegister::GetStatus() {
     return m_Status;
 }
-void CGXDLMSExtendedRegister::SetStatus(CGXDLMSVariant& value)
-{
+
+void CGXDLMSExtendedRegister::SetStatus(CGXDLMSVariant &value) {
     m_Status = value;
 }
 
 /**
  Capture time of COSEM Extended Register object.
 */
-CGXDateTime& CGXDLMSExtendedRegister::GetCaptureTime()
-{
+CGXDateTime &CGXDLMSExtendedRegister::GetCaptureTime() {
     return m_CaptureTime;
 }
 
-void CGXDLMSExtendedRegister::SetCaptureTime(CGXDateTime& value)
-{
+void CGXDLMSExtendedRegister::SetCaptureTime(CGXDateTime &value) {
     m_CaptureTime = value;
 }
 
-int CGXDLMSExtendedRegister::GetUIDataType(int index, DLMS_DATA_TYPE& type)
-{
-    if (index == 5)
-    {
+int CGXDLMSExtendedRegister::GetUIDataType(int index, DLMS_DATA_TYPE &type) {
+    if (index == 5) {
         type = DLMS_DATA_TYPE_DATETIME;
-    }
-    else
-    {
+    } else {
         return CGXDLMSRegister::GetUIDataType(index, type);
     }
     return DLMS_ERROR_CODE_OK;
 }
 
 // Returns amount of attributes.
-int CGXDLMSExtendedRegister::GetAttributeCount()
-{
+int CGXDLMSExtendedRegister::GetAttributeCount() {
     return 5;
 }
 
 // Returns amount of methods.
-int CGXDLMSExtendedRegister::GetMethodCount()
-{
+int CGXDLMSExtendedRegister::GetMethodCount() {
     return 1;
 }
 
-void CGXDLMSExtendedRegister::GetValues(std::vector<std::string>& values)
-{
+void CGXDLMSExtendedRegister::GetValues(std::vector<std::string> &values) {
     CGXDLMSRegister::GetValues(values);
     values.push_back(m_Status.ToString());
     values.push_back(m_CaptureTime.ToString());
 }
 
-void CGXDLMSExtendedRegister::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
-{
+void CGXDLMSExtendedRegister::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
     CGXDLMSRegister::GetAttributeIndexToRead(all, attributes);
     //Status
-    if (all || !IsRead(4))
-    {
+    if (all || !IsRead(4)) {
         attributes.push_back(4);
     }
     //CaptureTime
-    if (all || CanRead(5))
-    {
+    if (all || CanRead(5)) {
         attributes.push_back(5);
     }
 }
 
-int CGXDLMSExtendedRegister::GetDataType(int index, DLMS_DATA_TYPE& type)
-{
-    if (index < 4)
-    {
+int CGXDLMSExtendedRegister::GetDataType(int index, DLMS_DATA_TYPE &type) {
+    if (index < 4) {
         return CGXDLMSRegister::GetDataType(index, type);
     }
-    if (index == 4)
-    {
+    if (index == 4) {
         return CGXDLMSObject::GetDataType(index, type);
     }
-    if (index == 5)
-    {
+    if (index == 5) {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-
-int CGXDLMSExtendedRegister::Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() == 1)
-    {
+int CGXDLMSExtendedRegister::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    if (e.GetIndex() == 1) {
         m_Value.Clear();
         m_CaptureTime = CGXDateTime(CGXDateTime::Now());
-    }
-    else
-    {
+    } else {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
     }
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDLMSExtendedRegister::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() < 4)
-    {
+int CGXDLMSExtendedRegister::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    if (e.GetIndex() < 4) {
         return CGXDLMSRegister::GetValue(settings, e);
     }
-    if (e.GetIndex() == 4)
-    {
+    if (e.GetIndex() == 4) {
         e.SetValue(m_Status);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 5)
-    {
+    if (e.GetIndex() == 5) {
         e.SetValue(m_CaptureTime);
         return DLMS_ERROR_CODE_OK;
     }
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSExtendedRegister::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() < 4)
-    {
+int CGXDLMSExtendedRegister::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+    if (e.GetIndex() < 4) {
         return CGXDLMSRegister::SetValue(settings, e);
-    }
-    else if (e.GetIndex() == 4)
-    {
+    } else if (e.GetIndex() == 4) {
         m_Status = e.GetValue();
-    }
-    else if (e.GetIndex() == 5)
-    {
-        if (e.GetValue().vt == DLMS_DATA_TYPE_OCTET_STRING)
-        {
+    } else if (e.GetIndex() == 5) {
+        if (e.GetValue().vt == DLMS_DATA_TYPE_OCTET_STRING) {
             CGXDLMSVariant tmp;
             CGXDLMSClient::ChangeType(e.GetValue(), DLMS_DATA_TYPE_DATETIME, tmp);
             m_CaptureTime = tmp.dateTime;
-        }
-        else
-        {
+        } else {
             m_CaptureTime = e.GetValue().dateTime;
         }
-    }
-    else
-    {
+    } else {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
-#endif //DLMS_IGNORE_EXTENDED_REGISTER
+#endif  //DLMS_IGNORE_EXTENDED_REGISTER

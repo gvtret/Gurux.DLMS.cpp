@@ -35,8 +35,7 @@
 #include <string.h>
 #include "../include/GXXmlReader.h"
 
-CGXXmlReader::CGXXmlReader(FILE* f)
-{
+CGXXmlReader::CGXXmlReader(FILE *f) {
     m_f = f;
     m_Buffer[0] = 0;
     m_EventType = XML_EVENT_TYPE_NONE;
@@ -44,33 +43,26 @@ CGXXmlReader::CGXXmlReader(FILE* f)
     m_Size = 0;
 }
 
-bool CGXXmlReader::IsEOF()
-{
-    if (m_Size == m_Index)
-    {
+bool CGXXmlReader::IsEOF() {
+    if (m_Size == m_Index) {
         m_Index = m_Size = 0;
         m_Buffer[0] = 0;
-        char* s = fgets(m_Buffer, sizeof(m_Buffer), m_f);
-        if (s == NULL)
-        {
+        char *s = fgets(m_Buffer, sizeof(m_Buffer), m_f);
+        if (s == NULL) {
             return true;
         }
-        m_Size = (int) strlen(m_Buffer);
+        m_Size = (int)strlen(m_Buffer);
     }
     return false;
 }
 
-bool CGXXmlReader::Read()
-{
-    if (m_Index < m_Size)
-    {
-        if (m_Buffer[m_Index] == ' ')
-        {
+bool CGXXmlReader::Read() {
+    if (m_Index < m_Size) {
+        if (m_Buffer[m_Index] == ' ') {
             ++m_Index;
             return true;
         }
-        if (m_Buffer[m_Index] == '\n')
-        {
+        if (m_Buffer[m_Index] == '\n') {
             ++m_Index;
             return true;
         }
@@ -79,13 +71,10 @@ bool CGXXmlReader::Read()
     return false;
 }
 
-bool CGXXmlReader::IsStartElement()
-{
-    if (m_Buffer[m_Index] == '<' && m_Buffer[m_Index + 1] != '?')
-    {
-        char* s = strstr(m_Buffer + m_Index, ">");
-        if (s != NULL)
-        {
+bool CGXXmlReader::IsStartElement() {
+    if (m_Buffer[m_Index] == '<' && m_Buffer[m_Index + 1] != '?') {
+        char *s = strstr(m_Buffer + m_Index, ">");
+        if (s != NULL) {
             m_Name.clear();
             m_Name.append(m_Buffer + m_Index + 1, s - m_Buffer - m_Index - 1);
             m_Index = (int)(s - m_Buffer + 1);
@@ -95,8 +84,7 @@ bool CGXXmlReader::IsStartElement()
     return false;
 }
 
-std::string& CGXXmlReader::GetText()
-{
+std::string &CGXXmlReader::GetText() {
     char tag[256];
 #if _MSC_VER > 1000
     strcpy_s(tag, sizeof(tag), "</");
@@ -107,7 +95,7 @@ std::string& CGXXmlReader::GetText()
     strcat(tag, m_Name.c_str());
     strcat(tag, ">");
 #endif
-    char* s = strstr(m_Buffer + m_Index, tag);
+    char *s = strstr(m_Buffer + m_Index, tag);
     m_Value.append(m_Buffer + m_Index, s);
     m_Index = (int)(s - m_Buffer);
     Read();
@@ -115,46 +103,36 @@ std::string& CGXXmlReader::GetText()
     return m_Value;
 }
 
-void CGXXmlReader::GetNext()
-{
-    while (m_EventType == XML_EVENT_TYPE_COMMENT ||
-        m_EventType == XML_EVENT_TYPE_SPACE ||
-        m_EventType == XML_EVENT_TYPE_CHARACTERS)
-    {
+void CGXXmlReader::GetNext() {
+    while (m_EventType == XML_EVENT_TYPE_COMMENT || m_EventType == XML_EVENT_TYPE_SPACE ||
+           m_EventType == XML_EVENT_TYPE_CHARACTERS) {
         Read();
     }
 }
 
-std::string& CGXXmlReader::ReadElementContentAsString(const char* name)
-{
+std::string &CGXXmlReader::ReadElementContentAsString(const char *name) {
     return ReadElementContentAsString(name, NULL);
 }
 
-std::string& CGXXmlReader::ReadElementContentAsString(const char* name, const char* defaultValue)
-{
+std::string &CGXXmlReader::ReadElementContentAsString(const char *name, const char *defaultValue) {
     GetNext();
     m_Value.clear();
-    if (m_Name == name)
-    {
+    if (m_Name == name) {
         return GetText();
     }
-    if (defaultValue != NULL)
-    {
+    if (defaultValue != NULL) {
         m_Value.append(defaultValue);
     }
     return m_Value;
 }
 
-int CGXXmlReader::ReadElementContentAsInt(const char* name)
-{
+int CGXXmlReader::ReadElementContentAsInt(const char *name) {
     return ReadElementContentAsInt(name, 0);
 }
 
-int CGXXmlReader::ReadElementContentAsInt(const char* name, int defaultValue)
-{
+int CGXXmlReader::ReadElementContentAsInt(const char *name, int defaultValue) {
     GetNext();
-    if (m_Name == name)
-    {
+    if (m_Name == name) {
         std::string str = GetText();
         int ret = atol(str.c_str());
         return ret;
@@ -162,7 +140,6 @@ int CGXXmlReader::ReadElementContentAsInt(const char* name, int defaultValue)
     return defaultValue;
 }
 
-std::string& CGXXmlReader::GetName()
-{
+std::string &CGXXmlReader::GetName() {
     return m_Name;
 }

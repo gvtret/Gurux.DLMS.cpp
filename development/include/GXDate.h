@@ -40,25 +40,22 @@
 /**
 * Date object. Time part is ignored.
 */
-class CGXDate : public CGXDateTime
-{
+class CGXDate: public CGXDateTime {
 public:
     // Constructor.
-    CGXDate() : CGXDateTime()
-    {
-        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
+    CGXDate(): CGXDateTime() {
+        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS
+        ));
     };
 
     // Constructor.
-    CGXDate(struct tm value) : CGXDateTime(value)
-    {
-        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
+    CGXDate(struct tm value): CGXDateTime(value) {
+        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS
+        ));
     }
 
     // Constructor.
-    CGXDate(int year, int month, int day) :
-        CGXDateTime(year, month, day, -1, -1, -1, -1)
-    {
+    CGXDate(int year, int month, int day): CGXDateTime(year, month, day, -1, -1, -1, -1) {
     }
 
     /**
@@ -70,16 +67,16 @@ public:
     /// <summary>
     /// Constructor.
     /// </summary>
-    CGXDate(CGXDateTime& value) : CGXDateTime(value.GetValue())
-    {
-        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
+    CGXDate(CGXDateTime &value): CGXDateTime(value.GetValue()) {
+        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
+                                 DATETIME_SKIPS_MS));
     }
 
-    CGXDate& operator=(const CGXDateTime& value)
-    {
+    CGXDate &operator=(const CGXDateTime &value) {
         SetValue(value.m_Value);
-        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
+        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
+                                 DATETIME_SKIPS_MS));
         return *this;
     }
 };
-#endif //GXDATE_H
+#endif  //GXDATE_H

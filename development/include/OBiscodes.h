@@ -3,7 +3,7 @@
 
 #include "GXIgnore.h"
 
-static const char* OBIS_CODES_ABSTRACT_1 = "\
+static const char *OBIS_CODES_ABSTRACT_1 = "\
 0.0-64.0.1.0.0-99,255;1,3,4;6,17,18;Ch. $B;Billing period counter (1);;;#$F\r\n\
 0.0-64.0.1.1.255;1,3,4;6,17,18;Ch. $B;No. of available billing periods (1);;;\r\n\
 0.0-64.0.1.2.0-99;1,3,4;6,9,21,25;Ch. $B;Time stamp of the billing period (1);;;#$F\r\n\
@@ -241,7 +241,7 @@ static const char* OBIS_CODES_ABSTRACT_1 = "\
 0,1,7.0-64.94.97.0-255.0-255;*;*;Ch. $B;Identifiers for the United Arab Emirates;;;\n\
 0,1,7.0-64.94.98.0-255.0-255;*;*;Ch. $B;Identifiers for Iran;;;\n";
 
-static const char* OBIS_CODES_ABSTRACT_2 = "\
+static const char *OBIS_CODES_ABSTRACT_2 = "\
 0.0-64.96.1.0.255;1,3,4;6,9,10,12,17,18;Ch. $B;Device ID 1, manufacturing number;;;\n\
 0.0-64.96.1.1-9.255;1,3,4;6,9,10,12,17,18;Ch. $B;Device ID;;#$(E+1);\n\
 0.0-64.96.1.255.255;7,61;;Ch. $B;Complete device ID;;;\n\
@@ -405,7 +405,7 @@ static const char* OBIS_CODES_ABSTRACT_2 = "\
 0.0-199,255.0-199,255.0-255.0-255.128-254;*;*;Manufacturer specific;;;;\n";
 
 #ifndef DLMS_IGNORE_OBIS_ELECTRICITY
-static const char* OBIS_CODES_ELECTRICITY_1 = "\
+static const char *OBIS_CODES_ELECTRICITY_1 = "\
 1.0-64.0.0.0-9.255;1,3,4;6,9,10,17,18;Ch. $B;Electricity ID;;#$(E+1);\n\
 1.0-64.0.0.255.255;7,61;;Ch. $B;Complete combined electricity ID;;;\n\
 1.0-64.0.1.0.0-99,255;1,3,4;6,17,18;Ch. $B;Billing period counter (1);;;#$F\n\
@@ -526,7 +526,7 @@ static const char* OBIS_CODES_ELECTRICITY_1 = "\
 1.0-64.1-13,15-20,21-33,35-40,41-53,55-60,61-73,75-80,84-92,100-107,124-126.7.0.255;3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Inst. value;;\n\
 1.0-64.14,34,54,74.7.0,255.255;3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Inst. value;;\n";
 
-static const char* OBIS_CODES_ELECTRICITY_2 = "\
+static const char *OBIS_CODES_ELECTRICITY_2 = "\
 1.0-64.1-20,21-40,41-60,61-80,82,84-92,100-107,124-126.8.0.255;3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Time integral 1;Rate $E (0 is total);\n\
 1.0-64.1-20,21-40,41-60,61-80,82,84-92,100-107,124-126.8.1-63.255;3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Time integral 1;Rate $E (0 is total);\n\
 1.0-64.1-20,21-40,41-60,61-80,82,84-92,100-107,124-126.8.0-63.0-99;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Time integral 1;Rate $E (0 is total);Billing period $F\n\
@@ -620,7 +620,7 @@ static const char* OBIS_CODES_ELECTRICITY_2 = "\
 1.0-64.1-10,13,14,16-20,21-30,33,34,36-40,41-50,53,54,56-60,61-70,73,74,76-80,82,84-89,100-107.44.0-63.0-99,255;1,3,4;6,15,17,18;Ch. $B;$1;Time threshold for over limit;Rate $E (0 is total);Billing period  $F (255 is current)\n\
 1.0-64.1-10,13,14,16-20,21-30,33,34,36-40,41-50,53,54,56-60,61-70,73,74,76-80,82,84-89,100-107.45.0-63.0-99,255;1,3,4;6,15,17,18;Ch. $B;$1;Time threshold of missing magnitude;Rate $E (0 is total);Billing period  $F (255 is current)\n";
 
-static const char* OBIS_CODES_ELECTRICITY_3 = "\
+static const char *OBIS_CODES_ELECTRICITY_3 = "\
 1.0-64.11,12,15,31,32,35,51,52,55,71,72,75,90-92,124-126.31.0-120,124-127.0-99,255;1,3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Under limit threshold;Harmonic / Distortion factor $E;Threshold $F\n\
 1.0-64.11,12,15,31,32,35,51,52,55,71,72,75,90-92,124-126.32.0-120,124-127.0-99;1,3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Under limit occurrence counter;Harmonic / Distortion factor $E;Billing period  $F (255 is current)\n\
 1.0-64.11,12,15,31,32,35,51,52,55,71,72,75,90-92,124-126.33.0-120,124-127.0-99,255;1,3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Under limit duration;Harmonic / Distortion factor $E;Billing period  $F (255 is current)\n\
@@ -721,7 +721,7 @@ static const char* OBIS_CODES_ELECTRICITY_3 = "\
 1.0-64.81.7.77.255;3;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;Angle of I(L0) - I(L0);;;\n\
 1.0-64.81.7.255.255;61;;Ch. $B;Summary of phase angles;;;\n";
 
-static const char* OBIS_CODES_ELECTRICITY_4 = "\
+static const char *OBIS_CODES_ELECTRICITY_4 = "\
 1.0-64.12,32,52,72,124-126.32.0.255;1,3;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Unipede voltage dip;Class 10...<= 15%, 10ms...<= 100ms;\n\
 1.0-64.12,32,52,72,124-126.32.1.255;1,3;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Unipede voltage dip;Class 10...<=  15%, 100ms...<=  500ms;\n\
 1.0-64.12,32,52,72,124-126.32.2.255;1,3;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Unipede voltage dip;Class 10...<=  15%, 500ms...<=  1000ms;\n\
@@ -842,7 +842,7 @@ static const char* OBIS_CODES_ELECTRICITY_4 = "\
 1.0-64.83.0-10,11-16,17-20,21-26,27-30,55,58.89.255;3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;L3 A2h;$2;;\n\
 1.0-64.83.0-10,11-16,17-20,21-26,27-30,55,58.90.255;3,4;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;L3 V2h;$2;;\n";
 
-static const char* OBIS_CODES_ELECTRICITY_5 = "\
+static const char *OBIS_CODES_ELECTRICITY_5 = "\
 1.0-64.96.1.0-9.255;1,3;6,9,10,17,18;Ch. $B;Metering point ID;;#$(E+1);\n\
 1.0-64.96.1.255.255;7,61;;Ch. $B;Metering point ID;combined;;\n\
 1.0-64.96.5.0.255;1,3,4,63,7,61;3,4,6,9,17,18,21;Ch. $B;Internal operating status, global;;;\n\
@@ -884,11 +884,11 @@ static const char* OBIS_CODES_ELECTRICITY_5 = "\
 1.0-199,255.0-199,255.0-255.128-254.0-255;*;*;Man. specific;;;;\n\
 1.0-199,255.0-199,255.0-255.0-255.128-254;*;*;Man. specific;;;;\n";
 
-#endif //DLMS_IGNORE_OBIS_ELECTRICITY
+#endif  //DLMS_IGNORE_OBIS_ELECTRICITY
 
 #ifndef DLMS_IGNORE_OBIS_GAS
 
-static const char* OBIS_CODES_GAS_1 ="\
+static const char *OBIS_CODES_GAS_1 = "\
 7.0-64.0.0.0-9.255;1,3,4;6,9,10,17,18;Ch. $B;Complete combined gas ID;;#$(E+1);\n\
 7.0-64.0.0.255.255;7,61;;Ch. $B;Gas ID;;;\n\
 7.0-64.0.1.0.0-99,255;1,3,4;6,17,18;Ch. $B;Billing period counter (1);;;#$F\n\
@@ -1071,7 +1071,7 @@ static const char* OBIS_CODES_GAS_1 ="\
 7.0-64.0.14.11.255;1,3,4;5,6,15,16,17,19;Ch. $B;Densimeter period for measurement period 15 minutes;;;\n\
 7.0-64.0.15.0-127.255;67;;Ch. $B;Sensor manager objects;;#$(E+1);\n";
 
-static const char* OBIS_CODES_GAS_2 = "\
+static const char *OBIS_CODES_GAS_2 = "\
 7.0-64.1-8,11-16,21-26,31-36,61-66.0.0-63.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Index, Value at metering conditions, Current;Rate $E (0 is total);Billing period $F (255 is current)\n\
 7.0-64.1-8,11-16,21-26,31-36,61-66.1.0-63.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Index, Corrected value, Current;Rate $E (0 is total);Billing period $F (255 is current)\n\
 7.0-64.1-8,11-16,21-26,31-36,61-66.2.0-63.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Index, Value at base conditions / Converted value, Current;Rate $E (0 is total);Billing period $F (255 is current)\n\
@@ -1133,7 +1133,7 @@ static const char* OBIS_CODES_GAS_2 = "\
 7.0-64.1-8,11-16,21-26,31-36,61-66.60.0-63.0-99,101-126,255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Values relative to billing period 2, Maximum of Index differences over billing period 1, Value at metering conditions;Rate $E (0 is total);Billing period $F (255 is current)\n\
 7.0-64.1-8,11-16,21-26,31-36,61-66.61.0-63.0-99,101-126,255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Values relative to billing period 2, Maximum of Index differences over billing period 1, Corrected value;Rate $E (0 is total);Billing period $F (255 is current)\n";
 
-static const char* OBIS_CODES_GAS_3 = "\
+static const char *OBIS_CODES_GAS_3 = "\
 7.0-64.1-8,11-16,21-26,31-36,61-66.62.0-63.0-99,101-126,255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Values relative to billing period 2, Maximum of Index differences over billing period 1, Value at base conditions;Rate $E (0 is total);Billing period $F (255 is current)\n\
 7.0-64.1-8,11-16,21-26,31-36,61-66.63.0-63.0-99,101-126;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Values relative to billing period 3, Index, Value at metering conditions, Historical;Rate $E (0 is total);Billing period $F (255 is current)\n\
 7.0-64.1-8,11-16,21-26,31-36,61-66.64.0-63.0-99,101-126;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$0;Values relative to billing period 3, Index, Corrected value, Historical;Rate $E (0 is total);Billing period $F (255 is current)\n\
@@ -1201,7 +1201,7 @@ static const char* OBIS_CODES_GAS_3 = "\
 7.0-64.43.38.0.0-99,101-126,255;3,4,5,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;Flow rate;Current average for averaging period 2, Value at standard conditions;;Billing period $F (255 is current)\n\
 7.0-64.43.39.0.0-99,101-126,255;3,4,5,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;Flow rate;Last average for averaging period 2, Value at metering conditions;;Billing period $F (255 is current)\n";
 
-static const char* OBIS_CODES_GAS_4 = "\
+static const char *OBIS_CODES_GAS_4 = "\
 7.0-64.43.40.0.0-99,101-126,255;3,4,5,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;Flow rate;Last average for averaging period 2, Corrected value;;Billing period $F (255 is current)\n\
 7.0-64.43.41.0.0-99,101-126,255;3,4,5,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;Flow rate;Last average for averaging period 2, Value at base conditions;;Billing period $F (255 is current)\n\
 7.0-64.43.42.0.0-99,101-126,255;3,4,5,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;Flow rate;Last average for averaging period 2, Value at standard conditions;;Billing period $F (255 is current)\n\
@@ -1285,7 +1285,7 @@ static const char* OBIS_CODES_GAS_4 = "\
 7.0-64.41,42,44-49.58.0.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Maximum, current interval, process interval 3, Value at base conditions;;Billing period $F (255 is current)\n\
 7.0-64.41,42,44-49.59.0.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Maximum, current interval, process interval 3, Value at standard conditions;;Billing period $F (255 is current)\n";
 
-static const char* OBIS_CODES_GAS_5 = "\
+static const char *OBIS_CODES_GAS_5 = "\
 7.0-64.41,42,44-49.60.0.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Average, last interval, process interval 3, Value at metering conditions;;Billing period $F (255 is current)\n\
 7.0-64.41,42,44-49.61.0.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Average, last interval, process interval 3, Value at base conditions;;Billing period $F (255 is current)\n\
 7.0-64.41,42,44-49.62.0.255;3,4,7;5,6,9,10,13,15,16,17,18,20,21,23,24;Ch. $B;$1;Average, last interval, process interval 3, Value at standard conditions;;Billing period $F (255 is current)\n\
@@ -1391,7 +1391,7 @@ static const char* OBIS_CODES_GAS_5 = "\
 7.0-64.99.48.255.255;;;;;Differential pressure;;\n\
 7.0-64.99.49.255.255;;;;;Density of air;;\n";
 
-static const char* OBIS_CODES_GAS_6 = "\
+static const char *OBIS_CODES_GAS_6 = "\
 7.0-64.99.41,42,44-49.0,2,13,24-32,42-50,60-68,78-86,90-92.0-99,101-126,255;7;;Ch. $B;Load profile for process values;$7;$8;Billing period $F (255 is current)\n\
 7.0-64.99.43.0-2,13,19-22,39-42,59-62,67-70.0-99,101-126,255;7;;Ch. $B;Load profile for;Flow rate;$9;Billing period $F (255 is current)\n\
 7.0-64.99.99.0.255;7;;Ch. $B;Certification data log;;#$(E+1);Billing period $F (255 is current)\n\
@@ -1405,6 +1405,6 @@ static const char* OBIS_CODES_GAS_6 = "\
 7.0-64.0-254.0-254.128-254.0-255;*;*;Ch. $B;Manufacturer specific;;;\n\
 7.0-64.0-254.0-254.0-254.128-254;*;*;Ch. $B;Manufacturer specific;;;\n";
 
-#endif //DLMS_IGNORE_OBIS_GAS
+#endif  //DLMS_IGNORE_OBIS_GAS
 
-#endif //OBIS_CODES_H
+#endif  //OBIS_CODES_H

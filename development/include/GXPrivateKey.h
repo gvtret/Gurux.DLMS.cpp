@@ -39,12 +39,11 @@
 #include "GXAsn1Converter.h"
 #include "GXPublicKey.h"
 
-class CGXPrivateKey
-{
+class CGXPrivateKey {
 private:
     friend class CGXEcdsa;
     friend class CGXPkcs8;
-    friend class CGXPkcs10;    
+    friend class CGXPkcs10;
     /**
      Used scheme.
     */
@@ -59,20 +58,17 @@ private:
      SystemTitle is not serialized.
     */
     CGXByteArray m_SystemTitle;
-private:
-    static int UpdateSchema(
-        CGXAsn1Sequence* seq,
-        CGXPrivateKey& key);
 
-    static int UpdatePublicKey(
-        CGXAsn1Sequence* seq,
-        CGXPrivateKey& key);
+private:
+    static int UpdateSchema(CGXAsn1Sequence *seq, CGXPrivateKey &key);
+
+    static int UpdatePublicKey(CGXAsn1Sequence *seq, CGXPrivateKey &key);
 
 public:
     // Constructor.
     CGXPrivateKey();
 
-    CGXPrivateKey& operator=(const CGXPrivateKey& value);
+    CGXPrivateKey &operator=(const CGXPrivateKey &value);
 
     /**
      Used scheme.
@@ -82,26 +78,24 @@ public:
     /**
      Private key raw value.
     */
-    CGXByteArray& GetRawValue();
+    CGXByteArray &GetRawValue();
 
-    CGXByteArray& GetSystemTitle();
+    CGXByteArray &GetSystemTitle();
 
-    void SetSystemTitle(CGXByteBuffer& value);
+    void SetSystemTitle(CGXByteBuffer &value);
 
     /**
      Create the private key from raw bytes.
      value: Raw data
      key: Private key.
     */
-    static int FromRawBytes(CGXByteBuffer& value,
-        CGXPrivateKey& key);
+    static int FromRawBytes(CGXByteBuffer &value, CGXPrivateKey &key);
 
     /**
      Create the private key from DER.
      der: DER Base64 coded string.
     */
-    static int FromDer(std::string der,
-        CGXPrivateKey& key);
+    static int FromDer(std::string der, CGXPrivateKey &key);
 
     /**
      Create the private key from PEM.
@@ -109,8 +103,7 @@ public:
      pem PEM in Base64 coded string.
      ReturnsPrivate key.
     */
-    static int FromPem(std::string pem,
-        CGXPrivateKey& value);
+    static int FromPem(std::string pem, CGXPrivateKey &value);
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
     /**
@@ -120,27 +113,26 @@ public:
      value: Private key.
      Returns error code.
     */
-    static int Load(std::string& path,
-        CGXPrivateKey& value);
+    static int Load(std::string &path, CGXPrivateKey &value);
 
     /**
      Save private key to PEM file.
      path File path.
      Returns error code.
     */
-    int Save(std::string& path);
-#endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    int Save(std::string &path);
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
-    int ToDer(std::string& value);
+    int ToDer(std::string &value);
 
-    int ToPem(std::string& value);
+    int ToPem(std::string &value);
 
     /**
      Get public key from private key.
 
      Returns Public key.
     */
-    int GetPublicKey(CGXPublicKey& value);
+    int GetPublicKey(CGXPublicKey &value);
 
     /**
      Returns the private key as a hex string.
@@ -160,4 +152,4 @@ public:
     std::string ToString();
 };
 
-#endif //GXPRIVATEKEY_H
+#endif  //GXPRIVATEKEY_H

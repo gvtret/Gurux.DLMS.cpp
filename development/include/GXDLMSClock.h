@@ -43,8 +43,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSClock
 */
-class CGXDLMSClock : public CGXDLMSObject
-{
+class CGXDLMSClock: public CGXDLMSObject {
     DLMS_CLOCK_BASE m_ClockBase;
     char m_Deviation;
     bool m_Enabled;
@@ -76,9 +75,9 @@ public:
     /**
      Time of COSEM Clock object.
     */
-    CGXDateTime& GetTime();
+    CGXDateTime &GetTime();
 
-    void SetTime(CGXDateTime& value);
+    void SetTime(CGXDateTime &value);
 
     /**
      TimeZone of COSEM Clock object.
@@ -92,11 +91,11 @@ public:
     DLMS_CLOCK_STATUS GetStatus();
     void SetStatus(DLMS_CLOCK_STATUS value);
 
-    CGXDateTime& GetBegin();
-    void SetBegin(CGXDateTime& value);
+    CGXDateTime &GetBegin();
+    void SetBegin(CGXDateTime &value);
 
-    CGXDateTime& GetEnd();
-    void SetEnd(CGXDateTime& value);
+    CGXDateTime &GetEnd();
+    void SetEnd(CGXDateTime &value);
 
     char GetDeviation();
     void SetDeviation(char value);
@@ -117,7 +116,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -127,20 +126,20 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetUIDataType(int index, DLMS_DATA_TYPE& type);
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetUIDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     /*
      * Returns value of given attribute.
      */
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     /*
      * Set value of given attribute.
      */
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_CLOCK
-#endif //GXDLMSCLOCK_H
+#endif  //DLMS_IGNORE_CLOCK
+#endif  //GXDLMSCLOCK_H

@@ -47,8 +47,7 @@
 
 class CGXDLMSObjectCollection;
 
-class CGXDLMSObject : public IGXDLMSBase
-{
+class CGXDLMSObject: public IGXDLMSBase {
     friend class CGXDLMSClient;
     friend class CGXDLMSObjectCollection;
     friend class CGXDLMSObjectFactory;
@@ -58,9 +57,10 @@ class CGXDLMSObject : public IGXDLMSBase
 
     CGXAttributeCollection m_Attributes;
     CGXAttributeCollection m_MethodAttributes;
-    void Initialize(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer* pLogicalName);
+    void Initialize(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer *pLogicalName);
     std::string m_Description;
     DLMS_OBJECT_TYPE m_ObjectType;
+
 protected:
     unsigned short m_Version;
     std::map<int, time_t> m_ReadTimes;
@@ -73,14 +73,13 @@ protected:
      */
     bool IsRead(int index);
     bool CanRead(int index);
-    static int GetLogicalName(CGXDLMSObject * target, CGXDLMSVariant& value);
-    static int SetLogicalName(CGXDLMSObject * target, CGXDLMSVariant& value);
-    static int SetLogicalName(CGXDLMSObject* target, std::string& value);
-public:
+    static int GetLogicalName(CGXDLMSObject *target, CGXDLMSVariant &value);
+    static int SetLogicalName(CGXDLMSObject *target, CGXDLMSVariant &value);
+    static int SetLogicalName(CGXDLMSObject *target, std::string &value);
 
-    static bool IsLogicalNameEmpty(unsigned char* pLN)
-    {
-        const unsigned char EmptyLN[] = { 0, 0, 0, 0, 0, 0 };
+public:
+    static bool IsLogicalNameEmpty(unsigned char *pLN) {
+        const unsigned char EmptyLN[] = {0, 0, 0, 0, 0, 0};
         return memcmp(pLN, EmptyLN, 6) == 0;
     }
 
@@ -88,18 +87,18 @@ public:
     CGXDLMSObject(DLMS_OBJECT_TYPE type);
 
     //SN Constructor.
-    CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string& ln, unsigned short sn);
+    CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln, unsigned short sn);
 
     //LN Constructor.
-    CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string& ln);
-    CGXDLMSObject(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer& ln);
+    CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln);
+    CGXDLMSObject(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer &ln);
 
     virtual ~CGXDLMSObject(void);
 
     //Get Object's Logical or Short Name as a std::string.
     CGXDLMSVariant GetName();
 
-    int SetName(CGXDLMSVariant& value);
+    int SetName(CGXDLMSVariant &value);
 
     //Get Object's Interface class type.
     DLMS_OBJECT_TYPE GetObjectType();
@@ -111,17 +110,17 @@ public:
     void SetShortName(unsigned short value);
 
     //Get Object's Logical Name.
-    void GetLogicalName(std::string& ln);
+    void GetLogicalName(std::string &ln);
 
     void SetVersion(unsigned short value);
     unsigned short GetVersion();
 
-    CGXAttributeCollection& GetAttributes();
-    CGXAttributeCollection& GetMethodAttributes();
+    CGXAttributeCollection &GetAttributes();
+    CGXAttributeCollection &GetMethodAttributes();
     virtual int SetDataType(int index, DLMS_DATA_TYPE type);
-    virtual int GetDataType(int index, DLMS_DATA_TYPE& type);
+    virtual int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-    virtual int GetUIDataType(int index, DLMS_DATA_TYPE& type);
+    virtual int GetUIDataType(int index, DLMS_DATA_TYPE &type);
     void SetUIDataType(int index, DLMS_DATA_TYPE type);
 
     DLMS_ACCESS_MODE GetAccess(int index);
@@ -131,14 +130,13 @@ public:
 
 
     //Get description of the object.
-    std::string& GetDescription();
+    std::string &GetDescription();
 
     //Set description of the object.
-    void SetDescription(std::string& value);
+    void SetDescription(std::string &value);
 
     //Get values as std::string.
-    virtual void GetValues(std::vector<std::string>& values)
-    {
+    virtual void GetValues(std::vector<std::string> &values) {
         assert(0);
     }
 
@@ -150,8 +148,7 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    virtual void GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
-    {
+    virtual void GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
         assert(0);
     }
 
@@ -163,53 +160,45 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    virtual void GetAttributeIndexToRead(std::vector<int>& attributes)
-    {
+    virtual void GetAttributeIndexToRead(std::vector<int> &attributes) {
         GetAttributeIndexToRead(false, attributes);
     }
 
     // Returns amount of attributes.
-    virtual int GetAttributeCount()
-    {
+    virtual int GetAttributeCount() {
         assert(0);
         return 1;
     }
 
     // Returns amount of methods.
-    virtual int GetMethodCount()
-    {
+    virtual int GetMethodCount() {
         assert(0);
         return 0;
     }
 
     // Returns value of given attribute.
-    virtual int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-    {
+    virtual int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         return DLMS_ERROR_CODE_OK;
     }
 
     // Set value of given attribute.
-    virtual int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-    {
+    virtual int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         return DLMS_ERROR_CODE_OK;
     }
 
     // Set value of given attribute.
-    virtual int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-    {
+    virtual int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         return DLMS_ERROR_CODE_OK;
     }
 };
 
-class CGXDLMSCustomObject : public CGXDLMSObject
-{
+class CGXDLMSCustomObject: public CGXDLMSObject {
 public:
-    CGXDLMSCustomObject(DLMS_OBJECT_TYPE type) : CGXDLMSObject(type)
-    {
+    CGXDLMSCustomObject(DLMS_OBJECT_TYPE type): CGXDLMSObject(type) {
     }
 };
 
-#endif //GXDLMSOBJECT_H
+#endif  //GXDLMSOBJECT_H

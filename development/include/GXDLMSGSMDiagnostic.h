@@ -45,8 +45,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSGSMDiagnostic
 */
-class CGXDLMSGSMDiagnostic : public CGXDLMSObject
-{
+class CGXDLMSGSMDiagnostic: public CGXDLMSObject {
     /**
     * Name of network operator.
     */
@@ -75,12 +74,13 @@ class CGXDLMSGSMDiagnostic : public CGXDLMSObject
     /**
     * Adjacent cells.
     */
-    std::vector<GXAdjacentCell*> m_AdjacentCells;
+    std::vector<GXAdjacentCell *> m_AdjacentCells;
 
     /**
     * Date and time when the data have been last captured.
     */
     CGXDateTime m_CaptureTime;
+
 public:
     //Constructor.
     CGXDLMSGSMDiagnostic();
@@ -98,13 +98,13 @@ public:
     /**
     * @return Name of network operator.
     */
-    std::string& GetOperator();
+    std::string &GetOperator();
 
     /**
     * @param value
     *            Name of network operator.
     */
-    void SetOperator(std::string& value);
+    void SetOperator(std::string &value);
 
     /**
     * @return Registration status of the modem.
@@ -139,23 +139,23 @@ public:
     */
     void SetPacketSwitchStatus(DLMS_GSM_PACKET_SWITCH_STATUS value);
 
-    CGXDLMSGSMCellInfo& GetCellInfo();
+    CGXDLMSGSMCellInfo &GetCellInfo();
 
     /**
     * @return Adjacent cells.
     */
-    std::vector<GXAdjacentCell*>& GetAdjacentCells();
+    std::vector<GXAdjacentCell *> &GetAdjacentCells();
 
     /**
     * @return Date and time when the data have been last captured.
     */
-    CGXDateTime& GetCaptureTime();
+    CGXDateTime &GetCaptureTime();
 
     /**
     * @param value
     *            Date and time when the data have been last captured.
     */
-    void SetCaptureTime(CGXDateTime& value);
+    void SetCaptureTime(CGXDateTime &value);
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -164,7 +164,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -174,15 +174,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_GSM_DIAGNOSTIC
-#endif //GXDLMSGSMDIAGNOSTIC_H
+#endif  //DLMS_IGNORE_GSM_DIAGNOSTIC
+#endif  //GXDLMSGSMDIAGNOSTIC_H

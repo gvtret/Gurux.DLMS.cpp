@@ -41,12 +41,12 @@
 #include "GXDateTime.h"
 #include "GXDLMSAccessItem.h"
 
-class CGXDLMSClient
-{
+class CGXDLMSClient {
 protected:
     friend class CGXDLMSSchedule;
     CGXDLMSSettings m_Settings;
     char m_ManufacturerId[3];
+
 private:
     /// <summary>
     /// Initialize PDU size that is restored after the connection is closed.
@@ -74,15 +74,12 @@ private:
     bool m_UseProtectedRelease;
     bool m_IsAuthenticationRequired;
     // SN referencing
-    int ParseSNObjects(
-        CGXByteBuffer& buff,
-        bool onlyKnownObjects,
-        bool ignoreInactiveObjects);
+    int ParseSNObjects(CGXByteBuffer &buff, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
     //Parse SN object item.
-    int ParseSNObjectItem(CGXDLMSVariant& value, bool ignoreInactiveObjects);
+    int ParseSNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveObjects);
     //Parse LN object item.
-    int ParseLNObjectItem(CGXDLMSVariant& value, bool ignoreInactiveObjects);
+    int ParseLNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveObjects);
 
     /**
     * Parse LN objects.
@@ -93,10 +90,7 @@ private:
     *            Only known objects are parsed.
     * @return Collection of COSEM objects.
     */
-    int ParseLNObjects(
-        CGXByteBuffer& buff,
-        bool onlyKnownObjects,
-        bool ignoreInactiveObjects);
+    int ParseLNObjects(CGXByteBuffer &buff, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
     /**
     * Generates a read message.
@@ -109,25 +103,21 @@ private:
     * Returns error status.
     */
     int Read(
-        CGXDLMSVariant& name,
-        DLMS_OBJECT_TYPE objectType,
-        int attributeOrdinal,
-        CGXByteBuffer* parameters,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, CGXByteBuffer *parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
 
 public:
     /////////////////////////////////////////////////////////////////////////////
     //Constructor
     /////////////////////////////////////////////////////////////////////////////
     CGXDLMSClient(
-        bool UseLogicalNameReferencing = true,
-        int ClientAddress = 16,
-        int ServerAddress = 1,
+        bool UseLogicalNameReferencing = true, int ClientAddress = 16, int ServerAddress = 1,
         //Authentication type.
         DLMS_AUTHENTICATION authentication = DLMS_AUTHENTICATION_NONE,
         //Password if authentication is used.
-        const char* password = NULL,
-        DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC);
+        const char *password = NULL, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC
+    );
 
     /////////////////////////////////////////////////////////////////////////////
     //Destructor.
@@ -240,7 +230,7 @@ public:
     /////////////////////////////////////////////////////////////////////////////
     //  Source system title.
     // Meter returns system title when ciphered connection is made or GMAC authentication is used.
-    CGXByteBuffer& GetSourceSystemTitle();
+    CGXByteBuffer &GetSourceSystemTitle();
 
 
     /////////////////////////////////////////////////////////////////////////////
@@ -254,19 +244,19 @@ public:
     unsigned char GetGbtWindowSize();
 
     //HDLC connection settings. GetLimits is obsolete. Use GetHdlcSettings instead.
-    CGXDLMSLimits& GetLimits();
+    CGXDLMSLimits &GetLimits();
 
     /////////////////////////////////////////////////////////////////////////////
     //HDLC connection settings.
-    CGXHdlcSettings& GetHdlcSettings();
+    CGXHdlcSettings &GetHdlcSettings();
 
     /////////////////////////////////////////////////////////////////////////////
     //PLC connection settings.
-    CGXPlcSettings& GetPlcSettings();
+    CGXPlcSettings &GetPlcSettings();
 
     /////////////////////////////////////////////////////////////////////////////
     // Collection of the objects.
-    CGXDLMSObjectCollection& GetObjects();
+    CGXDLMSObjectCollection &GetObjects();
 
     /////////////////////////////////////////////////////////////////////////////
     // Returns SNRMRequest query as byte array.
@@ -274,16 +264,14 @@ public:
     // packets: Packets to send.
     // Returns: 0 if succeed. Otherwise error number.
     /////////////////////////////////////////////////////////////////////////////
-    int SNRMRequest(
-        std::vector<CGXByteBuffer>& packets);
+    int SNRMRequest(std::vector<CGXByteBuffer> &packets);
 
     /////////////////////////////////////////////////////////////////////////////
     // Parses UAResponse.
     /////////////////////////////////////////////////////////////////////////////
     // data: Byte array containing the data from the meter.
     // Returns: 0 if succeed. Otherwise error number.
-    int ParseUAResponse(
-        CGXByteBuffer& data);
+    int ParseUAResponse(CGXByteBuffer &data);
 
     /////////////////////////////////////////////////////////////////////////////
     // Returns AARQRequest query as byte array.
@@ -291,8 +279,7 @@ public:
     // Packets: Packets to send.
     // Returns: 0 if succeed. Otherwise error number.
     /////////////////////////////////////////////////////////////////////////////
-    int AARQRequest(
-        std::vector<CGXByteBuffer>& packets);
+    int AARQRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
     * Parses the AARE response. Parse method will update the following data:
@@ -312,8 +299,7 @@ public:
     * @see GXDLMSClient#GetLNSettings
     * @see GXDLMSClient#GetSNSettings
     */
-    int ParseAAREResponse(
-        CGXByteBuffer& data);
+    int ParseAAREResponse(CGXByteBuffer &data);
 
     /**
     * @return Is authentication Required.
@@ -323,8 +309,7 @@ public:
     /**
      * @return Get challenge request if HLS authentication is used.
      */
-    int GetApplicationAssociationRequest(
-        std::vector<CGXByteBuffer>& packets);
+    int GetApplicationAssociationRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
      * Parse server's challenge if HLS authentication is used.
@@ -332,8 +317,7 @@ public:
      * @param reply
      *            Received reply from the server.
      */
-    int ParseApplicationAssociationResponse(
-        CGXByteBuffer& reply);
+    int ParseApplicationAssociationResponse(CGXByteBuffer &reply);
 
     /////////////////////////////////////////////////////////////////////////////
     // Returns ReceiverReady query as byte array.
@@ -342,9 +326,7 @@ public:
     // Data: Data to send.
     // Returns: 0 if succeed. Otherwise error number.
     /////////////////////////////////////////////////////////////////////////////
-    int ReceiverReady(
-        CGXReplyData& reply,
-        CGXByteBuffer& Data);
+    int ReceiverReady(CGXReplyData &reply, CGXByteBuffer &Data);
 
     /////////////////////////////////////////////////////////////////////////////
     // Returns ReceiverReady query as byte array.
@@ -353,9 +335,7 @@ public:
     // Data: Data to send.
     // Returns: 0 if succeed. Otherwise error number.
     /////////////////////////////////////////////////////////////////////////////
-    int ReceiverReady(
-        DLMS_DATA_REQUEST_TYPES Type,
-        CGXByteBuffer& Data);
+    int ReceiverReady(DLMS_DATA_REQUEST_TYPES Type, CGXByteBuffer &Data);
 
     /////////////////////////////////////////////////////////////////////////////
     // Changes byte array received from the meter to given type.
@@ -366,11 +346,7 @@ public:
     //         If meter is configured to use UTC time (UTC to normal time)
     //         set this to true.
     // returns Value changed by type.
-    static int ChangeType(
-        CGXByteBuffer& value,
-        DLMS_DATA_TYPE type,
-        bool useUtc,
-        CGXDLMSVariant& newValue);
+    static int ChangeType(CGXByteBuffer &value, DLMS_DATA_TYPE type, bool useUtc, CGXDLMSVariant &newValue);
 
     /////////////////////////////////////////////////////////////////////////////
     // Changes byte array received from the meter to given type.
@@ -378,10 +354,7 @@ public:
     // value Byte array received from the meter.
     // type Wanted type.
     // returns Value changed by type.
-    static int ChangeType(
-        CGXByteBuffer& value,
-        DLMS_DATA_TYPE type,
-        CGXDLMSVariant& newValue);
+    static int ChangeType(CGXByteBuffer &value, DLMS_DATA_TYPE type, CGXDLMSVariant &newValue);
 
     /////////////////////////////////////////////////////////////////////////////
     // Changes byte array received from the meter to given type.
@@ -389,10 +362,7 @@ public:
     // value Byte array received from the meter.
     // type Wanted type.
     // returns Value changed by type.
-    static int ChangeType(
-        CGXDLMSVariant& value,
-        DLMS_DATA_TYPE type,
-        CGXDLMSVariant& newValue);
+    static int ChangeType(CGXDLMSVariant &value, DLMS_DATA_TYPE type, CGXDLMSVariant &newValue);
 
     /**
     * Parses the COSEM objects of the received data.
@@ -401,9 +371,7 @@ public:
     * objects : Collection of COSEM objects.
     * onlyKnownObjects : Only known objects are parsed.
     */
-    int ParseObjects(
-        std::vector<CGXDLMSVariant>& objects,
-        bool onlyKnownObjects);
+    int ParseObjects(std::vector<CGXDLMSVariant> &objects, bool onlyKnownObjects);
 
     /**
     * Parses the COSEM objects of the received data.
@@ -413,10 +381,7 @@ public:
     * onlyKnownObjects : Only known objects are parsed.
     * ignoreInactiveObjects : Inactivity objects are ignored.
     */
-    int ParseObjects(
-        std::vector<CGXDLMSVariant>& objects,
-        bool onlyKnownObjects,
-        bool ignoreInactiveObjects);
+    int ParseObjects(std::vector<CGXDLMSVariant> &objects, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
     /**
     * Parses the COSEM objects of the received data.
@@ -425,9 +390,7 @@ public:
     * objects : Collection of COSEM objects.
     * onlyKnownObjects : Only known objects are parsed.
     */
-    int ParseObjects(
-        CGXByteBuffer& data,
-        bool onlyKnownObjects);
+    int ParseObjects(CGXByteBuffer &data, bool onlyKnownObjects);
 
     /**
     * Parses the COSEM objects of the received data.
@@ -437,18 +400,12 @@ public:
     * onlyKnownObjects : Only known objects are parsed.
     * ignoreInactiveObjects : Inactivity objects are ignored.
     */
-    int ParseObjects(
-        CGXByteBuffer& data,
-        bool onlyKnownObjects,
-        bool ignoreInactiveObjects);
+    int ParseObjects(CGXByteBuffer &data, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
     /*
     * Get Value from byte array received from the meter.
     */
-    int UpdateValue(
-        CGXDLMSObject& target,
-        int attributeIndex,
-        CGXDLMSVariant& value);
+    int UpdateValue(CGXDLMSObject &target, int attributeIndex, CGXDLMSVariant &value);
 
     /**
         * Get Value from byte array received from the meter.
@@ -457,9 +414,7 @@ public:
         *            Byte array received from the meter.
         * @return Received data.
         */
-    int GetValue(
-        CGXByteBuffer& data,
-        CGXDLMSVariant& value);
+    int GetValue(CGXByteBuffer &data, CGXDLMSVariant &value);
 
     /**
     * Update list of values.
@@ -467,9 +422,7 @@ public:
     * list : List of read objects and atributes.
     * values :  Received values.
     */
-    int UpdateValues(
-        std::vector< std::pair<CGXDLMSObject*, unsigned char> >& list,
-        std::vector<CGXDLMSVariant>& values);
+    int UpdateValues(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXDLMSVariant> &values);
 
     /**
     * Generates a release request.
@@ -477,8 +430,7 @@ public:
     * reply : Generated release message(s).
     * Returns error status.
     */
-    int ReleaseRequest(
-        std::vector<CGXByteBuffer>& packets);
+    int ReleaseRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
     * Generates a disconnect request.
@@ -486,8 +438,7 @@ public:
     * reply : Generated disconnect message(s).
     * Returns error status.
     */
-    int DisconnectRequest(
-        std::vector<CGXByteBuffer>& packets);
+    int DisconnectRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
     * Removes the HDLC frame from the packet, and returns COSEM data only.
@@ -498,9 +449,7 @@ public:
     *            The exported reply information.
     * @return Is frame complete.
     */
-    int GetData(
-        CGXByteBuffer& reply,
-        CGXReplyData& data);
+    int GetData(CGXByteBuffer &reply, CGXReplyData &data);
 
     /**
     * Removes the HDLC frame from the packet, and returns COSEM data only.
@@ -513,10 +462,7 @@ public:
     *            Information from the notify message.
     * @return Is frame complete.
     */
-    int GetData(
-        CGXByteBuffer& reply,
-        CGXReplyData& data,
-        CGXReplyData& notify);
+    int GetData(CGXByteBuffer &reply, CGXReplyData &data, CGXReplyData &notify);
 
     /**
     * Reads the Association view from the device. This method is used to get
@@ -525,8 +471,7 @@ public:
     * reply : Generated read message(s).
     * Returns error status.
     */
-    int GetObjectsRequest(
-        std::vector<CGXByteBuffer>& reply);
+    int GetObjectsRequest(std::vector<CGXByteBuffer> &reply);
 
     /**
     Generates the keep alive message.
@@ -535,8 +480,7 @@ public:
     For keepalive we are reading logical name for Association object.
     This is done because all the meters can't handle HDLC keep alive message.
     */
-    int GetKeepAlive(
-        std::vector<CGXByteBuffer>& reply);
+    int GetKeepAlive(std::vector<CGXByteBuffer> &reply);
 
 
     /**
@@ -548,11 +492,8 @@ public:
     * reply : Generated read message(s).
     * Returns error status.
     */
-    int Read(
-        CGXDLMSVariant& name,
-        DLMS_OBJECT_TYPE objectType,
-        int attributeOrdinal,
-        std::vector<CGXByteBuffer>& reply);
+    int
+    Read(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, std::vector<CGXByteBuffer> &reply);
 
     /**
     * Generates a read message.
@@ -565,10 +506,7 @@ public:
     *            Generated read message(s).
     * Returns error status.
     */
-    int Read(
-        CGXDLMSObject* pObject,
-        int attributeOrdinal,
-        std::vector<CGXByteBuffer>& reply);
+    int Read(CGXDLMSObject *pObject, int attributeOrdinal, std::vector<CGXByteBuffer> &reply);
 
     /**
     * Read list of COSEM objects.
@@ -577,9 +515,7 @@ public:
     *            DLMS objects to read.
     * @return Read request as byte array.
     */
-    int ReadList(
-        std::vector<std::pair<CGXDLMSObject*, unsigned char> >& list,
-        std::vector<CGXByteBuffer>& reply);
+    int ReadList(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXByteBuffer> &reply);
 
     /**
     * Write list of COSEM objects.
@@ -588,9 +524,7 @@ public:
     *            DLMS objects to read.
     * @return Write request as byte array.
     */
-    int WriteList(
-        std::vector<std::pair<CGXDLMSObject*, unsigned char> >& list,
-        std::vector<CGXByteBuffer>& reply);
+    int WriteList(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXByteBuffer> &reply);
 
     /**
     * Generates a write message.
@@ -608,13 +542,11 @@ public:
     * Returns error status.
     */
     int Write(
-        CGXDLMSVariant& name,
-        DLMS_OBJECT_TYPE objectType,
-        int index,
-        CGXDLMSVariant& data,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data,
+        std::vector<CGXByteBuffer> &reply
+    );
 
-   /**
+    /**
    * Generates a write message.
    *
    * @param name
@@ -632,12 +564,9 @@ public:
    * Returns error status.
    */
     int Write(
-        CGXDLMSVariant& name,
-        DLMS_OBJECT_TYPE objectType,
-        int index,
-        CGXDLMSVariant& data,
-        CGXByteBuffer* parameters,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXByteBuffer *parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
   * Generates a write message.
@@ -657,12 +586,9 @@ public:
   * Returns error status.
   */
     int Write(
-        CGXDLMSVariant& name,
-        DLMS_OBJECT_TYPE objectType,
-        int index,
-        CGXDLMSVariant& data,
-        CGXDLMSVariant& parameters,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXDLMSVariant &parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
     /**
     * Generates a write message.
     *
@@ -681,12 +607,9 @@ public:
     * Returns error status.
     */
     int Write(
-        CGXDLMSVariant& name,
-        DLMS_OBJECT_TYPE objectType,
-        int index,
-        CGXByteBuffer& data,
-        CGXByteBuffer* parameters,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &data, CGXByteBuffer *parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
     * Generates a write message.
@@ -703,8 +626,10 @@ public:
     *             Generated write message(s).
     * Returns error status.
     */
-    int Write(CGXDLMSVariant& name, DLMS_OBJECT_TYPE objectType,
-        int index, CGXByteBuffer& value, std::vector<CGXByteBuffer>& reply);
+    int Write(
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &value,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
      * Generates a write message.
@@ -719,11 +644,7 @@ public:
      *            Generated write message(s).
      * Returns error status.
      */
-    int Write(
-        CGXDLMSObject* pObject,
-        int index,
-        CGXDLMSVariant& data,
-        std::vector<CGXByteBuffer>& reply);
+    int Write(CGXDLMSObject *pObject, int index, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply);
 
     /**
     * Generates a write message.
@@ -736,10 +657,23 @@ public:
     *            Generated write message(s).
     * Returns error status.
     */
-    int Write(
-        CGXDLMSObject* pObject,
-        int index,
-        std::vector<CGXByteBuffer>& reply);
+    int Write(CGXDLMSObject *pObject, int index, std::vector<CGXByteBuffer> &reply);
+
+    /**
+    * Generate Method (Action) request.
+    *
+    * @param item
+    *            Method object short name or Logical Name.
+    * @param index
+    *            Method index.
+    * @param data
+    *            Method data.
+    * @param type
+    *            Data type.
+    * @return DLMS action message.
+    */
+    int Method(CGXDLMSObject *item, int index, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply);
+
 
     /**
     * Generate Method (Action) request.
@@ -755,31 +689,8 @@ public:
     * @return DLMS action message.
     */
     int Method(
-        CGXDLMSObject* item,
-        int index,
-        CGXDLMSVariant& data,
-        std::vector<CGXByteBuffer>& reply);
-
-
-    /**
-    * Generate Method (Action) request.
-    *
-    * @param item
-    *            Method object short name or Logical Name.
-    * @param index
-    *            Method index.
-    * @param data
-    *            Method data.
-    * @param type
-    *            Data type.
-    * @return DLMS action message.
-    */
-    int Method(
-        CGXDLMSObject* item,
-        int index,
-        CGXDLMSVariant& data,
-        DLMS_DATA_TYPE dataType,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSObject *item, int index, CGXDLMSVariant &data, DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply
+    );
 
     /**
    * Generate Method (Action) request..
@@ -797,11 +708,9 @@ public:
    * @return DLMS action message.
    */
     int Method(
-        CGXDLMSVariant name,
-        DLMS_OBJECT_TYPE objectType,
-        int methodIndex,
-        CGXDLMSVariant& data,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
     * Generate Method (Action) request..
@@ -819,12 +728,9 @@ public:
     * @return DLMS action message.
     */
     int Method(
-        CGXDLMSVariant name,
-        DLMS_OBJECT_TYPE objectType,
-        int methodIndex,
-        CGXDLMSVariant& data,
-        DLMS_DATA_TYPE dataType,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data,
+        DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply
+    );
 
     /**
    * Generate Method (Action) request.
@@ -840,11 +746,23 @@ public:
    * @return DLMS action message.
    */
     int Method(
-        CGXDLMSVariant name,
-        DLMS_OBJECT_TYPE objectType,
-        int methodIndex,
-        CGXByteBuffer& data,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXByteBuffer &data,
+        std::vector<CGXByteBuffer> &reply
+    );
+
+    /**
+    * Read rows by entry.
+    *
+    * @param pg
+    *            Profile generic object to read.
+    * @param index
+    *            Zero bases start index.
+    * @param count
+    *            Rows count to read.
+    * @return Read message as byte array.
+    */
+    int ReadRowsByEntry(CGXDLMSProfileGeneric *pg, int index, int count, std::vector<CGXByteBuffer> &reply);
+
 
     /**
     * Read rows by entry.
@@ -858,29 +776,9 @@ public:
     * @return Read message as byte array.
     */
     int ReadRowsByEntry(
-        CGXDLMSProfileGeneric* pg,
-        int index,
-        int count,
-        std::vector<CGXByteBuffer>& reply);
-
-
-    /**
-    * Read rows by entry.
-    *
-    * @param pg
-    *            Profile generic object to read.
-    * @param index
-    *            Zero bases start index.
-    * @param count
-    *            Rows count to read.
-    * @return Read message as byte array.
-    */
-    int ReadRowsByEntry(
-        CGXDLMSProfileGeneric* pg,
-        int index,
-        int count,
-        std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >& columns,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSProfileGeneric *pg, int index, int count,
+        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
+    );
 
 
     /**
@@ -896,10 +794,8 @@ public:
     * @return Generated read message.
     */
     int ReadRowsByRange(
-        CGXDLMSProfileGeneric* pObject,
-        CGXDateTime& start,
-        CGXDateTime& end,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSProfileGeneric *pObject, CGXDateTime &start, CGXDateTime &end, std::vector<CGXByteBuffer> &reply
+    );
 
     /**
      * Read rows by range. Use this method to read Profile Generic table between
@@ -913,11 +809,7 @@ public:
      *            End time.
      * @return Generated read message.
      */
-    int ReadRowsByRange(
-        CGXDLMSProfileGeneric* pg,
-        struct tm* start,
-        struct tm* end,
-        std::vector<CGXByteBuffer>& reply);
+    int ReadRowsByRange(CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end, std::vector<CGXByteBuffer> &reply);
 
     /**
     * Read rows by range. Use this method to read Profile Generic table between
@@ -932,11 +824,9 @@ public:
     * @return Generated read message.
     */
     int ReadRowsByRange(
-        CGXDLMSProfileGeneric* pg,
-        struct tm* start,
-        struct tm* end,
-        std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >& columns,
-        std::vector<CGXByteBuffer>& reply);
+        CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end,
+        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
+    );
 
 
     /**
@@ -980,9 +870,8 @@ public:
      * @return Server address.
      */
     static int GetServerAddressFromSerialNumber(
-        unsigned long serialNumber,
-        unsigned short logicalAddress,
-        const char* formula = NULL);
+        unsigned long serialNumber, unsigned short logicalAddress, const char *formula = NULL
+    );
 
     /**
      * Convert physical address and logical address to server address.
@@ -995,64 +884,60 @@ public:
      *            Address size in bytes.
      * @return Server address.
      */
-    static int  GetServerAddress(unsigned long logicalAddress,
-        unsigned long physicalAddress,
-        unsigned char addressSize = 0);
+    static int
+    GetServerAddress(unsigned long logicalAddress, unsigned long physicalAddress, unsigned char addressSize = 0);
 
     /**
     * @return Protocol version.
     */
-    char* GetProtocolVersion();
+    char *GetProtocolVersion();
 
     /**
     * @param value
     *            Protocol version.
     */
-    void SetProtocolVersion(char* value);
+    void SetProtocolVersion(char *value);
 
     //Convert object type enum value to string.
-    static const std::string ObjectTypeToString(DLMS_OBJECT_TYPE type)
-    {
+    static const std::string ObjectTypeToString(DLMS_OBJECT_TYPE type) {
         return CGXDLMSConverter::ToString(type);
     }
 
     //Parse push objects.
-    int ParsePushObjects(
-        std::vector<CGXDLMSVariant>& data,
-        std::vector<std::pair<CGXDLMSObject*, unsigned char> >& items);
+    int
+    ParsePushObjects(std::vector<CGXDLMSVariant> &data, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &items);
 
     /*
     Set custom challenge.
     */
-    void SetCtoSChallenge(CGXByteBuffer& value);
+    void SetCtoSChallenge(CGXByteBuffer &value);
 
     /*
     Get custom challenge.
     */
-    CGXByteBuffer& GetCtoSChallenge();
+    CGXByteBuffer &GetCtoSChallenge();
 
 
     // Generates a access service message.
     // time: Send time. Set to NULL is not used.
     // packets: Access request as a byte array.
-    int AccessRequest(struct tm* time, std::vector<CGXDLMSAccessItem>& list, std::vector<CGXByteBuffer>& packets);
+    int AccessRequest(struct tm *time, std::vector<CGXDLMSAccessItem> &list, std::vector<CGXByteBuffer> &packets);
 
     /// Parse access response.
     /// list: Collection of access items.
     /// data: Received data from the meter.
-    int ParseAccessResponse(std::vector<CGXDLMSAccessItem>& list, CGXByteBuffer& data);
+    int ParseAccessResponse(std::vector<CGXDLMSAccessItem> &list, CGXByteBuffer &data);
 
     // Manufacturer ID.
-    // 
+    //
     // Manufacturer ID(FLAG ID) is used for manucaturer depending functionality.
-    char* GetManufacturerId();
+    char *GetManufacturerId();
     void SetManufacturerId(char value[3]);
 
     // Encrypt Landis+Gyr High level password.
     // password: User password.
     // seed: Seed received from the meter.
     // Returns occurred error.
-    int EncryptLandisGyrHighLevelAuthentication(CGXByteBuffer& password, CGXByteBuffer& seed, CGXByteBuffer& crypted);
-
+    int EncryptLandisGyrHighLevelAuthentication(CGXByteBuffer &password, CGXByteBuffer &seed, CGXByteBuffer &crypted);
 };
-#endif //GXDLMSCLIENT_H
+#endif  //GXDLMSCLIENT_H

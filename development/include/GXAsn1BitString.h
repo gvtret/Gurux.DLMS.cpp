@@ -40,8 +40,7 @@
 #include "GXByteArray.h"
 #include "GXAsn1Base.h"
 
-class CGXAsn1BitString : public CGXAsn1Base
-{
+class CGXAsn1BitString: public CGXAsn1Base {
 private:
     /**
     * Number of extra bits at the end of the string.
@@ -58,21 +57,17 @@ private:
      *
      * count: Amount of zero.
      */
-    static void AppendZeros(std::string& sb, int count)
-    {
-        for (int pos = 0; pos != count; ++pos)
-        {
+    static void AppendZeros(std::string &sb, int count) {
+        for (int pos = 0; pos != count; ++pos) {
             sb += '0';
         }
     }
 
 public:
-
     /**
      * Constructor.
      */
-    CGXAsn1BitString()
-    {
+    CGXAsn1BitString() {
         m_PadBits = 0;
     }
 
@@ -82,11 +77,9 @@ public:
      * bitString
      *            Bit string.
      */
-    CGXAsn1BitString(std::string& bitString)
-    {
+    CGXAsn1BitString(std::string &bitString) {
         m_PadBits = 8 - (bitString.length() % 8);
-        if (m_PadBits == 8)
-        {
+        if (m_PadBits == 8) {
             m_PadBits = 0;
         }
         std::string sb = bitString;
@@ -104,8 +97,7 @@ public:
      * padCount
      *            Number of extra bits at the end of the string.
      */
-    CGXAsn1BitString(CGXByteBuffer& str, int padCount)
-    {
+    CGXAsn1BitString(CGXByteBuffer &str, int padCount) {
         m_Value = str;
         m_PadBits = padCount;
     }
@@ -118,20 +110,18 @@ public:
      * padCount
      *            Number of extra bits at the end of the string.
      */
-    CGXAsn1BitString(CGXByteArray& str, int padCount)
-    {
+    CGXAsn1BitString(CGXByteArray &str, int padCount) {
         str.ToByteBuffer(m_Value);
         m_PadBits = padCount;
     }
-    
+
     /**
      * Constructor
      *
      * str
      *            Bit string.
      */
-    CGXAsn1BitString(CGXByteBuffer& str) 
-    {
+    CGXAsn1BitString(CGXByteBuffer &str) {
         str.GetUInt8(&m_PadBits);
         str.SubArray(1, str.Available(), m_Value);
     }
@@ -139,31 +129,26 @@ public:
     /**
      * Returns Bit string.
      */
-    CGXByteBuffer& GetValue()
-    {
+    CGXByteBuffer &GetValue() {
         return m_Value;
     }
 
     /**
      * Returns Number of extra bits at the end of the string.
      */
-    int GetPadBits()
-    {
+    int GetPadBits() {
         return m_PadBits;
     }
 
     /**
      * Returns Number of extra bits at the end of the string.
      */
-    int Length()
-    {
+    int Length() {
         return (8 * m_Value.GetSize()) - m_PadBits;
     }
 
-    std::string ToString()
-    {
-        if (m_Value.GetSize() == 0)
-        {
+    std::string ToString() {
+        if (m_Value.GetSize() == 0) {
             return "";
         }
         std::string str;
@@ -173,15 +158,12 @@ public:
         return str;
     }
 
-    std::string AsString()
-    {
-        if (m_Value.GetSize() == 0)
-        {
+    std::string AsString() {
+        if (m_Value.GetSize() == 0) {
             return "";
         }
         CGXByteBuffer bb;
-        for (unsigned long pos = 0; pos != m_Value.GetSize(); ++pos)
-        {
+        for (unsigned long pos = 0; pos != m_Value.GetSize(); ++pos) {
             GXHelpers::ToBitString(bb, m_Value.GetData()[pos], 8);
         }
         bb.SetSize(bb.GetSize() - m_PadBits);
@@ -191,12 +173,10 @@ public:
     /**
      * Returns bit-string value as a integer.
      **/
-    int ToInteger()
-    {
+    int ToInteger() {
         int ret = 0;
         int bytePos = 0;
-        for (unsigned long pos = 0; pos != m_Value.GetSize(); ++pos)
-        {
+        for (unsigned long pos = 0; pos != m_Value.GetSize(); ++pos) {
             ret |= (int)(GXHelpers::SwapBits(m_Value.GetData()[pos]) << bytePos);
             bytePos += 8;
         }
@@ -204,4 +184,4 @@ public:
     }
 };
 
-#endif //GXASN1BITSTRING_H
+#endif  //GXASN1BITSTRING_H

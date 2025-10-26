@@ -35,9 +35,8 @@
 #include "../include/GXChargePerUnitScaling.h"
 #include "../include/GXHelpers.h"
 
- // Constructor.
-CGXChargePerUnitScaling::CGXChargePerUnitScaling()
-{
+// Constructor.
+CGXChargePerUnitScaling::CGXChargePerUnitScaling() {
 }
 
 /**
@@ -46,8 +45,7 @@ CGXChargePerUnitScaling::CGXChargePerUnitScaling()
  *
  * @return Commodity scale.
  */
-signed char CGXChargePerUnitScaling::GetCommodityScale()
-{
+signed char CGXChargePerUnitScaling::GetCommodityScale() {
     return m_CommodityScale;
 }
 
@@ -58,8 +56,7 @@ signed char CGXChargePerUnitScaling::GetCommodityScale()
  * @param value
  *            Commodity scale.
  */
-void CGXChargePerUnitScaling::SetCommodityScale(signed char value)
-{
+void CGXChargePerUnitScaling::SetCommodityScale(signed char value) {
     m_CommodityScale = value;
 }
 
@@ -69,8 +66,7 @@ void CGXChargePerUnitScaling::SetCommodityScale(signed char value)
  *
  * @return Price scale.
  */
-signed char CGXChargePerUnitScaling::GetPriceScale()
-{
+signed char CGXChargePerUnitScaling::GetPriceScale() {
     return m_PriceScale;
 }
 
@@ -81,13 +77,11 @@ signed char CGXChargePerUnitScaling::GetPriceScale()
  * @param value
  *            Price scale.
  */
-void CGXChargePerUnitScaling::SetPriceScale(signed char value)
-{
+void CGXChargePerUnitScaling::SetPriceScale(signed char value) {
     m_PriceScale = value;
 }
 
-std::string CGXChargePerUnitScaling::ToString()
-{
+std::string CGXChargePerUnitScaling::ToString() {
     std::string str = GXHelpers::IntToString(m_CommodityScale);
     str.append(", ");
     str = GXHelpers::IntToString(m_PriceScale);

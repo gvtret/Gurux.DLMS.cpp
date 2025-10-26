@@ -39,8 +39,7 @@
 #include "GXAsn1Base.h"
 #include "GXDLMSVariant.h"
 
-class CGXAsn1Context : public CGXAsn1Base
-{
+class CGXAsn1Context: public CGXAsn1Base {
 private:
     /* Context index.*/
     int m_Index;
@@ -48,7 +47,8 @@ private:
      Constructed.
     */
     bool m_Constructed;
-    std::vector<CGXAsn1Base*> m_Values;
+    std::vector<CGXAsn1Base *> m_Values;
+
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
@@ -73,10 +73,9 @@ public:
     void SetConstructed(bool value);
 
     /* Returns collection values. */
-    std::vector<CGXAsn1Base*>* GetValues()
-    {
+    std::vector<CGXAsn1Base *> *GetValues() {
         return &m_Values;
     }
 };
 
-#endif //GXASN1CONTEXT_H
+#endif  //GXASN1CONTEXT_H

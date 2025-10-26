@@ -36,19 +36,29 @@
 
 
 #define SHA1_ROL(value, bits) (((value) << (bits)) | (((value) & 0xffffffff) >> (32 - (bits))))
-#define SHA1_BLK(i) (block[i&15] = SHA1_ROL(block[(i+13)&15] ^ block[(i+8)&15] ^ block[(i+2)&15] ^ block[i&15],1))
+#define SHA1_BLK(i) \
+    (block[i & 15] = SHA1_ROL(block[(i + 13) & 15] ^ block[(i + 8) & 15] ^ block[(i + 2) & 15] ^ block[i & 15], 1))
 
-#define SHA1_R0(v,w,x,y,z,i) z += ((w & (x ^ y)) ^ y) + block[i] + 0x5a827999 + SHA1_ROL(v,5); w=SHA1_ROL(w,30);
-#define SHA1_R1(v,w,x,y,z,i) z += ((w & (x ^ y)) ^ y) + SHA1_BLK(i) + 0x5a827999 + SHA1_ROL(v,5); w=SHA1_ROL(w,30);
-#define SHA1_R2(v,w,x,y,z,i) z += (w ^ x ^ y) + SHA1_BLK(i) + 0x6ed9eba1 + SHA1_ROL(v,5); w=SHA1_ROL(w,30);
-#define SHA1_R3(v,w,x,y,z,i) z += (((w | x) & y) | ( w & x)) + SHA1_BLK(i) + 0x8f1bbcdc + SHA1_ROL(v,5); w=SHA1_ROL(w,30);
-#define SHA1_R4(v,w,x,y,z,i) z += (w ^ x ^ y) + SHA1_BLK(i) + 0xca62c1d6 + SHA1_ROL(v,5); w=SHA1_ROL(w,30);
+#define SHA1_R0(v, w, x, y, z, i) \
+    z += ((w & (x ^ y)) ^ y) + block[i] + 0x5a827999 + SHA1_ROL(v, 5); \
+    w = SHA1_ROL(w, 30);
+#define SHA1_R1(v, w, x, y, z, i) \
+    z += ((w & (x ^ y)) ^ y) + SHA1_BLK(i) + 0x5a827999 + SHA1_ROL(v, 5); \
+    w = SHA1_ROL(w, 30);
+#define SHA1_R2(v, w, x, y, z, i) \
+    z += (w ^ x ^ y) + SHA1_BLK(i) + 0x6ed9eba1 + SHA1_ROL(v, 5); \
+    w = SHA1_ROL(w, 30);
+#define SHA1_R3(v, w, x, y, z, i) \
+    z += (((w | x) & y) | (w & x)) + SHA1_BLK(i) + 0x8f1bbcdc + SHA1_ROL(v, 5); \
+    w = SHA1_ROL(w, 30);
+#define SHA1_R4(v, w, x, y, z, i) \
+    z += (w ^ x ^ y) + SHA1_BLK(i) + 0xca62c1d6 + SHA1_ROL(v, 5); \
+    w = SHA1_ROL(w, 30);
 
 /*
 * Hash block is a single 512-bit block.
 */
-void CGXDLMSSha1::Transform(unsigned long *block, unsigned int *digest, unsigned int *transforms)
-{
+void CGXDLMSSha1::Transform(uint32_t *block, unsigned int *digest, unsigned int *transforms) {
     unsigned int a = digest[0];
     unsigned int b = digest[1];
     unsigned int c = digest[2];
@@ -145,22 +155,18 @@ void CGXDLMSSha1::Transform(unsigned long *block, unsigned int *digest, unsigned
     ++*transforms;
 }
 
-void CGXDLMSSha1::Update(CGXByteBuffer& data, unsigned int *digest, unsigned int *transforms)
-{
+void CGXDLMSSha1::Update(CGXByteBuffer &data, unsigned int *digest, unsigned int *transforms) {
     unsigned int pos;
-    unsigned long block[16];
-    while (data.GetSize() - data.GetPosition() > 64)
-    {
-        for (pos = 0; pos != 16; ++pos)
-        {
+    uint32_t block[16];
+    while (data.GetSize() - data.GetPosition() > 64) {
+        for (pos = 0; pos != 16; ++pos) {
             data.GetUInt32(&block[pos]);
         }
         Transform(block, digest, transforms);
     }
 }
 
-int CGXDLMSSha1::Final(CGXByteBuffer& data, unsigned int *digest, unsigned int *transforms, CGXByteBuffer& reply)
-{
+int CGXDLMSSha1::Final(CGXByteBuffer &data, unsigned int *digest, unsigned int *transforms, CGXByteBuffer &reply) {
     int pos;
     reply.Capacity(*transforms * 64);
     reply.Set(data.GetData(), data.GetSize());
@@ -171,16 +177,13 @@ int CGXDLMSSha1::Final(CGXByteBuffer& data, unsigned int *digest, unsigned int *
     reply.SetUInt8(0x80);
     unsigned int orig_size = reply.GetSize();
     reply.Zero(reply.GetSize(), 64 - reply.GetSize());
-    unsigned long block[16];
-    for (pos = 0; pos != 16; ++pos)
-    {
+    uint32_t block[16];
+    for (pos = 0; pos != 16; ++pos) {
         reply.GetUInt32(&block[pos]);
     }
-    if (orig_size > 64 - 8)
-    {
+    if (orig_size > 64 - 8) {
         Transform(block, digest, transforms);
-        for (pos = 0; pos < 16 - 2; ++pos)
-        {
+        for (pos = 0; pos < 16 - 2; ++pos) {
             block[pos] = 0;
         }
     }
@@ -192,20 +195,14 @@ int CGXDLMSSha1::Final(CGXByteBuffer& data, unsigned int *digest, unsigned int *
     reply.Capacity(20);
     reply.SetPosition(0);
     reply.SetSize(0);
-    for (pos = 0; pos < 5; ++pos)
-    {
+    for (pos = 0; pos < 5; ++pos) {
         reply.SetUInt32(digest[pos]);
     }
     return 0;
 }
 
-int CGXDLMSSha1::Encrypt(
-    CGXByteBuffer& data, 
-    CGXByteBuffer& result)
-{
-    unsigned int digest[5] = { 
-        0x67452301, 0xefcdab89, 0x98badcfe, 
-        0x10325476, 0xc3d2e1f0 };
+int CGXDLMSSha1::Encrypt(CGXByteBuffer &data, CGXByteBuffer &result) {
+    unsigned int digest[5] = {0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476, 0xc3d2e1f0};
     unsigned int transforms = 0;
     Update(data, digest, &transforms);
     return Final(data, digest, &transforms, result);

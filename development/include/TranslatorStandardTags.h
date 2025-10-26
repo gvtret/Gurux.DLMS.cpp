@@ -42,12 +42,10 @@
 #include "TranslatorTags.h"
 #include "TranslatorGeneralTags.h"
 
-class CTranslatorStandardTags
-{
+class CTranslatorStandardTags {
 public:
     /// Get general tags.
-    static void GetGeneralTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string >& list)
-    {
+    static void GetGeneralTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_SNRM] = "Snrm";
         list[DLMS_COMMAND_UNACCEPTABLE_FRAME] = "UnacceptableFrame";
         list[DLMS_COMMAND_DISCONNECT_MODE] = "DisconnectMode";
@@ -97,15 +95,16 @@ public:
     }
 
     // Get SN tags.
-    static void GetSnTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string >& list)
-    {
+    static void GetSnTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_READ_REQUEST] = "readRequest";
         list[DLMS_COMMAND_WRITE_REQUEST] = "writeRequest";
         list[DLMS_COMMAND_WRITE_RESPONSE] = "writeResponse";
         list[DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_SINGLE_READ_RESPONSE_DATA] = "Data";
         list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME] = "variable-name";
-        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_PARAMETERISED_ACCESS] = "parameterized-access";
-        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_BLOCK_NUMBER_ACCESS] = "BlockNumberAccess";
+        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_PARAMETERISED_ACCESS] =
+            "parameterized-access";
+        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_BLOCK_NUMBER_ACCESS] =
+            "BlockNumberAccess";
         list[DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME] = "variable-name";
         list[DLMS_COMMAND_READ_RESPONSE] = "readResponse";
         list[DLMS_COMMAND_READ_RESPONSE << 8 | DLMS_SINGLE_READ_RESPONSE_DATA_BLOCK_RESULT] = "DataBlockResult";
@@ -115,8 +114,7 @@ public:
     }
 
     // Get LN tags.
-    static void GetLnTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string >& list)
-    {
+    static void GetLnTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_GET_REQUEST] = "get-request";
         list[DLMS_COMMAND_GET_REQUEST << 8 | DLMS_GET_COMMAND_TYPE_NORMAL] = "get-request-normal";
         list[DLMS_COMMAND_GET_REQUEST << 8 | DLMS_GET_COMMAND_TYPE_NEXT_DATA_BLOCK] = "get-request-next";
@@ -130,9 +128,12 @@ public:
         list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_NORMAL] = "action-request-normal";
         list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_NEXT_BLOCK] = "action-request-for-next-pblock";
         list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_LIST] = "action-request-with-list";
-        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_FIRST_BLOCK] = "action-request-with-first-block";
-        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_LIST_AND_FIRST_BLOCK] = "action-request-with-with-list-and-first-block";
-        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_BLOCK] = "action-request-with-with-list-and-block";
+        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_FIRST_BLOCK] =
+            "action-request-with-first-block";
+        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_LIST_AND_FIRST_BLOCK] =
+            "action-request-with-with-list-and-first-block";
+        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_BLOCK] =
+            "action-request-with-with-list-and-block";
         list[DLMS_COMMAND_METHOD_RESPONSE] = "action-response";
         list[DLMS_COMMAND_METHOD_RESPONSE << 8 | DLMS_ACTION_RESPONSE_TYPE_NORMAL] = "action-response-normal";
         list[DLMS_COMMAND_METHOD_RESPONSE << 8 | DLMS_ACTION_RESPONSE_TYPE_WITH_BLOCK] = "action-response-with-pblock";
@@ -147,7 +148,8 @@ public:
         list[DLMS_COMMAND_SET_RESPONSE] = "set-response";
         list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_NORMAL] = "set-response-normal";
         list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_DATA_BLOCK] = "set-response-data-block";
-        list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_LAST_DATA_BLOCK] = "set-response-with-last-data-block";
+        list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_LAST_DATA_BLOCK] =
+            "set-response-with-last-data-block";
         list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_WITH_LIST] = "set-response-with-list";
         list[DLMS_COMMAND_ACCESS_REQUEST] = "access-request";
         list[DLMS_COMMAND_ACCESS_REQUEST << 8 | DLMS_ACCESS_SERVICE_COMMAND_TYPE_GET] = "access-request-get";
@@ -173,8 +175,7 @@ public:
     }
 
     // Get glo tags.
-    static void GetGloTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string >& list)
-    {
+    static void GetGloTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_GLO_INITIATE_REQUEST] = "glo-initiate-request";
         list[DLMS_COMMAND_GLO_INITIATE_RESPONSE] = "glo-initiate-response";
         list[DLMS_COMMAND_GLO_GET_REQUEST] = "glo-get-request";
@@ -191,8 +192,7 @@ public:
     }
 
     // Get ded tags.
-    static void GetDedTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string >& list)
-    {
+    static void GetDedTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_DED_INITIATE_REQUEST] = "ded-initiate-request";
         list[DLMS_COMMAND_DED_INITIATE_RESPONSE] = "ded-initiate-response";
         list[DLMS_COMMAND_DED_GET_REQUEST] = "ded-get-request";
@@ -205,8 +205,7 @@ public:
     }
 
     /// Get translator tags.
-    static void GetTranslatorTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string >& list)
-    {
+    static void GetTranslatorTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
         list[DLMS_TRANSLATOR_TAGS_WRAPPER] = "Wrapper";
         list[DLMS_TRANSLATOR_TAGS_HDLC] = "Hdlc";
         list[DLMS_TRANSLATOR_TAGS_PDU_DLMS] = "xDLMS-APDU";
@@ -285,8 +284,7 @@ public:
         list[DLMS_TRANSLATOR_TAGS_CALLED_AE_QUALIFIER] = "called-ae-qualifier";
     }
 
-    static void GetDataTypeTags(std::map<unsigned long, std::string >& list)
-    {
+    static void GetDataTypeTags(std::map<unsigned long, std::string> &list) {
         list[DATA_TYPE_OFFSET + DLMS_DATA_TYPE_NONE] = "null-data";
         list[DATA_TYPE_OFFSET + DLMS_DATA_TYPE_ARRAY] = "array";
         list[DATA_TYPE_OFFSET + DLMS_DATA_TYPE_BINARY_CODED_DESIMAL] = "bcd";
@@ -313,140 +311,103 @@ public:
         list[DATA_TYPE_OFFSET + DLMS_DATA_TYPE_UINT8] = "unsigned";
     }
 
-    static int ErrorCodeToString(DLMS_ERROR_CODE value, std::string& str)
-    {
-        switch (value)
-        {
-        case DLMS_ERROR_CODE_ACCESS_VIOLATED:
-            str = "scope-of-access-violated";
-            break;
-        case DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID:
-            str = "data-block-number-invalid";
-            break;
-        case DLMS_ERROR_CODE_DATA_BLOCK_UNAVAILABLE:
-            str = "data-block-unavailable";
-            break;
-        case DLMS_ERROR_CODE_HARDWARE_FAULT:
-            str = "hardware-fault";
-            break;
-        case DLMS_ERROR_CODE_INCONSISTENT_CLASS_OR_OBJECT:
-            str = "object-class-inconsistent";
-            break;
-        case DLMS_ERROR_CODE_LONG_GET_OR_READ_ABORTED:
-            str = "long-Get-aborted";
-            break;
-        case DLMS_ERROR_CODE_LONG_SET_OR_WRITE_ABORTED:
-            str = "long-set-aborted";
-            break;
-        case DLMS_ERROR_CODE_NO_LONG_GET_OR_READ_IN_PROGRESS:
-            str = "no-long-Get-in-progress";
-            break;
-        case DLMS_ERROR_CODE_NO_LONG_SET_OR_WRITE_IN_PROGRESS:
-            str = "no-long-set-in-progress";
-            break;
-        case DLMS_ERROR_CODE_OK:
-            str = "success";
-            break;
-        case DLMS_ERROR_CODE_OTHER_REASON:
-            str = "other-reason";
-            break;
-        case DLMS_ERROR_CODE_READ_WRITE_DENIED:
-            str = "read-write-denied";
-            break;
-        case DLMS_ERROR_CODE_TEMPORARY_FAILURE:
-            str = "temporary-failure";
-            break;
-        case DLMS_ERROR_CODE_UNAVAILABLE_OBJECT:
-            str = "object-unavailable";
-            break;
-        case DLMS_ERROR_CODE_UNDEFINED_OBJECT:
-            str = "object-undefined";
-            break;
-        case DLMS_ERROR_CODE_UNMATCH_TYPE:
-            str = "type-unmatched";
-            break;
-        default:
-            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    static int ErrorCodeToString(DLMS_ERROR_CODE value, std::string &str) {
+        switch (value) {
+            case DLMS_ERROR_CODE_ACCESS_VIOLATED:
+                str = "scope-of-access-violated";
+                break;
+            case DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID:
+                str = "data-block-number-invalid";
+                break;
+            case DLMS_ERROR_CODE_DATA_BLOCK_UNAVAILABLE:
+                str = "data-block-unavailable";
+                break;
+            case DLMS_ERROR_CODE_HARDWARE_FAULT:
+                str = "hardware-fault";
+                break;
+            case DLMS_ERROR_CODE_INCONSISTENT_CLASS_OR_OBJECT:
+                str = "object-class-inconsistent";
+                break;
+            case DLMS_ERROR_CODE_LONG_GET_OR_READ_ABORTED:
+                str = "long-Get-aborted";
+                break;
+            case DLMS_ERROR_CODE_LONG_SET_OR_WRITE_ABORTED:
+                str = "long-set-aborted";
+                break;
+            case DLMS_ERROR_CODE_NO_LONG_GET_OR_READ_IN_PROGRESS:
+                str = "no-long-Get-in-progress";
+                break;
+            case DLMS_ERROR_CODE_NO_LONG_SET_OR_WRITE_IN_PROGRESS:
+                str = "no-long-set-in-progress";
+                break;
+            case DLMS_ERROR_CODE_OK:
+                str = "success";
+                break;
+            case DLMS_ERROR_CODE_OTHER_REASON:
+                str = "other-reason";
+                break;
+            case DLMS_ERROR_CODE_READ_WRITE_DENIED:
+                str = "read-write-denied";
+                break;
+            case DLMS_ERROR_CODE_TEMPORARY_FAILURE:
+                str = "temporary-failure";
+                break;
+            case DLMS_ERROR_CODE_UNAVAILABLE_OBJECT:
+                str = "object-unavailable";
+                break;
+            case DLMS_ERROR_CODE_UNDEFINED_OBJECT:
+                str = "object-undefined";
+                break;
+            case DLMS_ERROR_CODE_UNMATCH_TYPE:
+                str = "type-unmatched";
+                break;
+            default:
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
         return 0;
     }
 
-    static DLMS_ERROR_CODE ValueOfErrorCode(std::string& value)
-    {
+    static DLMS_ERROR_CODE ValueOfErrorCode(std::string &value) {
         DLMS_ERROR_CODE v;
-        if (value.compare("scope-of-access-violated") == 0)
-        {
+        if (value.compare("scope-of-access-violated") == 0) {
             v = DLMS_ERROR_CODE_ACCESS_VIOLATED;
-        }
-        else if (value.compare("data-block-number-invalid") == 0)
-        {
+        } else if (value.compare("data-block-number-invalid") == 0) {
             v = DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID;
-        }
-        else if (value.compare("data-block-unavailable") == 0)
-        {
+        } else if (value.compare("data-block-unavailable") == 0) {
             v = DLMS_ERROR_CODE_DATA_BLOCK_UNAVAILABLE;
-        }
-        else if (value.compare("hardware-fault") == 0)
-        {
+        } else if (value.compare("hardware-fault") == 0) {
             v = DLMS_ERROR_CODE_HARDWARE_FAULT;
-        }
-        else if (value.compare("object-class-inconsistent") == 0)
-        {
+        } else if (value.compare("object-class-inconsistent") == 0) {
             v = DLMS_ERROR_CODE_INCONSISTENT_CLASS_OR_OBJECT;
-        }
-        else if (value.compare("long-Get-aborted") == 0)
-        {
+        } else if (value.compare("long-Get-aborted") == 0) {
             v = DLMS_ERROR_CODE_LONG_GET_OR_READ_ABORTED;
-        }
-        else if (value.compare("long-set-aborted") == 0)
-        {
+        } else if (value.compare("long-set-aborted") == 0) {
             v = DLMS_ERROR_CODE_LONG_SET_OR_WRITE_ABORTED;
-        }
-        else if (value.compare("no-long-Get-in-progress") == 0)
-        {
+        } else if (value.compare("no-long-Get-in-progress") == 0) {
             v = DLMS_ERROR_CODE_NO_LONG_GET_OR_READ_IN_PROGRESS;
-        }
-        else if (value.compare("no-long-set-in-progress") == 0)
-        {
+        } else if (value.compare("no-long-set-in-progress") == 0) {
             v = DLMS_ERROR_CODE_NO_LONG_SET_OR_WRITE_IN_PROGRESS;
-        }
-        else if (value.compare("success") == 0)
-        {
+        } else if (value.compare("success") == 0) {
             v = DLMS_ERROR_CODE_OK;
-        }
-        else if (value.compare("other-reason") == 0)
-        {
+        } else if (value.compare("other-reason") == 0) {
             v = DLMS_ERROR_CODE_OTHER_REASON;
-        }
-        else if (value.compare("read-write-denied") == 0)
-        {
+        } else if (value.compare("read-write-denied") == 0) {
             v = DLMS_ERROR_CODE_READ_WRITE_DENIED;
-        }
-        else if (value.compare("temporary-failure") == 0)
-        {
+        } else if (value.compare("temporary-failure") == 0) {
             v = DLMS_ERROR_CODE_TEMPORARY_FAILURE;
-        }
-        else if (value.compare("object-unavailable") == 0)
-        {
+        } else if (value.compare("object-unavailable") == 0) {
             v = DLMS_ERROR_CODE_UNAVAILABLE_OBJECT;
-        }
-        else if (value.compare("object-undefined") == 0)
-        {
+        } else if (value.compare("object-undefined") == 0) {
             v = DLMS_ERROR_CODE_UNDEFINED_OBJECT;
-        }
-        else if (value.compare("type-unmatched") == 0)
-        {
+        } else if (value.compare("type-unmatched") == 0) {
             v = DLMS_ERROR_CODE_UNMATCH_TYPE;
-        }
-        else
-        {
+        } else {
             v = DLMS_ERROR_CODE_UNKNOWN;
         }
         return v;
     }
 
-    static void GetServiceErrors(std::map <DLMS_SERVICE_ERROR, std::string >& list)
-    {
+    static void GetServiceErrors(std::map<DLMS_SERVICE_ERROR, std::string> &list) {
         list[DLMS_SERVICE_ERROR_APPLICATION_REFERENCE] = "application-reference";
         list[DLMS_SERVICE_ERROR_HARDWARE_RESOURCE] = "hardware-resource";
         list[DLMS_SERVICE_ERROR_VDE_STATE_ERROR] = "vde-state-error";
@@ -458,8 +419,7 @@ public:
         list[DLMS_SERVICE_ERROR_TASK] = "task";
     }
 
-    static void GetApplicationReference(std::map < DLMS_APPLICATION_REFERENCE, std::string >& list)
-    {
+    static void GetApplicationReference(std::map<DLMS_APPLICATION_REFERENCE, std::string> &list) {
         list[DLMS_APPLICATION_REFERENCE_APPLICATION_CONTEXT_UNSUPPORTED] = "application-context-unsupported";
         list[DLMS_APPLICATION_REFERENCE_APPLICATION_REFERENCE_INVALID] = "application-reference-invalid";
         list[DLMS_APPLICATION_REFERENCE_APPLICATION_UNREACHABLE] = "application-unreachable";
@@ -469,8 +429,7 @@ public:
         list[DLMS_APPLICATION_REFERENCE_TIME_ELAPSED] = "time-elapsed";
     }
 
-    static void GetHardwareResource(std::map < DLMS_HARDWARE_RESOURCE, std::string >& list)
-    {
+    static void GetHardwareResource(std::map<DLMS_HARDWARE_RESOURCE, std::string> &list) {
         list[DLMS_HARDWARE_RESOURCE_MASS_STORAGE_UNAVAILABLE] = "mass-storage-unavailable";
         list[DLMS_HARDWARE_RESOURCE_MEMORY_UNAVAILABLE] = "memory-unavailable";
         list[DLMS_HARDWARE_RESOURCE_OTHER] = "other";
@@ -478,8 +437,7 @@ public:
         list[DLMS_HARDWARE_RESOURCE_PROCESSOR_RESOURCE_UNAVAILABLE] = "processor-resource-unavailable";
     }
 
-    static void GetVdeStateError(std::map < DLMS_VDE_STATE_ERROR, std::string >& list)
-    {
+    static void GetVdeStateError(std::map<DLMS_VDE_STATE_ERROR, std::string> &list) {
         list[DLMS_VDE_STATE_ERROR_LOADING_DATASET] = "loading-data-set";
         list[DLMS_VDE_STATE_ERROR_NO_DLMS_CONTEXT] = "no-dlms-context";
         list[DLMS_VDE_STATE_ERROR_OTHER] = "other";
@@ -487,23 +445,20 @@ public:
         list[DLMS_VDE_STATE_ERROR_STATUS_NO_CHANGE] = "status-nochange";
     }
 
-    static void GetService(std::map < DLMS_SERVICE, std::string >& list)
-    {
+    static void GetService(std::map<DLMS_SERVICE, std::string> &list) {
         list[DLMS_SERVICE_OTHER] = "other";
         list[DLMS_SERVICE_PDU_SIZE] = "pdu-size";
         list[DLMS_SERVICE_UNSUPPORTED] = "service-unsupported";
     }
 
-    static void GetDefinition(std::map < DLMS_DEFINITION, std::string >& list)
-    {
+    static void GetDefinition(std::map<DLMS_DEFINITION, std::string> &list) {
         list[DLMS_DEFINITION_OBJECT_ATTRIBUTE_INCONSISTENT] = "object-attribute-inconsistent";
         list[DLMS_DEFINITION_OBJECT_CLASS_INCONSISTENT] = "object-class-inconsistent";
         list[DLMS_DEFINITION_OBJECT_UNDEFINED] = "object-undefined";
         list[DLMS_DEFINITION_OTHER] = "other";
     }
 
-    static void GetAccess(std::map < DLMS_ACCESS, std::string >& list)
-    {
+    static void GetAccess(std::map<DLMS_ACCESS, std::string> &list) {
         list[DLMS_ACCESS_HARDWARE_FAULT] = "hardware-fault";
         list[DLMS_ACCESS_OBJECT_ACCESS_INVALID] = "object-access-violated";
         list[DLMS_ACCESS_OBJECT_UNAVAILABLE] = "object-unavailable";
@@ -511,8 +466,7 @@ public:
         list[DLMS_ACCESS_SCOPE_OF_ACCESS_VIOLATED] = "scope-of-access-violated";
     }
 
-    static void GetInitiate(std::map < DLMS_INITIATE, std::string >& list)
-    {
+    static void GetInitiate(std::map<DLMS_INITIATE, std::string> &list) {
         list[DLMS_INITIATE_DLMS_VERSION_TOO_LOW] = "dlms-version-too-low";
         list[DLMS_INITIATE_INCOMPATIBLE_CONFORMANCE] = "incompatible-conformance";
         list[DLMS_INITIATE_OTHER] = "other";
@@ -520,8 +474,7 @@ public:
         list[DLMS_INITIATE_REFUSED_BY_THE_VDE_HANDLER] = "refused-by-the-VDE-Handler";
     }
 
-    static void GetLoadDataSet(std::map < DLMS_LOAD_DATASET, std::string >& list)
-    {
+    static void GetLoadDataSet(std::map<DLMS_LOAD_DATASET, std::string> &list) {
         list[DLMS_LOAD_DATASET_NOT_READY] = "data-set-not-ready";
         list[DLMS_LOAD_DATASET_SIZE_TOO_LARGE] = "dataset-size-too-large";
         list[DLMS_LOAD_DATASET_INTERPRETATION_FAILURE] = "interpretation-failure";
@@ -532,8 +485,7 @@ public:
         list[DLMS_LOAD_DATASET_STORAGE_FAILURE] = "storage-failure";
     }
 
-    static void GetTask(std::map < DLMS_TASK, std::string >& list)
-    {
+    static void GetTask(std::map<DLMS_TASK, std::string> &list) {
         list[DLMS_TASK_NO_REMOTE_CONTROL] = "no-remote-control";
         list[DLMS_TASK_OTHER] = "other";
         list[DLMS_TASK_TI_RUNNIN] = "ti-running";
@@ -541,80 +493,60 @@ public:
         list[DLMS_TASK_TI_UNUSABLE] = "ti-unusable";
     }
 
-    static std::string GetServiceErrorValue(DLMS_SERVICE_ERROR error, unsigned char value)
-    {
+    static std::string GetServiceErrorValue(DLMS_SERVICE_ERROR error, unsigned char value) {
         std::string str;
-        switch (error)
-        {
-        case DLMS_SERVICE_ERROR_APPLICATION_REFERENCE:
-        {
-            std::map< DLMS_APPLICATION_REFERENCE, std::string > list;
-            GetApplicationReference(list);
-            str = list[(DLMS_APPLICATION_REFERENCE)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_HARDWARE_RESOURCE:
-        {
-            std::map< DLMS_HARDWARE_RESOURCE, std::string > list;
-            GetHardwareResource(list);
-            str = list[(DLMS_HARDWARE_RESOURCE)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_VDE_STATE_ERROR:
-        {
-            std::map< DLMS_VDE_STATE_ERROR, std::string > list;
-            GetVdeStateError(list);
-            str = list[(DLMS_VDE_STATE_ERROR)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_SERVICE:
-        {
-            std::map< DLMS_SERVICE, std::string > list;
-            GetService(list);
-            str = list[(DLMS_SERVICE)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_DEFINITION:
-        {
-            std::map< DLMS_DEFINITION, std::string > list;
-            GetDefinition(list);
-            str = list[(DLMS_DEFINITION)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_ACCESS:
-        {
-            std::map< DLMS_ACCESS, std::string > list;
-            GetAccess(list);
-            str = list[(DLMS_ACCESS)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_INITIATE:
-        {
-            std::map< DLMS_INITIATE, std::string > list;
-            GetInitiate(list);
-            str = list[(DLMS_INITIATE)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_LOAD_DATASET:
-        {
-            std::map< DLMS_LOAD_DATASET, std::string > list;
-            GetLoadDataSet(list);
-            str = list[(DLMS_LOAD_DATASET)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_TASK:
-        {
-            std::map<DLMS_TASK, std::string > list;
-            GetTask(list);
-            str = list[(DLMS_TASK)value];
-        }
-        break;
-        case DLMS_SERVICE_ERROR_OTHER_ERROR:
-            str = value;
-            break;
-        default:
-            str = "";
-            break;
+        switch (error) {
+            case DLMS_SERVICE_ERROR_APPLICATION_REFERENCE: {
+                std::map<DLMS_APPLICATION_REFERENCE, std::string> list;
+                GetApplicationReference(list);
+                str = list[(DLMS_APPLICATION_REFERENCE)value];
+            } break;
+            case DLMS_SERVICE_ERROR_HARDWARE_RESOURCE: {
+                std::map<DLMS_HARDWARE_RESOURCE, std::string> list;
+                GetHardwareResource(list);
+                str = list[(DLMS_HARDWARE_RESOURCE)value];
+            } break;
+            case DLMS_SERVICE_ERROR_VDE_STATE_ERROR: {
+                std::map<DLMS_VDE_STATE_ERROR, std::string> list;
+                GetVdeStateError(list);
+                str = list[(DLMS_VDE_STATE_ERROR)value];
+            } break;
+            case DLMS_SERVICE_ERROR_SERVICE: {
+                std::map<DLMS_SERVICE, std::string> list;
+                GetService(list);
+                str = list[(DLMS_SERVICE)value];
+            } break;
+            case DLMS_SERVICE_ERROR_DEFINITION: {
+                std::map<DLMS_DEFINITION, std::string> list;
+                GetDefinition(list);
+                str = list[(DLMS_DEFINITION)value];
+            } break;
+            case DLMS_SERVICE_ERROR_ACCESS: {
+                std::map<DLMS_ACCESS, std::string> list;
+                GetAccess(list);
+                str = list[(DLMS_ACCESS)value];
+            } break;
+            case DLMS_SERVICE_ERROR_INITIATE: {
+                std::map<DLMS_INITIATE, std::string> list;
+                GetInitiate(list);
+                str = list[(DLMS_INITIATE)value];
+            } break;
+            case DLMS_SERVICE_ERROR_LOAD_DATASET: {
+                std::map<DLMS_LOAD_DATASET, std::string> list;
+                GetLoadDataSet(list);
+                str = list[(DLMS_LOAD_DATASET)value];
+            } break;
+            case DLMS_SERVICE_ERROR_TASK: {
+                std::map<DLMS_TASK, std::string> list;
+                GetTask(list);
+                str = list[(DLMS_TASK)value];
+            } break;
+            case DLMS_SERVICE_ERROR_OTHER_ERROR:
+                str = value;
+                break;
+            default:
+                str = "";
+                break;
         }
         return str;
     }
@@ -624,9 +556,8 @@ public:
     /// </summary>
     /// <param name="error">Service error enumeration value.</param>
     /// <returns>Service error simple XML tag.</returns>
-    static std::string ServiceErrorToString(DLMS_SERVICE_ERROR error)
-    {
-        std::map <DLMS_SERVICE_ERROR, std::string > list;
+    static std::string ServiceErrorToString(DLMS_SERVICE_ERROR error) {
+        std::map<DLMS_SERVICE_ERROR, std::string> list;
         GetServiceErrors(list);
         return list[error];
     }
@@ -636,29 +567,23 @@ public:
     /// </summary>
     /// <param name="value">Service error simple XML tag.</param>
     /// <returns>Service error enumeration value.</returns>
-    static DLMS_SERVICE_ERROR GetServiceError(std::string value)
-    {
-        std::map<DLMS_SERVICE_ERROR, std::string > list;
+    static DLMS_SERVICE_ERROR GetServiceError(std::string value) {
+        std::map<DLMS_SERVICE_ERROR, std::string> list;
         GetServiceErrors(list);
-        for (std::map<DLMS_SERVICE_ERROR, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_SERVICE_ERROR, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 return it->first;
             }
         }
         return (DLMS_SERVICE_ERROR)-1;
     }
 
-    static DLMS_APPLICATION_REFERENCE GetApplicationReference(std::string value)
-    {
+    static DLMS_APPLICATION_REFERENCE GetApplicationReference(std::string value) {
         DLMS_APPLICATION_REFERENCE ret = (DLMS_APPLICATION_REFERENCE)-1;
-        std::map < DLMS_APPLICATION_REFERENCE, std::string > list;
+        std::map<DLMS_APPLICATION_REFERENCE, std::string> list;
         GetApplicationReference(list);
-        for (std::map < DLMS_APPLICATION_REFERENCE, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_APPLICATION_REFERENCE, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -666,15 +591,12 @@ public:
         return ret;
     }
 
-    static DLMS_HARDWARE_RESOURCE GetHardwareResource(std::string value)
-    {
+    static DLMS_HARDWARE_RESOURCE GetHardwareResource(std::string value) {
         DLMS_HARDWARE_RESOURCE ret = (DLMS_HARDWARE_RESOURCE)-1;
-        std::map < DLMS_HARDWARE_RESOURCE, std::string > list;
+        std::map<DLMS_HARDWARE_RESOURCE, std::string> list;
         GetHardwareResource(list);
-        for (std::map < DLMS_HARDWARE_RESOURCE, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_HARDWARE_RESOURCE, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -682,15 +604,12 @@ public:
         return ret;
     }
 
-    static DLMS_VDE_STATE_ERROR GetVdeStateError(std::string value)
-    {
+    static DLMS_VDE_STATE_ERROR GetVdeStateError(std::string value) {
         DLMS_VDE_STATE_ERROR ret = (DLMS_VDE_STATE_ERROR)-1;
-        std::map < DLMS_VDE_STATE_ERROR, std::string > list;
+        std::map<DLMS_VDE_STATE_ERROR, std::string> list;
         GetVdeStateError(list);
-        for (std::map < DLMS_VDE_STATE_ERROR, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_VDE_STATE_ERROR, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -698,15 +617,12 @@ public:
         return ret;
     }
 
-    static DLMS_SERVICE GetService(std::string value)
-    {
+    static DLMS_SERVICE GetService(std::string value) {
         DLMS_SERVICE ret = (DLMS_SERVICE)-1;
-        std::map < DLMS_SERVICE, std::string > list;
+        std::map<DLMS_SERVICE, std::string> list;
         GetService(list);
-        for (std::map < DLMS_SERVICE, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_SERVICE, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -714,15 +630,12 @@ public:
         return ret;
     }
 
-    static DLMS_DEFINITION GetDefinition(std::string value)
-    {
+    static DLMS_DEFINITION GetDefinition(std::string value) {
         DLMS_DEFINITION ret = (DLMS_DEFINITION)-1;
-        std::map < DLMS_DEFINITION, std::string > list;
+        std::map<DLMS_DEFINITION, std::string> list;
         GetDefinition(list);
-        for (std::map < DLMS_DEFINITION, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_DEFINITION, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -730,15 +643,12 @@ public:
         return ret;
     }
 
-    static DLMS_ACCESS GetAccess(std::string value)
-    {
+    static DLMS_ACCESS GetAccess(std::string value) {
         DLMS_ACCESS ret = (DLMS_ACCESS)-1;
-        std::map < DLMS_ACCESS, std::string > list;
+        std::map<DLMS_ACCESS, std::string> list;
         GetAccess(list);
-        for (std::map < DLMS_ACCESS, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_ACCESS, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -746,15 +656,12 @@ public:
         return ret;
     }
 
-    static DLMS_INITIATE GetInitiate(std::string value)
-    {
+    static DLMS_INITIATE GetInitiate(std::string value) {
         DLMS_INITIATE ret = (DLMS_INITIATE)-1;
-        std::map < DLMS_INITIATE, std::string > list;
+        std::map<DLMS_INITIATE, std::string> list;
         GetInitiate(list);
-        for (std::map < DLMS_INITIATE, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_INITIATE, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -762,15 +669,12 @@ public:
         return ret;
     }
 
-    static DLMS_LOAD_DATASET GetLoadDataSet(std::string value)
-    {
+    static DLMS_LOAD_DATASET GetLoadDataSet(std::string value) {
         DLMS_LOAD_DATASET ret = (DLMS_LOAD_DATASET)-1;
-        std::map < DLMS_LOAD_DATASET, std::string > list;
+        std::map<DLMS_LOAD_DATASET, std::string> list;
         GetLoadDataSet(list);
-        for (std::map < DLMS_LOAD_DATASET, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_LOAD_DATASET, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -778,15 +682,12 @@ public:
         return ret;
     }
 
-    static DLMS_TASK GetTask(std::string value)
-    {
+    static DLMS_TASK GetTask(std::string value) {
         DLMS_TASK ret = (DLMS_TASK)-1;
-        std::map < DLMS_TASK, std::string > list;
+        std::map<DLMS_TASK, std::string> list;
         GetTask(list);
-        for (std::map < DLMS_TASK, std::string >::iterator it = list.begin(); it != list.end(); ++it)
-        {
-            if (value.compare(it->second) == 0)
-            {
+        for (std::map<DLMS_TASK, std::string>::iterator it = list.begin(); it != list.end(); ++it) {
+            if (value.compare(it->second) == 0) {
                 ret = it->first;
                 break;
             }
@@ -794,397 +695,308 @@ public:
         return ret;
     }
 
-    static unsigned char GetError(DLMS_SERVICE_ERROR serviceError, std::string value)
-    {
+    static unsigned char GetError(DLMS_SERVICE_ERROR serviceError, std::string value) {
         int ret = 0;
-        switch (serviceError)
-        {
-        case DLMS_SERVICE_ERROR_APPLICATION_REFERENCE:
-            ret = GetApplicationReference(value);
-            break;
-        case DLMS_SERVICE_ERROR_HARDWARE_RESOURCE:
-            ret = GetHardwareResource(value);
-            break;
-        case DLMS_SERVICE_ERROR_VDE_STATE_ERROR:
-            ret = GetVdeStateError(value);
-            break;
-        case DLMS_SERVICE_ERROR_SERVICE:
-            ret = GetService(value);
-            break;
-        case DLMS_SERVICE_ERROR_DEFINITION:
-            ret = GetDefinition(value);
-            break;
-        case DLMS_SERVICE_ERROR_ACCESS:
-            ret = GetAccess(value);
-            break;
-        case DLMS_SERVICE_ERROR_INITIATE:
-            ret = GetInitiate(value);
-            break;
-        case DLMS_SERVICE_ERROR_LOAD_DATASET:
-            ret = GetLoadDataSet(value);
-            break;
-        case DLMS_SERVICE_ERROR_TASK:
-            ret = GetTask(value);
-            break;
-        case DLMS_SERVICE_ERROR_OTHER_ERROR:
-            ret = atol(value.c_str());
-            break;
-        default:
-            break;
+        switch (serviceError) {
+            case DLMS_SERVICE_ERROR_APPLICATION_REFERENCE:
+                ret = GetApplicationReference(value);
+                break;
+            case DLMS_SERVICE_ERROR_HARDWARE_RESOURCE:
+                ret = GetHardwareResource(value);
+                break;
+            case DLMS_SERVICE_ERROR_VDE_STATE_ERROR:
+                ret = GetVdeStateError(value);
+                break;
+            case DLMS_SERVICE_ERROR_SERVICE:
+                ret = GetService(value);
+                break;
+            case DLMS_SERVICE_ERROR_DEFINITION:
+                ret = GetDefinition(value);
+                break;
+            case DLMS_SERVICE_ERROR_ACCESS:
+                ret = GetAccess(value);
+                break;
+            case DLMS_SERVICE_ERROR_INITIATE:
+                ret = GetInitiate(value);
+                break;
+            case DLMS_SERVICE_ERROR_LOAD_DATASET:
+                ret = GetLoadDataSet(value);
+                break;
+            case DLMS_SERVICE_ERROR_TASK:
+                ret = GetTask(value);
+                break;
+            case DLMS_SERVICE_ERROR_OTHER_ERROR:
+                ret = atol(value.c_str());
+                break;
+            default:
+                break;
         }
         return ret;
     }
 
-    static DLMS_CONFORMANCE ValueOfConformance(std::string value)
-    {
+    static DLMS_CONFORMANCE ValueOfConformance(std::string value) {
         DLMS_CONFORMANCE ret;
-        if (value.compare("access") == 0)
-        {
+        if (value.compare("access") == 0) {
             ret = DLMS_CONFORMANCE_ACCESS;
-        }
-        else if (value.compare("action") == 0)
-        {
+        } else if (value.compare("action") == 0) {
             ret = DLMS_CONFORMANCE_ACTION;
-        }
-        else if (value.compare("attribute0-supported-with-get") == 0)
-        {
+        } else if (value.compare("attribute0-supported-with-get") == 0) {
             ret = DLMS_CONFORMANCE_ATTRIBUTE_0_SUPPORTED_WITH_GET;
-        }
-        else if (value.compare("attribute0-supported-with-set") == 0)
-        {
+        } else if (value.compare("attribute0-supported-with-set") == 0) {
             ret = DLMS_CONFORMANCE_ATTRIBUTE_0_SUPPORTED_WITH_SET;
-        }
-        else if (value.compare("block-transfer-with-action") == 0)
-        {
+        } else if (value.compare("block-transfer-with-action") == 0) {
             ret = DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_ACTION;
-        }
-        else if (value.compare("block-transfer-with-get-or-read") == 0)
-        {
+        } else if (value.compare("block-transfer-with-get-or-read") == 0) {
             ret = DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_GET_OR_READ;
-        }
-        else if (value.compare("block-transfer-with-set-or-write") == 0)
-        {
+        } else if (value.compare("block-transfer-with-set-or-write") == 0) {
             ret = DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_SET_OR_WRITE;
-        }
-        else if (value.compare("data-notification") == 0)
-        {
+        } else if (value.compare("data-notification") == 0) {
             ret = DLMS_CONFORMANCE_DATA_NOTIFICATION;
-        }
-        else if (value.compare("event-notification") == 0)
-        {
+        } else if (value.compare("event-notification") == 0) {
             ret = DLMS_CONFORMANCE_EVENT_NOTIFICATION;
-        }
-        else if (value.compare("general-block-transfer") == 0)
-        {
+        } else if (value.compare("general-block-transfer") == 0) {
             ret = DLMS_CONFORMANCE_GENERAL_BLOCK_TRANSFER;
-        }
-        else if (value.compare("general-protection") == 0)
-        {
+        } else if (value.compare("general-protection") == 0) {
             ret = DLMS_CONFORMANCE_GENERAL_PROTECTION;
-        }
-        else if (value.compare("get") == 0)
-        {
+        } else if (value.compare("get") == 0) {
             ret = DLMS_CONFORMANCE_GET;
-        }
-        else if (value.compare("information-report") == 0)
-        {
+        } else if (value.compare("information-report") == 0) {
             ret = DLMS_CONFORMANCE_INFORMATION_REPORT;
-        }
-        else if (value.compare("multiple-references") == 0)
-        {
+        } else if (value.compare("multiple-references") == 0) {
             ret = DLMS_CONFORMANCE_MULTIPLE_REFERENCES;
-        }
-        else if (value.compare("parameterized-access") == 0)
-        {
+        } else if (value.compare("parameterized-access") == 0) {
             ret = DLMS_CONFORMANCE_PARAMETERIZED_ACCESS;
-        }
-        else if (value.compare("priority-mgmt-supported") == 0)
-        {
+        } else if (value.compare("priority-mgmt-supported") == 0) {
             ret = DLMS_CONFORMANCE_PRIORITY_MGMT_SUPPORTED;
-        }
-        else if (value.compare("read") == 0)
-        {
+        } else if (value.compare("read") == 0) {
             ret = DLMS_CONFORMANCE_READ;
-        }
-        else if (value.compare("reserved-seven") == 0)
-        {
+        } else if (value.compare("reserved-seven") == 0) {
             ret = DLMS_CONFORMANCE_RESERVED_SEVEN;
-        }
-        else if (value.compare("delta-value-encoding") == 0)
-        {
+        } else if (value.compare("delta-value-encoding") == 0) {
             ret = DLMS_CONFORMANCE_DELTA_VALUE_ENCODING;
-        }
-        else if (value.compare("reserved-zero") == 0)
-        {
+        } else if (value.compare("reserved-zero") == 0) {
             ret = DLMS_CONFORMANCE_RESERVED_ZERO;
-        }
-        else if (value.compare("selective-access") == 0)
-        {
+        } else if (value.compare("selective-access") == 0) {
             ret = DLMS_CONFORMANCE_SELECTIVE_ACCESS;
-        }
-        else if (value.compare("set") == 0)
-        {
+        } else if (value.compare("set") == 0) {
             ret = DLMS_CONFORMANCE_SET;
-        }
-        else if (value.compare("unconfirmed-write") == 0)
-        {
+        } else if (value.compare("unconfirmed-write") == 0) {
             ret = DLMS_CONFORMANCE_UN_CONFIRMED_WRITE;
-        }
-        else if (value.compare("write") == 0)
-        {
+        } else if (value.compare("write") == 0) {
             ret = DLMS_CONFORMANCE_WRITE;
-        }
-        else
-        {
+        } else {
             ret = (DLMS_CONFORMANCE)-1;
         }
         return ret;
     }
 
-    static int ConformanceToString(DLMS_CONFORMANCE value, std::string& str)
-    {
-        switch (value)
-        {
-        case DLMS_CONFORMANCE_ACCESS:
-            str = "access";
-            break;
-        case DLMS_CONFORMANCE_ACTION:
-            str = "action";
-            break;
-        case DLMS_CONFORMANCE_ATTRIBUTE_0_SUPPORTED_WITH_GET:
-            str = "attribute0-supported-with-get";
-            break;
-        case DLMS_CONFORMANCE_ATTRIBUTE_0_SUPPORTED_WITH_SET:
-            str = "attribute0-supported-with-set";
-            break;
-        case DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_ACTION:
-            str = "block-transfer-with-action";
-            break;
-        case DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_GET_OR_READ:
-            str = "block-transfer-with-get-or-read";
-            break;
-        case DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_SET_OR_WRITE:
-            str = "block-transfer-with-set-or-write";
-            break;
-        case DLMS_CONFORMANCE_DATA_NOTIFICATION:
-            str = "data-notification";
-            break;
-        case DLMS_CONFORMANCE_EVENT_NOTIFICATION:
-            str = "event-notification";
-            break;
-        case DLMS_CONFORMANCE_GENERAL_BLOCK_TRANSFER:
-            str = "general-block-transfer";
-            break;
-        case DLMS_CONFORMANCE_GENERAL_PROTECTION:
-            str = "general-protection";
-            break;
-        case DLMS_CONFORMANCE_GET:
-            str = "get";
-            break;
-        case DLMS_CONFORMANCE_INFORMATION_REPORT:
-            str = "information-report";
-            break;
-        case DLMS_CONFORMANCE_MULTIPLE_REFERENCES:
-            str = "multiple-references";
-            break;
-        case DLMS_CONFORMANCE_PARAMETERIZED_ACCESS:
-            str = "parameterized-access";
-            break;
-        case DLMS_CONFORMANCE_PRIORITY_MGMT_SUPPORTED:
-            str = "priority-mgmt-supported";
-            break;
-        case DLMS_CONFORMANCE_READ:
-            str = "read";
-            break;
-        case DLMS_CONFORMANCE_RESERVED_SEVEN:
-            str = "reserved-seven";
-            break;
-        case DLMS_CONFORMANCE_DELTA_VALUE_ENCODING:
-            str = "delta-value-encoding";
-            break;
-        case DLMS_CONFORMANCE_RESERVED_ZERO:
-            str = "reserved-zero";
-            break;
-        case DLMS_CONFORMANCE_SELECTIVE_ACCESS:
-            str = "selective-access";
-            break;
-        case DLMS_CONFORMANCE_SET:
-            str = "set";
-            break;
-        case DLMS_CONFORMANCE_UN_CONFIRMED_WRITE:
-            str = "unconfirmed-write";
-            break;
-        case DLMS_CONFORMANCE_WRITE:
-            str = "write";
-            break;
-        default:
-            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    static int ConformanceToString(DLMS_CONFORMANCE value, std::string &str) {
+        switch (value) {
+            case DLMS_CONFORMANCE_ACCESS:
+                str = "access";
+                break;
+            case DLMS_CONFORMANCE_ACTION:
+                str = "action";
+                break;
+            case DLMS_CONFORMANCE_ATTRIBUTE_0_SUPPORTED_WITH_GET:
+                str = "attribute0-supported-with-get";
+                break;
+            case DLMS_CONFORMANCE_ATTRIBUTE_0_SUPPORTED_WITH_SET:
+                str = "attribute0-supported-with-set";
+                break;
+            case DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_ACTION:
+                str = "block-transfer-with-action";
+                break;
+            case DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_GET_OR_READ:
+                str = "block-transfer-with-get-or-read";
+                break;
+            case DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_SET_OR_WRITE:
+                str = "block-transfer-with-set-or-write";
+                break;
+            case DLMS_CONFORMANCE_DATA_NOTIFICATION:
+                str = "data-notification";
+                break;
+            case DLMS_CONFORMANCE_EVENT_NOTIFICATION:
+                str = "event-notification";
+                break;
+            case DLMS_CONFORMANCE_GENERAL_BLOCK_TRANSFER:
+                str = "general-block-transfer";
+                break;
+            case DLMS_CONFORMANCE_GENERAL_PROTECTION:
+                str = "general-protection";
+                break;
+            case DLMS_CONFORMANCE_GET:
+                str = "get";
+                break;
+            case DLMS_CONFORMANCE_INFORMATION_REPORT:
+                str = "information-report";
+                break;
+            case DLMS_CONFORMANCE_MULTIPLE_REFERENCES:
+                str = "multiple-references";
+                break;
+            case DLMS_CONFORMANCE_PARAMETERIZED_ACCESS:
+                str = "parameterized-access";
+                break;
+            case DLMS_CONFORMANCE_PRIORITY_MGMT_SUPPORTED:
+                str = "priority-mgmt-supported";
+                break;
+            case DLMS_CONFORMANCE_READ:
+                str = "read";
+                break;
+            case DLMS_CONFORMANCE_RESERVED_SEVEN:
+                str = "reserved-seven";
+                break;
+            case DLMS_CONFORMANCE_DELTA_VALUE_ENCODING:
+                str = "delta-value-encoding";
+                break;
+            case DLMS_CONFORMANCE_RESERVED_ZERO:
+                str = "reserved-zero";
+                break;
+            case DLMS_CONFORMANCE_SELECTIVE_ACCESS:
+                str = "selective-access";
+                break;
+            case DLMS_CONFORMANCE_SET:
+                str = "set";
+                break;
+            case DLMS_CONFORMANCE_UN_CONFIRMED_WRITE:
+                str = "unconfirmed-write";
+                break;
+            case DLMS_CONFORMANCE_WRITE:
+                str = "write";
+                break;
+            default:
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
         return 0;
     }
 
-
-    static std::string ReleaseResponseReasonToString(DLMS_RELEASE_RESPONSE_REASON value)
-    {
+    static std::string ReleaseResponseReasonToString(DLMS_RELEASE_RESPONSE_REASON value) {
         std::string str;
-        switch (value)
-        {
-        case DLMS_RELEASE_RESPONSE_REASON_NORMAL:
-            str = "normal";
-            break;
-        case DLMS_RELEASE_RESPONSE_REASON_NOTFINISHED:
-            str = "not-finished";
-            break;
-        case DLMS_RELEASE_RESPONSE_REASON_USERDEFINED:
-            str = "user-defined";
-            break;
-        default:
-            str = "Invalid value.";
+        switch (value) {
+            case DLMS_RELEASE_RESPONSE_REASON_NORMAL:
+                str = "normal";
+                break;
+            case DLMS_RELEASE_RESPONSE_REASON_NOTFINISHED:
+                str = "not-finished";
+                break;
+            case DLMS_RELEASE_RESPONSE_REASON_USERDEFINED:
+                str = "user-defined";
+                break;
+            default:
+                str = "Invalid value.";
         }
         return str;
     }
 
-    static DLMS_RELEASE_RESPONSE_REASON ValueOfReleaseResponseReason(std::string value)
-    {
+    static DLMS_RELEASE_RESPONSE_REASON ValueOfReleaseResponseReason(std::string value) {
         DLMS_RELEASE_RESPONSE_REASON ret;
-        if (value.compare("normal") == 0)
-        {
+        if (value.compare("normal") == 0) {
             ret = DLMS_RELEASE_RESPONSE_REASON_NORMAL;
-        }
-        else if (value.compare("not-finished") == 0)
-        {
+        } else if (value.compare("not-finished") == 0) {
             ret = DLMS_RELEASE_RESPONSE_REASON_NOTFINISHED;
-        }
-        else if (value.compare("user-defined") == 0)
-        {
+        } else if (value.compare("user-defined") == 0) {
             ret = DLMS_RELEASE_RESPONSE_REASON_USERDEFINED;
-        }
-        else
-        {
+        } else {
             ret = (DLMS_RELEASE_RESPONSE_REASON)-1;
         }
         return ret;
     }
 
-    static std::string ReleaseRequestReasonToString(DLMS_RELEASE_REQUEST_REASON value)
-    {
+    static std::string ReleaseRequestReasonToString(DLMS_RELEASE_REQUEST_REASON value) {
         std::string str;
-        switch (value)
-        {
-        case DLMS_RELEASE_REQUEST_REASON_NORMAL:
-            str = "normal";
-            break;
-        case DLMS_RELEASE_REQUEST_REASON_URGENT:
-            str = "urgent";
-            break;
-        case DLMS_RELEASE_REQUEST_REASON_USER_DEFINED:
-            str = "user-defined";
-            break;
-        default:
-            str = "Invalid value.";
+        switch (value) {
+            case DLMS_RELEASE_REQUEST_REASON_NORMAL:
+                str = "normal";
+                break;
+            case DLMS_RELEASE_REQUEST_REASON_URGENT:
+                str = "urgent";
+                break;
+            case DLMS_RELEASE_REQUEST_REASON_USER_DEFINED:
+                str = "user-defined";
+                break;
+            default:
+                str = "Invalid value.";
         }
         return str;
     }
 
-    static DLMS_RELEASE_REQUEST_REASON ValueOfReleaseRequestReason(std::string value)
-    {
+    static DLMS_RELEASE_REQUEST_REASON ValueOfReleaseRequestReason(std::string value) {
         DLMS_RELEASE_REQUEST_REASON ret;
-        if (value.compare("normal") == 0)
-        {
+        if (value.compare("normal") == 0) {
             ret = DLMS_RELEASE_REQUEST_REASON_NORMAL;
-        }
-        else if (value.compare("urgent") == 0)
-        {
+        } else if (value.compare("urgent") == 0) {
             ret = DLMS_RELEASE_REQUEST_REASON_URGENT;
-        }
-        else if (value.compare("user-defined") == 0)
-        {
+        } else if (value.compare("user-defined") == 0) {
             ret = DLMS_RELEASE_REQUEST_REASON_USER_DEFINED;
-        }
-        else
-        {
+        } else {
             ret = (DLMS_RELEASE_REQUEST_REASON)-1;
         }
         return ret;
     }
 
     // Gets state error description.
-    static std::string StateErrorToString(DLMS_EXCEPTION_STATE_ERROR error)
-    {
-        switch (error)
-        {
-        case DLMS_EXCEPTION_STATE_ERROR_SERVICE_NOT_ALLOWED:
-            return "service-not-allowed";
-        case DLMS_EXCEPTION_STATE_ERROR_SERVICE_UNKNOWN:
-            return "service-unknown";
-        default:
-            return "";
+    static std::string StateErrorToString(DLMS_EXCEPTION_STATE_ERROR error) {
+        switch (error) {
+            case DLMS_EXCEPTION_STATE_ERROR_SERVICE_NOT_ALLOWED:
+                return "service-not-allowed";
+            case DLMS_EXCEPTION_STATE_ERROR_SERVICE_UNKNOWN:
+                return "service-unknown";
+            default:
+                return "";
         }
     }
 
     //  Gets service error description.
-    static std::string ExceptionServiceErrorToString(DLMS_EXCEPTION_SERVICE_ERROR error)
-    {
-        switch (error)
-        {
-        case DLMS_EXCEPTION_SERVICE_ERROR_OPERATION_NOT_POSSIBLE:
-            return "operation-not-possible";
-        case DLMS_EXCEPTION_SERVICE_ERROR_SERVICE_NOT_SUPPORTED:
-            return "service-not-supported";
-        case DLMS_EXCEPTION_SERVICE_ERROR_OTHER_REASON:
-            return "other-reason";
-        case DLMS_EXCEPTION_SERVICE_ERROR_PDU_TOO_LONG:
-            return "pdu-too-long";
-        case DLMS_EXCEPTION_SERVICE_ERROR_DECIPHERING_ERROR:
-            return "deciphering-error";
-        case DLMS_EXCEPTION_SERVICE_ERROR_INVOCATION_COUNTER_ERROR:
-            return "invocation-counter-error";
-        default:
-            return "";
+    static std::string ExceptionServiceErrorToString(DLMS_EXCEPTION_SERVICE_ERROR error) {
+        switch (error) {
+            case DLMS_EXCEPTION_SERVICE_ERROR_OPERATION_NOT_POSSIBLE:
+                return "operation-not-possible";
+            case DLMS_EXCEPTION_SERVICE_ERROR_SERVICE_NOT_SUPPORTED:
+                return "service-not-supported";
+            case DLMS_EXCEPTION_SERVICE_ERROR_OTHER_REASON:
+                return "other-reason";
+            case DLMS_EXCEPTION_SERVICE_ERROR_PDU_TOO_LONG:
+                return "pdu-too-long";
+            case DLMS_EXCEPTION_SERVICE_ERROR_DECIPHERING_ERROR:
+                return "deciphering-error";
+            case DLMS_EXCEPTION_SERVICE_ERROR_INVOCATION_COUNTER_ERROR:
+                return "invocation-counter-error";
+            default:
+                return "";
         }
     }
 
-    static DLMS_EXCEPTION_STATE_ERROR ValueofStateError(std::string& value)
-    {
-        if (value.compare("service-not-allowed") == 0)
-        {
+    static DLMS_EXCEPTION_STATE_ERROR ValueofStateError(std::string &value) {
+        if (value.compare("service-not-allowed") == 0) {
             return DLMS_EXCEPTION_STATE_ERROR_SERVICE_NOT_ALLOWED;
         }
-        if (value.compare("service-unknown") == 0)
-        {
+        if (value.compare("service-unknown") == 0) {
             return DLMS_EXCEPTION_STATE_ERROR_SERVICE_UNKNOWN;
         }
         return DLMS_EXCEPTION_STATE_ERROR_SERVICE_INVALID;
     }
 
-    static DLMS_EXCEPTION_SERVICE_ERROR ValueOfExceptionServiceError(std::string& value)
-    {
-        if (value.compare("operation-not-possible") == 0)
-        {
+    static DLMS_EXCEPTION_SERVICE_ERROR ValueOfExceptionServiceError(std::string &value) {
+        if (value.compare("operation-not-possible") == 0) {
             return DLMS_EXCEPTION_SERVICE_ERROR_OPERATION_NOT_POSSIBLE;
         }
-        if (value.compare("service-not-supported") == 0)
-        {
+        if (value.compare("service-not-supported") == 0) {
             return DLMS_EXCEPTION_SERVICE_ERROR_SERVICE_NOT_SUPPORTED;
         }
-        if (value.compare("other-reason") == 0)
-        {
+        if (value.compare("other-reason") == 0) {
             return DLMS_EXCEPTION_SERVICE_ERROR_OTHER_REASON;
         }
-        if (value.compare("pdu-too-long") == 0)
-        {
+        if (value.compare("pdu-too-long") == 0) {
             return DLMS_EXCEPTION_SERVICE_ERROR_PDU_TOO_LONG;
         }
-        if (value.compare("deciphering-error") == 0)
-        {
+        if (value.compare("deciphering-error") == 0) {
             return DLMS_EXCEPTION_SERVICE_ERROR_DECIPHERING_ERROR;
         }
-        if (value.compare("invocation-counter-error") == 0)
-        {
+        if (value.compare("invocation-counter-error") == 0) {
             return DLMS_EXCEPTION_SERVICE_ERROR_INVOCATION_COUNTER_ERROR;
         }
         return DLMS_EXCEPTION_SERVICE_ERROR_INVALID;
     }
 };
-#endif //DLMS_IGNORE_XML_TRANSLATOR
-#endif //TRANSLATOR_STANDARD_TAGS_H
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
+#endif  //TRANSLATOR_STANDARD_TAGS_H

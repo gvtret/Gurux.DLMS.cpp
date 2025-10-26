@@ -38,8 +38,7 @@
 #include "enums.h"
 #include "../include/GXDLMSVariant.h"
 
-enum SCRIPT_ACTION_TYPE
-{
+enum SCRIPT_ACTION_TYPE {
     /*
      * Write attribute.
      */
@@ -50,13 +49,13 @@ enum SCRIPT_ACTION_TYPE
     SCRIPT_ACTION_TYPE_EXECUTE = 2
 };
 
-class CGXDLMSScriptAction
-{
+class CGXDLMSScriptAction {
     SCRIPT_ACTION_TYPE m_Type;
     DLMS_OBJECT_TYPE m_ObjectType;
     std::string m_LogicalName;
     int m_Index;
     CGXDLMSVariant m_Parameter;
+
 public:
     /**
      Defines which action to be applied to the referenced object.
@@ -91,4 +90,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXDLMSSCRIPTACTION_H
+#endif  //GXDLMSSCRIPTACTION_H

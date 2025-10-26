@@ -37,23 +37,23 @@
 #include <string>
 #include "enums.h"
 
-class CGXDLMSActionItem
-{
+class CGXDLMSActionItem {
     friend class CGXDLMSActionSet;
     std::string m_LogicalName;
     int m_ScriptSelector;
+
 public:
     //Constructor.
     CGXDLMSActionItem();
 
     //Destructor.
-    ~CGXDLMSActionItem()
-    {
+    ~CGXDLMSActionItem() {
         m_LogicalName.clear();
     }
-    std::string& GetLogicalName();
 
-    void SetLogicalName(std::string& value);
+    std::string &GetLogicalName();
+
+    void SetLogicalName(std::string &value);
 
     int GetScriptSelector();
 
@@ -61,4 +61,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXDLMSACTIONITEM_H
+#endif  //GXDLMSACTIONITEM_H

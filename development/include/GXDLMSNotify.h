@@ -45,10 +45,8 @@
 #include "GXDLMSClient.h"
 #include "GXDLMSObjectFactory.h"
 
-class CGXDLMSNotify
-{
+class CGXDLMSNotify {
 private:
-
 protected:
     /**
      * Server settings.
@@ -59,12 +57,12 @@ protected:
      * @param value
      *            Cipher interface that is used to cipher PDU.
      */
-    void SetCipher(CGXCipher* value);
+    void SetCipher(CGXCipher *value);
 
     /**
     * @return Get m_Settings.
     */
-    CGXDLMSSettings& GetSettings();
+    CGXDLMSSettings &GetSettings();
 
 public:
     /**
@@ -79,20 +77,19 @@ public:
          * @param interfaceType
          *            Object type.
          */
-    CGXDLMSNotify(bool useLogicalNameReferencing,
-        int clientAddress,
-        int serverAddress,
-        DLMS_INTERFACE_TYPE interfaceType);
+    CGXDLMSNotify(
+        bool useLogicalNameReferencing, int clientAddress, int serverAddress, DLMS_INTERFACE_TYPE interfaceType
+    );
 
     /**
      * @return Get list of meter's objects.
      */
-    CGXDLMSObjectCollection& GetObjects();
+    CGXDLMSObjectCollection &GetObjects();
 
     //HDLC connection settings. GetLimits is obsolete. Use GetHdlcSettings instead.
-    CGXDLMSLimits& GetLimits();
+    CGXDLMSLimits &GetLimits();
     //HDLC connection settings.
-    CGXHdlcSettings& GetHdlcSettings();
+    CGXHdlcSettings &GetHdlcSettings();
 
     /**
      * Retrieves the maximum size of received PDU. PDU size tells maximum size
@@ -172,7 +169,7 @@ public:
      *            Information from the received data.
      * @return Is frame complete.
      */
-    int GetData(CGXByteBuffer& reply, CGXReplyData& data);
+    int GetData(CGXByteBuffer &reply, CGXReplyData &data);
 
     /**
      * Add value of COSEM object to byte buffer. AddData method can be used with
@@ -187,10 +184,7 @@ public:
      * @param buff
      *            Byte buffer.
      */
-    int AddData(
-        CGXDLMSObject* obj,
-        unsigned char index,
-        CGXByteBuffer& buff);
+    int AddData(CGXDLMSObject *obj, unsigned char index, CGXByteBuffer &buff);
 
     /**
      * Generates data notification message.
@@ -201,10 +195,7 @@ public:
      *            Notification body.
      * @return Generated data notification message(s).
      */
-    int GenerateDataNotificationMessages(
-        struct tm* date,
-        CGXByteBuffer& data,
-        std::vector<CGXByteBuffer>& reply);
+    int GenerateDataNotificationMessages(struct tm *date, CGXByteBuffer &data, std::vector<CGXByteBuffer> &reply);
 
     /**
      * Generates data notification message.
@@ -216,9 +207,9 @@ public:
      * @return Generated data notification message(s).
      */
     int GenerateDataNotificationMessages(
-        struct tm* date,
-        std::vector<std::pair<CGXDLMSObject*, unsigned char> >& objects,
-        std::vector<CGXByteBuffer>& reply);
+        struct tm *date, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &objects,
+        std::vector<CGXByteBuffer> &reply
+    );
 
 #ifndef DLMS_IGNORE_PUSH_SETUP
     /**
@@ -230,11 +221,8 @@ public:
      *            Target Push object.
      * @return Generated data notification message(s).
      */
-    int GeneratePushSetupMessages(
-        struct tm* date,
-        CGXDLMSPushSetup* push,
-        std::vector<CGXByteBuffer>& reply);
-#endif //DLMS_IGNORE_PUSH_SETUP
+    int GeneratePushSetupMessages(struct tm *date, CGXDLMSPushSetup *push, std::vector<CGXByteBuffer> &reply);
+#endif  //DLMS_IGNORE_PUSH_SETUP
 
     /**
     * Returns collection of push objects. If this method is used Push object
@@ -244,9 +232,6 @@ public:
     *            Received value.
     * @return Array of objects and called indexes.
     */
-    int ParsePush(
-        std::vector<CGXDLMSVariant>& data,
-        std::vector<std::pair<CGXDLMSObject*, unsigned char> >& items);
-
+    int ParsePush(std::vector<CGXDLMSVariant> &data, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &items);
 };
-#endif //GXDLMSNOTIFY_H
+#endif  //GXDLMSNOTIFY_H

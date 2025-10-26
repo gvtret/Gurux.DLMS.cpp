@@ -50,15 +50,12 @@
 
 class CGXDLMSVariant;
 
-struct dlmsVARIANT
-{
-    union
-    {
-        struct __tagVARIANT
-        {
+struct dlmsVARIANT {
+    union {
+        struct __tagVARIANT {
             DLMS_DATA_TYPE vt;
-            union
-            {
+
+            union {
                 unsigned char bVal;
                 char cVal;
                 short iVal;
@@ -71,9 +68,10 @@ struct dlmsVARIANT
                 unsigned long ulVal;
                 unsigned long long ullVal;
                 unsigned char *byteArr;
-            } 	__VARIANT_NAME_3;
-        } 	__VARIANT_NAME_2;
-    } 	__VARIANT_NAME_1;
+            } __VARIANT_NAME_3;
+        } __VARIANT_NAME_2;
+    } __VARIANT_NAME_1;
+
     CGXDateTime dateTime;
     //Size of byte array.
     unsigned short size;
@@ -81,15 +79,15 @@ struct dlmsVARIANT
     std::vector<CGXDLMSVariant> Arr;
 };
 
-class CGXDLMSVariant : public dlmsVARIANT
-{
-    static int Convert(CGXDLMSVariant* item, DLMS_DATA_TYPE type);
+class CGXDLMSVariant: public dlmsVARIANT {
+    static int Convert(CGXDLMSVariant *item, DLMS_DATA_TYPE type);
+
 public:
     void Clear();
     CGXDLMSVariant();
 
     //Copy constructor.
-    CGXDLMSVariant(const CGXDLMSVariant& value);
+    CGXDLMSVariant(const CGXDLMSVariant &value);
 
     CGXDLMSVariant(float value);
     CGXDLMSVariant(double value);
@@ -102,51 +100,51 @@ public:
     CGXDLMSVariant(int value);
     CGXDLMSVariant(long value);
     CGXDLMSVariant(struct tm value);
-    CGXDLMSVariant(unsigned char* value, int count);
-    CGXDLMSVariant(CGXDate& value);
-    CGXDLMSVariant(CGXTime& value);
-    CGXDLMSVariant(CGXDateTime& value);
-    CGXDLMSVariant(CGXDLMSVariant* value);
-    CGXDLMSVariant(unsigned char* pValue, int count, DLMS_DATA_TYPE type);
+    CGXDLMSVariant(unsigned char *value, int count);
+    CGXDLMSVariant(CGXDate &value);
+    CGXDLMSVariant(CGXTime &value);
+    CGXDLMSVariant(CGXDateTime &value);
+    CGXDLMSVariant(CGXDLMSVariant *value);
+    CGXDLMSVariant(unsigned char *pValue, int count, DLMS_DATA_TYPE type);
     CGXDLMSVariant(unsigned char value);
     CGXDLMSVariant(unsigned short value);
     CGXDLMSVariant(unsigned long value);
     CGXDLMSVariant(std::string value);
     CGXDLMSVariant(std::wstring value);
-    CGXDLMSVariant(CGXByteBuffer& value);
-    CGXDLMSVariant(const char* value);
+    CGXDLMSVariant(CGXByteBuffer &value);
+    CGXDLMSVariant(const char *value);
     CGXDLMSVariant(unsigned int value);
     //Destructor.
     ~CGXDLMSVariant();
 
 
-    CGXDLMSVariant& operator=(const CGXDLMSVariant& value);
+    CGXDLMSVariant &operator=(const CGXDLMSVariant &value);
 
-    CGXDLMSVariant& operator=(std::string value);
-    CGXDLMSVariant& operator=(const char* value);
-    CGXDLMSVariant& operator=(CGXByteBuffer& value);
-    CGXDLMSVariant& operator=(CGXByteArray& value);
-    CGXDLMSVariant& operator=(float value);
-    CGXDLMSVariant& operator=(double value);
-    CGXDLMSVariant& operator=(unsigned long long value);
-    CGXDLMSVariant& operator=(long long value);
-    CGXDLMSVariant& operator=(const bool value);
-    CGXDLMSVariant& operator=(char value);
-    CGXDLMSVariant& operator=(short value);
-    CGXDLMSVariant& operator=(int value);
-    CGXDLMSVariant& operator=(long value);
-    CGXDLMSVariant& operator=(unsigned char value);
-    CGXDLMSVariant& operator=(unsigned short value);
-    CGXDLMSVariant& operator=(unsigned int value);
-    CGXDLMSVariant& operator=(unsigned long value);
-    CGXDLMSVariant& operator=(struct tm value);
-    CGXDLMSVariant& operator=(CGXDate& value);
-    CGXDLMSVariant& operator=(CGXTime& value);
-    CGXDLMSVariant& operator=(CGXDateTime& value);
-    void Add(const unsigned char*, int count);
-    void Add(const char*, int count);
+    CGXDLMSVariant &operator=(std::string value);
+    CGXDLMSVariant &operator=(const char *value);
+    CGXDLMSVariant &operator=(CGXByteBuffer &value);
+    CGXDLMSVariant &operator=(CGXByteArray &value);
+    CGXDLMSVariant &operator=(float value);
+    CGXDLMSVariant &operator=(double value);
+    CGXDLMSVariant &operator=(unsigned long long value);
+    CGXDLMSVariant &operator=(long long value);
+    CGXDLMSVariant &operator=(const bool value);
+    CGXDLMSVariant &operator=(char value);
+    CGXDLMSVariant &operator=(short value);
+    CGXDLMSVariant &operator=(int value);
+    CGXDLMSVariant &operator=(long value);
+    CGXDLMSVariant &operator=(unsigned char value);
+    CGXDLMSVariant &operator=(unsigned short value);
+    CGXDLMSVariant &operator=(unsigned int value);
+    CGXDLMSVariant &operator=(unsigned long value);
+    CGXDLMSVariant &operator=(struct tm value);
+    CGXDLMSVariant &operator=(CGXDate &value);
+    CGXDLMSVariant &operator=(CGXTime &value);
+    CGXDLMSVariant &operator=(CGXDateTime &value);
+    void Add(const unsigned char *, int count);
+    void Add(const char *, int count);
     void Add(std::string value);
-    bool Equals(CGXDLMSVariant& item);
+    bool Equals(CGXDLMSVariant &item);
     int ChangeType(DLMS_DATA_TYPE newType);
     //Get size in bytes.
     int GetSize();
@@ -161,9 +159,9 @@ public:
     * @param value
     *            Value to add.
     */
-    int GetBytes(CGXByteBuffer& value);
+    int GetBytes(CGXByteBuffer &value);
 
     //Returns true if value is number.
     bool IsNumber();
 };
-#endif //GXDLMSVARIANT_H
+#endif  //GXDLMSVARIANT_H

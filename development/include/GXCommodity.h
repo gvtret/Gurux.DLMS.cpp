@@ -42,11 +42,11 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
 */
-class CGXCommodity
-{
+class CGXCommodity {
     DLMS_OBJECT_TYPE m_Type;
     unsigned char m_LogicalName[6];
     unsigned char m_Index;
+
 public:
     // Constructor.
     CGXCommodity();
@@ -65,13 +65,13 @@ public:
     /**
    * @return Attribute index.
    */
-    unsigned char* GetLogicalName();
+    unsigned char *GetLogicalName();
 
     /**
      * @param value
      *            Attribute index.
      */
-    void SetLogicalName(unsigned char* value);
+    void SetLogicalName(unsigned char *value);
 
     /**
     * @return Attribute index.
@@ -86,4 +86,4 @@ public:
 
     std::string ToString();
 };
-#endif //CGXCOMMODITY_H
+#endif  //CGXCOMMODITY_H

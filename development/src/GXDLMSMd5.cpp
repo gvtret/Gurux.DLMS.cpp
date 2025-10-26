@@ -34,62 +34,61 @@
 
 #include <string.h>
 #include "../include/GXDLMSMd5.h"
-unsigned int gxmd5_F(unsigned int x, unsigned int y, unsigned int z)
-{
+
+unsigned int gxmd5_F(unsigned int x, unsigned int y, unsigned int z) {
     return (x & y) | (~x & z);
 }
 
-unsigned int gxmd5_G(unsigned int x, unsigned int y, unsigned int z)
-{
+unsigned int gxmd5_G(unsigned int x, unsigned int y, unsigned int z) {
     return (x & z) | (y & ~z);
 }
 
-unsigned int gxmd5_H(unsigned int x, unsigned int y, unsigned int z)
-{
+unsigned int gxmd5_H(unsigned int x, unsigned int y, unsigned int z) {
     return x ^ y ^ z;
 }
 
-unsigned int gxmd5_I(unsigned int x, unsigned int y, unsigned int z)
-{
+unsigned int gxmd5_I(unsigned int x, unsigned int y, unsigned int z) {
     return y ^ (x | ~z);
 }
 
-unsigned int gxmd5_rotate_left(unsigned int x, int n)
-{
+unsigned int gxmd5_rotate_left(unsigned int x, int n) {
     return (x << n) | (x >> (32 - n));
 }
 
-void gxmd5_FF(unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac)
-{
+void gxmd5_FF(
+    unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac
+) {
     *a = gxmd5_rotate_left(*a + gxmd5_F(b, c, d) + x + ac, s) + b;
 }
 
-void gxmd5_GG(unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac) {
+void gxmd5_GG(
+    unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac
+) {
     *a = gxmd5_rotate_left(*a + gxmd5_G(b, c, d) + x + ac, s) + b;
 }
 
-void gxmd5_HH(unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac) {
+void gxmd5_HH(
+    unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac
+) {
     *a = gxmd5_rotate_left(*a + gxmd5_H(b, c, d) + x + ac, s) + b;
 }
 
-void gxmd5_II(unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac) {
+void gxmd5_II(
+    unsigned int *a, unsigned int b, unsigned int c, unsigned int d, unsigned int x, unsigned int s, unsigned int ac
+) {
     *a = gxmd5_rotate_left(*a + gxmd5_I(b, c, d) + x + ac, s) + b;
 }
 
-void gxmd5_decode(unsigned int * output, unsigned char *input, unsigned int len)
-{
-    for (unsigned int i = 0, j = 0; j < len; i++, j += 4)
-    {
-        output[i] = (input[j]) | (((unsigned int)input[j + 1]) << 8) |
-            (((unsigned int)input[j + 2]) << 16) | (((unsigned int)input[j + 3]) << 24);
+void gxmd5_decode(unsigned int *output, unsigned char *input, unsigned int len) {
+    for (unsigned int i = 0, j = 0; j < len; i++, j += 4) {
+        output[i] = (input[j]) | (((unsigned int)input[j + 1]) << 8) | (((unsigned int)input[j + 2]) << 16) |
+            (((unsigned int)input[j + 3]) << 24);
     }
 }
 
-void CGXDLMSMD5::Encode(unsigned char * output, unsigned int *input, unsigned int len)
-{
+void CGXDLMSMD5::Encode(unsigned char *output, unsigned int *input, unsigned int len) {
     unsigned int pos = 0;
-    for (unsigned int i = 0; i != len; ++i)
-    {
+    for (unsigned int i = 0; i != len; ++i) {
         output[pos] = input[i] & 0xff;
         ++pos;
         output[pos] = (input[i] >> 8) & 0xff;
@@ -101,8 +100,7 @@ void CGXDLMSMD5::Encode(unsigned char * output, unsigned int *input, unsigned in
     }
 }
 
-void CGXDLMSMD5::Transform(unsigned char* block, unsigned int *state)
-{
+void CGXDLMSMD5::Transform(unsigned char *block, unsigned int *state) {
     unsigned int a = state[0], b = state[1], c = state[2], d = state[3], x[16];
     gxmd5_decode(x, block, 64);
 
@@ -184,15 +182,15 @@ void CGXDLMSMD5::Transform(unsigned char* block, unsigned int *state)
     state[3] += d;
 }
 
-int CGXDLMSMD5::Update(unsigned char* data, unsigned int len, unsigned char* buffer, unsigned int* count, unsigned int* state)
-{
+int CGXDLMSMD5::Update(
+    unsigned char *data, unsigned int len, unsigned char *buffer, unsigned int *count, unsigned int *state
+) {
     unsigned int i;
     // Number of bytes.
     unsigned int index = count[0] / 8 % 64;
 
     // Update number of bits
-    if ((count[0] += (len << 3)) < (len << 3))
-    {
+    if ((count[0] += (len << 3)) < (len << 3)) {
         count[1]++;
     }
     count[1] += (len >> 29);
@@ -202,20 +200,16 @@ int CGXDLMSMD5::Update(unsigned char* data, unsigned int len, unsigned char* buf
 
 
     // transform as many times as possible.
-    if (len >= firstpart)
-    {
+    if (len >= firstpart) {
         memcpy(&buffer[index], data, firstpart);
         Transform(buffer, state);
 
         // Transform block
-        for (i = firstpart; i + 64 <= len; i += 64)
-        {
+        for (i = firstpart; i + 64 <= len; i += 64) {
             Transform(data + i, state);
         }
         index = 0;
-    }
-    else
-    {
+    } else {
         i = 0;
     }
 
@@ -223,39 +217,35 @@ int CGXDLMSMD5::Update(unsigned char* data, unsigned int len, unsigned char* buf
     return 0;
 }
 
-int CGXDLMSMD5::Encrypt(CGXByteBuffer& data, CGXByteBuffer& digest)
-{
+int CGXDLMSMD5::Encrypt(CGXByteBuffer &data, CGXByteBuffer &digest) {
     // Bytes that didn't fit in last 64 byte chunk
     unsigned char buffer[64];
     // Number of bits (lo, hi)
-    unsigned long count[2] = { 0, 0 };
+    unsigned long count[2] = {0, 0};
     // Digest
-    unsigned int state[4] = { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 };
+    unsigned int state[4] = {0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476};
     digest.Capacity(16);
 
-    Update(data.GetData(), data.GetSize(), buffer, (unsigned int*)&count, (unsigned int*)&state);
+    Update(data.GetData(), data.GetSize(), buffer, (unsigned int *)&count, (unsigned int *)&state);
 
-    static unsigned char padding[64] = {
-        0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-    };
+    static unsigned char padding[64] = {0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                        0,    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     // Save number of bits
     unsigned char bits[8];
-    Encode(bits, (unsigned int*)&count, 2);
+    Encode(bits, (unsigned int *)&count, 2);
 
     // Pad out to 56 mod 64.
     unsigned int index = count[0] / 8 % 64;
     unsigned int padLen = (index < 56) ? (56 - index) : (120 - index);
-    Update(padding, padLen, buffer, (unsigned int*)&count, (unsigned int*)&state);
+    Update(padding, padLen, buffer, (unsigned int *)&count, (unsigned int *)&state);
 
     // Append length (before padding)
-    Update(bits, 8, buffer, (unsigned int*)&count, (unsigned int*)&state);
+    Update(bits, 8, buffer, (unsigned int *)&count, (unsigned int *)&state);
 
     // Store state in digest
     Encode(digest.GetData(), state, 4);
     digest.SetSize(16);
     return 0;
 }
-

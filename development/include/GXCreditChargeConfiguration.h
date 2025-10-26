@@ -41,8 +41,7 @@
 /**
 *
 */
-class CGXCreditChargeConfiguration
-{
+class CGXCreditChargeConfiguration {
     /**
 * Credit reference.<br>
 * Online help:<br>
@@ -63,8 +62,8 @@ class CGXCreditChargeConfiguration
      * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
      */
     DLMS_CREDIT_COLLECTION_CONFIGURATION m_CollectionConfiguration;
-public:
 
+public:
     // Constructor.
     CGXCreditChargeConfiguration();
 
@@ -74,7 +73,7 @@ public:
      *
      * @return Credit reference.
      */
-    std::string& GetCreditReference();
+    std::string &GetCreditReference();
 
     /**
      * Online help:<br>
@@ -83,7 +82,7 @@ public:
      * @param value
      *            Credit reference.
      */
-    void SetCreditReference(std::string& value);
+    void SetCreditReference(std::string &value);
 
     /**
      * Online help:<br>
@@ -91,7 +90,7 @@ public:
      *
      * @return Charge reference.
      */
-    std::string& GetChargeReference();
+    std::string &GetChargeReference();
 
     /**
      * Online help:<br>
@@ -100,7 +99,7 @@ public:
      * @param value
      *            Charge reference.
      */
-    void SetChargeReference(std::string& value);
+    void SetChargeReference(std::string &value);
 
     /**
      * Online help:<br>
@@ -121,4 +120,4 @@ public:
 
     std::string ToString();
 };
-#endif //GXCREDIT_CHARGE_CONFIGURATION_H
+#endif  //GXCREDIT_CHARGE_CONFIGURATION_H

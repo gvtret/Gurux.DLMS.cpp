@@ -44,8 +44,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCredit
 */
-class CGXDLMSCredit : public CGXDLMSObject
-{
+class CGXDLMSCredit: public CGXDLMSObject {
     long m_CurrentCreditAmount;
     DLMS_CREDIT_TYPE m_Type;
     unsigned char m_Priority;
@@ -56,6 +55,7 @@ class CGXDLMSCredit : public CGXDLMSObject
     long m_PresetCreditAmount;
     long m_CreditAvailableThreshold;
     CGXDateTime m_Period;
+
 public:
     //Constructor.
     CGXDLMSCredit();
@@ -69,8 +69,7 @@ public:
     /**
     * @return Current credit amount.
     */
-    long GetCurrentCreditAmount()
-    {
+    long GetCurrentCreditAmount() {
         return m_CurrentCreditAmount;
     }
 
@@ -78,16 +77,14 @@ public:
      * @param value
      *            Current credit amount.
      */
-    void SetCurrentCreditAmount(long value)
-    {
+    void SetCurrentCreditAmount(long value) {
         m_CurrentCreditAmount = value;
     }
 
     /**
      * @return Type.
      */
-    DLMS_CREDIT_TYPE GetType()
-    {
+    DLMS_CREDIT_TYPE GetType() {
         return m_Type;
     }
 
@@ -95,16 +92,14 @@ public:
      * @param value
      *            Type.
      */
-    void SetType(DLMS_CREDIT_TYPE value)
-    {
+    void SetType(DLMS_CREDIT_TYPE value) {
         m_Type = value;
     }
 
     /**
      * @return Priority.
      */
-    unsigned char GetPriority()
-    {
+    unsigned char GetPriority() {
         return m_Priority;
     }
 
@@ -112,16 +107,14 @@ public:
      * @param value
      *            Priority.
      */
-    void SetPriority(unsigned char value)
-    {
+    void SetPriority(unsigned char value) {
         m_Priority = value;
     }
 
     /**
      * @return Warning threshold.
      */
-    long GetWarningThreshold()
-    {
+    long GetWarningThreshold() {
         return m_WarningThreshold;
     }
 
@@ -129,16 +122,14 @@ public:
      * @param value
      *            Warning threshold.
      */
-    void SetWarningThreshold(long value)
-    {
+    void SetWarningThreshold(long value) {
         m_WarningThreshold = value;
     }
 
     /**
      * @return Limit.
      */
-    long GetLimit()
-    {
+    long GetLimit() {
         return m_Limit;
     }
 
@@ -146,16 +137,14 @@ public:
      * @param value
      *            Limit.
      */
-    void SetLimit(long value)
-    {
+    void SetLimit(long value) {
         m_Limit = value;
     }
 
     /**
      * @return Credit configuration.
      */
-    DLMS_CREDIT_CONFIGURATION GetCreditConfiguration()
-    {
+    DLMS_CREDIT_CONFIGURATION GetCreditConfiguration() {
         return m_CreditConfiguration;
     }
 
@@ -163,16 +152,14 @@ public:
      * @param value
      *            Credit configuration.
      */
-    void SetCreditConfiguration(DLMS_CREDIT_CONFIGURATION value)
-    {
+    void SetCreditConfiguration(DLMS_CREDIT_CONFIGURATION value) {
         m_CreditConfiguration = value;
     }
 
     /**
      * @return Status.
      */
-    DLMS_CREDIT_STATUS GetStatus()
-    {
+    DLMS_CREDIT_STATUS GetStatus() {
         return m_Status;
     }
 
@@ -180,16 +167,14 @@ public:
      * @param value
      *            Status.
      */
-    void SetStatus(DLMS_CREDIT_STATUS value)
-    {
+    void SetStatus(DLMS_CREDIT_STATUS value) {
         m_Status = value;
     }
 
     /**
      * @return Preset credit amount.
      */
-    long GetPresetCreditAmount()
-    {
+    long GetPresetCreditAmount() {
         return m_PresetCreditAmount;
     }
 
@@ -197,16 +182,14 @@ public:
      * @param value
      *            Preset credit amount.
      */
-    void SetPresetCreditAmount(long value)
-    {
+    void SetPresetCreditAmount(long value) {
         m_PresetCreditAmount = value;
     }
 
     /**
      * @return Credit available threshold.
      */
-    long GetCreditAvailableThreshold()
-    {
+    long GetCreditAvailableThreshold() {
         return m_CreditAvailableThreshold;
     }
 
@@ -214,8 +197,7 @@ public:
      * @param value
      *            Credit available threshold.
      */
-    void SetCreditAvailableThreshold(long value)
-    {
+    void SetCreditAvailableThreshold(long value) {
         m_CreditAvailableThreshold = value;
     }
 
@@ -225,8 +207,7 @@ public:
      *
      * @return Period
      */
-    CGXDateTime& GetPeriod()
-    {
+    CGXDateTime &GetPeriod() {
         return m_Period;
     }
 
@@ -237,21 +218,20 @@ public:
      * @param value
      *            Period
      */
-    void setPeriod(CGXDateTime& value)
-    {
+    void setPeriod(CGXDateTime &value) {
         m_Period = value;
     }
 
     //Adjusts the value of the current credit amount attribute.
-    int UpdateAmount(CGXDLMSClient* client, uint32_t value, std::vector<CGXByteBuffer>& reply);
+    int UpdateAmount(CGXDLMSClient *client, uint32_t value, std::vector<CGXByteBuffer> &reply);
 
     //Sets the value of the current credit amount attribute.
-    int SetAmountToValue(CGXDLMSClient* client, uint32_t value, std::vector<CGXByteBuffer>& reply);
+    int SetAmountToValue(CGXDLMSClient *client, uint32_t value, std::vector<CGXByteBuffer> &reply);
 
     //Sets the value of the current credit amount attribute.
-    int InvokeCredit(CGXDLMSClient* client, DLMS_CREDIT_STATUS value, std::vector<CGXByteBuffer>& reply);
+    int InvokeCredit(CGXDLMSClient *client, DLMS_CREDIT_STATUS value, std::vector<CGXByteBuffer> &reply);
 
-    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -260,7 +240,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -270,15 +250,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_CREDIT
-#endif //GXCREDIT_H
+#endif  //DLMS_IGNORE_CREDIT
+#endif  //GXCREDIT_H

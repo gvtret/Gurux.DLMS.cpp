@@ -37,8 +37,7 @@
 
 class CGXDLMSObject;
 
-class CGXSNInfo
-{
+class CGXSNInfo {
 private:
     /**
      * Is attribute index or action index
@@ -53,7 +52,7 @@ private:
     /**
      * COSEM object.
      */
-    CGXDLMSObject* m_Item;
+    CGXDLMSObject *m_Item;
 
 public:
     /**
@@ -85,12 +84,12 @@ public:
     /**
      * @return The item
      */
-    CGXDLMSObject* GetItem();
+    CGXDLMSObject *GetItem();
 
     /**
      * @param value
      *            The item to set
      */
-    void SetItem(CGXDLMSObject* value);
+    void SetItem(CGXDLMSObject *value);
 };
-#endif //GXSNINFO_H
+#endif  //GXSNINFO_H

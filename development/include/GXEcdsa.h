@@ -42,8 +42,7 @@
 
 /*This class implements ECDSA
 asynchronous ciphering.*/
-class CGXEcdsa
-{
+class CGXEcdsa {
     friend class CGXPrivateKey;
     /**
     * Public key.
@@ -63,8 +62,7 @@ class CGXEcdsa
      Returns Random number.
 
     */
-    static int GetRandomNumber(CGXBigInteger& N,
-        CGXByteBuffer& value);
+    static int GetRandomNumber(CGXBigInteger &N, CGXByteBuffer &value);
 
 public:
     /**
@@ -77,14 +75,14 @@ public:
 
     key Public key.
    */
-    CGXEcdsa(CGXPublicKey& key);
+    CGXEcdsa(CGXPublicKey &key);
 
     /**
      Constructor.
 
      key Private key.
     */
-    CGXEcdsa(CGXPrivateKey& key);
+    CGXEcdsa(CGXPrivateKey &key);
 
     /**
      Get scheme size in bytes.
@@ -101,8 +99,7 @@ public:
         signature: Signature.
         Returns error code.
     */
-    int Sign(CGXByteBuffer& data,
-        CGXByteBuffer& signature);
+    int Sign(CGXByteBuffer &data, CGXByteBuffer &signature);
     /**
         Generate shared secret from and private key.
 
@@ -110,18 +107,14 @@ public:
         secret: Generated secret.
         Returns error code.
     */
-    int GenerateSecret(
-        CGXPublicKey& publicKey,
-        CGXByteBuffer& secret);
+    int GenerateSecret(CGXPublicKey &publicKey, CGXByteBuffer &secret);
 
     /**
      Generates public and private key pair.
 
      Returns
     */
-    static int GenerateKeyPair(
-        ECC scheme,
-        std::pair<CGXPublicKey, CGXPrivateKey>& kp);
+    static int GenerateKeyPair(ECC scheme, std::pair<CGXPublicKey, CGXPrivateKey> &kp);
 
     /**
      Verify that signature matches the data.
@@ -130,9 +123,7 @@ public:
      data Data to valuate.
      Returns
     */
-    int Verify(CGXByteBuffer& signature,
-        CGXByteBuffer& data,
-        bool& value);
+    int Verify(CGXByteBuffer &signature, CGXByteBuffer &data, bool &value);
 
     /**
      Check that this is correct key.
@@ -140,7 +131,7 @@ public:
      public and private key are on the curve.
 
     */
-    static int Validate(CGXPublicKey& publicKey);
+    static int Validate(CGXPublicKey &publicKey);
 };
 
-#endif //GXECDSA_H
+#endif  //GXECDSA_H

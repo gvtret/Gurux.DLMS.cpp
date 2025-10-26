@@ -38,8 +38,7 @@
 #include "GXBytebuffer.h"
 #include "GXDLMSConnectionEventArgs.h"
 
-class CGXServerReply
-{
+class CGXServerReply {
 private:
     /*
     * Connection info.
@@ -60,12 +59,12 @@ private:
      * Message count to send.
      */
     int m_Count;
+
 public:
     /*
     * Constructor.
     */
-    CGXServerReply()
-    {
+    CGXServerReply() {
         m_Count = 0;
     }
 
@@ -75,8 +74,7 @@ public:
      * @param value
      *            Received data.
      */
-    CGXServerReply(CGXByteBuffer& value)
-    {
+    CGXServerReply(CGXByteBuffer &value) {
         m_Count = 0;
         m_Data = value;
     }
@@ -84,74 +82,65 @@ public:
     /*
      * returns the data
      */
-    CGXByteBuffer& GetData()
-    {
+    CGXByteBuffer &GetData() {
         return m_Data;
     }
 
     /*
      * value: The data to set.
      */
-    void SetData(CGXByteBuffer& value)
-    {
+    void SetData(CGXByteBuffer &value) {
         m_Data = value;
     }
 
     /*
      * returns The reply message.
      */
-    CGXByteBuffer& GetReply()
-    {
+    CGXByteBuffer &GetReply() {
         return m_Reply;
     }
 
     /*
      * value: the replyMessages to set
      */
-    void SetReply(CGXByteBuffer& value)
-    {
+    void SetReply(CGXByteBuffer &value) {
         m_Reply = value;
     }
 
     /*
      * returns Connection info.
      */
-    CGXDLMSConnectionEventArgs& GetConnectionInfo()
-    {
+    CGXDLMSConnectionEventArgs &GetConnectionInfo() {
         return m_ConnectionInfo;
     }
 
     /*
      * value: Connection info.
      */
-    void SetConnectionInfo(CGXDLMSConnectionEventArgs& value)
-    {
+    void SetConnectionInfo(CGXDLMSConnectionEventArgs &value) {
         m_ConnectionInfo = value;
     }
 
     /*
      * returns Is GBT streaming in progress.
      */
-    bool IsStreaming()
-    {
+    bool IsStreaming() {
         return GetCount() != 0;
     }
 
     /*
      * returns Message count to send.
      */
-    int GetCount()
-    {
+    int GetCount() {
         return m_Count;
     }
 
     /*
      * value: Message count to send.
      */
-    void SetCount(int value)
-    {
+    void SetCount(int value) {
         m_Count = value;
     }
 };
 
-#endif //GXSERVERREPLY_H
+#endif  //GXSERVERREPLY_H

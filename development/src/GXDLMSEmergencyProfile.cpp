@@ -37,33 +37,31 @@
 #include "../include/GXDLMSEmergencyProfile.h"
 #include <sstream>
 
-int CGXDLMSEmergencyProfile::GetID()
-{
+int CGXDLMSEmergencyProfile::GetID() {
     return m_ID;
 }
-void CGXDLMSEmergencyProfile::SetID(int value)
-{
+
+void CGXDLMSEmergencyProfile::SetID(int value) {
     m_ID = value;
 }
-CGXDateTime& CGXDLMSEmergencyProfile::GetActivationTime()
-{
+
+CGXDateTime &CGXDLMSEmergencyProfile::GetActivationTime() {
     return m_ActivationTime;
 }
-void CGXDLMSEmergencyProfile::SetActivationTime(CGXDateTime value)
-{
+
+void CGXDLMSEmergencyProfile::SetActivationTime(CGXDateTime value) {
     m_ActivationTime = value;
 }
-int CGXDLMSEmergencyProfile::GetDuration()
-{
+
+int CGXDLMSEmergencyProfile::GetDuration() {
     return m_Duration;
 }
-void CGXDLMSEmergencyProfile::SetDuration(int value)
-{
+
+void CGXDLMSEmergencyProfile::SetDuration(int value) {
     m_Duration = value;
 }
 
-std::string CGXDLMSEmergencyProfile::ToString()
-{
+std::string CGXDLMSEmergencyProfile::ToString() {
     std::stringstream sb;
     sb << m_ID;
     sb << " ";

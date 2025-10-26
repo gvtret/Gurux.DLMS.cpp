@@ -41,11 +41,11 @@
 
 #include "GXDLMSPppSetupIPCPOption.h"
 #include "GXDLMSPppSetupLcpOption.h"
+
 /**
 PPP Authentication Type
  */
-enum PPP_AUTHENTICATION_TYPE
-{
+enum PPP_AUTHENTICATION_TYPE {
     /**
      No authentication.
     */
@@ -64,8 +64,7 @@ enum PPP_AUTHENTICATION_TYPE
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPppSetup
 */
-class CGXDLMSPppSetup : public CGXDLMSObject
-{
+class CGXDLMSPppSetup: public CGXDLMSObject {
     std::vector<CGXDLMSPppSetupIPCPOption> m_IPCPOptions;
     std::string m_PHYReference;
     std::vector<CGXDLMSPppSetupLcpOption> m_LCPOptions;
@@ -91,25 +90,25 @@ public:
     /**
     PPP authentication procedure user name.
     */
-    CGXByteBuffer& GetUserNameW();
+    CGXByteBuffer &GetUserNameW();
 #endif
     /**
     PPP authentication procedure user name.
     */
-    CGXByteBuffer& GetUserName();
-    void SetUserName(CGXByteBuffer& value);
+    CGXByteBuffer &GetUserName();
+    void SetUserName(CGXByteBuffer &value);
 
     /**
      PPP authentication procedure password.
     */
-    CGXByteBuffer& GetPassword();
+    CGXByteBuffer &GetPassword();
     void SetPassword(CGXByteBuffer value);
 
     std::string GetPHYReference();
     void SetPHYReference(std::string value);
 
-    std::vector<CGXDLMSPppSetupLcpOption>& GetLCPOptions();
-    std::vector<CGXDLMSPppSetupIPCPOption>& GetIPCPOptions();
+    std::vector<CGXDLMSPppSetupLcpOption> &GetLCPOptions();
+    std::vector<CGXDLMSPppSetupIPCPOption> &GetIPCPOptions();
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -117,7 +116,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -127,15 +126,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_PPP_SETUP
-#endif //GXDLMSPPPSETUP_H
+#endif  //DLMS_IGNORE_PPP_SETUP
+#endif  //GXDLMSPPPSETUP_H

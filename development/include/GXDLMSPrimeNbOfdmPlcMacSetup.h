@@ -43,8 +43,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPrimeNbOfdmPlcMacSetup
 */
-class CGXDLMSPrimeNbOfdmPlcMacSetup : public CGXDLMSObject
-{
+class CGXDLMSPrimeNbOfdmPlcMacSetup: public CGXDLMSObject {
     /**
     * PIB attribute 0x0010.
     */
@@ -75,6 +74,7 @@ class CGXDLMSPrimeNbOfdmPlcMacSetup : public CGXDLMSObject
      * PIB attribute 0x0018.
      */
     unsigned char m_MacMaxCtlReTx;
+
 public:
     //Constructor.
     CGXDLMSPrimeNbOfdmPlcMacSetup();
@@ -169,7 +169,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -179,15 +179,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_SETUP
-#endif //GXDLMSPRIMENBOFDMPLCMACSETUP_H
+#endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_SETUP
+#endif  //GXDLMSPRIMENBOFDMPLCMACSETUP_H

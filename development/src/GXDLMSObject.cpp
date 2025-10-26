@@ -36,86 +36,66 @@
 #include "../include/GXHelpers.h"
 
 //SN Constructor.
-CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string& ln, unsigned short sn)
-{
+CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln, unsigned short sn) {
     Initialize(sn, type, 0, NULL);
     GXHelpers::SetLogicalName(ln.c_str(), m_LN);
 }
 
 //LN Constructor.
-CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string& ln)
-{
+CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln) {
     Initialize(0, type, 0, NULL);
     GXHelpers::SetLogicalName(ln.c_str(), m_LN);
 }
 
-CGXDLMSObject::CGXDLMSObject()
-{
+CGXDLMSObject::CGXDLMSObject() {
     Initialize(0, DLMS_OBJECT_TYPE_NONE, 0, NULL);
 }
 
-CGXDLMSObject::CGXDLMSObject(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer& ln)
-{
+CGXDLMSObject::CGXDLMSObject(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer &ln) {
     Initialize(sn, class_id, version, &ln);
 }
 
-CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type)
-{
+CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type) {
     Initialize(0, type, 0, NULL);
 }
 
-int CGXDLMSObject::GetLogicalName(CGXDLMSObject* target, CGXDLMSVariant& value)
-{
-    if (target == NULL)
-    {
+int CGXDLMSObject::GetLogicalName(CGXDLMSObject *target, CGXDLMSVariant &value) {
+    if (target == NULL) {
         unsigned char ln[6] = {0};
         value.Add(ln, 6);
-    }
-    else
-    {
+    } else {
         value.Add(target->m_LN, 6);
     }
     value.vt = DLMS_DATA_TYPE_OCTET_STRING;
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDLMSObject::SetLogicalName(CGXDLMSObject * target, CGXDLMSVariant& value)
-{
-    if (value.vt == DLMS_DATA_TYPE_STRING)
-    {
+int CGXDLMSObject::SetLogicalName(CGXDLMSObject *target, CGXDLMSVariant &value) {
+    if (value.vt == DLMS_DATA_TYPE_STRING) {
         return GXHelpers::SetLogicalName(value.strVal.c_str(), target->m_LN);
     }
-    if (value.vt != DLMS_DATA_TYPE_OCTET_STRING || value.GetSize() != 6)
-    {
+    if (value.vt != DLMS_DATA_TYPE_OCTET_STRING || value.GetSize() != 6) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     memcpy(target->m_LN, value.byteArr, 6);
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDLMSObject::SetLogicalName(CGXDLMSObject* target, std::string& value)
-{
+int CGXDLMSObject::SetLogicalName(CGXDLMSObject *target, std::string &value) {
     return GXHelpers::SetLogicalName(value.c_str(), target->m_LN);
 }
 
-void CGXDLMSObject::Initialize(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer* ln)
-{
+void CGXDLMSObject::Initialize(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer *ln) {
     m_SN = sn;
     m_ObjectType = (DLMS_OBJECT_TYPE)class_id;
     m_Version = version;
-    if (ln == NULL)
-    {
+    if (ln == NULL) {
         memset(m_LN, 0, 6);
-    }
-    else
-    {
+    } else {
         int cnt = ln->GetSize();
-        if (cnt == 6)
-        {
+        if (cnt == 6) {
             ln->Get(m_LN, 6);
-        }
-        else
-        {
+        } else {
             assert(false);
         }
     }
@@ -123,16 +103,13 @@ void CGXDLMSObject::Initialize(short sn, unsigned short class_id, unsigned char 
     m_Attributes.push_back(CGXDLMSAttribute(1, DLMS_DATA_TYPE_OCTET_STRING, DLMS_DATA_TYPE_OCTET_STRING));
 }
 
-CGXDLMSObject::~CGXDLMSObject(void)
-{
+CGXDLMSObject::~CGXDLMSObject(void) {
     m_Attributes.clear();
     m_MethodAttributes.clear();
 }
 
-CGXDLMSVariant CGXDLMSObject::GetName()
-{
-    if (m_SN != 0)
-    {
+CGXDLMSVariant CGXDLMSObject::GetName() {
+    if (m_SN != 0) {
         return CGXDLMSVariant(m_SN);
     }
     CGXDLMSVariant ln;
@@ -141,36 +118,28 @@ CGXDLMSVariant CGXDLMSObject::GetName()
     return ln;
 }
 
-int CGXDLMSObject::SetName(CGXDLMSVariant& value)
-{
-    if (value.vt == DLMS_DATA_TYPE_UINT16)
-    {
+int CGXDLMSObject::SetName(CGXDLMSVariant &value) {
+    if (value.vt == DLMS_DATA_TYPE_UINT16) {
         m_SN = value.uiVal;
         return DLMS_ERROR_CODE_OK;
     }
-    if (value.vt == DLMS_DATA_TYPE_STRING)
-    {
+    if (value.vt == DLMS_DATA_TYPE_STRING) {
         GXHelpers::SetLogicalName(value.strVal.c_str(), m_LN);
         return DLMS_ERROR_CODE_OK;
     }
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-DLMS_OBJECT_TYPE CGXDLMSObject::GetObjectType()
-{
+DLMS_OBJECT_TYPE CGXDLMSObject::GetObjectType() {
     return m_ObjectType;
 }
 
-int CGXDLMSObject::GetDataType(int index, DLMS_DATA_TYPE& type)
-{
-    if (index < 1)
-    {
+int CGXDLMSObject::GetDataType(int index, DLMS_DATA_TYPE &type) {
+    if (index < 1) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    for (std::vector<CGXDLMSAttribute>::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it)
-    {
-        if ((*it).GetIndex() == index)
-        {
+    for (std::vector<CGXDLMSAttribute>::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
+        if ((*it).GetIndex() == index) {
             type = (*it).GetDataType();
             return DLMS_ERROR_CODE_OK;
         }
@@ -179,12 +148,9 @@ int CGXDLMSObject::GetDataType(int index, DLMS_DATA_TYPE& type)
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDLMSObject::SetDataType(int index, DLMS_DATA_TYPE type)
-{
-    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it)
-    {
-        if ((*it).GetIndex() == index)
-        {
+int CGXDLMSObject::SetDataType(int index, DLMS_DATA_TYPE type) {
+    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
+        if ((*it).GetIndex() == index) {
             (*it).SetDataType(type);
             return DLMS_ERROR_CODE_OK;
         }
@@ -195,17 +161,13 @@ int CGXDLMSObject::SetDataType(int index, DLMS_DATA_TYPE type)
     return DLMS_ERROR_CODE_OK;
 }
 
-DLMS_ACCESS_MODE CGXDLMSObject::GetAccess(int index)
-{
+DLMS_ACCESS_MODE CGXDLMSObject::GetAccess(int index) {
     //LN is read only.
-    if (index == 1)
-    {
+    if (index == 1) {
         return DLMS_ACCESS_MODE_READ;
     }
-    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it)
-    {
-        if ((*it).GetIndex() == index)
-        {
+    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
+        if ((*it).GetIndex() == index) {
             return (*it).GetAccess();
         }
     }
@@ -213,12 +175,9 @@ DLMS_ACCESS_MODE CGXDLMSObject::GetAccess(int index)
 }
 
 // Set attribute access.
-void CGXDLMSObject::SetAccess(int index, DLMS_ACCESS_MODE access)
-{
-    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it)
-    {
-        if ((*it).GetIndex() == index)
-        {
+void CGXDLMSObject::SetAccess(int index, DLMS_ACCESS_MODE access) {
+    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
+        if ((*it).GetIndex() == index) {
             (*it).SetAccess(access);
             return;
         }
@@ -228,24 +187,18 @@ void CGXDLMSObject::SetAccess(int index, DLMS_ACCESS_MODE access)
     m_Attributes.push_back(att);
 }
 
-DLMS_METHOD_ACCESS_MODE CGXDLMSObject::GetMethodAccess(int index)
-{
-    for (CGXAttributeCollection::iterator it = m_MethodAttributes.begin(); it != m_MethodAttributes.end(); ++it)
-    {
-        if ((*it).GetIndex() == index)
-        {
+DLMS_METHOD_ACCESS_MODE CGXDLMSObject::GetMethodAccess(int index) {
+    for (CGXAttributeCollection::iterator it = m_MethodAttributes.begin(); it != m_MethodAttributes.end(); ++it) {
+        if ((*it).GetIndex() == index) {
             return (*it).GetMethodAccess();
         }
     }
     return DLMS_METHOD_ACCESS_MODE_ACCESS;
 }
 
-void CGXDLMSObject::SetMethodAccess(int index, DLMS_METHOD_ACCESS_MODE access)
-{
-    for (CGXAttributeCollection::iterator it = m_MethodAttributes.begin(); it != m_MethodAttributes.end(); ++it)
-    {
-        if ((*it).GetIndex() == index)
-        {
+void CGXDLMSObject::SetMethodAccess(int index, DLMS_METHOD_ACCESS_MODE access) {
+    for (CGXAttributeCollection::iterator it = m_MethodAttributes.begin(); it != m_MethodAttributes.end(); ++it) {
+        if ((*it).GetIndex() == index) {
             (*it).SetMethodAccess(access);
             return;
         }
@@ -255,12 +208,9 @@ void CGXDLMSObject::SetMethodAccess(int index, DLMS_METHOD_ACCESS_MODE access)
     m_MethodAttributes.push_back(att);
 }
 
-int CGXDLMSObject::GetUIDataType(int index, DLMS_DATA_TYPE& type)
-{
-    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it)
-    {
-        if (it->GetIndex() == index)
-        {
+int CGXDLMSObject::GetUIDataType(int index, DLMS_DATA_TYPE &type) {
+    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
+        if (it->GetIndex() == index) {
             type = it->GetUIDataType();
             return DLMS_ERROR_CODE_OK;
         }
@@ -269,12 +219,9 @@ int CGXDLMSObject::GetUIDataType(int index, DLMS_DATA_TYPE& type)
     return DLMS_ERROR_CODE_OK;
 }
 
-void CGXDLMSObject::SetUIDataType(int index, DLMS_DATA_TYPE type)
-{
-    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it)
-    {
-        if (it->GetIndex() == index)
-        {
+void CGXDLMSObject::SetUIDataType(int index, DLMS_DATA_TYPE type) {
+    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
+        if (it->GetIndex() == index) {
             return it->SetUIDataType(type);
         }
     }
@@ -283,63 +230,51 @@ void CGXDLMSObject::SetUIDataType(int index, DLMS_DATA_TYPE type)
     m_Attributes.push_back(att);
 }
 
-unsigned short CGXDLMSObject::GetShortName()
-{
+unsigned short CGXDLMSObject::GetShortName() {
     return m_SN;
 }
 
-void CGXDLMSObject::SetShortName(unsigned short value)
-{
+void CGXDLMSObject::SetShortName(unsigned short value) {
     m_SN = value;
 }
 
-void CGXDLMSObject::GetLogicalName(std::string& ln)
-{
+void CGXDLMSObject::GetLogicalName(std::string &ln) {
     GXHelpers::GetLogicalName(m_LN, ln);
 }
 
-void CGXDLMSObject::SetVersion(unsigned short value)
-{
+void CGXDLMSObject::SetVersion(unsigned short value) {
     m_Version = value;
 }
 
-unsigned short CGXDLMSObject::GetVersion()
-{
+unsigned short CGXDLMSObject::GetVersion() {
     return m_Version;
 }
 
-CGXAttributeCollection& CGXDLMSObject::GetAttributes()
-{
+CGXAttributeCollection &CGXDLMSObject::GetAttributes() {
     return m_Attributes;
 }
 
-CGXAttributeCollection& CGXDLMSObject::GetMethodAttributes()
-{
+CGXAttributeCollection &CGXDLMSObject::GetMethodAttributes() {
     return m_MethodAttributes;
 }
 
 //Get Object's Logical Name.
-std::string& CGXDLMSObject::GetDescription()
-{
+std::string &CGXDLMSObject::GetDescription() {
     return m_Description;
 }
 
 //Set Object's Logical Name.
-void CGXDLMSObject::SetDescription(std::string& value)
-{
+void CGXDLMSObject::SetDescription(std::string &value) {
     m_Description = value;
 }
 
-bool CGXDLMSObject::IsRead(int index)
-{
-    if (!CanRead(index))
-    {
+bool CGXDLMSObject::IsRead(int index) {
+    if (!CanRead(index)) {
         return true;
     }
     return m_ReadTimes.find(index) != m_ReadTimes.end();
 }
 
-bool CGXDLMSObject::CanRead(int index)
-{
+bool CGXDLMSObject::CanRead(int index) {
     return (GetAccess(index) & DLMS_ACCESS_MODE_READ) != 0;
 }

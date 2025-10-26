@@ -38,8 +38,7 @@
 #include <string>
 #include "GXBytebuffer.h"
 
-class CGXDLMSContextType
-{
+class CGXDLMSContextType {
 private:
     DLMS_CONFORMANCE m_Conformance;
     int m_MaxReceivePduSize;
@@ -77,9 +76,9 @@ public:
     int GetQualityOfService();
     void SetQualityOfService(int value);
 
-    CGXByteBuffer& GetCypheringInfo();
-    void SetCypheringInfo(CGXByteBuffer& value);
+    CGXByteBuffer &GetCypheringInfo();
+    void SetCypheringInfo(CGXByteBuffer &value);
 
     std::string ToString();
 };
-#endif //GXDLMSCONTEXTTYPE_H
+#endif  //GXDLMSCONTEXTTYPE_H

@@ -38,16 +38,13 @@
 /**
  * Constructor.
  */
-CGXDLMSImageActivateInfo::CGXDLMSImageActivateInfo()
-{
-
+CGXDLMSImageActivateInfo::CGXDLMSImageActivateInfo() {
 }
 
 /**
  * Constructor.
  */
-CGXDLMSImageActivateInfo::CGXDLMSImageActivateInfo(long size, CGXByteBuffer& identification, CGXByteBuffer& signature)
-{
+CGXDLMSImageActivateInfo::CGXDLMSImageActivateInfo(long size, CGXByteBuffer &identification, CGXByteBuffer &signature) {
     m_Size = size;
     m_Identification = identification;
     m_Signature = signature;
@@ -57,12 +54,11 @@ CGXDLMSImageActivateInfo::CGXDLMSImageActivateInfo(long size, CGXByteBuffer& ide
  *  Image_size is the size of the Image(s) to be activated.
  *  Expressed in octets;
 */
-long CGXDLMSImageActivateInfo::GetSize()
-{
+long CGXDLMSImageActivateInfo::GetSize() {
     return m_Size;
 }
-void CGXDLMSImageActivateInfo::SetSize(long value)
-{
+
+void CGXDLMSImageActivateInfo::SetSize(long value) {
     m_Size = value;
 }
 
@@ -71,13 +67,11 @@ void CGXDLMSImageActivateInfo::SetSize(long value)
  * to be activated, and may contain information like
  * manufacturer, device type, version information, etc.
 */
-CGXByteBuffer& CGXDLMSImageActivateInfo::GetIdentification()
-{
+CGXByteBuffer &CGXDLMSImageActivateInfo::GetIdentification() {
     return m_Identification;
 }
 
-void CGXDLMSImageActivateInfo::SetIdentification(CGXByteBuffer& value)
-{
+void CGXDLMSImageActivateInfo::SetIdentification(CGXByteBuffer &value) {
     m_Identification.Clear();
     m_Identification.Set(&value);
 }
@@ -85,18 +79,16 @@ void CGXDLMSImageActivateInfo::SetIdentification(CGXByteBuffer& value)
 /**
  * Image signature is the signature of the Image(s) to be activated.
 */
-CGXByteBuffer& CGXDLMSImageActivateInfo::GetSignature()
-{
+CGXByteBuffer &CGXDLMSImageActivateInfo::GetSignature() {
     return m_Signature;
 }
-void CGXDLMSImageActivateInfo::SetSignature(CGXByteBuffer& value)
-{
+
+void CGXDLMSImageActivateInfo::SetSignature(CGXByteBuffer &value) {
     m_Signature.Clear();
     m_Signature.Set(&value);
 }
 
-std::string CGXDLMSImageActivateInfo::ToString()
-{
+std::string CGXDLMSImageActivateInfo::ToString() {
     std::stringstream sb;
     sb << m_Identification.ToHexString();
     sb << " ";

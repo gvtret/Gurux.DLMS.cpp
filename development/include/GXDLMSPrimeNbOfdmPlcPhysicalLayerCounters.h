@@ -43,8 +43,7 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPrimeNbOfdmPlcPhysicalLayerCounters
 */
-class CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters : public CGXDLMSObject
-{
+class CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters: public CGXDLMSObject {
     /*
      * Number of bursts received on the physical layer for which the CRC was
      * incorrect.
@@ -63,7 +62,7 @@ class CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters : public CGXDLMSObject
      * Number of times when the PHY layer received new data on the channel.
      */
     unsigned short m_RxDropCount;
-    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
 public:
     //Constructor.
@@ -128,7 +127,7 @@ public:
     void SetRxDropCount(unsigned short value);
 
     //Reset the values.
-    int Reset(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
+    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -137,7 +136,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -147,15 +146,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
-#endif //DLMS_IGNORE_PRIME_NB_OFDM_PLC_PHYSICAL_LAYER_COUNTERS
-#endif //GXDLMSPrimeNbOfdmPlcPhysicalLayerCounters_H
+#endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_PHYSICAL_LAYER_COUNTERS
+#endif  //GXDLMSPrimeNbOfdmPlcPhysicalLayerCounters_H
