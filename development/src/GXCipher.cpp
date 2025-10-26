@@ -489,7 +489,7 @@ int CGXCipher::Encrypt(
             }
             tagOutput = input.GetData() + tagOffset;
         }
-        Gctr(aes, J0, S, sizeof(S), tagOutput);
+        Gctr(aes, J0, S, kTagLength, tagOutput);
         if (!encrypt && memcmp(nonse.GetData(), tagOutput, kTagLength) != 0) {
             ret = DLMS_ERROR_CODE_INVALID_TAG;
         }
@@ -518,12 +518,12 @@ int CGXCipher::Encrypt(
             }
             tagOutput = input.GetData() + tagOffset;
         }
-        Gctr(aes, J0, S, sizeof(S), tagOutput);
+        Gctr(aes, J0, S, kTagLength, tagOutput);
         if (!encrypt) {
             //Decrypt the data.
             AesGcmGctr(aes, J0, input.GetData() + input.GetPosition(), input.Available(), NULL);
         }
-        Gctr(aes, J0, S, sizeof(S), tagOutput);
+        Gctr(aes, J0, S, kTagLength, tagOutput);
         if (!encrypt && memcmp(nonse.GetData(), tagOutput, kTagLength) != 0) {
             ret = DLMS_ERROR_CODE_INVALID_TAG;
         }
