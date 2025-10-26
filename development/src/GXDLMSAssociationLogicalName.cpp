@@ -635,18 +635,15 @@ int CGXDLMSAssociationLogicalName::GetValue(CGXDLMSSettings &settings, CGXDLMSVa
                  &settings, data, DLMS_DATA_TYPE_BIT_STRING,
                  CGXBitString::ToBitString(m_XDLMSContextInfo.GetConformance(), 24)
              )) != 0 ||
-            (ret = GXHelpers::SetData2(
-                 &settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxReceivePduSize()
-             )) != 0 ||
             (ret =
-                 GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxSendPduSize())) !=
-                0 ||
-            (ret = GXHelpers::SetData2(
-                 &settings, data, DLMS_DATA_TYPE_UINT8, m_XDLMSContextInfo.GetDlmsVersionNumber()
-             )) != 0 ||
-            (ret =
-                 GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_INT8, m_XDLMSContextInfo.GetQualityOfService())) !=
-                0 ||
+                 GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxReceivePduSize())
+            ) != 0 ||
+            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxSendPduSize())
+            ) != 0 ||
+            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT8, m_XDLMSContextInfo.GetDlmsVersionNumber())
+            ) != 0 ||
+            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_INT8, m_XDLMSContextInfo.GetQualityOfService())
+            ) != 0 ||
             (ret = GXHelpers::SetData2(
                  &settings, data, DLMS_DATA_TYPE_OCTET_STRING, m_XDLMSContextInfo.GetCypheringInfo()
              )) != 0) {

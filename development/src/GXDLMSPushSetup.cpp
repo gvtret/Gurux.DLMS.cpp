@@ -457,9 +457,8 @@ int CGXDLMSPushSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &
                     (ret = GXHelpers::SetData2(
                          &settings, buff, DLMS_DATA_TYPE_OCTET_STRING, it->GetRecipientSystemTitle()
                      )) != 0 ||
-                    (ret = GXHelpers::SetData2(
-                         &settings, buff, DLMS_DATA_TYPE_OCTET_STRING, it->GetOtherInformation()
-                     )) != 0 ||
+                    (ret = GXHelpers::SetData2(&settings, buff, DLMS_DATA_TYPE_OCTET_STRING, it->GetOtherInformation())
+                    ) != 0 ||
                     (ret = buff.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 || (ret = buff.SetUInt8(2)) != 0 ||
                     (ret = GXHelpers::SetData2(
                          &settings, buff, DLMS_DATA_TYPE_ENUM, it->GetKeyInfo().GetDataProtectionKeyType()
@@ -508,12 +507,11 @@ int CGXDLMSPushSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &
     if (e.GetIndex() == 12) {
         e.SetByteArray(true);
         if ((ret = buff.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) == 0 && (ret = GXHelpers::SetObjectCount(2, buff)) == 0 &&
-            (ret = GXHelpers::SetData2(
-                 &settings, buff, DLMS_DATA_TYPE_DATETIME, m_ConfirmationParameters.GetStartDate()
-             )) == 0 &&
             (ret =
-                 GXHelpers::SetData2(&settings, buff, DLMS_DATA_TYPE_UINT32, m_ConfirmationParameters.GetInterval())) ==
-                0) {
+                 GXHelpers::SetData2(&settings, buff, DLMS_DATA_TYPE_DATETIME, m_ConfirmationParameters.GetStartDate())
+            ) == 0 &&
+            (ret = GXHelpers::SetData2(&settings, buff, DLMS_DATA_TYPE_UINT32, m_ConfirmationParameters.GetInterval())
+            ) == 0) {
             e.SetValue(buff);
         }
         return ret;

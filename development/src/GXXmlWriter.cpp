@@ -595,9 +595,9 @@ int SaveAssociationLogicalName(CGXXmlWriter *writer, CGXDLMSAssociationLogicalNa
              "IdentifiedOrganization", obj->GetApplicationContextName().GetIdentifiedOrganization()
          )) == 0 &&
         (ret = writer->WriteElementString("DlmsUA", obj->GetApplicationContextName().GetDlmsUA())) == 0 &&
-        (ret = writer->WriteElementString(
-             "ApplicationContext", obj->GetApplicationContextName().GetApplicationContext()
-         )) == 0 &&
+        (ret =
+             writer->WriteElementString("ApplicationContext", obj->GetApplicationContextName().GetApplicationContext())
+        ) == 0 &&
         (ret = writer->WriteElementString("ContextId", obj->GetApplicationContextName().GetContextId())) == 0 &&
         (ret = writer->WriteEndElement()) == 0 &&
 
@@ -609,9 +609,8 @@ int SaveAssociationLogicalName(CGXXmlWriter *writer, CGXDLMSAssociationLogicalNa
         (ret = writer->WriteElementString("DlmsVersionNumber", obj->GetXDLMSContextInfo().GetDlmsVersionNumber())) ==
             0 &&
         (ret = writer->WriteElementString("QualityOfService", obj->GetXDLMSContextInfo().GetQualityOfService())) == 0 &&
-        (ret = writer->WriteElementString(
-             "CypheringInfo", obj->GetXDLMSContextInfo().GetCypheringInfo().ToHexString()
-         )) == 0 &&
+        (ret = writer->WriteElementString("CypheringInfo", obj->GetXDLMSContextInfo().GetCypheringInfo().ToHexString())
+        ) == 0 &&
         (ret = writer->WriteEndElement()) == 0 &&
 
         (ret = writer->WriteStartElement("AuthenticationMechanismName")) == 0 &&
@@ -947,9 +946,8 @@ int SaveIp6Setup(CGXXmlWriter *writer, CGXDLMSIp6Setup *obj) {
             inet_ntop(AF_INET6, &obj->GetSecondaryDNSAddress(), tmp, sizeof(tmp));
             if ((ret = writer->WriteElementString("SecondaryDNSAddress", tmp)) == 0 &&
                 (ret = writer->WriteElementString("TrafficClass", obj->GetTrafficClass())) == 0 &&
-                (ret =
-                     SaveNeighborDiscoverySetup(writer, obj->GetNeighborDiscoverySetup(), "NeighborDiscoverySetup")) ==
-                    0) {
+                (ret = SaveNeighborDiscoverySetup(writer, obj->GetNeighborDiscoverySetup(), "NeighborDiscoverySetup")
+                ) == 0) {
             }
         }
     }
@@ -1362,15 +1360,13 @@ int SaveLimiter(CGXXmlWriter *writer, CGXDLMSLimiter *obj) {
                 (ret = writer->WriteElementString("Active", obj->GetEmergencyProfileActive())) != 0 ||
                 (ret = writer->WriteStartElement("ActionOverThreshold")) != 0 ||
                 (ret = writer->WriteElementString("LN", obj->GetActionOverThreshold().GetLogicalName())) != 0 ||
-                (ret =
-                     writer->WriteElementString("ScriptSelector", obj->GetActionOverThreshold().GetScriptSelector())) !=
-                    0 ||
+                (ret = writer->WriteElementString("ScriptSelector", obj->GetActionOverThreshold().GetScriptSelector())
+                ) != 0 ||
                 (ret = writer->WriteEndElement()) != 0 ||
                 (ret = writer->WriteStartElement("ActionUnderThreshold")) != 0 ||
                 (ret = writer->WriteElementString("LN", obj->GetActionUnderThreshold().GetLogicalName())) != 0 ||
-                (ret = writer->WriteElementString(
-                     "ScriptSelector", obj->GetActionUnderThreshold().GetScriptSelector()
-                 )) != 0 ||
+                (ret = writer->WriteElementString("ScriptSelector", obj->GetActionUnderThreshold().GetScriptSelector())
+                ) != 0 ||
                 (ret = writer->WriteEndElement()) != 0) {
             }
         }
@@ -1872,9 +1868,8 @@ int SaveSFSKMacCounters(CGXXmlWriter *writer, CGXDLMSSFSKMacCounters *obj) {
                         if ((ret = writer->WriteEndElement()) != 0 ||
                             (ret = writer->WriteElementString("RepetitionsCounter", obj->GetRepetitionsCounter())) !=
                                 0 ||
-                            (ret =
-                                 writer->WriteElementString("TransmissionsCounter", obj->GetTransmissionsCounter())) !=
-                                0 ||
+                            (ret = writer->WriteElementString("TransmissionsCounter", obj->GetTransmissionsCounter())
+                            ) != 0 ||
                             (ret = writer->WriteElementString("CrcOkFramesCounter", obj->GetCrcOkFramesCounter())) !=
                                 0 ||
                             (ret = writer->WriteElementString("CrcNOkFramesCounter", obj->GetCrcNOkFramesCounter())) !=
@@ -2335,9 +2330,8 @@ int SaveTcpUdpSetup(CGXXmlWriter *writer, CGXDLMSTcpUdpSetup *obj) {
     if ((ret = writer->WriteElementString("Port", obj->GetPort())) != 0 ||
         (ret = writer->WriteElementString("IPReference", obj->GetIPReference())) != 0 ||
         (ret = writer->WriteElementString("MaximumSegmentSize", obj->GetMaximumSegmentSize())) != 0 ||
-        (ret =
-             writer->WriteElementString("MaximumSimultaneousConnections", obj->GetMaximumSimultaneousConnections())) !=
-            0 ||
+        (ret = writer->WriteElementString("MaximumSimultaneousConnections", obj->GetMaximumSimultaneousConnections())
+        ) != 0 ||
         (ret = writer->WriteElementString("InactivityTimeout", obj->GetInactivityTimeout())) != 0) {
     }
     return ret;

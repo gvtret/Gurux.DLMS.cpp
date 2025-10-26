@@ -791,9 +791,8 @@ int CGXDLMSClient::GetApplicationAssociationRequest(std::vector<CGXByteBuffer> &
     if (m_Settings.GetCipher() != NULL) {
         ic = m_Settings.GetCipher()->GetFrameCounter();
     }
-    if ((ret =
-             CGXSecure::Secure(m_Settings, m_Settings.GetCipher(), ic, m_Settings.GetStoCChallenge(), pw, challenge)) !=
-        0) {
+    if ((ret = CGXSecure::Secure(m_Settings, m_Settings.GetCipher(), ic, m_Settings.GetStoCChallenge(), pw, challenge)
+        ) != 0) {
         return ret;
     }
     CGXDLMSVariant data = challenge;
@@ -834,8 +833,8 @@ int CGXDLMSClient::ParseApplicationAssociationResponse(CGXByteBuffer &reply) {
                 CGXByteBuffer bb;
                 bb.Set(value.byteArr, value.GetSize());
                 ret = sig.Verify(bb, tmp2, equals);
-                m_Settings.SetConnected((DLMS_CONNECTION_STATE)(m_Settings.GetConnected() |
-                                                                DLMS_CONNECTION_STATE_DLMS));
+                m_Settings.SetConnected((DLMS_CONNECTION_STATE)(m_Settings.GetConnected() | DLMS_CONNECTION_STATE_DLMS)
+                );
             } else {
                 if (m_Settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_GMAC) {
                     secret = m_Settings.GetSourceSystemTitle();
@@ -861,8 +860,8 @@ int CGXDLMSClient::ParseApplicationAssociationResponse(CGXByteBuffer &reply) {
                     return ret;
                 }
                 equals = challenge.Compare(value.byteArr, value.GetSize());
-                m_Settings.SetConnected((DLMS_CONNECTION_STATE)(m_Settings.GetConnected() |
-                                                                DLMS_CONNECTION_STATE_DLMS));
+                m_Settings.SetConnected((DLMS_CONNECTION_STATE)(m_Settings.GetConnected() | DLMS_CONNECTION_STATE_DLMS)
+                );
             }
         } else {
             // Server did not accept CtoS.

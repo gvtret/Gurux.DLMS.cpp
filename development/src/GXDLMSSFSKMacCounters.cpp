@@ -277,12 +277,10 @@ int CGXDLMSSFSKMacCounters::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
             if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) == 0 && (ret = bb.SetUInt8(5)) == 0 &&
                 (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_PhysicalLayerDesynchronization)) ==
                     0 &&
-                (ret = GXHelpers::SetData2(
-                     &settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutNotAddressedDesynchronization
-                 )) == 0 &&
-                (ret =
-                     GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutFrameNotOkDesynchronization)) ==
-                    0 &&
+                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutNotAddressedDesynchronization)
+                ) == 0 &&
+                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutFrameNotOkDesynchronization)
+                ) == 0 &&
                 (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_WriteRequestDesynchronization)) ==
                     0 &&
                 (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_WrongInitiatorDesynchronization)) ==

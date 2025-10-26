@@ -44,14 +44,14 @@ class CGXDate: public CGXDateTime {
 public:
     // Constructor.
     CGXDate(): CGXDateTime() {
-        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
-                                 DATETIME_SKIPS_MS));
+        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS
+        ));
     };
 
     // Constructor.
     CGXDate(struct tm value): CGXDateTime(value) {
-        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
-                                 DATETIME_SKIPS_MS));
+        SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS
+        ));
     }
 
     // Constructor.

@@ -257,9 +257,8 @@ int CGXDLMSLNCommandHandler::GetRequestNextDataBlock(
                     if ((*arg)->IsByteArray() && value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
                         // If byte array is added do not add type.
                         bb.Set(value.byteArr, value.GetSize());
-                    } else if ((ret = CGXDLMS::AppendData(
-                                    &settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value
-                                )) != 0) {
+                    } else if ((ret = CGXDLMS::AppendData(&settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value)
+                               ) != 0) {
                         return DLMS_ERROR_CODE_HARDWARE_FAULT;
                     }
                 }
@@ -1065,9 +1064,8 @@ int CGXDLMSLNCommandHandler::MethodRequestNextBlock(
                     if ((*arg)->IsByteArray() && value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
                         // If byte array is added do not add type.
                         bb.Set(value.byteArr, value.GetSize());
-                    } else if ((ret = CGXDLMS::AppendData(
-                                    &settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value
-                                )) != 0) {
+                    } else if ((ret = CGXDLMS::AppendData(&settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value)
+                               ) != 0) {
                         return DLMS_ERROR_CODE_HARDWARE_FAULT;
                     }
                 }
@@ -1331,9 +1329,8 @@ int CGXDLMSLNCommandHandler::HandleAccessRequest(
                             if (e->IsByteArray()) {
                                 // If byte array is added do not add type.
                                 bb.Set(value.byteArr, value.GetSize());
-                            } else if ((ret =
-                                            CGXDLMS::AppendData(&settings, it.GetTarget(), it.GetIndex(), bb, value)) !=
-                                       0) {
+                            } else if ((ret = CGXDLMS::AppendData(&settings, it.GetTarget(), it.GetIndex(), bb, value)
+                                       ) != 0) {
                                 results.SetUInt8(DLMS_ERROR_CODE_HARDWARE_FAULT);
                             }
                             server->PostRead(args);

@@ -464,8 +464,8 @@ int CGXDateTime::FromString(const char *datetime) {
                         ++lastFormatIndex;
                         c = format[lastFormatIndex + 1];
                         std::string val = "1";
-                        while (lastFormatIndex + cnt + 1 < (int)format.size() &&
-                               format[lastFormatIndex + cnt + 1] == c) {
+                        while (lastFormatIndex + cnt + 1 < (int)format.size() && format[lastFormatIndex + cnt + 1] == c
+                        ) {
                             val += "0";
                             ++cnt;
                         }
