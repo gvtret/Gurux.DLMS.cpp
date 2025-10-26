@@ -52,3 +52,27 @@ TEST(CGXDLMSVariantTest, UInt8SerializationPreservesBitPattern) {
     ASSERT_NE(nullptr, buffer.GetData());
     EXPECT_EQ(original, buffer.GetData()[0]);
 }
+
+TEST(CGXDLMSVariantTest, BooleanSerializationUsesSingleByte) {
+    CGXDLMSVariant variant(true);
+
+    CGXByteBuffer buffer;
+    ASSERT_EQ(0, variant.GetBytes(buffer));
+    ASSERT_EQ(1u, buffer.GetSize());
+
+    ASSERT_NE(nullptr, buffer.GetData());
+    EXPECT_EQ(1u, buffer.GetData()[0]);
+}
+
+TEST(CGXDLMSVariantTest, EnumSerializationUsesStoredByte) {
+    const unsigned char enumValue = 0x42;
+    CGXDLMSVariant variant(enumValue);
+    ASSERT_EQ(0, variant.ChangeType(DLMS_DATA_TYPE_ENUM));
+
+    CGXByteBuffer buffer;
+    ASSERT_EQ(0, variant.GetBytes(buffer));
+    ASSERT_EQ(1u, buffer.GetSize());
+
+    ASSERT_NE(nullptr, buffer.GetData());
+    EXPECT_EQ(enumValue, buffer.GetData()[0]);
+}

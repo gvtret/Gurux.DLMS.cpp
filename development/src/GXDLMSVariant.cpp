@@ -1275,6 +1275,10 @@ double CGXDLMSVariant::ToDouble() {
 int CGXDLMSVariant::GetBytes(CGXByteBuffer &value) {
     if (vt == DLMS_DATA_TYPE_OCTET_STRING) {
         value.Set(byteArr, size);
+    } else if (vt == DLMS_DATA_TYPE_BOOLEAN) {
+        value.SetUInt8(boolVal ? 1 : 0);
+    } else if (vt == DLMS_DATA_TYPE_ENUM) {
+        value.SetUInt8(bVal);
     } else if (vt == DLMS_DATA_TYPE_UINT8) {
         value.SetUInt8(bVal);
     } else if (vt == DLMS_DATA_TYPE_UINT16) {
