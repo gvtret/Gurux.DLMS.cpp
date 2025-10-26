@@ -75,9 +75,9 @@ const uint64_t sha384_k[] = {
     }
 #define SHA2_PACK64(str, x) \
     { \
-        *(x) = ((uint64_t)*((str) + 7)) | ((uint64_t)*((str) + 6) << 8) | ((uint64_t)*((str) + 5) << 16) | \
-            ((uint64_t)*((str) + 4) << 24) | ((uint64_t)*((str) + 3) << 32) | ((uint64_t)*((str) + 2) << 40) | \
-            ((uint64_t)*((str) + 1) << 48) | ((uint64_t)*((str) + 0) << 56); \
+        *(x) = ((uint64_t) * ((str) + 7)) | ((uint64_t) * ((str) + 6) << 8) | ((uint64_t) * ((str) + 5) << 16) | \
+            ((uint64_t) * ((str) + 4) << 24) | ((uint64_t) * ((str) + 3) << 32) | ((uint64_t) * ((str) + 2) << 40) | \
+            ((uint64_t) * ((str) + 1) << 48) | ((uint64_t) * ((str) + 0) << 56); \
     }
 
 void CGXDLMSSha384::Transform(uint64_t *h, const unsigned char *message, unsigned int messageLength) {

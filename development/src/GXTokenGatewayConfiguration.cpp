@@ -35,7 +35,7 @@
 #include "../include/GXTokenGatewayConfiguration.h"
 #include "../include/GXHelpers.h"
 
-CGXTokenGatewayConfiguration::CGXTokenGatewayConfiguration() {};
+CGXTokenGatewayConfiguration::CGXTokenGatewayConfiguration(){};
 
 std::string &CGXTokenGatewayConfiguration::GetCreditReference() {
     return m_CreditReference;

@@ -1390,9 +1390,7 @@ int GXHelpers::AppendDataTypeAsXml(std::vector<CGXDLMSVariant> &cols, CGXDataInf
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-        {
-            info.GetXml()->AppendEmptyTag(info.GetXml()->GetDataType((DLMS_DATA_TYPE)it->bVal));
-        }
+        { info.GetXml()->AppendEmptyTag(info.GetXml()->GetDataType((DLMS_DATA_TYPE)it->bVal)); }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR        else
     }
     return 0;

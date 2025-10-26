@@ -57,8 +57,8 @@ const uint32_t sha256_k[64] = {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0
 
 #define SHA2_PACK32(str, x) \
     { \
-        *(x) = ((uint32_t)*((str) + 3)) | ((uint32_t)*((str) + 2) << 8) | ((uint32_t)*((str) + 1) << 16) | \
-            ((uint32_t)*((str) + 0) << 24); \
+        *(x) = ((uint32_t) * ((str) + 3)) | ((uint32_t) * ((str) + 2) << 8) | ((uint32_t) * ((str) + 1) << 16) | \
+            ((uint32_t) * ((str) + 0) << 24); \
     }
 
 #define SHA2_UNPACK64(x, str) \
