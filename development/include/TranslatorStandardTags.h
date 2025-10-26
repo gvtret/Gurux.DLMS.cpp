@@ -45,7 +45,7 @@
 class CTranslatorStandardTags {
 public:
     /// Get general tags.
-    static void GetGeneralTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
+    static void GetGeneralTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_SNRM] = "Snrm";
         list[DLMS_COMMAND_UNACCEPTABLE_FRAME] = "UnacceptableFrame";
         list[DLMS_COMMAND_DISCONNECT_MODE] = "DisconnectMode";
@@ -95,7 +95,7 @@ public:
     }
 
     // Get SN tags.
-    static void GetSnTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
+    static void GetSnTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_READ_REQUEST] = "readRequest";
         list[DLMS_COMMAND_WRITE_REQUEST] = "writeRequest";
         list[DLMS_COMMAND_WRITE_RESPONSE] = "writeResponse";
@@ -114,7 +114,7 @@ public:
     }
 
     // Get LN tags.
-    static void GetLnTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
+    static void GetLnTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_GET_REQUEST] = "get-request";
         list[DLMS_COMMAND_GET_REQUEST << 8 | DLMS_GET_COMMAND_TYPE_NORMAL] = "get-request-normal";
         list[DLMS_COMMAND_GET_REQUEST << 8 | DLMS_GET_COMMAND_TYPE_NEXT_DATA_BLOCK] = "get-request-next";
@@ -175,7 +175,7 @@ public:
     }
 
     // Get glo tags.
-    static void GetGloTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
+    static void GetGloTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_GLO_INITIATE_REQUEST] = "glo-initiate-request";
         list[DLMS_COMMAND_GLO_INITIATE_RESPONSE] = "glo-initiate-response";
         list[DLMS_COMMAND_GLO_GET_REQUEST] = "glo-get-request";
@@ -192,7 +192,7 @@ public:
     }
 
     // Get ded tags.
-    static void GetDedTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
+    static void GetDedTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_DED_INITIATE_REQUEST] = "ded-initiate-request";
         list[DLMS_COMMAND_DED_INITIATE_RESPONSE] = "ded-initiate-response";
         list[DLMS_COMMAND_DED_GET_REQUEST] = "ded-get-request";
@@ -205,7 +205,7 @@ public:
     }
 
     /// Get translator tags.
-    static void GetTranslatorTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list) {
+    static void GetTranslatorTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_TRANSLATOR_TAGS_WRAPPER] = "Wrapper";
         list[DLMS_TRANSLATOR_TAGS_HDLC] = "Hdlc";
         list[DLMS_TRANSLATOR_TAGS_PDU_DLMS] = "xDLMS-APDU";

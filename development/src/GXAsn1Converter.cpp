@@ -305,81 +305,81 @@ int CGXAsn1Converter::GetBytes(CGXByteBuffer &bb, CGXAsn1Base *target, int &coun
         count += bb.GetSize() - start;
         bb.Set(&tmp);
         return 0;
-    } else if (CGXAsn1Variant *a = dynamic_cast<CGXAsn1Variant *>(target)) {
-        switch (a->GetValue().vt) {
+    } else if (CGXAsn1Variant *var = dynamic_cast<CGXAsn1Variant *>(target)) {
+        switch (var->GetValue().vt) {
             case DLMS_DATA_TYPE_STRING:
                 bb.SetUInt8(BER_TYPE_PRINTABLE_STRING);
-                GXHelpers::SetObjectCount((unsigned long)a->GetValue().strVal.length(), bb);
-                bb.AddString(a->GetValue().strVal);
+                GXHelpers::SetObjectCount((unsigned long)var->GetValue().strVal.length(), bb);
+                bb.AddString(var->GetValue().strVal);
                 break;
             case DLMS_DATA_TYPE_INT8:
                 if ((ret = bb.SetInt8(BER_TYPE_INTEGER)) == 0 && (ret = GXHelpers::SetObjectCount(1, bb)) == 0 &&
-                    (ret = bb.SetInt8(a->GetValue().bVal)) == 0) {
+                    (ret = bb.SetInt8(var->GetValue().bVal)) == 0) {
                 }
                 break;
             case DLMS_DATA_TYPE_INT16:
                 if ((ret = bb.SetUInt8(BER_TYPE_INTEGER)) == 0 && (ret = GXHelpers::SetObjectCount(2, bb)) == 0 &&
-                    (ret = bb.SetInt16(a->GetValue().iVal)) == 0) {
+                    (ret = bb.SetInt16(var->GetValue().iVal)) == 0) {
                 }
                 break;
             case DLMS_DATA_TYPE_INT32:
                 if ((ret = bb.SetUInt8(BER_TYPE_INTEGER)) == 0 && (ret = GXHelpers::SetObjectCount(4, bb)) == 0 &&
-                    (ret = bb.SetInt32(a->GetValue().lVal)) == 0) {
+                    (ret = bb.SetInt32(var->GetValue().lVal)) == 0) {
                 }
                 break;
             case DLMS_DATA_TYPE_INT64:
                 if ((ret = bb.SetUInt8(BER_TYPE_INTEGER)) == 0 && (ret = GXHelpers::SetObjectCount(8, bb)) == 0 &&
-                    (ret = bb.SetInt64(a->GetValue().llVal)) == 0) {
+                    (ret = bb.SetInt64(var->GetValue().llVal)) == 0) {
                 }
                 break;
             case DLMS_DATA_TYPE_OCTET_STRING:
                 if ((ret = bb.SetUInt8(BER_TYPE_OCTET_STRING)) == 0 &&
-                    (ret = GXHelpers::SetObjectCount(a->GetValue().size, bb)) == 0 &&
-                    (ret = bb.Set(a->GetValue().byteArr, a->GetValue().size)) == 0) {
+                    (ret = GXHelpers::SetObjectCount(var->GetValue().size, bb)) == 0 &&
+                    (ret = bb.Set(var->GetValue().byteArr, var->GetValue().size)) == 0) {
                 }
                 break;
             case DLMS_DATA_TYPE_BOOLEAN:
                 if ((ret = bb.SetUInt8(BER_TYPE_BOOLEAN)) == 0 && (ret = bb.SetUInt8(1)) == 0 &&
-                    (ret = bb.SetUInt8(a->GetValue().bVal ? 255 : 0)) == 0) {
+                    (ret = bb.SetUInt8(var->GetValue().bVal ? 255 : 0)) == 0) {
                 }
                 break;
             default:
                 ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
-    } else if (CGXAsn1Integer *a = dynamic_cast<CGXAsn1Integer *>(target)) {
+    } else if (CGXAsn1Integer *i = dynamic_cast<CGXAsn1Integer *>(target)) {
         bb.SetUInt8(BER_TYPE_INTEGER);
-        GXHelpers::SetObjectCount(a->GetValue().GetSize(), bb);
-        bb.Set(a->GetValue().GetData(), a->GetValue().GetSize());
+        GXHelpers::SetObjectCount(i->GetValue().GetSize(), bb);
+        bb.Set(i->GetValue().GetData(), i->GetValue().GetSize());
     } else if (target == NULL) {
         bb.SetUInt8(BER_TYPE_NULL);
         GXHelpers::SetObjectCount(0, bb);
-    } else if (CGXAsn1ObjectIdentifier *a = dynamic_cast<CGXAsn1ObjectIdentifier *>(target)) {
+    } else if (CGXAsn1ObjectIdentifier *oi = dynamic_cast<CGXAsn1ObjectIdentifier *>(target)) {
         bb.SetUInt8(BER_TYPE_OBJECT_IDENTIFIER);
         CGXByteBuffer t;
         t.Capacity(10);
-        if ((ret = a->GetEncoded(t)) == 0) {
+        if ((ret = oi->GetEncoded(t)) == 0) {
             GXHelpers::SetObjectCount(t.GetSize(), bb);
             bb.Set(&t);
         }
-    } else if (CGXAsn1Set *a = dynamic_cast<CGXAsn1Set *>(target)) {
+    } else if (CGXAsn1Set *s = dynamic_cast<CGXAsn1Set *>(target)) {
         CGXByteBuffer tmp2;
-        if (a->GetValue() != NULL) {
+        if (s->GetValue() != NULL) {
             cnt = 0;
-            int count;
-            if ((ret = GetBytes(tmp2, a->GetKey(), count)) != 0) {
+            int val;
+            if ((ret = GetBytes(tmp2, s->GetKey(), val)) != 0) {
                 return ret;
             }
-            cnt += count;
-            count = 0;
-            if ((ret = GetBytes(tmp2, a->GetValue(), count)) != 0) {
+            cnt += val;
+            val = 0;
+            if ((ret = GetBytes(tmp2, s->GetValue(), val)) != 0) {
                 return ret;
             }
-            cnt += count;
+            cnt += val;
             tmp.SetUInt8(BER_TYPE_CONSTRUCTED | BER_TYPE_SEQUENCE);
             GXHelpers::SetObjectCount(cnt, tmp);
             tmp.Set(&tmp2);
         } else {
-            GetBytes(tmp2, a->GetKey(), count);
+            GetBytes(tmp2, s->GetKey(), count);
             tmp = tmp2;
         }
         // Update len.
@@ -389,13 +389,13 @@ int CGXAsn1Converter::GetBytes(CGXByteBuffer &bb, CGXAsn1Base *target, int &coun
         bb.Set(&tmp);
         count = bb.GetSize() - cnt;
         return ret;
-    } else if (CGXAsn1Utf8String *a = dynamic_cast<CGXAsn1Utf8String *>(target)) {
-        str = a->GetValue();
+    } else if (CGXAsn1Utf8String *u = dynamic_cast<CGXAsn1Utf8String *>(target)) {
+        str = u->GetValue();
         if ((ret = bb.SetUInt8(BER_TYPE_UTF8_STRING)) == 0 &&
             (ret = GXHelpers::SetObjectCount((unsigned long)str.length(), bb)) == 0 && (ret = bb.AddString(str)) == 0) {
         }
-    } else if (CGXAsn1Ia5String *a = dynamic_cast<CGXAsn1Ia5String *>(target)) {
-        str = a->GetValue();
+    } else if (CGXAsn1Ia5String *ia5 = dynamic_cast<CGXAsn1Ia5String *>(target)) {
+        str = ia5->GetValue();
         if ((ret = bb.SetUInt8(BER_TYPE_IA5_STRING)) == 0 &&
             (ret = GXHelpers::SetObjectCount((unsigned long)str.length(), bb)) == 0 && (ret = bb.AddString(str)) == 0) {
         }
@@ -455,8 +455,8 @@ DLMS_PKCS_TYPE CGXAsn1Converter::GetCertificateType(CGXByteBuffer &data, CGXAsn1
         if (CGXx509Certificate::FromByteArray(data, cert) == 0) {
             ret = DLMS_PKCS_TYPE_X509_CERTIFICATE;
         } else {
-            CGXPkcs10 cert;
-            if (CGXPkcs10::FromByteArray(data, cert) == 0) {
+            CGXPkcs10 pkcs10;
+            if (CGXPkcs10::FromByteArray(data, pkcs10) == 0) {
                 ret = DLMS_PKCS_TYPE_PKCS10;
             }
         }

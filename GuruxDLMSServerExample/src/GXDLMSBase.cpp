@@ -1398,8 +1398,8 @@ void CGXDLMSBase::PostAction(std::vector<CGXDLMSValueEventArg*>& args)
 
 
 bool CGXDLMSBase::IsTarget(
-    unsigned long int serverAddress,
-    unsigned long clientAddress)
+    unsigned long int /*serverAddress*/,
+    unsigned long /*clientAddress*/)
 {
     return true;
 }
@@ -1495,7 +1495,7 @@ DLMS_METHOD_ACCESS_MODE CGXDLMSBase::GetMethodAccess(CGXDLMSValueEventArg* arg)
 //
 /////////////////////////////////////////////////////////////////////////////
 void CGXDLMSBase::Connected(
-    CGXDLMSConnectionEventArgs& connectionInfo)
+    CGXDLMSConnectionEventArgs& /*connectionInfo*/)
 {
     if (m_Trace > GX_TRACE_LEVEL_WARNING)
     {
@@ -1504,7 +1504,7 @@ void CGXDLMSBase::Connected(
 }
 
 void CGXDLMSBase::InvalidConnection(
-    CGXDLMSConnectionEventArgs& connectionInfo)
+    CGXDLMSConnectionEventArgs& /*connectionInfo*/)
 {
     if (m_Trace > GX_TRACE_LEVEL_WARNING)
     {
@@ -1515,7 +1515,7 @@ void CGXDLMSBase::InvalidConnection(
 //
 /////////////////////////////////////////////////////////////////////////////
 void CGXDLMSBase::Disconnected(
-    CGXDLMSConnectionEventArgs& connectionInfo)
+    CGXDLMSConnectionEventArgs& /*connectionInfo*/)
 {
     if (m_Trace > GX_TRACE_LEVEL_WARNING)
     {
@@ -1538,7 +1538,7 @@ void CGXDLMSBase::PreGet(
 }
 
 void CGXDLMSBase::PostGet(
-    std::vector<CGXDLMSValueEventArg*>& args)
+    std::vector<CGXDLMSValueEventArg*>& /*args*/)
 {
 
 }

@@ -191,7 +191,7 @@ int SetConformanceToArray(unsigned int value, CGXByteBuffer &data) {
  * @param cipher
  * @param data
  */
-int GetInitiateRequest(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data) {
+int GetInitiateRequest(CGXDLMSSettings &settings, CGXCipher *, CGXByteBuffer &data) {
     // Tag for xDLMS-Initiate request
     data.SetUInt8(DLMS_COMMAND_INITIATE_REQUEST);
     // Usage field for dedicated-key component.
@@ -304,7 +304,7 @@ void GetConformance(unsigned long value, CGXDLMSTranslatorStructure *xml) {
 }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
 int CGXAPDU::Parse(
-    bool initiateRequest, CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data,
+    bool initiateRequest, CGXDLMSSettings &settings, CGXCipher *, CGXByteBuffer &data,
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     CGXDLMSTranslatorStructure *xml,
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
@@ -333,9 +333,9 @@ int CGXAPDU::Parse(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             if (xml != NULL) {
                 //NegotiatedQualityOfService
-                std::string str;
-                xml->IntegerToHex((int32_t)tag, 2, str);
-                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_NEGOTIATED_QUALITY_OF_SERVICE, "", str);
+                std::string negotiatedQualityOfService;
+                xml->IntegerToHex((int32_t)tag, 2, negotiatedQualityOfService);
+                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_NEGOTIATED_QUALITY_OF_SERVICE, "", negotiatedQualityOfService);
             }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         }
@@ -344,7 +344,7 @@ int CGXAPDU::Parse(
         if (xml != NULL) {
             xml->AppendStartTag(DLMS_COMMAND_INITIATE_REQUEST);
         }
-#endif  //DLMS_IGNORE_XML_TRANSLATOR \
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     //Optional usage field of dedicated key.
         if ((ret = data.GetUInt8(&tag)) != 0) {
             return ret;
@@ -363,8 +363,8 @@ int CGXAPDU::Parse(
             }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             if (xml != NULL) {
-                str = tmp.ToHexString(false);
-                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_DEDICATED_KEY, "", str);
+                std::string dedicatedKey = tmp.ToHexString(false);
+                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_DEDICATED_KEY, "", dedicatedKey);
             }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         }
@@ -380,15 +380,16 @@ int CGXAPDU::Parse(
             settings.SetQualityOfService(tag);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             if (xml != NULL && (initiateRequest || xml->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML)) {
-                xml->IntegerToHex((int32_t)tag, 2, str);
-                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_PROPOSED_QUALITY_OF_SERVICE, "", str);
+                std::string proposedQualityOfService;
+                xml->IntegerToHex((int32_t)tag, 2, proposedQualityOfService);
+                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_PROPOSED_QUALITY_OF_SERVICE, "", proposedQualityOfService);
             }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         } else {
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             if (xml != NULL && xml->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_STANDARD_XML) {
-                str = "true";
-                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_RESPONSE_ALLOWED, "", str);
+                std::string responseAllowed = "true";
+                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_RESPONSE_ALLOWED, "", responseAllowed);
             }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         }
@@ -404,8 +405,9 @@ int CGXAPDU::Parse(
             settings.SetQualityOfService(len);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             if (xml != NULL && xml->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
-                xml->IntegerToHex((int32_t)len, 2, str);
-                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_PROPOSED_QUALITY_OF_SERVICE, "", str);
+                std::string proposedQualityOfService;
+                xml->IntegerToHex((int32_t)len, 2, proposedQualityOfService);
+                xml->AppendLine(TRANSLATOR_GENERAL_TAGS_PROPOSED_QUALITY_OF_SERVICE, "", proposedQualityOfService);
             }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         }
@@ -422,19 +424,20 @@ int CGXAPDU::Parse(
                     return ret;
                 }
                 DLMS_SERVICE_ERROR type = (DLMS_SERVICE_ERROR)ch;
-                std::string str = CTranslatorStandardTags::ServiceErrorToString(type);
+                std::string serviceError = CTranslatorStandardTags::ServiceErrorToString(type);
                 if ((ret = data.GetUInt8(&ch)) != 0) {
                     return ret;
                 }
                 std::string value = CTranslatorStandardTags::GetServiceErrorValue(type, ch);
-                xml->AppendLine("x:" + str, "", value);
+                xml->AppendLine("x:" + serviceError, "", value);
                 xml->AppendEndTag(DLMS_TRANSLATOR_TAGS_INITIATE_ERROR);
             } else {
                 if ((ret = data.GetUInt8(&ch)) != 0) {
                     return ret;
                 }
-                xml->IntegerToHex((int32_t)ch, 2, str);
-                xml->AppendLine(DLMS_TRANSLATOR_TAGS_SERVICE, "", str);
+                std::string service;
+                xml->IntegerToHex((int32_t)ch, 2, service);
+                xml->AppendLine(DLMS_TRANSLATOR_TAGS_SERVICE, "", service);
                 if ((ret = data.GetUInt8(&ch)) != 0) {
                     return ret;
                 }
@@ -444,8 +447,8 @@ int CGXAPDU::Parse(
                     return ret;
                 }
                 std::string str1 = CTranslatorSimpleTags::ServiceErrorToString(type);
-                str = CTranslatorSimpleTags::GetServiceErrorValue(type, ch);
-                xml->AppendLine(str1, "", str);
+                std::string serviceErrorValue = CTranslatorSimpleTags::GetServiceErrorValue(type, ch);
+                xml->AppendLine(str1, "", serviceErrorValue);
                 xml->AppendEndTag(DLMS_TRANSLATOR_TAGS_SERVICE_ERROR);
             }
             xml->AppendEndTag(DLMS_COMMAND_CONFIRMED_SERVICE_ERROR);
@@ -567,7 +570,7 @@ int CGXAPDU::Parse(
             xml->IntegerToHex((int32_t)pduSize, 4, str);
             xml->AppendLine(TRANSLATOR_GENERAL_TAGS_PROPOSED_MAX_PDU_SIZE, "", str);
         }
-#endif  //DLMS_IGNORE_XML_TRANSLATOR \
+#endif  //DLMS_IGNORE_XML_TRANSLATOR
     //If client asks too high PDU.
         if (pduSize > settings.GetMaxServerPDUSize()) {
             settings.SetMaxReceivePDUSize(settings.GetMaxServerPDUSize());
@@ -1252,9 +1255,9 @@ int CGXAPDU::ParsePDU2(
                             str = CGXDLMSConverter::ToString(result);
                             xml->AppendComment(str);
                         }
-                        std::string str;
-                        xml->IntegerToHex((uint32_t)result, 2, str);
-                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_ASSOCIATION_RESULT, "", str);
+                        std::string resultStr;
+                        xml->IntegerToHex((uint32_t)result, 2, resultStr);
+                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_ASSOCIATION_RESULT, "", resultStr);
                         xml->AppendStartTag(TRANSLATOR_GENERAL_TAGS_RESULT_SOURCE_DIAGNOSTIC);
                     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
@@ -1277,8 +1280,8 @@ int CGXAPDU::ParsePDU2(
                     calledAEQualifier.Set(&buff, buff.GetPosition(), len);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                     if (xml != NULL) {
-                        str = calledAEQualifier.ToHexString(false);
-                        xml->AppendLine(DLMS_TRANSLATOR_TAGS_CALLED_AE_QUALIFIER, "", str);
+                        std::string qualifier = calledAEQualifier.ToHexString(false);
+                        xml->AppendLine(DLMS_TRANSLATOR_TAGS_CALLED_AE_QUALIFIER, "", qualifier);
                     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 } else {
@@ -1302,12 +1305,12 @@ int CGXAPDU::ParsePDU2(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                     if (xml != NULL) {
                         if (diagnostic != DLMS_SOURCE_DIAGNOSTIC_NONE) {
-                            str = CGXDLMSConverter::ToString(diagnostic);
-                            xml->AppendComment(str);
+                            std::string diagnosticStr = CGXDLMSConverter::ToString(diagnostic);
+                            xml->AppendComment(diagnosticStr);
                         }
-                        std::string str;
-                        xml->IntegerToHex((int32_t)diagnostic, 2, str);
-                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_ACSE_SERVICE_USER, "", str);
+                        std::string acseUser;
+                        xml->IntegerToHex((int32_t)diagnostic, 2, acseUser);
+                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_ACSE_SERVICE_USER, "", acseUser);
                         xml->AppendEndTag(TRANSLATOR_GENERAL_TAGS_RESULT_SOURCE_DIAGNOSTIC);
                     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
@@ -1344,9 +1347,9 @@ int CGXAPDU::ParsePDU2(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                     if (xml != NULL) {
                         //RespondingAPTitle
-                        std::string str;
-                        xml->IntegerToHex((int32_t)len, 2, str);
-                        xml->AppendLine(DLMS_TRANSLATOR_TAGS_CALLED_AP_INVOCATION_ID, "", str);
+                        std::string invocationId;
+                        xml->IntegerToHex((int32_t)len, 2, invocationId);
+                        xml->AppendLine(DLMS_TRANSLATOR_TAGS_CALLED_AP_INVOCATION_ID, "", invocationId);
                     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 } else {
@@ -1371,8 +1374,8 @@ int CGXAPDU::ParsePDU2(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                     if (xml != NULL) {
                         //RespondingAPTitle
-                        str = tmp.ToHexString(false);
-                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_RESPONDING_AP_TITLE, "", str);
+                        std::string title = tmp.ToHexString(false);
+                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_RESPONDING_AP_TITLE, "", title);
                     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 }
@@ -1394,8 +1397,8 @@ int CGXAPDU::ParsePDU2(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                 if (xml != NULL) {
                     //CallingAPTitle
-                    str = tmp.ToHexString(false);
-                    xml->AppendLine(TRANSLATOR_GENERAL_TAGS_CALLING_AP_TITLE, "", str);
+                    std::string title = tmp.ToHexString(false);
+                    xml->AppendLine(TRANSLATOR_GENERAL_TAGS_CALLING_AP_TITLE, "", title);
                 }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 break;
@@ -1434,9 +1437,9 @@ int CGXAPDU::ParsePDU2(
                 settings.SetUserID(tag);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                 if (xml != NULL) {
-                    std::string str;
-                    xml->IntegerToHex((int32_t)tag, 2, str);
-                    xml->AppendLine(TRANSLATOR_GENERAL_TAGS_CALLING_AE_INVOCATION_ID, "", str);
+                    std::string invocationId;
+                    xml->IntegerToHex((int32_t)tag, 2, invocationId);
+                    xml->AppendLine(TRANSLATOR_GENERAL_TAGS_CALLING_AE_INVOCATION_ID, "", invocationId);
                 }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 break;
@@ -1452,10 +1455,10 @@ int CGXAPDU::ParsePDU2(
                     return ret;
                 }
                 if (tag == BER_TYPE_OCTET_STRING) {
-                    CGXByteBuffer tmp;
-                    tmp.Set(&buff, buff.GetPosition(), len2);
+                    CGXByteBuffer tmp2;
+                    tmp2.Set(&buff, buff.GetPosition(), len2);
                     CGXx509Certificate cert;
-                    if ((ret = CGXx509Certificate::FromByteArray(tmp, cert)) != 0) {
+                    if ((ret = CGXx509Certificate::FromByteArray(tmp2, cert)) != 0) {
                         return ret;
                     }
                     settings.SetServerPublicKeyCertificate(cert);
@@ -1472,9 +1475,9 @@ int CGXAPDU::ParsePDU2(
                     settings.SetUserID(tag);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                     if (xml != NULL) {
-                        std::string str;
-                        xml->IntegerToHex((int32_t)tag, 2, str);
-                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_CALLED_AE_INVOCATION_ID, "", str);
+                        std::string invocationId;
+                        xml->IntegerToHex((int32_t)tag, 2, invocationId);
+                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_CALLED_AE_INVOCATION_ID, "", invocationId);
                     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 }
@@ -1492,10 +1495,10 @@ int CGXAPDU::ParsePDU2(
                 }
                 if (tag == BER_TYPE_OCTET_STRING) {
                     //If public key certificate is coming part of AARQ.
-                    CGXByteBuffer tmp;
-                    tmp.Set(&buff, buff.GetPosition(), len2);
+                    CGXByteBuffer tmp2;
+                    tmp2.Set(&buff, buff.GetPosition(), len2);
                     CGXx509Certificate cert;
-                    if ((ret = CGXx509Certificate::FromByteArray(tmp, cert)) != 0) {
+                    if ((ret = CGXx509Certificate::FromByteArray(tmp2, cert)) != 0) {
                         return ret;
                     }
                     settings.SetClientPublicKeyCertificate(cert);
@@ -1518,8 +1521,9 @@ int CGXAPDU::ParsePDU2(
                     settings.SetUserID(tag);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                     if (xml != NULL) {
-                        xml->IntegerToHex((int32_t)tag, 2, str);
-                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_RESPONDING_AE_INVOCATION_ID, "", str);
+                        std::string invocationId;
+                        xml->IntegerToHex((int32_t)tag, 2, invocationId);
+                        xml->AppendLine(TRANSLATOR_GENERAL_TAGS_RESPONDING_AE_INVOCATION_ID, "", invocationId);
                     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 }
@@ -1550,9 +1554,9 @@ int CGXAPDU::ParsePDU2(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                 if (xml != NULL) {
                     //CallingApInvocationId
-                    std::string str;
-                    xml->IntegerToHex((int32_t)len, 2, str);
-                    xml->AppendLine(DLMS_TRANSLATOR_TAGS_CALLING_AP_INVOCATION_ID, "Value", str);
+                    std::string invocationId;
+                    xml->IntegerToHex((int32_t)len, 2, invocationId);
+                    xml->AppendLine(DLMS_TRANSLATOR_TAGS_CALLING_AP_INVOCATION_ID, "Value", invocationId);
                 }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 break;
@@ -1715,7 +1719,7 @@ int CGXAPDU::ParsePDU(
         }
     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-    ret = ParsePDU2(
+    int retVal = ParsePDU2(
         settings, cipher, buff, result, diagnostic
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
         ,
@@ -1732,7 +1736,7 @@ int CGXAPDU::ParsePDU(
         }
     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-    return ret;
+    return retVal;
 }
 
 /**
