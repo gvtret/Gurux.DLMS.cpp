@@ -44,7 +44,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPrimeNbOfdmPlcApplicationsIdentification
 */
-class CGXDLMSPrimeNbOfdmPlcApplicationsIdentification: public CGXDLMSObject {
+class CGXDLMSPrimeNbOfdmPlcApplicationsIdentification : public CGXDLMSObject
+{
     /*
      * Textual description of the firmware version running on the device.
      */
@@ -59,7 +60,6 @@ class CGXDLMSPrimeNbOfdmPlcApplicationsIdentification: public CGXDLMSObject {
      * Vendor assigned unique identifier for specific product.
      */
     unsigned short m_ProductId;
-
 public:
     //Constructor.
     CGXDLMSPrimeNbOfdmPlcApplicationsIdentification();
@@ -74,12 +74,12 @@ public:
     * Returns Textual description of the firmware version running on the
     *         device.
     */
-    std::string &GetFirmwareVersion();
+    std::string& GetFirmwareVersion();
 
     /*
      * value: Textual description of the firmware version running on the device.
      */
-    void SetFirmwareVersion(std::string &value);
+    void SetFirmwareVersion(std::string& value);
 
     /*
      * Returns Unique vendor identifier assigned by PRIME Alliance.
@@ -108,7 +108,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -118,15 +118,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_APPLICATIONS_IDENTIFICATION
-#endif  //GXDLMSPRIMENBOFDMPLCAPPLICATIONSIDENTIFICATION_H
+#endif //DLMS_IGNORE_PRIME_NB_OFDM_PLC_APPLICATIONS_IDENTIFICATION
+#endif //GXDLMSPRIMENBOFDMPLCAPPLICATIONSIDENTIFICATION_H

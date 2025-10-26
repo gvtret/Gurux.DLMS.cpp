@@ -37,8 +37,8 @@
 
 #include <string>
 #include "enums.h"
-
-class CGXApplicationContextName {
+class CGXApplicationContextName
+{
 private:
     std::string m_LogicalName;
     unsigned char m_JointIsoCtt;
@@ -48,7 +48,6 @@ private:
     unsigned char m_DlmsUA;
     unsigned char m_ApplicationContext;
     DLMS_APPLICATION_CONTEXT_NAME m_ContextId;
-
 public:
     // Constructor
     CGXApplicationContextName();
@@ -76,4 +75,4 @@ public:
 
     std::string ToString();
 };
-#endif  //GXAPPLICATIONCONTEXTNAME_H
+#endif //GXAPPLICATIONCONTEXTNAME_H

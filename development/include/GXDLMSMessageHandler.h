@@ -46,11 +46,11 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSMessageHandler
 */
-class CGXDLMSMessageHandler: public CGXDLMSObject {
-    std::vector<std::pair<CGXDateTime, CGXDateTime>> m_ListeningWindow;
+class CGXDLMSMessageHandler : public CGXDLMSObject
+{
+    std::vector<std::pair<CGXDateTime, CGXDateTime> > m_ListeningWindow;
     std::vector<std::string> m_AllowedSenders;
-    std::vector<std::pair<std::string, std::pair<int, CGXDLMSScriptAction>>> m_SendersAndActions;
-
+    std::vector<std::pair<std::string, std::pair<int, CGXDLMSScriptAction> > > m_SendersAndActions;
 public:
     //Constructor.
     CGXDLMSMessageHandler();
@@ -64,18 +64,18 @@ public:
     /**
     Listening Window.
     */
-    std::vector<std::pair<CGXDateTime, CGXDateTime>> &GetListeningWindow();
+    std::vector<std::pair<CGXDateTime, CGXDateTime> >& GetListeningWindow();
 
     /**
      List of allowed Senders.
     */
-    std::vector<std::string> &GetAllowedSenders();
+    std::vector<std::string>& GetAllowedSenders();
 
     /**
      Contains the logical name of a "Script table" object and the script selector of the
      script to be executed if an empty message is received from a match-ing sender.
     */
-    std::vector<std::pair<std::string, std::pair<int, CGXDLMSScriptAction>>> &GetSendersAndActions();
+    std::vector<std::pair<std::string, std::pair<int, CGXDLMSScriptAction> > >& GetSendersAndActions();
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -84,7 +84,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -94,15 +94,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_MESSAGE_HANDLER
-#endif  //GXDLMSMESSAGEHANDLER_H
+#endif //DLMS_IGNORE_MESSAGE_HANDLER
+#endif //GXDLMSMESSAGEHANDLER_H

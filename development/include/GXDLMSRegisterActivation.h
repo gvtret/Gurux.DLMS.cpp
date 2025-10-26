@@ -47,9 +47,10 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSRegisterActivation
 */
-class CGXDLMSRegisterActivation: public CGXDLMSObject {
+class CGXDLMSRegisterActivation : public CGXDLMSObject
+{
     std::vector<CGXDLMSObjectDefinition> m_RegisterAssignment;
-    std::vector<std::pair<CGXByteBuffer, CGXByteBuffer>> m_MaskList;
+    std::vector<std::pair<CGXByteBuffer, CGXByteBuffer > > m_MaskList;
     CGXByteBuffer m_ActiveMask;
 
 public:
@@ -62,11 +63,11 @@ public:
     //LN Constructor.
     CGXDLMSRegisterActivation(std::string ln);
 
-    std::vector<CGXDLMSObjectDefinition> &GetRegisterAssignment();
+    std::vector<CGXDLMSObjectDefinition>& GetRegisterAssignment();
 
-    std::vector<std::pair<CGXByteBuffer, CGXByteBuffer>> &GetMaskList();
+    std::vector<std::pair<CGXByteBuffer, CGXByteBuffer > >& GetMaskList();
 
-    CGXByteBuffer &GetActiveMask();
+    CGXByteBuffer& GetActiveMask();
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -74,7 +75,7 @@ public:
     // Returns amount of methods.
     int GetMethodCount();
 
-    void GetValues(std::vector<std::string> &attributes);
+    void GetValues(std::vector<std::string>& attributes);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -84,15 +85,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_REGISTER_ACTIVATION
-#endif  //GXDLMSREGISTERACTIVATION_H
+#endif //DLMS_IGNORE_REGISTER_ACTIVATION
+#endif //GXDLMSREGISTERACTIVATION_H

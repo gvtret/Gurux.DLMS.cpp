@@ -35,7 +35,8 @@
 #ifndef GXMACAVAILABLESWITCH_H
 #define GXMACAVAILABLESWITCH_H
 
-class CGXMacAvailableSwitch {
+class CGXMacAvailableSwitch
+{
     /*
      * EUI-48 of the subnetwork.
      */
@@ -59,12 +60,12 @@ class CGXMacAvailableSwitch {
      * The signal to noise ratio for this switch.
      */
     signed char m_RxSnr;
-
 public:
     /*
      * Returns EUI-48 of the subnetwork.
      */
-    CGXByteBuffer &GetSna() {
+    CGXByteBuffer& GetSna()
+    {
         return m_Sna;
     }
 
@@ -72,67 +73,77 @@ public:
      * value:
      *            EUI-48 of the subnetwork.
      */
-    void SetSna(CGXByteBuffer &value) {
+    void SetSna(CGXByteBuffer& value)
+    {
         m_Sna = value;
     }
 
     /*
      * Returns SID of this switch.
      */
-    short GetLsId() {
+    short GetLsId()
+    {
         return m_LsId;
     }
 
     /*
      * value: SID of this switch.
      */
-    void SetLsId(short value) {
+    void SetLsId(short value)
+    {
         m_LsId = value;
     }
 
     /*
      * Returns Level of this switch in subnetwork hierarchy.
      */
-    signed char GetLevel() {
+    signed char GetLevel()
+    {
         return m_Level;
     }
 
     /*
      * value: Level of this switch in subnetwork hierarchy.
      */
-    void SetLevel(signed char value) {
+    void SetLevel(signed char value)
+    {
         m_Level = value;
     }
 
     /*
      * Returns The received signal level for this switch;
      */
-    signed char GetRxLevel() {
+    signed char GetRxLevel()
+    {
         return m_RxLevel;
     }
 
     /*
      * value: The received signal level for this switch;
      */
-    void SetRxLevel(signed char value) {
+    void SetRxLevel(signed char value)
+    {
         m_RxLevel = value;
     }
 
     /*
      * Returns The signal to noise ratio for this switch.
      */
-    signed char GetRxSnr() {
+    signed char GetRxSnr()
+    {
         return m_RxSnr;
     }
 
     /*
      * value: The signal to noise ratio for this switch.
      */
-    void SetRxSnr(signed char value) {
+    void SetRxSnr(signed char value)
+    {
         m_RxSnr = value;
     }
 
-    std::string ToString() {
+    std::string ToString()
+    {
         std::stringstream sb;
         sb << m_Sna.ToHexString();
         sb << ' ';
@@ -146,4 +157,4 @@ public:
         return sb.str();
     }
 };
-#endif  //GXMACAVAILABLESWITCH_H
+#endif //GXMACAVAILABLESWITCH_H

@@ -36,7 +36,8 @@
 #include <sstream>
 #include "../include/GXDLMSVariant.h"
 
-CGXAuthenticationMechanismName::CGXAuthenticationMechanismName() {
+CGXAuthenticationMechanismName::CGXAuthenticationMechanismName()
+{
     m_JointIsoCtt = 2;
     m_Country = 16;
     m_CountryName = 756;
@@ -46,63 +47,70 @@ CGXAuthenticationMechanismName::CGXAuthenticationMechanismName() {
     m_MechanismId = DLMS_AUTHENTICATION_NONE;
 }
 
-int CGXAuthenticationMechanismName::GetJointIsoCtt() {
+int CGXAuthenticationMechanismName::GetJointIsoCtt()
+{
     return m_JointIsoCtt;
 }
-
-void CGXAuthenticationMechanismName::SetJointIsoCtt(int value) {
+void CGXAuthenticationMechanismName::SetJointIsoCtt(int value)
+{
     m_JointIsoCtt = value;
 }
 
-int CGXAuthenticationMechanismName::GetCountry() {
+int CGXAuthenticationMechanismName::GetCountry()
+{
     return m_Country;
 }
-
-void CGXAuthenticationMechanismName::SetCountry(int value) {
+void CGXAuthenticationMechanismName::SetCountry(int value)
+{
     m_Country = value;
 }
 
-int CGXAuthenticationMechanismName::GetCountryName() {
+int CGXAuthenticationMechanismName::GetCountryName()
+{
     return m_CountryName;
 }
-
-void CGXAuthenticationMechanismName::SetCountryName(int value) {
+void CGXAuthenticationMechanismName::SetCountryName(int value)
+{
     m_CountryName = value;
 }
-
-int CGXAuthenticationMechanismName::GetIdentifiedOrganization() {
+int CGXAuthenticationMechanismName::GetIdentifiedOrganization()
+{
     return m_IdentifiedOrganization;
 }
-
-void CGXAuthenticationMechanismName::SetIdentifiedOrganization(int value) {
+void CGXAuthenticationMechanismName::SetIdentifiedOrganization(int value)
+{
     m_IdentifiedOrganization = value;
 }
 
-int CGXAuthenticationMechanismName::GetDlmsUA() {
+int CGXAuthenticationMechanismName::GetDlmsUA()
+{
     return m_DlmsUA;
 }
-
-void CGXAuthenticationMechanismName::SetDlmsUA(int value) {
+void CGXAuthenticationMechanismName::SetDlmsUA(int value)
+{
     m_DlmsUA = value;
 }
-
-int CGXAuthenticationMechanismName::GetAuthenticationMechanismName() {
+int CGXAuthenticationMechanismName::GetAuthenticationMechanismName()
+{
     return m_AuthenticationMechanismName;
 }
-
-void CGXAuthenticationMechanismName::SetAuthenticationMechanismName(int value) {
+void CGXAuthenticationMechanismName::SetAuthenticationMechanismName(int value)
+{
     m_AuthenticationMechanismName = value;
 }
 
-DLMS_AUTHENTICATION CGXAuthenticationMechanismName::GetMechanismId() {
+DLMS_AUTHENTICATION CGXAuthenticationMechanismName::GetMechanismId()
+{
     return m_MechanismId;
 }
-
-void CGXAuthenticationMechanismName::SetMechanismId(DLMS_AUTHENTICATION value) {
+void CGXAuthenticationMechanismName::SetMechanismId(DLMS_AUTHENTICATION value)
+{
     m_MechanismId = value;
 }
 
-std::string CGXAuthenticationMechanismName::ToString() {
+
+std::string CGXAuthenticationMechanismName::ToString()
+{
     std::stringstream sb;
     sb << CGXDLMSVariant(m_JointIsoCtt).ToString().c_str();
     sb << " ";

@@ -42,7 +42,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSDemandRegister
 */
-class CGXDLMSDemandRegister: public CGXDLMSObject {
+class CGXDLMSDemandRegister : public CGXDLMSObject
+{
     CGXDLMSVariant m_CurrentAverageValue;
     CGXDLMSVariant m_LastAverageValue;
     signed char m_Scaler;
@@ -80,15 +81,15 @@ public:
     /**
      Current Average value of COSEM Data object.
     */
-    CGXDLMSVariant &GetCurrentAverageValue();
-    void SetCurrentAverageValue(CGXDLMSVariant &value);
+    CGXDLMSVariant& GetCurrentAverageValue();
+    void SetCurrentAverageValue(CGXDLMSVariant& value);
     void SetCurrentAverageValue(CGXDLMSVariant value);
 
     /**
      Last Average value of COSEM Data object.
     */
-    CGXDLMSVariant &GetLastAverageValue();
-    void SetLastAverageValue(CGXDLMSVariant &value);
+    CGXDLMSVariant& GetLastAverageValue();
+    void SetLastAverageValue(CGXDLMSVariant& value);
     void SetLastAverageValue(CGXDLMSVariant value);
 
     /**
@@ -104,21 +105,21 @@ public:
     /**
      Scaler of COSEM Register object.
     */
-    CGXDLMSVariant &GetStatus();
-    void SetStatus(CGXDLMSVariant &value);
+    CGXDLMSVariant& GetStatus();
+    void SetStatus(CGXDLMSVariant& value);
     void SetStatus(CGXDLMSVariant value);
 
     /**
      Capture time of COSEM Register object.
     */
-    CGXDateTime &GetCaptureTime();
+    CGXDateTime& GetCaptureTime();
     void SetCaptureTime(CGXDateTime value);
 
     /**
      Current start time of COSEM Register object.
     */
-    CGXDateTime &GetStartTimeCurrent();
-    void SetStartTimeCurrent(CGXDateTime &value);
+    CGXDateTime& GetStartTimeCurrent();
+    void SetStartTimeCurrent(CGXDateTime& value);
 
     unsigned long GetPeriod();
     void SetPeriod(unsigned long value);
@@ -129,15 +130,17 @@ public:
     /*
      * Reset value.
      */
-    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Reset(CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     /*
      * Next period.
      */
-    int NextPeriod(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int NextPeriod(CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -147,7 +150,7 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -155,13 +158,13 @@ public:
     // Returns amount of methods.
     int GetMethodCount();
 
-    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_DEMAND_REGISTER
-#endif  //GXDLMSDEMANDREGISTER_H
+#endif //DLMS_IGNORE_DEMAND_REGISTER
+#endif //GXDLMSDEMANDREGISTER_H

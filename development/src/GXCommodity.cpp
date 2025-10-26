@@ -36,37 +36,45 @@
 #include "../include/GXCommodity.h"
 #include "../include/GXHelpers.h"
 
-CGXCommodity::CGXCommodity() {
+CGXCommodity::CGXCommodity()
+{
     m_Type = DLMS_OBJECT_TYPE_NONE;
     memset(m_LogicalName, 0, 6);
     m_Index = 0;
 }
 
-DLMS_OBJECT_TYPE CGXCommodity::GetType() {
+DLMS_OBJECT_TYPE CGXCommodity::GetType()
+{
     return m_Type;
 }
 
-void CGXCommodity::SetType(DLMS_OBJECT_TYPE value) {
+void CGXCommodity::SetType(DLMS_OBJECT_TYPE value)
+{
     m_Type = value;
 }
 
-unsigned char *CGXCommodity::GetLogicalName() {
+unsigned char* CGXCommodity::GetLogicalName()
+{
     return m_LogicalName;
 }
 
-void CGXCommodity::SetLogicalName(unsigned char *value) {
+void CGXCommodity::SetLogicalName(unsigned char* value)
+{
     memcpy(m_LogicalName, value, 6);
 }
 
-unsigned char CGXCommodity::GetIndex() {
+unsigned char CGXCommodity::GetIndex()
+{
     return m_Index;
 }
 
-void CGXCommodity::SetIndex(unsigned char value) {
+void CGXCommodity::SetIndex(unsigned char value)
+{
     m_Index = value;
 }
 
-std::string CGXCommodity::ToString() {
+std::string CGXCommodity::ToString()
+{
     std::string ln;
     std::string str = GXHelpers::IntToString(m_Type);
     str.append(" ");

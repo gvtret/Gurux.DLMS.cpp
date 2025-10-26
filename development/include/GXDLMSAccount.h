@@ -46,7 +46,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
 */
-class CGXDLMSAccount: public CGXDLMSObject {
+class CGXDLMSAccount : public CGXDLMSObject
+{
     /**
     * Payment mode.<br>
     * Online help:<br>
@@ -177,8 +178,7 @@ class CGXDLMSAccount: public CGXDLMSObject {
      */
     int m_MaxProvisionPeriod;
 
-    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-
+    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 public:
     //Constructor.
     CGXDLMSAccount();
@@ -195,7 +195,8 @@ public:
         *
         * @return Payment mode.
         */
-    DLMS_ACCOUNT_PAYMENT_MODE GetPaymentMode() {
+    DLMS_ACCOUNT_PAYMENT_MODE GetPaymentMode()
+    {
         return m_PaymentMode;
     }
 
@@ -206,7 +207,8 @@ public:
      * @param value
      *            Payment mode.
      */
-    void SetPaymentMode(DLMS_ACCOUNT_PAYMENT_MODE value) {
+    void SetPaymentMode(DLMS_ACCOUNT_PAYMENT_MODE value)
+    {
         m_PaymentMode = value;
     }
 
@@ -216,7 +218,8 @@ public:
      *
      * @return Account status.
      */
-    DLMS_ACCOUNT_STATUS GetAccountStatus() {
+    DLMS_ACCOUNT_STATUS GetAccountStatus()
+    {
         return m_AccountStatus;
     }
 
@@ -227,7 +230,8 @@ public:
      * @param value
      *            Account status.
      */
-    void SetAccountStatus(DLMS_ACCOUNT_STATUS value) {
+    void SetAccountStatus(DLMS_ACCOUNT_STATUS value)
+    {
         m_AccountStatus = value;
     }
 
@@ -237,7 +241,8 @@ public:
      *
      * @return Credit In Use.
      */
-    unsigned char GetCurrentCreditInUse() {
+    unsigned char GetCurrentCreditInUse()
+    {
         return m_CurrentCreditInUse;
     }
 
@@ -248,7 +253,8 @@ public:
      * @param value
      *            Credit In Use.
      */
-    void SetCurrentCreditInUse(unsigned char value) {
+    void SetCurrentCreditInUse(unsigned char value)
+    {
         m_CurrentCreditInUse = value;
     }
 
@@ -258,7 +264,8 @@ public:
      *
      * @return Credit status.
      */
-    DLMS_ACCOUNT_CREDIT_STATUS GetCurrentCreditStatus() {
+    DLMS_ACCOUNT_CREDIT_STATUS GetCurrentCreditStatus()
+    {
         return m_CurrentCreditStatus;
     }
 
@@ -269,7 +276,8 @@ public:
      * @param value
      *            Credit status.
      */
-    void SetCurrentCreditStatus(DLMS_ACCOUNT_CREDIT_STATUS value) {
+    void SetCurrentCreditStatus(DLMS_ACCOUNT_CREDIT_STATUS value)
+    {
         m_CurrentCreditStatus = value;
     }
 
@@ -279,7 +287,8 @@ public:
      *
      * @return AvailableCredit
      */
-    int GetAvailableCredit() {
+    int GetAvailableCredit()
+    {
         return m_AvailableCredit;
     }
 
@@ -290,7 +299,8 @@ public:
      * @param value
      *            AvailableCredit
      */
-    void SetAvailableCredit(int value) {
+    void SetAvailableCredit(int value)
+    {
         m_AvailableCredit = value;
     }
 
@@ -300,7 +310,8 @@ public:
      *
      * @return Amount to clear.
      */
-    int GetAmountToClear() {
+    int GetAmountToClear()
+    {
         return m_AmountToClear;
     }
 
@@ -311,7 +322,8 @@ public:
      * @param value
      *            Amount to clear.
      */
-    void SetAmountToClear(int value) {
+    void SetAmountToClear(int value)
+    {
         m_AmountToClear = value;
     }
 
@@ -321,7 +333,8 @@ public:
      *
      * @return Clearance threshold.
      */
-    int GetClearanceThreshold() {
+    int GetClearanceThreshold()
+    {
         return m_ClearanceThreshold;
     }
 
@@ -329,7 +342,8 @@ public:
      * @param value
      *            Clearance threshold.
      */
-    void SetClearanceThreshold(int value) {
+    void SetClearanceThreshold(int value)
+    {
         m_ClearanceThreshold = value;
     }
 
@@ -339,7 +353,8 @@ public:
      *
      * @return Aggregated debt.
      */
-    int GetAggregatedDebt() {
+    int GetAggregatedDebt()
+    {
         return m_AggregatedDebt;
     }
 
@@ -350,7 +365,8 @@ public:
      * @param value
      *            Aggregated debt.
      */
-    void SetAggregatedDebt(int value) {
+    void SetAggregatedDebt(int value)
+    {
         m_AggregatedDebt = value;
     }
 
@@ -360,7 +376,8 @@ public:
      *
      * @return Credit references.
      */
-    std::vector<std::string> &GetCreditReferences() {
+    std::vector<std::string>& GetCreditReferences()
+    {
         return m_CreditReferences;
     }
 
@@ -371,7 +388,8 @@ public:
      * @param value
      *            Credit references.
      */
-    void SetCreditReferences(std::vector<std::string> &value) {
+    void SetCreditReferences(std::vector<std::string>& value)
+    {
         m_CreditReferences = value;
     }
 
@@ -381,7 +399,8 @@ public:
      *
      * @return Charge references.
      */
-    std::vector<std::string> &GetChargeReferences() {
+    std::vector<std::string>& GetChargeReferences()
+    {
         return m_ChargeReferences;
     }
 
@@ -392,7 +411,8 @@ public:
      * @param value
      *            Charge references.
      */
-    void SetChargeReferences(std::vector<std::string> &value) {
+    void SetChargeReferences(std::vector<std::string>& value)
+    {
         m_ChargeReferences = value;
     }
 
@@ -402,7 +422,8 @@ public:
      *
      * @return Credit charge configurations.
      */
-    std::vector<CGXCreditChargeConfiguration> &GetCreditChargeConfigurations() {
+    std::vector<CGXCreditChargeConfiguration>& GetCreditChargeConfigurations()
+    {
         return m_CreditChargeConfigurations;
     }
 
@@ -413,7 +434,8 @@ public:
      * @param value
      *            Credit charge configurations.
      */
-    void SetCreditChargeConfigurations(std::vector<CGXCreditChargeConfiguration> &value) {
+    void SetCreditChargeConfigurations(std::vector<CGXCreditChargeConfiguration>& value)
+    {
         m_CreditChargeConfigurations = value;
     }
 
@@ -423,7 +445,8 @@ public:
      *
      * @return Token gateway configurations.
      */
-    std::vector<CGXTokenGatewayConfiguration> &GetTokenGatewayConfigurations() {
+    std::vector<CGXTokenGatewayConfiguration>& GetTokenGatewayConfigurations()
+    {
         return m_TokenGatewayConfigurations;
     }
 
@@ -434,7 +457,8 @@ public:
      * @param value
      *            Token gateway configurations.
      */
-    void SetTokenGatewayConfigurations(std::vector<CGXTokenGatewayConfiguration> &value) {
+    void SetTokenGatewayConfigurations(std::vector<CGXTokenGatewayConfiguration>& value)
+    {
         m_TokenGatewayConfigurations = value;
     }
 
@@ -444,7 +468,8 @@ public:
      *
      * @return Account activation time.
      */
-    CGXDateTime &GetAccountActivationTime() {
+    CGXDateTime& GetAccountActivationTime()
+    {
         return m_AccountActivationTime;
     }
 
@@ -455,7 +480,8 @@ public:
      * @param value
      *            Account activation time.
      */
-    void SetAccountActivationTime(CGXDateTime &value) {
+    void SetAccountActivationTime(CGXDateTime& value)
+    {
         m_AccountActivationTime = value;
     }
 
@@ -465,7 +491,8 @@ public:
      *
      * @return Account closure time.
      */
-    CGXDateTime &GetAccountClosureTime() {
+    CGXDateTime& GetAccountClosureTime()
+    {
         return m_AccountClosureTime;
     }
 
@@ -476,7 +503,8 @@ public:
      * @param value
      *            Account closure time.
      */
-    void SetAccountClosureTime(CGXDateTime &value) {
+    void SetAccountClosureTime(CGXDateTime& value)
+    {
         m_AccountClosureTime = value;
     }
 
@@ -486,7 +514,8 @@ public:
      *
      * @return Currency.
      */
-    CGXCurrency &GetCurrency() {
+    CGXCurrency& GetCurrency()
+    {
         return m_Currency;
     }
 
@@ -496,7 +525,8 @@ public:
      *
      * @return Low credit threshold.
      */
-    int GetLowCreditThreshold() {
+    int GetLowCreditThreshold()
+    {
         return m_LowCreditThreshold;
     }
 
@@ -507,7 +537,8 @@ public:
      * @param value
      *            Low credit threshold.
      */
-    void SetLowCreditThreshold(int value) {
+    void SetLowCreditThreshold(int value)
+    {
         m_LowCreditThreshold = value;
     }
 
@@ -517,7 +548,8 @@ public:
      *
      * @return Next credit available threshold.
      */
-    int GetNextCreditAvailableThreshold() {
+    int GetNextCreditAvailableThreshold()
+    {
         return m_NextCreditAvailableThreshold;
     }
 
@@ -528,7 +560,8 @@ public:
      * @param value
      *            Next credit available threshold.
      */
-    void SetNextCreditAvailableThreshold(int value) {
+    void SetNextCreditAvailableThreshold(int value)
+    {
         m_NextCreditAvailableThreshold = value;
     }
 
@@ -538,7 +571,8 @@ public:
      *
      * @return Max Provision.
      */
-    int GetMaxProvision() {
+    int GetMaxProvision()
+    {
         return m_MaxProvision;
     }
 
@@ -549,7 +583,8 @@ public:
      * @param value
      *            Max Provision.
      */
-    void SetMaxProvision(int value) {
+    void SetMaxProvision(int value)
+    {
         m_MaxProvision = value;
     }
 
@@ -559,7 +594,8 @@ public:
      *
      * @return Max provision period.
      */
-    int GetMaxProvisionPeriod() {
+    int GetMaxProvisionPeriod()
+    {
         return m_MaxProvisionPeriod;
     }
 
@@ -573,7 +609,6 @@ public:
     void SetMaxProvisionPeriod(int value) {
         m_MaxProvisionPeriod = value;
     }
-
     // Returns amount of attributes.
     int GetAttributeCount();
 
@@ -581,7 +616,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -591,27 +626,33 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     /////////////////////////////////////////////////////////////////////////
     //Activate the account value.
-    int Activate(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Activate(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     /////////////////////////////////////////////////////////////////////////
     //Close the account value.
-    int Close(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Close(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     /////////////////////////////////////////////////////////////////////////
     //Reset the account value.
-    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Reset(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 };
-#endif  //DLMS_IGNORE_ACCOUNT
-#endif  //GXACCOUNT_H
+#endif //DLMS_IGNORE_ACCOUNT
+#endif //GXACCOUNT_H

@@ -39,12 +39,13 @@
 
 /**
 */
-class CGXDLMSTarget {
+class CGXDLMSTarget
+{
     friend class CGXDLMSParameterMonitor;
     /**
    * Target COSEM object.
    */
-    CGXDLMSObject *m_Target;
+    CGXDLMSObject* m_Target;
 
     /**
      * Attribute Index of COSEM object.
@@ -60,7 +61,6 @@ class CGXDLMSTarget {
      * Data value of COSEM object. All targets don't use this.
      */
     CGXDLMSVariant m_Value;
-
 public:
     // Constructor.
     CGXDLMSTarget();
@@ -70,9 +70,9 @@ public:
 
     void Clear();
 
-    CGXDLMSObject *GetTarget();
+    CGXDLMSObject* GetTarget();
 
-    void SetTarget(CGXDLMSObject *value);
+    void SetTarget(CGXDLMSObject* value);
 
     /**
      * @return Attribute Index of COSEM object.
@@ -99,14 +99,14 @@ public:
     /**
      * @return Data value of COSEM object. All targets don't use this.
      */
-    CGXDLMSVariant &GetValue();
+    CGXDLMSVariant& GetValue();
 
     /**
      * @param value
      *            Data value of COSEM object. All targets don't use this.
      */
-    void SetValue(CGXDLMSVariant &value);
+    void SetValue(CGXDLMSVariant& value);
 
     std::string ToString();
 };
-#endif  //GXDLMSTARGET_H
+#endif //GXDLMSTARGET_H

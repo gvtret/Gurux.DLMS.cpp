@@ -43,7 +43,8 @@
  * Online help:<br>
  * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCurrency
  */
-class CGXCurrency {
+class CGXCurrency
+{
     /**
     * Currency name.
     */
@@ -64,13 +65,13 @@ public:
     /**
      * @return Currency name.
      */
-    std::string &GetName();
+    std::string& GetName();
 
     /**
      * @param value
      *            Currency name.
      */
-    void SetName(std::string &value);
+    void SetName(std::string& value);
 
     /**
      * @return Currency scale.
@@ -96,4 +97,4 @@ public:
 
     std::string ToString();
 };
-#endif  //GXCURRENCY_H
+#endif //GXCURRENCY_H

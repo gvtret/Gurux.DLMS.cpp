@@ -42,7 +42,8 @@
 #include "GXPublicKey.h"
 #include "GXAsn1Converter.h"
 
-class CGXx509Certificate {
+class CGXx509Certificate
+{
 private:
     friend class CGXPkcs10;
     friend class CGXAPDU;
@@ -150,26 +151,26 @@ private:
      */
     DLMS_EXTENDED_KEY_USAGE m_ExtendedKeyUsage;
 
-    int Init(CGXByteBuffer &data);
-
+    int Init(CGXByteBuffer& data);
 private:
     //Internal methods.
-    int UpdateVersion(CGXAsn1Context *tmp);
-    int UpdateSerialNumber(CGXAsn1Sequence *reqInfo);
-    int UpdateSignatureAlgorithm(CGXAsn1Sequence *reqInfo);
-    int UpdateIssuer(CGXAsn1Sequence *reqInfo);
-    int UpdateValidity(CGXAsn1Sequence *reqInfo);
-    int UpdateStandardExtensions(CGXAsn1Sequence *reqInfo, bool &basicConstraintsExists);
-    int UpdateSubjectKeyIdentifier(CGXAsn1Base *value);
-    int UpdateKeyUsage(CGXAsn1Sequence *s, CGXAsn1Base *value);
-    int UpdateExtendedKeyUsage(CGXAsn1Base *value);
-    int UpdateBasicConstraints(CGXAsn1Base *value);
-    int UpdateAuthorityKeyIdentifier(CGXAsn1Base *value);
-
+    int UpdateVersion(CGXAsn1Context* tmp);
+    int UpdateSerialNumber(CGXAsn1Sequence* reqInfo);
+    int UpdateSignatureAlgorithm(CGXAsn1Sequence* reqInfo);
+    int UpdateIssuer(CGXAsn1Sequence* reqInfo);
+    int UpdateValidity(CGXAsn1Sequence* reqInfo);
+    int UpdateStandardExtensions(
+        CGXAsn1Sequence* reqInfo,
+        bool& basicConstraintsExists);
+    int UpdateSubjectKeyIdentifier(CGXAsn1Base* value);
+    int UpdateKeyUsage(CGXAsn1Sequence* s, CGXAsn1Base* value);
+    int UpdateExtendedKeyUsage(CGXAsn1Base* value);
+    int UpdateBasicConstraints(CGXAsn1Base* value);
+    int UpdateAuthorityKeyIdentifier(CGXAsn1Base* value);
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////   
     CGXx509Certificate();
 
     /**
@@ -177,7 +178,9 @@ public:
      * path: File path.
      * Returns error code.
      */
-    static int GetFilePath(CGXx509Certificate &cert, std::string &path);
+    static int GetFilePath(
+        CGXx509Certificate& cert,
+        std::string& path);
 
     /**
      * ecc: ECC scheme.
@@ -186,7 +189,11 @@ public:
      * path: Path.
      * Returns error code.
      */
-    static int GetFilePath(ECC ecc, DLMS_KEY_USAGE usage, std::string &systemTitle, std::string &path);
+    static int GetFilePath(
+        ECC ecc,
+        DLMS_KEY_USAGE usage,
+        std::string& systemTitle,
+        std::string& path);
 
     /**
      * Create x509Certificate from the hex string.
@@ -195,7 +202,9 @@ public:
      * cart: x509 certificate
      * Returns error code.
      */
-    static int FromHexString(std::string &data, CGXx509Certificate &cert);
+    static int FromHexString(
+        std::string& data,
+        CGXx509Certificate& cert);
 
     /**
      * Create x509Certificate from PEM string.
@@ -204,7 +213,8 @@ public:
      * cert: x509 certificate.
      * Returns error code.
      */
-    static int FromPem(std::string data, CGXx509Certificate &cert);
+    static int FromPem(std::string data,
+        CGXx509Certificate& cert);
 
     /**
      * Create x509Certificate from DER Base64 encoded string.
@@ -213,14 +223,16 @@ public:
      * cert: x509 certificate.
      * Returns error code.
      */
-    static int FromDer(std::string &data, CGXx509Certificate &cert);
+    static int FromDer(std::string& data,
+        CGXx509Certificate& cert);
 
     /**
     Create x509Certificate from byte array.
 
     data: Byte array.
     */
-    static int FromByteArray(CGXByteBuffer &data, CGXx509Certificate &cert);
+    static int FromByteArray(CGXByteBuffer& data,
+        CGXx509Certificate& cert);
 
     /**
     * Create x509Certificate from byte array.
@@ -228,39 +240,42 @@ public:
     *data: Byte buffer.
     *length: The length of the byte buffer.
     */
-    static int FromByteArray(const unsigned char *data, uint16_t length, CGXx509Certificate &cert);
+    static int FromByteArray(const unsigned char* data,
+        uint16_t length,
+        CGXx509Certificate& cert);
 
-    static int GetAlgorithm(std::string &algorithm, std::string &value);
+    static int GetAlgorithm(std::string& algorithm,
+        std::string& value);
 
     /**
      * Returns Subject.
      */
-    std::string &GetSubject();
+    std::string& GetSubject();
 
     /**
      * value: Subject.
      */
-    void SetSubject(std::string &value);
+    void SetSubject(std::string& value);
 
     /**
      * Returns Issuer.
      */
-    std::string &GetIssuer();
+    std::string& GetIssuer();
 
     /**
      * value: Issuer.
      */
-    void SetIssuer(std::string &value);
+    void SetIssuer(std::string& value);
 
     /**
      * Returns Serial number.
      */
-    CGXBigInteger &GetSerialNumber();
+    CGXBigInteger& GetSerialNumber();
 
     /**
      * value: Serial number.
      */
-    void SetSerialNumber(CGXBigInteger &value);
+    void SetSerialNumber(CGXBigInteger& value);
 
     /**
      * Returns Version number.
@@ -275,22 +290,22 @@ public:
     /**
      * Returns Validity from.
      */
-    struct tm &GetValidFrom();
+    struct tm& GetValidFrom();
 
     /**
      * value: Validity from.
      */
-    void SetValidFrom(struct tm &value);
+    void SetValidFrom(struct tm& value);
 
     /**
      * Returns Validity to.
      */
-    struct tm &GetValidTo();
+    struct tm& GetValidTo();
 
     /**
      * value: Validity to.
      */
-    void SetValidTo(struct tm &value);
+    void SetValidTo(struct tm& value);
 
     /**
      * Returns Signature algorithm
@@ -305,32 +320,32 @@ public:
     /**
      * Returns Parameters.
      */
-    CGXAsn1Base &GetParameters();
+    CGXAsn1Base& GetParameters();
 
     /**
      * Returns Public key.
      */
-    CGXPublicKey &GetPublicKey();
+    CGXPublicKey& GetPublicKey();
 
     /**
      * value: Public key.
      */
-    void SetPublicKey(CGXPublicKey &value);
+    void SetPublicKey(CGXPublicKey& value);
 
     /**
      * Returns Signature.
      */
-    CGXByteBuffer &GetSignature();
+    CGXByteBuffer& GetSignature();
 
     /**
      * value: Signature.
      */
-    void SetSignature(CGXByteBuffer &value);
+    void SetSignature(CGXByteBuffer& value);
 
     /**
      * Returns Encoded x509 certificate.
      */
-    int GetEncoded(CGXByteBuffer &value);
+    int GetEncoded(CGXByteBuffer& value);
 
     std::string ToString();
 
@@ -360,24 +375,24 @@ public:
     /**
      * Returns Identifies the key being certified.
      */
-    CGXByteBuffer &GetSubjectKeyIdentifier();
+    CGXByteBuffer& GetSubjectKeyIdentifier();
 
     /**
      * value: Identifies the key being certified.
      */
-    void SetSubjectKeyIdentifier(CGXByteBuffer &value);
+    void SetSubjectKeyIdentifier(CGXByteBuffer& value);
 
     /**
      * Returns May be used either as a certificate or
      * CRL extension.
      */
-    CGXByteBuffer &GetAuthorityKeyIdentifier();
+    CGXByteBuffer& GetAuthorityKeyIdentifier();
 
     /**
      * value: May be used either as a certificate or
      * CRL extension.
      */
-    void SetAuthorityKeyIdentifier(CGXByteBuffer &value);
+    void SetAuthorityKeyIdentifier(CGXByteBuffer& value);
 
     /**
      * Returns Indicates if the m_Subject may act as a CA.
@@ -396,38 +411,39 @@ public:
      * path File path.
      * Returns Created GXPkcs8 object.
      */
-    static int Load(std::string &path, CGXx509Certificate &cert);
+    static int Load(std::string& path,
+        CGXx509Certificate& cert);
 
     /**
      * Save key to PEM file.
      *
      * path: File path.
      */
-    int Save(std::string &path);
-#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    int Save(std::string& path);
+#endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
     /**
      * Returns Public key in PEM format.
      */
-    int ToPem(std::string &value);
+    int ToPem(std::string& value);
 
     /**
      * Returns Public key in DER format.
      */
-    int ToDer(std::string &value);
+    int ToDer(std::string& value);
 
     /**
      * Returns Raw Issuer in ASN1 format.
      */
-    CGXByteBuffer &GetIssuerRaw();
+    CGXByteBuffer& GetIssuerRaw();
 
     //Is the content of the objects equal.
-    bool Equals(CGXx509Certificate &cert);
+    bool Equals(CGXx509Certificate& cert);
 
     /**
      * Returns system title from the certificate.
      */
-    int GetSystemTitle(CGXByteBuffer &value);
+    int GetSystemTitle(CGXByteBuffer& value);
 };
 
-#endif  //GXX509CERTIFICATE_H
+#endif //GXX509CERTIFICATE_H

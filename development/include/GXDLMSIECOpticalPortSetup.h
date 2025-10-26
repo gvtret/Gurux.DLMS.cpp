@@ -43,7 +43,8 @@
 Online help:
 https://www.gurux.fi/Gurux.DLMS.Objects.CGXDLMSIECLocalPortSetup
 */
-class CGXDLMSIECLocalPortSetup: public CGXDLMSObject {
+class CGXDLMSIECLocalPortSetup : public CGXDLMSObject
+{
     std::string m_Password1;
     std::string m_Password2;
     std::string m_Password5;
@@ -94,7 +95,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -104,18 +105,20 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
 
 // This class is Obsolete. Use CGXDLMSIECLocalPortSetup instead.
-class CGXDLMSIECOpticalPortSetup: public CGXDLMSIECLocalPortSetup {};
-#endif  //DLMS_IGNORE_IEC_LOCAL_PORT_SETUP
-#endif  //GXDLMSIECOPTICALPORTSETUP_H
+class CGXDLMSIECOpticalPortSetup : public CGXDLMSIECLocalPortSetup
+{
+};
+#endif //DLMS_IGNORE_IEC_LOCAL_PORT_SETUP
+#endif //GXDLMSIECOPTICALPORTSETUP_H

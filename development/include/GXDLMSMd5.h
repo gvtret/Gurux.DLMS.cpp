@@ -37,7 +37,8 @@
 
 #include "GXBytebuffer.h"
 
-class CGXDLMSMD5 {
+class CGXDLMSMD5
+{
 private:
     // Constants .
 #define S11 7
@@ -56,12 +57,11 @@ private:
 #define S42 10
 #define S43 15
 #define S44 21
-    static void Encode(unsigned char *output, unsigned int *input, unsigned int len);
-    static void Transform(unsigned char *block, unsigned int *state);
-    static int
-    Update(unsigned char *data, unsigned int len, unsigned char *buffer, unsigned int *count, unsigned int *state);
+    static void Encode(unsigned char * output, unsigned int *input, unsigned int len);
+    static void Transform(unsigned char* block, unsigned int *state);
+    static int Update(unsigned char* data, unsigned int len, unsigned char* buffer, unsigned int* count, unsigned int* state);
 
 public:
-    static int Encrypt(CGXByteBuffer &data, CGXByteBuffer &crypted);
+    static int Encrypt(CGXByteBuffer& data, CGXByteBuffer& crypted);
 };
-#endif  //GXDLMSMD5_H
+#endif //GXDLMSMD5_H

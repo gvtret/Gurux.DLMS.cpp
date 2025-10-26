@@ -37,7 +37,8 @@
 
 #include "GXDLMSAttribute.h"
 
-class CGXAttributeCollection: public std::vector<CGXDLMSAttribute> {
+class CGXAttributeCollection : public std::vector<CGXDLMSAttribute>
+{
 public:
 };
-#endif  //GXATTRIBUTECOLLECTION_H
+#endif //GXATTRIBUTECOLLECTION_H

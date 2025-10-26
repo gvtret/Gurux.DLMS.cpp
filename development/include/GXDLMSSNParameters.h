@@ -40,8 +40,10 @@
 /**
  * SN Parameters
  */
-class CGXDLMSSNParameters {
+class CGXDLMSSNParameters
+{
 private:
+
     /**
      * DLMS settings.
      */
@@ -57,15 +59,15 @@ private:
     /**
      * Attribute descriptor.
      */
-    CGXByteBuffer *m_AttributeDescriptor;
+    CGXByteBuffer* m_AttributeDescriptor;
     /**
      * Data.
      */
-    CGXByteBuffer *m_Data;
+    CGXByteBuffer* m_Data;
     /**
      * Send date and time. This is used in Data notification messages.
      */
-    struct tm *m_Time;
+    struct tm* m_Time;
     /**
      * Item Count.
      */
@@ -82,6 +84,7 @@ private:
     unsigned short m_BlockIndex;
 
 public:
+
     /**
      * Constructor.
      *
@@ -95,15 +98,17 @@ public:
      * @param data
      *            Attribute descriptor
      */
-    CGXDLMSSNParameters(
-        CGXDLMSSettings *settings, DLMS_COMMAND command, int count, int commandType, CGXByteBuffer *attributeDescriptor,
-        CGXByteBuffer *data
-    );
+    CGXDLMSSNParameters(CGXDLMSSettings* settings,
+                        DLMS_COMMAND command,
+                        int count,
+                        int commandType,
+                        CGXByteBuffer* attributeDescriptor,
+                        CGXByteBuffer* data);
 
     /**
      * @return DLMS settings.
      */
-    CGXDLMSSettings *GetSettings();
+    CGXDLMSSettings* GetSettings();
 
     /**
      * @return DLMS command.
@@ -124,23 +129,23 @@ public:
     /**
      * @return the attributeDescriptor
      */
-    CGXByteBuffer *GetAttributeDescriptor();
+    CGXByteBuffer* GetAttributeDescriptor();
 
     /**
      * @return the data
      */
-    CGXByteBuffer *GetData();
+    CGXByteBuffer* GetData();
 
     /**
      * @return the time
      */
-    struct tm *GetTime();
+    struct tm* GetTime();
 
     /**
      * @param value
      *            the time to set
      */
-    void SetTime(struct tm *value);
+    void SetTime(struct tm* value);
 
     /**
      * @return the multipleBlocks
@@ -170,4 +175,4 @@ public:
     int GetCount();
 };
 
-#endif  //GXDLMSSNPARAMETERS_H
+#endif //GXDLMSSNPARAMETERS_H

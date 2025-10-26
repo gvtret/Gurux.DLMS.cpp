@@ -40,7 +40,8 @@
 #include "GXPublicKey.h"
 #include "GXx509Certificate.h"
 
-class CGXCipher {
+class CGXCipher
+{
 private:
     DLMS_SECURITY m_Security;
     /**
@@ -76,54 +77,89 @@ private:
     std::pair<CGXPublicKey, CGXPrivateKey> m_SigningKeyPair;
     std::vector<CGXx509Certificate> m_Certificates;
 
-    void Init(unsigned char *systemTitle, unsigned char count);
+    void Init(
+        unsigned char* systemTitle,
+        unsigned char count);
 
-    static int Int(uint32_t *rk, const unsigned char *cipherKey, unsigned short keyBits);
+    static int Int(uint32_t* rk,
+        const unsigned char* cipherKey,
+        unsigned short keyBits);
 
     /*
     * Make xor for 128 bits.
     */
-    static void Xor(unsigned char *dst, const unsigned char *src);
+    static void Xor(
+        unsigned char* dst,
+        const unsigned char* src);
 
-    static void shift_right_block(unsigned char *v);
+    static void shift_right_block(unsigned char* v);
 
-    static void MultiplyH(const unsigned char *x, const unsigned char *y, unsigned char *z);
+    static void MultiplyH(
+        const unsigned char* x,
+        const unsigned char* y,
+        unsigned char* z);
 
     /*
     * Count GHash.
     */
-    static void GetGHash(const unsigned char *h, const unsigned char *x, int xlen, unsigned char *y);
+    static void GetGHash(
+        const unsigned char* h,
+        const unsigned char* x,
+        int xlen,
+        unsigned char* y);
 
-    static void Init_j0(const unsigned char *iv, unsigned char len, const unsigned char *H, unsigned char *J0);
+    static void Init_j0(
+        const unsigned char* iv,
+        unsigned char len,
+        const unsigned char* H,
+        unsigned char* J0);
 
-    static void Inc32(unsigned char *block);
+    static void Inc32(unsigned char* block);
 
-    static void Gctr(unsigned int *aes, const unsigned char *icb, unsigned char *in, int len, unsigned char *out);
+    static void Gctr(
+        unsigned int* aes,
+        const unsigned char* icb,
+        unsigned char* in,
+        int len,
+        unsigned char* out);
 
-    static void AesGcmGctr(unsigned int *aes, const unsigned char *J0, unsigned char *in, int len, unsigned char *out);
+    static void AesGcmGctr(
+        unsigned int* aes,
+        const unsigned char* J0,
+        unsigned char* in,
+        int len,
+        unsigned char* out);
 
     static void AesGcmGhash(
-        const unsigned char *H, const unsigned char *aad, int aad_len, const unsigned char *crypt, int crypt_len,
-        unsigned char *S
-    );
+        const unsigned char* H,
+        const unsigned char* aad,
+        int aad_len,
+        const unsigned char* crypt,
+        int crypt_len,
+        unsigned char* S);
 
-    static void AesEncrypt(const unsigned int *rk, unsigned int Nr, const unsigned char *pt, unsigned char *ct);
-
+    static void AesEncrypt(
+        const unsigned int* rk,
+        unsigned int Nr,
+        const unsigned char* pt,
+        unsigned char* ct);
 public:
     /**
     * Constructor.
     */
-    CGXCipher(CGXByteBuffer &systemTitle);
+    CGXCipher(CGXByteBuffer& systemTitle);
 
     /**
     * Constructor.
     */
-    CGXCipher(const char *systemTitle);
+    CGXCipher(const char* systemTitle);
 
     /**
     * Constructor.
     */
-    CGXCipher(unsigned char *systemTitle, unsigned char count);
+    CGXCipher(
+        unsigned char* systemTitle,
+        unsigned char count);
 
     /**
     * Destructor.
@@ -148,9 +184,15 @@ public:
       *            Encrypted data.
       */
     int Encrypt(
-        DLMS_SECURITY_SUITE suite, DLMS_SECURITY security, DLMS_COUNT_TYPE type, unsigned long frameCounter,
-        unsigned char tag, CGXByteBuffer &systemTitle, CGXByteBuffer &key, CGXByteBuffer &input, bool encrypt
-    );
+        DLMS_SECURITY_SUITE suite,
+        DLMS_SECURITY security,
+        DLMS_COUNT_TYPE type,
+        unsigned long frameCounter,
+        unsigned char tag,
+        CGXByteBuffer& systemTitle,
+        CGXByteBuffer& key,
+        CGXByteBuffer& input,
+        bool encrypt);
 
     /**
       * Decrypt data.
@@ -162,9 +204,12 @@ public:
       * InvocationCounter: Invocation counter value.
       */
     int Decrypt(
-        CGXByteBuffer &title, CGXByteBuffer &key, CGXByteBuffer &data, DLMS_SECURITY &security,
-        DLMS_SECURITY_SUITE &suite, uint64_t &InvocationCounter
-    );
+        CGXByteBuffer& title,
+        CGXByteBuffer& key,
+        CGXByteBuffer& data,
+        DLMS_SECURITY& security,
+        DLMS_SECURITY_SUITE& suite,
+        uint64_t& InvocationCounter);
 
     /*
      * Encrypt data using AES.
@@ -173,7 +218,10 @@ public:
      * offset: Data offset.
      * secret: Secret.
      */
-    static int Aes1Encrypt(CGXByteBuffer &data, unsigned short offset, CGXByteBuffer &secret);
+    static int Aes1Encrypt(
+        CGXByteBuffer& data,
+        unsigned short offset,
+        CGXByteBuffer& secret);
 
     /*
      * Decrypt data using AES.
@@ -181,7 +229,9 @@ public:
      * data: Encrypted data.
      * secret:  Secret.
      */
-    static int Aes1Decrypt(CGXByteBuffer &data, CGXByteBuffer &secret);
+    static int Aes1Decrypt(
+        CGXByteBuffer& data,
+        CGXByteBuffer& secret);
 
     /**
      * Returns is ciphering used.
@@ -211,33 +261,33 @@ public:
     /**
      * Returns System title.
      */
-    CGXByteBuffer &GetSystemTitle();
+    CGXByteBuffer& GetSystemTitle();
 
     /**
     *  value: System title.
     */
-    int SetSystemTitle(CGXByteBuffer &value);
+    int SetSystemTitle(CGXByteBuffer& value);
 
     /**
      * Returns Block cipher key.
      */
-    CGXByteBuffer &GetBlockCipherKey();
+    CGXByteBuffer& GetBlockCipherKey();
 
     /**
     *  value: Block cipher key.
     */
-    int SetBlockCipherKey(CGXByteBuffer &value);
+    int SetBlockCipherKey(CGXByteBuffer& value);
 
     /**
      * Returns Authentication key.
      */
-    CGXByteBuffer &GetAuthenticationKey();
+    CGXByteBuffer& GetAuthenticationKey();
 
     /**
      * value
      *            Authentication key.
      */
-    int SetAuthenticationKey(CGXByteBuffer &value);
+    int SetAuthenticationKey(CGXByteBuffer& value);
 
     /**
      * Returns Frame counter. AKA. Invocation counter.
@@ -258,27 +308,27 @@ public:
     /**
     * Returns Dedicated key.
     */
-    CGXByteBuffer &GetDedicatedKey();
+    CGXByteBuffer& GetDedicatedKey();
 
     /**
      * value
      *            Dedicated key.
      */
-    void SetDedicatedKey(CGXByteBuffer &value);
+    void SetDedicatedKey(CGXByteBuffer& value);
 
     /*Get key agreement key pair.*/
-    std::pair<CGXPublicKey, CGXPrivateKey> &GetKeyAgreementKeyPair();
+    std::pair<CGXPublicKey, CGXPrivateKey>& GetKeyAgreementKeyPair();
     /*Set key agreement key pair.*/
-    void SetKeyAgreementKeyPair(std::pair<CGXPublicKey, CGXPrivateKey> &value);
+    void SetKeyAgreementKeyPair(std::pair<CGXPublicKey, CGXPrivateKey>& value);
 
     /*Get signing key pair.*/
-    std::pair<CGXPublicKey, CGXPrivateKey> &GetSigningKeyPair();
+    std::pair<CGXPublicKey, CGXPrivateKey>& GetSigningKeyPair();
     /*Set signing key pair.*/
-    void SetSigningKeyPair(std::pair<CGXPublicKey, CGXPrivateKey> &value);
+    void SetSigningKeyPair(std::pair<CGXPublicKey, CGXPrivateKey>& value);
 
     /*Get available certificates.*/
-    std::vector<CGXx509Certificate> &GetCertificates();
+    std::vector<CGXx509Certificate>& GetCertificates();
     /*Set available certificates.*/
-    void SetCertificates(std::vector<CGXx509Certificate> &value);
+    void SetCertificates(std::vector<CGXx509Certificate>& value);
 };
-#endif  //GXCIPHER_H
+#endif //GXCIPHER_H

@@ -35,8 +35,8 @@
 #ifndef GXMACDIRECTTABLE_H
 #define GXMACDIRECTTABLE_H
 #include <sstream>
-
-class CGXMacDirectTable {
+class CGXMacDirectTable
+{
     /*
     * SID of switch through which the source service node is connected.
     */
@@ -69,61 +69,68 @@ class CGXMacDirectTable {
      * Entry DID is the EUI-48 of the direct switch.
      */
     CGXByteBuffer m_Did;
-
 public:
     /*
      * Returns SID of switch through which the source service node is connected.
      */
-    short GetSourceSId() {
+    short GetSourceSId()
+    {
         return m_SourceSId;
     }
 
     /*
      * value: SID of switch through which the source service node is connected.
      */
-    void SetSourceSId(short value) {
+    void SetSourceSId(short value)
+    {
         m_SourceSId = value;
     }
 
     /*
      * Returns NID allocated to the source service node.
      */
-    short GetSourceLnId() {
+    short GetSourceLnId()
+    {
         return m_SourceLnId;
     }
 
     /*
      * value: NID allocated to the source service node.
      */
-    void SetSourceLnId(short value) {
+    void SetSourceLnId(short value)
+    {
         m_SourceLnId = value;
     }
 
     /*
      * Returns LCID allocated to this connection at the source.
      */
-    short GetSourceLcId() {
+    short GetSourceLcId()
+    {
         return m_SourceLcId;
     }
 
     /*
      * value: LCID allocated to this connection at the source.
      */
-    void SetSourceLcId(short value) {
+    void SetSourceLcId(short value)
+    {
         m_SourceLcId = value;
     }
 
     /*
      * Returns SID of the switch through which the destination service node is connected.
      */
-    short GetDestinationSId() {
+    short GetDestinationSId()
+    {
         return m_DestinationSId;
     }
 
     /*
      * value: SID of the switch through which the destination service node is connected.
      */
-    void SetDestinationSId(short value) {
+    void SetDestinationSId(short value)
+    {
         m_DestinationSId = value;
     }
 
@@ -137,39 +144,45 @@ public:
     /*
      * value: NID allocated to the destination service node.
      */
-    void SetDestinationLnId(short value) {
+    void SetDestinationLnId(short value)
+    {
         m_DestinationLnId = value;
     }
 
     /*
      * Returns LCID allocated to this connection at the destination.
      */
-    short GetDestinationLcId() {
+    short GetDestinationLcId()
+    {
         return m_DestinationLcId;
     }
 
     /*
      * value: LCID allocated to this connection at the destination.
      */
-    void SetDestinationLcId(short value) {
+    void SetDestinationLcId(short value)
+    {
         m_DestinationLcId = value;
     }
 
     /*
      * Returns Entry DID is the EUI-48 of the direct switch.
      */
-    CGXByteBuffer &GetDid() {
+    CGXByteBuffer& GetDid()
+    {
         return m_Did;
     }
 
     /*
      * value: Entry DID is the EUI-48 of the direct switch.
      */
-    void SetDid(CGXByteBuffer &value) {
+    void SetDid(CGXByteBuffer& value)
+    {
         m_Did = value;
     }
 
-    std::string ToString() {
+    std::string ToString()
+    {
         std::stringstream sb;
         sb << m_SourceSId;
         sb << ' ';
@@ -187,4 +200,4 @@ public:
         return sb.str();
     }
 };
-#endif  //GXMACDIRECTTABLE_H
+#endif //GXMACDIRECTTABLE_H

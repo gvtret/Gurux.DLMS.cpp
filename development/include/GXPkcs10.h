@@ -43,7 +43,8 @@
 #include "GXx509Certificate.h"
 #include "GXCertificateRequest.h"
 
-class CGXPkcs10 {
+class CGXPkcs10
+{
 private:
     /**
     * Loaded PKCS #10 certificate as a raw data.
@@ -63,7 +64,7 @@ private:
      * Collection of attributes providing additional information about the
      * subject of the certificate.
      */
-    std::vector<std::pair<DLMS_PKCS_OBJECT_IDENTIFIER, std::vector<CGXAsn1Base *>>> m_Attributes;
+    std::vector< std::pair<DLMS_PKCS_OBJECT_IDENTIFIER, std::vector<CGXAsn1Base*> > > m_Attributes;
 
     /**
      * Algorithm.
@@ -83,10 +84,9 @@ private:
     CGXByteArray m_Signature;
 
 private:
-    int GetData(CGXAsn1Sequence *value);
+    int GetData(CGXAsn1Sequence* value);
 
-    int Init(CGXByteBuffer &data);
-
+    int Init(CGXByteBuffer& data);
 public:
     /**
      * Constructor.
@@ -99,7 +99,8 @@ public:
      * data: Encoded bytes.
      * cert: Pkcs10 certificate.
      */
-    static int FromHexString(std::string &data, CGXPkcs10 &cert);
+    static int FromHexString(std::string& data,
+        CGXPkcs10& cert);
 
     /**
     * Create Pkcs10 from byte array.
@@ -107,14 +108,17 @@ public:
     *data: Byte buffer.
     *length: The length of the byte buffer.
     */
-    static int FromByteArray(const unsigned char *data, uint16_t length, CGXPkcs10 &cert);
+    static int FromByteArray(const unsigned char* data,
+        uint16_t length,
+        CGXPkcs10& cert);
 
     /**
     * Create Pkcs10 from byte array.
     *
     *data: Byte array.
     */
-    static int FromByteArray(CGXByteBuffer &data, CGXPkcs10 &cert);
+    static int FromByteArray(CGXByteBuffer& data,
+        CGXPkcs10& cert);
 
     /**
      * Create GXPkcs10 certificate request from PEM string.
@@ -123,7 +127,8 @@ public:
      * cert: GXPkcs10 certificate request.
      * Returns Pkcs10 certificate.
      */
-    static int FromPem(std::string data, CGXPkcs10 &cert);
+    static int FromPem(std::string data,
+        CGXPkcs10& cert);
 
     /**
      * Create x509Certificate from DER Base64 encoded string.
@@ -132,7 +137,8 @@ public:
      *            Base64 DER string.
      * Returns x509 certificate.
      */
-    static int FromDer(std::string &data, CGXPkcs10 &cert);
+    static int FromDer(std::string& data,
+        CGXPkcs10& cert);
 
     /**
      * Constructor.
@@ -140,7 +146,8 @@ public:
      * data: Encoded bytes.
      * cert: Pkcs10 certificate.
      */
-    static int FromHexString(CGXByteBuffer &data, CGXPkcs10 &cert);
+    static int FromHexString(CGXByteBuffer& data,
+        CGXPkcs10& cert);
 
     /**
      * Returns Certificate version.
@@ -155,23 +162,23 @@ public:
     /**
      * Returns Subject.
      */
-    std::string &GetSubject();
+    std::string& GetSubject();
 
     /**
      * value
      *            Subject.
      */
-    void SetSubject(std::string &value);
+    void SetSubject(std::string& value);
 
     /**
      * Returns Subject key info.
      */
-    CGXPublicKey &GetPublicKey();
+    CGXPublicKey& GetPublicKey();
 
     /**
      * value: Subject key info.
      */
-    void SetPublicKey(CGXPublicKey &value);
+    void SetPublicKey(CGXPublicKey& value);
 
     /**
      * Returns Algorithm
@@ -196,20 +203,20 @@ public:
     /**
      * Returns Signature.
      */
-    CGXByteArray &GetSignature();
+    CGXByteArray& GetSignature();
 
     /**
      * value
      *            Signature.
      */
-    void SetSignature(CGXByteBuffer &value);
+    void SetSignature(CGXByteBuffer& value);
 
     std::string ToString();
 
     /**
      * Returns PKCS #10 certificate as a byte array.
      */
-    int GetEncoded(CGXByteBuffer &value);
+    int GetEncoded(CGXByteBuffer& value);
 
     /**
      * Sign
@@ -217,7 +224,8 @@ public:
      * kp: Private key.
      * hashAlgorithm: Used algorithm for signing.
      */
-    int Sign(CGXPrivateKey &kp, DLMS_HASH_ALGORITHM hashAlgorithm);
+    int Sign(CGXPrivateKey& kp,
+        DLMS_HASH_ALGORITHM hashAlgorithm);
 
     /**
      * Create Certificate Signing Request.
@@ -226,8 +234,10 @@ public:
      * subject: Subject.
      * Returns created GXPkcs10.
      */
-    static int
-    CreateCertificateSigningRequest(std::pair<CGXPublicKey, CGXPrivateKey> &kp, std::string &subject, CGXPkcs10 &pkc10);
+    static int CreateCertificateSigningRequest(
+        std::pair<CGXPublicKey, CGXPrivateKey>& kp,
+        std::string& subject,
+        CGXPkcs10& pkc10);
 
     /**
      * Ask Gurux certificate server to generate the new certificate.
@@ -236,8 +246,9 @@ public:
      *            std::vector of certification requests.
      * Returns Generated certificate(s).
      */
-    static int
-    GetCertificate(std::vector<CGXCertificateRequest> &certifications, std::vector<CGXx509Certificate> &certificates);
+    static int GetCertificate(
+        std::vector<CGXCertificateRequest>& certifications,
+        std::vector <CGXx509Certificate>& certificates);
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
     /**
@@ -247,7 +258,8 @@ public:
     *            File path.
     * cert: Created GXPkcs10 object.
     */
-    static int Load(std::string &path, CGXPkcs10 &cert);
+    static int Load(std::string& path,
+        CGXPkcs10& cert);
 
     /**
     * Load Certificate Signing Request from the PEM file.
@@ -256,35 +268,36 @@ public:
     *            File path.
     * cert: Created GXPkcs10 object.
     */
-    static int Load(const char *path, CGXPkcs10 &cert);
+    static int Load(const char* path,
+        CGXPkcs10& cert);
 
     /**
      * Save Certificate Signing Request to PEM file.
      *
      * path: File path.
      */
-    int Save(std::string &path);
+    int Save(std::string& path);
 
     /**
      * Save Certificate Signing Request to PEM file.
      *
      * path: File path.
      */
-    int Save(const char *path);
-#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    int Save(const char* path);
+#endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
     /**
      * Returns Certificate Signing Request in PEM format.
      */
-    int ToPem(std::string &value);
+    int ToPem(std::string& value);
 
     /**
      * Returns Certificate Signing Request in DER format.
      */
-    int ToDer(std::string &value);
+    int ToDer(std::string& value);
 
     //Is the content of the objects equal.
-    bool Equals(CGXPkcs10 &cert);
+    bool Equals(CGXPkcs10& cert);
 };
 
-#endif  //CGXPKCS10_H
+#endif //CGXPKCS10_H

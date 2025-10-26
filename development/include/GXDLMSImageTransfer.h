@@ -46,15 +46,15 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSImageTransfer
 */
-class CGXDLMSImageTransfer: public CGXDLMSObject {
+class CGXDLMSImageTransfer : public CGXDLMSObject
+{
     unsigned long m_ImageBlockSize;
     std::string m_ImageTransferredBlocksStatus;
     unsigned long m_ImageFirstNotTransferredBlockNumber;
     bool m_ImageTransferEnabled;
     DLMS_IMAGE_TRANSFER_STATUS m_ImageTransferStatus;
-    std::vector<CGXDLMSImageActivateInfo *> m_ImageActivateInfo;
-    int GetImageBlocks(CGXByteBuffer &image, std::vector<CGXByteBuffer> &packets);
-
+    std::vector<CGXDLMSImageActivateInfo*> m_ImageActivateInfo;
+    int GetImageBlocks(CGXByteBuffer& image, std::vector<CGXByteBuffer>& packets);
 public:
     //Constructor.
     CGXDLMSImageTransfer();
@@ -78,7 +78,7 @@ public:
      * ImageBlock. Each bit in the bit-std::string provides information about
      * one individual ImageBlock.
     */
-    std::string &GetImageTransferredBlocksStatus();
+    std::string& GetImageTransferredBlocksStatus();
     void SetImageTransferredBlocksStatus(std::string value);
 
     /**
@@ -102,27 +102,20 @@ public:
     DLMS_IMAGE_TRANSFER_STATUS GetImageTransferStatus();
     void SetImageTransferStatus(DLMS_IMAGE_TRANSFER_STATUS value);
 
-    std::vector<CGXDLMSImageActivateInfo *> &GetImageActivateInfo();
+    std::vector<CGXDLMSImageActivateInfo*>& GetImageActivateInfo();
 
-    int ImageTransferInitiate(
-        CGXDLMSClient *client, unsigned char *imageIdentifier, unsigned char imageIdentifierSize, long imageSize,
-        std::vector<CGXByteBuffer> &reply
-    );
+    int ImageTransferInitiate(CGXDLMSClient* client, unsigned char* imageIdentifier, unsigned char imageIdentifierSize, long imageSize, std::vector<CGXByteBuffer>& reply);
 
-    int ImageTransferInitiate(
-        CGXDLMSClient *client, std::string imageIdentifier, long imageSize, std::vector<CGXByteBuffer> &reply
-    );
+    int ImageTransferInitiate(CGXDLMSClient* client, std::string imageIdentifier, long imageSize, std::vector<CGXByteBuffer>& reply);
 
     // Move image to the meter.
-    int ImageBlockTransfer(
-        CGXDLMSClient *client, CGXByteBuffer &image, unsigned long &imageBlockCount, std::vector<CGXByteBuffer> &reply
-    );
+    int ImageBlockTransfer(CGXDLMSClient* client, CGXByteBuffer& image, unsigned long& imageBlockCount, std::vector<CGXByteBuffer>& reply);
 
     // Verify image.
-    int ImageVerify(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int ImageVerify(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
 
     // Activate image.
-    int ImageActivate(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int ImageActivate(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
 
 
     // Returns amount of attributes.
@@ -132,7 +125,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -142,17 +135,17 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
-    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_IMAGE_TRANSFER
-#endif  //GXDLMSIMAGETRANSFER_H
+#endif //DLMS_IGNORE_IMAGE_TRANSFER
+#endif //GXDLMSIMAGETRANSFER_H

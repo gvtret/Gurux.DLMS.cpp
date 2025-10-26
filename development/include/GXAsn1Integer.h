@@ -43,36 +43,40 @@
 /**
  ASN1 bit string.
 */
-class CGXAsn1Integer: public CGXAsn1Base {
+class CGXAsn1Integer : public CGXAsn1Base
+{
 private:
     CGXByteBuffer m_Value;
-
 public:
     /**
      Value.
     */
-    CGXByteBuffer &GetValue() {
+    CGXByteBuffer& GetValue()
+    {
         return m_Value;
     }
-
     /**
      Value.
     */
-    void SetValue(CGXByteBuffer &value) {
+    void SetValue(CGXByteBuffer& value)
+    {
         m_Value = value;
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Integer() {
+    CGXAsn1Integer()
+    {
+
     }
 
     /**
      Constructor
      @param data Integer.
     */
-    CGXAsn1Integer(CGXByteBuffer &value) {
+    CGXAsn1Integer(CGXByteBuffer& value)
+    {
         m_Value = value;
     }
 
@@ -82,7 +86,8 @@ public:
       index: Index.
       count: Count.
     */
-    CGXAsn1Integer(CGXByteBuffer &data, int index, int count) {
+    CGXAsn1Integer(CGXByteBuffer& data, int index, int count)
+    {
         data.SubArray(index, count, m_Value);
     }
 
@@ -90,7 +95,8 @@ public:
      Constructor
      data: Integer.
     */
-    CGXAsn1Integer(std::string &data) {
+    CGXAsn1Integer(std::string& data)
+    {
         m_Value.SetUInt64(atoll(data.c_str()));
     }
 
@@ -98,66 +104,74 @@ public:
      Constructor
      data: Integer.
     */
-    CGXAsn1Integer(uint64_t data) {
+    CGXAsn1Integer(uint64_t data)
+    {
         m_Value.SetUInt64(data);
     }
 
     /** @return Get integer value as int.
     */
-    CGXBigInteger ToBigInteger() {
+    CGXBigInteger ToBigInteger()
+    {
         return CGXBigInteger(m_Value);
     }
 
     /*Get integer value as byte.*/
-    unsigned char ToByte() {
+    unsigned char ToByte()
+    {
         unsigned char value;
         m_Value.GetUInt8(&value);
         return value;
     }
 
     /*Get integer value as short.*/
-    short ToShort() {
+    short ToShort()
+    {
         short value;
         m_Value.GetInt16(&value);
         return value;
     }
 
     /*Get integer value as int.*/
-    long ToInt() {
-        int32_t value;
+    long ToInt()
+    {
+        long value;
         m_Value.GetInt32(&value);
         return value;
     }
 
     /** Returns: Integer value as long.
     */
-    long long ToLong() {
-        int64_t value;
+    long long ToLong()
+    {
+        long long value;
         m_Value.GetInt64(&value);
         return value;
     }
 
-    std::string ToString() {
+    std::string ToString()
+    {
         std::string str;
-        switch (m_Value.GetSize()) {
-            case 1:
-                str = GXHelpers::IntToString(ToByte());
-                break;
-            case 2:
-                str = GXHelpers::IntToString(ToShort());
-                break;
-            case 4:
-                str = GXHelpers::IntToString(ToInt());
-                break;
-            case 8:
-                str = std::to_string(ToLong());
-                break;
-            default:
-                str = "Invalid value.";
-                break;
+        switch (m_Value.GetSize())
+        {
+        case 1:
+            str = GXHelpers::IntToString(ToByte());
+            break;
+        case 2:
+            str = GXHelpers::IntToString(ToShort());
+            break;
+        case 4:
+            str = GXHelpers::IntToString(ToInt());
+            break;
+        case 8:
+            str = std::to_string(ToLong());
+            break;
+        default:
+            str = "Invalid value.";
+            break;
         }
         return str;
     }
 };
 
-#endif  //GXASN1INTEGER_H
+#endif //GXASN1INTEGER_H

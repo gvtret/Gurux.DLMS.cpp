@@ -35,27 +35,33 @@
 #include "../include/GXChargeTable.h"
 #include "../include/GXHelpers.h"
 
-CGXChargeTable::CGXChargeTable() {
+CGXChargeTable::CGXChargeTable()
+{
     m_ChargePerUnit = 0;
 }
 
-std::string &CGXChargeTable::GetIndex() {
+std::string& CGXChargeTable::GetIndex()
+{
     return m_Index;
 }
 
-void CGXChargeTable::SetIndex(std::string &value) {
+void CGXChargeTable::SetIndex(std::string& value)
+{
     m_Index = value;
 }
 
-short CGXChargeTable::GetChargePerUnit() {
+short CGXChargeTable::GetChargePerUnit()
+{
     return m_ChargePerUnit;
 }
 
-void CGXChargeTable::SetChargePerUnit(short value) {
+void CGXChargeTable::SetChargePerUnit(short value)
+{
     m_ChargePerUnit = value;
 }
 
-std::string CGXChargeTable::ToString() {
+std::string CGXChargeTable::ToString()
+{
     std::string str = m_Index + " " + GXHelpers::IntToString(m_ChargePerUnit);
     return str;
 }

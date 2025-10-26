@@ -54,12 +54,12 @@
 #include <errno.h>
 #endif
 
-#include <string>
-
 #include "../include/communication.h"
 #include "../include/GXDLMSMeterListener.h"
 #include "../../development/include/GXDLMSData.h"
 #include "../../development/include/GXDLMSTranslator.h"
+
+using namespace std;
 
 void ListenerThread(void* pVoid)
 {
@@ -78,7 +78,7 @@ void ListenerThread(void* pVoid)
     struct sockaddr_in client;
     memset(&client, 0, sizeof(client));
     //Get buffer data
-    std::string senderInfo;
+    basic_string<char> senderInfo;
 
     /**
     * Received data. This is used if GBT is used and data is received on

@@ -44,7 +44,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSDisconnectControl
 */
-class CGXDLMSDisconnectControl: public CGXDLMSObject {
+class CGXDLMSDisconnectControl : public CGXDLMSObject
+{
     bool m_OutputState;
     DLMS_CONTROL_STATE m_ControlState;
     DLMS_CONTROL_MODE m_ControlMode;
@@ -79,13 +80,13 @@ public:
 
     // Forces the disconnect control object into 'disconnected' state
     // if remote disconnection is enabled(control mode > 0).
-    int RemoteDisconnect(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int RemoteDisconnect(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
 
     // Forces the disconnect control object into the 'ready_for_reconnection'
     // state if a direct remote reconnection is disabled(control_mode = 1, 3, 5, 6).
     // Forces the disconnect control object into the 'connected' state if
     // a direct remote reconnection is enabled(control_mode = 2, 4).
-    int RemoteReconnect(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int RemoteReconnect(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
 
 
     // Returns amount of attributes.
@@ -95,7 +96,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -105,15 +106,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_DISCONNECT_CONTROL
-#endif  //GXDLMSDISCONNECTCONTROL_H
+#endif //DLMS_IGNORE_DISCONNECT_CONTROL
+#endif //GXDLMSDISCONNECTCONTROL_H

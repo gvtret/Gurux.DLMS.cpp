@@ -42,7 +42,8 @@
  * Online help:<br>
  * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
  */
-class CGXTokenGatewayConfiguration {
+class CGXTokenGatewayConfiguration
+{
     /**
      * Credit reference.<br>
      * Online help:<br>
@@ -56,7 +57,6 @@ class CGXTokenGatewayConfiguration {
      * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
      */
     unsigned char m_TokenProportion;
-
 public:
     // Constructor.
     CGXTokenGatewayConfiguration();
@@ -67,7 +67,7 @@ public:
      *
      * @return Credit reference.
      */
-    std::string &GetCreditReference();
+    std::string& GetCreditReference();
 
     /**
      * Online help:<br>
@@ -76,7 +76,7 @@ public:
      * @param value
      *            Credit reference.
      */
-    void SetCreditReference(std::string &value);
+    void SetCreditReference(std::string& value);
 
     /**
      * Online help:<br>
@@ -97,4 +97,4 @@ public:
 
     std::string ToString();
 };
-#endif  //GXTOKEN_GATEWAY_CONFIGURATION_H
+#endif //GXTOKEN_GATEWAY_CONFIGURATION_H

@@ -40,7 +40,8 @@
 #include "GXDLMSObject.h"
 #include "GXDLMSCaptureObject.h"
 
-typedef enum {
+typedef enum
+{
     /**
      * Data is captured with Capture-method.
      */
@@ -49,13 +50,14 @@ typedef enum {
      * Data is captured upon reading.
      */
     DLMS_CAPTURE_METHOD_IMPLICIT
-} DLMS_CAPTURE_METHOD;
+}DLMS_CAPTURE_METHOD;
 
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCompactData
 */
-class CGXDLMSCompactData: public CGXDLMSObject {
+class CGXDLMSCompactData : public CGXDLMSObject
+{
     /*
     * Compact buffer
     */
@@ -64,7 +66,7 @@ class CGXDLMSCompactData: public CGXDLMSObject {
     /*
      * Capture objects.
      */
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> m_CaptureObjects;
+    std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> > m_CaptureObjects;
 
     /*
      * Template ID.
@@ -81,8 +83,7 @@ class CGXDLMSCompactData: public CGXDLMSObject {
      */
     DLMS_CAPTURE_METHOD m_CaptureMethod;
 
-    int GetCaptureObjects(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-
+    int GetCaptureObjects(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 public:
     //Constructor.
     CGXDLMSCompactData();
@@ -98,17 +99,17 @@ public:
     /*
      * Returns Compact buffer
      */
-    CGXByteBuffer &GetBuffer();
+    CGXByteBuffer& GetBuffer();
 
     /*
      * value: Compact buffer
      */
-    void SetBuffer(CGXByteBuffer &value);
+    void SetBuffer(CGXByteBuffer& value);
 
     /*
      * Capture objects.
      */
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &GetCaptureObjects();
+    std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >& GetCaptureObjects();
 
     /*
      * Returns Template ID.
@@ -123,12 +124,12 @@ public:
     /*
      * Returns template description.
      */
-    CGXByteBuffer &GetTemplateDescription();
+    CGXByteBuffer& GetTemplateDescription();
 
     /*
      * value: Template description.
      */
-    void SetTemplateDescription(CGXByteBuffer &value);
+    void SetTemplateDescription(CGXByteBuffer& value);
 
     /*
      * Returns Capture method.
@@ -147,7 +148,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -157,15 +158,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_COMPACT_DATA
-#endif  //GXDLMSCOMPACT_DATA_H
+#endif //DLMS_IGNORE_COMPACT_DATA
+#endif //GXDLMSCOMPACT_DATA_H

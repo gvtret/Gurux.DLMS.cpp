@@ -41,7 +41,8 @@
 /**
 *  M-Bus data definition element.
 */
-class CGXMBusClientData {
+class CGXMBusClientData
+{
     /**
       * Data information block.
       */
@@ -55,12 +56,12 @@ class CGXMBusClientData {
      * Data.
      */
     CGXDLMSVariant m_Data;
-
 public:
     /**
      * Returns Data information block.
      */
-    CGXByteBuffer &GetDataInformation() {
+    CGXByteBuffer& GetDataInformation()
+    {
         return m_DataInformation;
     }
 
@@ -68,14 +69,16 @@ public:
      * @param value
      *            Data information block.
      */
-    void SetDataInformation(CGXByteBuffer &value) {
+    void SetDataInformation(CGXByteBuffer& value)
+    {
         m_DataInformation = value;
     }
 
     /**
      * Returns Value information block.
      */
-    CGXByteBuffer &GetValueInformation() {
+    CGXByteBuffer& GetValueInformation()
+    {
         return m_ValueInformation;
     }
 
@@ -83,14 +86,16 @@ public:
      * @param value
      *            Value information block.
      */
-    void SetValueInformation(CGXByteBuffer &value) {
+    void SetValueInformation(CGXByteBuffer& value)
+    {
         m_ValueInformation = value;
     }
 
     /**
      * Returns Data.
      */
-    CGXDLMSVariant &GetData() {
+    CGXDLMSVariant& GetData()
+    {
         return m_Data;
     }
 
@@ -98,8 +103,9 @@ public:
      * @param value
      *            Data.
      */
-    void SetData(CGXDLMSVariant &value) {
+    void SetData(CGXDLMSVariant& value)
+    {
         m_Data = value;
     }
 };
-#endif  //GXMBUSCLIENTDATA_H
+#endif //GXMBUSCLIENTDATA_H

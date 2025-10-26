@@ -38,109 +38,136 @@
 #ifndef DLMS_IGNORE_COMMUNICATION_PORT_PROTECTION
 
 //Constructor.
-CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection()
-    : CGXDLMSCommunicationPortProtection("0.0.44.2.0.255", 0) {
+CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection() :
+    CGXDLMSCommunicationPortProtection("0.0.44.2.0.255", 0)
+{
 }
 
 //SN Constructor.
-CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(std::string ln, unsigned short sn)
-    : CGXDLMSObject(DLMS_OBJECT_TYPE_COMMUNICATION_PORT_PROTECTION, ln, sn) {
+CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(std::string ln, unsigned short sn) :
+    CGXDLMSObject(DLMS_OBJECT_TYPE_COMMUNICATION_PORT_PROTECTION, ln, sn)
+{
     m_Port = NULL;
 }
 
 //LN Constructor.
-CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(std::string ln)
-    : CGXDLMSCommunicationPortProtection(ln, 0) {
+CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(std::string ln) :
+    CGXDLMSCommunicationPortProtection(ln, 0)
+{
+
 }
 
-DLMS_PROTECTION_MODE CGXDLMSCommunicationPortProtection::GetProtectionMode() {
+DLMS_PROTECTION_MODE CGXDLMSCommunicationPortProtection::GetProtectionMode()
+{
     return m_ProtectionMode;
 }
 
-void CGXDLMSCommunicationPortProtection::SetProtectionMode(DLMS_PROTECTION_MODE value) {
+void CGXDLMSCommunicationPortProtection::SetProtectionMode(DLMS_PROTECTION_MODE value)
+{
     m_ProtectionMode = value;
 }
 
-uint16_t CGXDLMSCommunicationPortProtection::GetAllowedFailedAttempts() {
+uint16_t CGXDLMSCommunicationPortProtection::GetAllowedFailedAttempts()
+{
     return m_AllowedFailedAttempts;
 }
 
-void CGXDLMSCommunicationPortProtection::SetAllowedFailedAttempts(uint16_t value) {
+void CGXDLMSCommunicationPortProtection::SetAllowedFailedAttempts(uint16_t value)
+{
     m_AllowedFailedAttempts = value;
 }
 
-uint32_t CGXDLMSCommunicationPortProtection::GetInitialLockoutTime() {
+uint32_t CGXDLMSCommunicationPortProtection::GetInitialLockoutTime() 
+{
     return m_InitialLockoutTime;
 }
 
-void CGXDLMSCommunicationPortProtection::SetInitialLockoutTime(uint32_t value) {
+void CGXDLMSCommunicationPortProtection::SetInitialLockoutTime(uint32_t value)
+{
     m_InitialLockoutTime = value;
 }
 
-unsigned char CGXDLMSCommunicationPortProtection::GetSteepnessFactor() {
+unsigned char CGXDLMSCommunicationPortProtection::GetSteepnessFactor()
+{
     return m_SteepnessFactor;
 }
 
-void CGXDLMSCommunicationPortProtection::SetSteepnessFactor(unsigned char value) {
+void CGXDLMSCommunicationPortProtection::SetSteepnessFactor(unsigned char value)
+{
     m_SteepnessFactor = value;
 }
 
-uint32_t CGXDLMSCommunicationPortProtection::GetMaxLockoutTime() {
+uint32_t CGXDLMSCommunicationPortProtection::GetMaxLockoutTime()
+{
     return m_MaxLockoutTime;
 }
 
-void CGXDLMSCommunicationPortProtection::SetMaxLockoutTime(uint32_t value) {
+void CGXDLMSCommunicationPortProtection::SetMaxLockoutTime(uint32_t value)
+{
     m_MaxLockoutTime = value;
 }
 
-CGXDLMSObject *CGXDLMSCommunicationPortProtection::GetPort() {
+CGXDLMSObject* CGXDLMSCommunicationPortProtection::GetPort()
+{
     return m_Port;
 }
 
-void CGXDLMSCommunicationPortProtection::SetPort(CGXDLMSObject *value) {
+void CGXDLMSCommunicationPortProtection::SetPort(CGXDLMSObject* value)
+{
     m_Port = value;
 }
 
-DLMS_PROTECTION_STATUS CGXDLMSCommunicationPortProtection::GetProtectionStatus() {
+DLMS_PROTECTION_STATUS CGXDLMSCommunicationPortProtection::GetProtectionStatus() 
+{
     return m_ProtectionStatus;
 }
 
-void CGXDLMSCommunicationPortProtection::SetProtectionStatus(DLMS_PROTECTION_STATUS value) {
+void CGXDLMSCommunicationPortProtection::SetProtectionStatus(DLMS_PROTECTION_STATUS value)
+{
     m_ProtectionStatus = value;
 }
 
-uint32_t CGXDLMSCommunicationPortProtection::GetFailedAttempts() {
+uint32_t CGXDLMSCommunicationPortProtection::GetFailedAttempts()
+{
     return m_FailedAttempts;
 }
 
-void CGXDLMSCommunicationPortProtection::SetFailedAttempts(uint32_t value) {
+void CGXDLMSCommunicationPortProtection::SetFailedAttempts(uint32_t value)
+{
     m_FailedAttempts = value;
 }
 
-uint32_t CGXDLMSCommunicationPortProtection::GetCumulativeFailedAttempts() {
+uint32_t CGXDLMSCommunicationPortProtection::GetCumulativeFailedAttempts()
+{
     return m_CumulativeFailedAttempts;
 }
 
-void CGXDLMSCommunicationPortProtection::SetCumulativeFailedAttempts(uint32_t value) {
+void CGXDLMSCommunicationPortProtection::SetCumulativeFailedAttempts(uint32_t value)
+{
     m_CumulativeFailedAttempts = value;
 }
 
-int CGXDLMSCommunicationPortProtection::Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSCommunicationPortProtection::Reset(CGXDLMSClient* client,
+    std::vector<CGXByteBuffer>& reply)
+{
     CGXDLMSVariant data((char)0);
     return client->Method(this, 1, data, reply);
 }
 
 // Returns amount of attributes.
-int CGXDLMSCommunicationPortProtection::GetAttributeCount() {
+int CGXDLMSCommunicationPortProtection::GetAttributeCount()
+{
     return 10;
 }
 
 // Returns amount of methods.
-int CGXDLMSCommunicationPortProtection::GetMethodCount() {
+int CGXDLMSCommunicationPortProtection::GetMethodCount()
+{
     return 1;
 }
 
-void CGXDLMSCommunicationPortProtection::GetValues(std::vector<std::string> &values) {
+void CGXDLMSCommunicationPortProtection::GetValues(std::vector<std::string>& values)
+{
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -151,9 +178,12 @@ void CGXDLMSCommunicationPortProtection::GetValues(std::vector<std::string> &val
     values.push_back(std::to_string(m_InitialLockoutTime));
     values.push_back(std::to_string(m_SteepnessFactor));
     values.push_back(std::to_string(m_MaxLockoutTime));
-    if (m_Port == NULL) {
+    if (m_Port == NULL)
+    {
         values.push_back("");
-    } else {
+    }
+    else
+    {
         std::string ln;
         m_Port->GetLogicalName(ln);
         values.push_back(ln);
@@ -163,13 +193,16 @@ void CGXDLMSCommunicationPortProtection::GetValues(std::vector<std::string> &val
     values.push_back(std::to_string(m_CumulativeFailedAttempts));
 }
 
-void CGXDLMSCommunicationPortProtection::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+void CGXDLMSCommunicationPortProtection::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
+{
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
+    {
         attributes.push_back(1);
     }
     //ProtectionMode
-    if (all || CanRead(2)) {
+    if (all || CanRead(2))
+    {
         attributes.push_back(2);
     }
     // AllowedFailedAttempts
@@ -206,134 +239,143 @@ void CGXDLMSCommunicationPortProtection::GetAttributeIndexToRead(bool all, std::
     }
 }
 
-int CGXDLMSCommunicationPortProtection::GetDataType(int index, DLMS_DATA_TYPE &type) {
+int CGXDLMSCommunicationPortProtection::GetDataType(int index, DLMS_DATA_TYPE& type)
+{
     switch (index) {
-        case 1:
-            type = DLMS_DATA_TYPE_OCTET_STRING;
-            break;
-        case 2:
-            type = DLMS_DATA_TYPE_ENUM;
-            break;
-        case 3:
-            type = DLMS_DATA_TYPE_UINT16;
-            break;
-        case 4:
-            type = DLMS_DATA_TYPE_UINT32;
-            break;
-        case 5:
-            type = DLMS_DATA_TYPE_UINT8;
-            break;
-        case 6:
-            type = DLMS_DATA_TYPE_UINT32;
-            break;
-        case 7:
-            type = DLMS_DATA_TYPE_OCTET_STRING;
-            break;
-        case 8:
-            type = DLMS_DATA_TYPE_ENUM;
-            break;
-        case 9:
-            type = DLMS_DATA_TYPE_UINT32;
-            break;
-        case 10:
-            type = DLMS_DATA_TYPE_UINT32;
-            break;
-        default:
-            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    case 1:
+        type = DLMS_DATA_TYPE_OCTET_STRING;
+        break;
+    case 2:
+        type = DLMS_DATA_TYPE_ENUM;
+        break;
+    case 3:
+        type = DLMS_DATA_TYPE_UINT16;
+        break;
+    case 4:
+        type = DLMS_DATA_TYPE_UINT32;
+        break;
+    case 5:
+        type = DLMS_DATA_TYPE_UINT8;
+        break;
+    case 6:
+        type = DLMS_DATA_TYPE_UINT32;
+        break;
+    case 7:
+        type = DLMS_DATA_TYPE_OCTET_STRING;
+        break;
+    case 8:
+        type = DLMS_DATA_TYPE_ENUM;
+        break;
+    case 9:
+        type = DLMS_DATA_TYPE_UINT32;
+        break;
+    case 10:
+        type = DLMS_DATA_TYPE_UINT32;
+        break;
+    default:
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
 
 // Returns value of given attribute.
-int CGXDLMSCommunicationPortProtection::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSCommunicationPortProtection::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
     int ret = 0;
-    switch (e.GetIndex()) {
-        case 1: {
-            CGXDLMSVariant tmp;
-            if ((ret = GetLogicalName(this, tmp)) == 0) {
-                e.SetValue(tmp);
-            }
-            break;
+    switch (e.GetIndex())
+    {
+    case 1:
+    {
+        CGXDLMSVariant tmp;
+        if ((ret = GetLogicalName(this, tmp)) == 0)
+        {
+            e.SetValue(tmp);
         }
-        case 2:
-            e.SetValue(m_ProtectionMode);
-            break;
-        case 3:
-            e.SetValue(m_AllowedFailedAttempts);
-            break;
-        case 4:
-            e.SetValue(m_InitialLockoutTime);
-            break;
-        case 5:
-            e.SetValue(m_SteepnessFactor);
-            break;
-        case 6:
-            e.SetValue(m_MaxLockoutTime);
-            break;
-        case 7: {
-            CGXDLMSVariant tmp;
-            if ((ret = GetLogicalName(m_Port, tmp)) == 0) {
-                e.SetValue(tmp);
-            }
-            break;
+        break;
+    }
+    case 2:
+        e.SetValue(m_ProtectionMode);
+        break;
+    case 3:
+        e.SetValue(m_AllowedFailedAttempts);
+        break;
+    case 4:
+        e.SetValue(m_InitialLockoutTime);
+        break;
+    case 5:
+        e.SetValue(m_SteepnessFactor);
+        break;
+    case 6:
+        e.SetValue(m_MaxLockoutTime);
+        break;
+    case 7:
+    {
+        CGXDLMSVariant tmp;
+        if ((ret = GetLogicalName(m_Port, tmp)) == 0)
+        {
+            e.SetValue(tmp);
         }
-        case 8:
-            e.SetValue(m_ProtectionStatus);
-            break;
-        case 9:
-            e.SetValue(m_FailedAttempts);
-            break;
-        case 10:
-            e.SetValue(m_CumulativeFailedAttempts);
-            break;
-        default:
-            ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-            break;
+        break;
+    }
+    case 8:
+        e.SetValue(m_ProtectionStatus);
+        break;
+    case 9:
+        e.SetValue(m_FailedAttempts);
+        break;
+    case 10:
+        e.SetValue(m_CumulativeFailedAttempts);
+        break;
+    default:
+        ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
+        break;
     }
     return ret;
 }
 
 // Set value of given attribute.
-int CGXDLMSCommunicationPortProtection::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSCommunicationPortProtection::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
     int ret = 0;
     switch (e.GetIndex()) {
-        case 1:
-            ret = SetLogicalName(this, e.GetValue());
-            break;
-        case 2:
-            m_ProtectionMode = (DLMS_PROTECTION_MODE)e.GetValue().ToInteger();
-            break;
-        case 3:
-            m_AllowedFailedAttempts = e.GetValue().ToInteger();
-            break;
-        case 4:
-            m_InitialLockoutTime = e.GetValue().ToInteger();
-            break;
-        case 5:
-            m_SteepnessFactor = e.GetValue().ToInteger();
-            break;
-        case 6:
-            m_MaxLockoutTime = e.GetValue().ToInteger();
-            break;
-        case 7: {
-            std::string ln;
-            GXHelpers::GetLogicalName(e.GetValue().byteArr, ln);
-            m_Port = settings.GetObjects().FindByLN(DLMS_OBJECT_TYPE_NONE, ln);
-            break;
-        }
-        case 8:
-            m_ProtectionStatus = (DLMS_PROTECTION_STATUS)e.GetValue().ToInteger();
-            break;
-        case 9:
-            m_FailedAttempts = e.GetValue().ToInteger();
-            break;
-        case 10:
-            m_CumulativeFailedAttempts = e.GetValue().ToInteger();
-            break;
-        default:
-            ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-            break;
+    case 1:
+        ret = SetLogicalName(this, e.GetValue());
+        break;
+    case 2:
+        m_ProtectionMode = (DLMS_PROTECTION_MODE) e.GetValue().ToInteger();
+        break;
+    case 3:
+        m_AllowedFailedAttempts = e.GetValue().ToInteger();
+        break;
+    case 4:
+        m_InitialLockoutTime = e.GetValue().ToInteger();
+        break;
+    case 5:
+        m_SteepnessFactor = e.GetValue().ToInteger();
+        break;
+    case 6:
+        m_MaxLockoutTime = e.GetValue().ToInteger();
+        break;
+    case 7:
+    {
+        std::string ln;
+        GXHelpers::GetLogicalName(e.GetValue().byteArr, ln);
+        m_Port = settings.GetObjects().FindByLN(DLMS_OBJECT_TYPE_NONE, ln);
+        break;
+    }
+    case 8:
+        m_ProtectionStatus = (DLMS_PROTECTION_STATUS) e.GetValue().ToInteger();
+        break;
+    case 9:
+        m_FailedAttempts = e.GetValue().ToInteger();
+        break;
+    case 10:
+        m_CumulativeFailedAttempts = e.GetValue().ToInteger();
+        break;
+    default:
+        ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
+        break;
     }
     return ret;
 }
-#endif  //DLMS_IGNORE_COMMUNICATION_PORT_PROTECTION
+#endif //DLMS_IGNORE_COMMUNICATION_PORT_PROTECTION

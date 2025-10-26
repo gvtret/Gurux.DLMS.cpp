@@ -36,129 +36,160 @@
 #include "../include/GXDLMSSettings.h"
 #include "../include/GXDLMS.h"
 
-unsigned char CGXPlcSettings::GetInitialCredit() {
+unsigned char CGXPlcSettings::GetInitialCredit()
+{
     return m_InitialCredit;
 }
-
-void CGXPlcSettings::SetInitialCredit(unsigned char value) {
+void CGXPlcSettings::SetInitialCredit(unsigned char value)
+{
     m_InitialCredit = value;
 }
 
-unsigned char CGXPlcSettings::GetCurrentCredit() {
+
+unsigned char CGXPlcSettings::GetCurrentCredit()
+{
     return m_CurrentCredit;
 }
-
-void CGXPlcSettings::SetCurrentCredit(unsigned char value) {
+void CGXPlcSettings::SetCurrentCredit(unsigned char value)
+{
     m_CurrentCredit = value;
 }
 
-unsigned char CGXPlcSettings::GetDeltaCredit() {
+unsigned char CGXPlcSettings::GetDeltaCredit()
+{
     return m_DeltaCredit;
 }
-
-void CGXPlcSettings::SetDeltaCredit(unsigned char value) {
+void CGXPlcSettings::SetDeltaCredit(unsigned char value)
+{
     m_DeltaCredit = value;
 }
 
-CGXByteBuffer &CGXPlcSettings::GetSystemTitle() {
-    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
-        m_Settings->GetCipher() != NULL) {
+CGXByteBuffer& CGXPlcSettings::GetSystemTitle()
+{
+    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetCipher() != NULL)
+    {
         return m_Settings->GetCipher()->GetSystemTitle();
     }
     return m_SystemTitle;
 }
 
-void CGXPlcSettings::SetSystemTitle(CGXByteBuffer &value) {
-    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
-        m_Settings->GetCipher() != NULL) {
+void CGXPlcSettings::SetSystemTitle(CGXByteBuffer& value)
+{
+    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetCipher() != NULL)
+    {
         m_Settings->GetCipher()->SetSystemTitle(value);
     }
     m_SystemTitle = value;
 }
 
-uint16_t CGXPlcSettings::GetMacSourceAddress() {
+uint16_t CGXPlcSettings::GetMacSourceAddress()
+{
     return m_MacSourceAddress;
 }
 
-void CGXPlcSettings::SetMacSourceAddress(uint16_t value) {
+void CGXPlcSettings::SetMacSourceAddress(uint16_t value)
+{
     m_MacSourceAddress = value;
 }
 
-uint16_t CGXPlcSettings::GetMacDestinationAddress() {
+uint16_t CGXPlcSettings::GetMacDestinationAddress()
+{
     return m_MacDestinationAddress;
 }
 
-void CGXPlcSettings::SetMacDestinationAddress(uint16_t value) {
+void CGXPlcSettings::SetMacDestinationAddress(uint16_t value)
+{
     m_MacDestinationAddress = value;
 }
 
-unsigned char CGXPlcSettings::GetResponseProbability() {
+unsigned char CGXPlcSettings::GetResponseProbability()
+{
     return m_ResponseProbability;
 }
 
-void CGXPlcSettings::SetResponseProbability(unsigned char value) {
+void CGXPlcSettings::SetResponseProbability(unsigned char value)
+{
     m_ResponseProbability = value;
 }
 
-uint16_t CGXPlcSettings::GetAllowedTimeSlots() {
+uint16_t CGXPlcSettings::GetAllowedTimeSlots()
+{
     return m_AllowedTimeSlots;
 }
 
-void CGXPlcSettings::SetAllowedTimeSlots(uint16_t value) {
+void CGXPlcSettings::SetAllowedTimeSlots(uint16_t value)
+{
     m_AllowedTimeSlots = value;
 }
 
-CGXByteBuffer &CGXPlcSettings::GetClientSystemTitle() {
+CGXByteBuffer& CGXPlcSettings::GetClientSystemTitle()
+{
     return m_ClientSystemTitle;
 }
-
-void CGXPlcSettings::SetClientSystemTitle(CGXByteBuffer &value) {
+void CGXPlcSettings::SetClientSystemTitle(CGXByteBuffer& value)
+{
     m_ClientSystemTitle = value;
 }
 
-void CGXPlcSettings::Reset() {
+void CGXPlcSettings::Reset()
+{
     m_InitialCredit = 7;
     m_CurrentCredit = 7;
     m_DeltaCredit = 0;
     // New device addresses are used.
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC) {
-        if (m_Settings->IsServer()) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC)
+    {
+        if (m_Settings->IsServer())
+        {
             m_MacSourceAddress = DLMS_PLC_SOURCE_ADDRESS_NEW;
             m_MacDestinationAddress = DLMS_PLC_SOURCE_ADDRESS_INITIATOR;
-        } else {
+        }
+        else
+        {
             m_MacSourceAddress = DLMS_PLC_SOURCE_ADDRESS_INITIATOR;
             m_MacDestinationAddress = DLMS_PLC_DESTINATION_ADDRESS_ALL_PHYSICAL;
         }
-    } else {
-        if (m_Settings->IsServer()) {
+    }
+    else
+    {
+        if (m_Settings->IsServer())
+        {
             m_MacSourceAddress = DLMS_PLC_SOURCE_ADDRESS_NEW;
             m_MacDestinationAddress = DLMS_PLC_HDLC_SOURCE_ADDRESS_INITIATOR;
-        } else {
+        }
+        else
+        {
             m_MacSourceAddress = DLMS_PLC_HDLC_SOURCE_ADDRESS_INITIATOR;
             m_MacDestinationAddress = DLMS_PLC_DESTINATION_ADDRESS_ALL_PHYSICAL;
         }
     }
     m_ResponseProbability = 100;
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC)
+    {
         m_AllowedTimeSlots = 10;
-    } else {
+    }
+    else
+    {
         m_AllowedTimeSlots = 0x14;
     }
 }
 
-CGXPlcSettings::CGXPlcSettings(CGXDLMSSettings *settings) {
+CGXPlcSettings::CGXPlcSettings(CGXDLMSSettings* settings)
+{
     m_Settings = settings;
     Reset();
 }
 
-int CGXPlcSettings::DiscoverRequest(CGXByteBuffer &data) {
-    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
-        m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC) {
+int CGXPlcSettings::DiscoverRequest(CGXByteBuffer& data)
+{
+    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC)
+    {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     int ret;
     CGXByteBuffer bb;
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC)
+    {
         bb.Set(LLC_SEND_BYTES, 3);
     }
     bb.SetUInt8(DLMS_COMMAND_DISCOVER_REQUEST);
@@ -175,7 +206,8 @@ int CGXPlcSettings::DiscoverRequest(CGXByteBuffer &data) {
     uint16_t sa = m_Settings->GetPlcSettings().GetMacSourceAddress();
     // 10.4.6.4 Source and destination APs and addresses of CI-PDUs
     // Client address is No-station in discoverReport.
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC)
+    {
         m_Settings->GetPlcSettings().SetInitialCredit(0);
         m_Settings->GetPlcSettings().SetCurrentCredit(0);
         m_Settings->GetPlcSettings().SetMacSourceAddress(0xC01);
@@ -183,7 +215,9 @@ int CGXPlcSettings::DiscoverRequest(CGXByteBuffer &data) {
         m_Settings->SetClientAddress(0x66);
         // All-station
         m_Settings->SetServerAddress(0x33FF);
-    } else {
+    }
+    else
+    {
         val = m_Settings->GetPlcSettings().GetInitialCredit() << 5;
         val |= m_Settings->GetPlcSettings().GetCurrentCredit() << 2;
         val |= m_Settings->GetPlcSettings().GetDeltaCredit() & 0x3;
@@ -200,26 +234,32 @@ int CGXPlcSettings::DiscoverRequest(CGXByteBuffer &data) {
     return ret;
 }
 
-int CGXPlcSettings::DiscoverReport(CGXByteBuffer &systemTitle, bool newMeter, CGXByteBuffer &data) {
-    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
-        m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC) {
+int CGXPlcSettings::DiscoverReport(CGXByteBuffer& systemTitle, bool newMeter, CGXByteBuffer& data)
+{
+    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC)
+    {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     CGXByteBuffer bb;
     int ret;
     unsigned char alarmDescription;
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC)
+    {
         alarmDescription = (newMeter ? 1 : 0x82);
-    } else {
+    }
+    else
+    {
         alarmDescription = 0;
     }
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC)
+    {
         bb.Set(LLC_REPLY_BYTES, sizeof(LLC_REPLY_BYTES));
     }
     bb.SetUInt8(DLMS_COMMAND_DISCOVER_REPORT);
     bb.SetUInt8(1);
     bb.Set(&systemTitle);
-    if (alarmDescription != 0) {
+    if (alarmDescription != 0)
+    {
         bb.SetUInt8(1);
     }
     bb.SetUInt8(alarmDescription);
@@ -229,9 +269,12 @@ int CGXPlcSettings::DiscoverReport(CGXByteBuffer &systemTitle, bool newMeter, CG
     int macTargetAddress = m_Settings->GetPlcSettings().GetMacDestinationAddress();
     // 10.4.6.4 Source and destination APs and addresses of CI-PDUs
     // Client address is No-station in discoverReport.
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC)
+    {
         m_Settings->GetPlcSettings().SetMacDestinationAddress(DLMS_PLC_HDLC_SOURCE_ADDRESS_INITIATOR);
-    } else {
+    }
+    else
+    {
         m_Settings->SetClientAddress(0);
         m_Settings->SetServerAddress(0xFD);
     }
@@ -244,20 +287,24 @@ int CGXPlcSettings::DiscoverReport(CGXByteBuffer &systemTitle, bool newMeter, CG
     return ret;
 }
 
-int CGXPlcSettings::ParseDiscover(
-    CGXByteBuffer &value, uint16_t sa, uint16_t da, std::vector<CGXDLMSPlcMeterInfo> &list
-) {
+int CGXPlcSettings::ParseDiscover(CGXByteBuffer& value, uint16_t sa, uint16_t da, std::vector<CGXDLMSPlcMeterInfo>& list)
+{
     int ret;
     unsigned char ch, count;
-    if ((ret = value.GetUInt8(&count)) == 0) {
+    if ((ret = value.GetUInt8(&count)) == 0)
+    {
         // Get System title.
         CGXByteBuffer st;
-        if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC) {
+        if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC)
+        {
             st.SetSize(8);
-        } else {
+        }
+        else
+        {
             st.SetSize(6);
         }
-        for (int pos = 0; pos != count; ++pos) {
+        for (int pos = 0; pos != count; ++pos)
+        {
             CGXDLMSPlcMeterInfo info;
             info.SetSourceAddress(sa);
             info.SetDestinationAddress(da);
@@ -266,11 +313,14 @@ int CGXPlcSettings::ParseDiscover(
             info.SetSystemTitle(st);
             // Alarm descriptor of the reporting system.
             // Alarm-Descriptor presence flag
-            if ((ret = value.GetUInt8(&ch)) != 0) {
+            if ((ret = value.GetUInt8(&ch)) != 0)
+            {
                 break;
             }
-            if (ch != 0) {
-                if ((ret = value.GetUInt8(&ch)) != 0) {
+            if (ch != 0)
+            {
+                if ((ret = value.GetUInt8(&ch)) != 0)
+                {
                     break;
                 }
                 // Alarm-Descriptor
@@ -282,9 +332,8 @@ int CGXPlcSettings::ParseDiscover(
     return ret;
 }
 
-int CGXPlcSettings::RegisterRequest(
-    CGXByteBuffer &initiatorSystemTitle, CGXByteBuffer &systemTitle, CGXByteBuffer &data
-) {
+int CGXPlcSettings::RegisterRequest(CGXByteBuffer& initiatorSystemTitle, CGXByteBuffer& systemTitle, CGXByteBuffer& data)
+{
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_COMMAND_REGISTER_REQUEST);
     bb.Set(initiatorSystemTitle.GetData(), initiatorSystemTitle.GetSize());
@@ -311,7 +360,9 @@ int CGXPlcSettings::RegisterRequest(
         m_Settings->SetClientAddress(0x66);
         // All-station
         m_Settings->SetServerAddress(0x33FF);
-    } else {
+    }
+    else
+    {
         m_Settings->SetClientAddress(1);
         m_Settings->SetServerAddress(0);
         m_Settings->GetPlcSettings().SetMacSourceAddress(0xC00);
@@ -325,26 +376,33 @@ int CGXPlcSettings::RegisterRequest(
     return ret;
 }
 
-int CGXPlcSettings::ParseRegisterRequest(CGXByteBuffer &value) {
+int CGXPlcSettings::ParseRegisterRequest(CGXByteBuffer& value)
+{
     // Get System title.
     CGXByteBuffer st;
-    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC) {
+    if (m_Settings->GetInterfaceType() == DLMS_INTERFACE_TYPE_PLC_HDLC)
+    {
         st.SetSize(8);
-    } else {
+    }
+    else
+    {
         st.SetSize(6);
     }
     value.Get(st.GetData(), st.GetSize());
     int ret;
     unsigned char pos, count;
     uint16_t v;
-    if ((ret = value.GetUInt8(&count)) != 0) {
+    if ((ret = value.GetUInt8(&count)) != 0)
+    {
         return ret;
     }
-    for (pos = 0; pos != count; ++pos) {
+    for (pos = 0; pos != count; ++pos)
+    {
         value.Get(st.GetData(), st.GetSize());
         SetSystemTitle(st);
         // MAC address.
-        if ((ret = value.GetUInt16(&v)) != 0) {
+        if ((ret = value.GetUInt16(&v)) != 0)
+        {
             break;
         }
         SetMacSourceAddress(v);
@@ -352,30 +410,36 @@ int CGXPlcSettings::ParseRegisterRequest(CGXByteBuffer &value) {
     return ret;
 }
 
-int CGXPlcSettings::ParseDiscoverRequest(CGXByteBuffer &value, CGXDLMSPlcRegister &reg) {
+int CGXPlcSettings::ParseDiscoverRequest(CGXByteBuffer& value, CGXDLMSPlcRegister& reg)
+{
     int ret;
     unsigned char ch;
     uint16_t v;
-    if ((ret = value.GetUInt8(&ch)) != 0) {
+    if ((ret = value.GetUInt8(&ch)) != 0)
+    {
         return ret;
     }
     reg.SetResponseProbability(ch);
-    if ((ret = value.GetUInt16(&v)) != 0) {
+    if ((ret = value.GetUInt16(&v)) != 0)
+    {
         return ret;
     }
     reg.SetAllowedTimeSlots(v);
-    if ((ret = value.GetUInt8(&ch)) != 0) {
+    if ((ret = value.GetUInt8(&ch)) != 0)
+    {
         return ret;
     }
     reg.SetDiscoverReportInitialCredit(ch);
-    if ((ret = value.GetUInt8(&ch)) != 0) {
+    if ((ret = value.GetUInt8(&ch)) != 0)
+    {
         return ret;
     }
     reg.SetICEqualCredit(ch);
     return 0;
 }
 
-int CGXPlcSettings::PingRequest(CGXByteBuffer &systemTitle, CGXByteBuffer &data) {
+int CGXPlcSettings::PingRequest(CGXByteBuffer& systemTitle, CGXByteBuffer& data)
+{
     CGXByteBuffer bb;
     // Control byte.
     bb.SetUInt8(DLMS_COMMAND_PING_REQUEST);
@@ -383,12 +447,14 @@ int CGXPlcSettings::PingRequest(CGXByteBuffer &systemTitle, CGXByteBuffer &data)
     return CGXDLMS::GetMacFrame(*m_Settings, 0x13, 0, &bb, data);
 }
 
-int CGXPlcSettings::ParsePing(CGXByteBuffer &data, CGXByteBuffer &value) {
+int CGXPlcSettings::ParsePing(CGXByteBuffer& data, CGXByteBuffer& value)
+{
     data.Clear();
     return value.Set(&data, 1, 6);
 }
 
-int CGXPlcSettings::RepeaterCallRequest(CGXByteBuffer &data) {
+int CGXPlcSettings::RepeaterCallRequest(CGXByteBuffer& data)
+{
     CGXByteBuffer bb;
     // Control byte.
     bb.SetUInt8(DLMS_COMMAND_REPEAT_CALL_REQUEST);

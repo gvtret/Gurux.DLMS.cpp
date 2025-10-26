@@ -40,23 +40,25 @@
 #include "GXDLMSObject.h"
 #include "GXMBusClientData.h"
 
-typedef enum {
+typedef enum
+{
     DLMS_MBUS_ENCRYPTION_KEY_STATUS_NO_ENCRYPTION_KEY = 0,
     DLMS_MBUS_ENCRYPTION_KEY_STATUS_ENCRYPTION_KEY_SET,
     DLMS_MBUS_ENCRYPTION_KEY_STATUS_ENCRYPTION_KEY_TRANSFERRED,
     DLMS_MBUS_ENCRYPTION_KEY_STATUS_ENCRYPTION_KEY_SET_AND_TRANSFERRED,
     DLMS_MBUS_ENCRYPTION_KEY_STATUS_ENCRYPTION_KEY_INUSE
-} DLMS_MBUS_ENCRYPTION_KEY_STATUS;
+}DLMS_MBUS_ENCRYPTION_KEY_STATUS;
 
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSMBusClient
 */
-class CGXDLMSMBusClient: public CGXDLMSObject {
+class CGXDLMSMBusClient : public CGXDLMSObject
+{
     long m_CapturePeriod;
     int m_PrimaryAddress;
     std::string m_MBusPortReference;
-    std::vector<std::pair<std::string, std::string>> m_CaptureDefinition;
+    std::vector<std::pair<std::string, std::string> > m_CaptureDefinition;
     long m_IdentificationNumber;
     int m_ManufacturerID;
     int m_DataHeaderVersion;
@@ -66,7 +68,6 @@ class CGXDLMSMBusClient: public CGXDLMSObject {
     int m_Alarm;
     unsigned short m_Configuration;
     DLMS_MBUS_ENCRYPTION_KEY_STATUS m_EncryptionKeyStatus;
-
 public:
     //Constructor.
     CGXDLMSMBusClient();
@@ -85,7 +86,7 @@ public:
     std::string GetMBusPortReference();
     void SetMBusPortReference(std::string value);
 
-    std::vector<std::pair<std::string, std::string>> &GetCaptureDefinition();
+    std::vector<std::pair<std::string, std::string> >& GetCaptureDefinition();
 
     long GetCapturePeriod();
     void SetCapturePeriod(long value);
@@ -131,7 +132,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -141,49 +142,68 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     //Installs a slave device.
-    int SlaveInstall(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int SlaveInstall(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     //De-installs a slave device.
-    int SlaveDeInstall(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int SlaveDeInstall(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     //Captures values.
-    int Capture(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Capture(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     //Resets alarm state of the M-Bus slave device.
-    int ResetAlarm(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int ResetAlarm(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     //Synchronize the clock.
-    int SynchronizeClock(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int SynchronizeClock(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     // Sends data to the M-Bus slave device.
     // client: DLMS client settings.
     // data: data to send
     // Returns Generated DLMS data.
-    int SendData(CGXDLMSClient *client, std::vector<CGXMBusClientData> &data, std::vector<CGXByteBuffer> &reply);
+    int SendData(
+        CGXDLMSClient* client,
+        std::vector<CGXMBusClientData>& data,
+        std::vector<CGXByteBuffer>& reply);
 
     // Sets the encryption key in the M-Bus client and enables encrypted communication
     // with the M-Bus slave device.
     // client: DLMS client settings.
     // encryptionKey: encryption key
     // Returns Generated DLMS data.
-    int SetEncryptionKey(CGXDLMSClient *client, CGXByteBuffer &encryptionKey, std::vector<CGXByteBuffer> &reply);
+    int SetEncryptionKey(
+        CGXDLMSClient* client,
+        CGXByteBuffer& encryptionKey,
+        std::vector<CGXByteBuffer>& reply);
 
     // Transfers an encryption key to the M-Bus slave device.
     // client: DLMS client settings.
     // encryptionKey: encryption key
     // Returns Generated DLMS data.
-    int TransferKey(CGXDLMSClient *client, CGXByteBuffer &encryptionKey, std::vector<CGXByteBuffer> &reply);
+    int TransferKey(
+        CGXDLMSClient* client,
+        CGXByteBuffer& encryptionKey,
+        std::vector<CGXByteBuffer>& reply);
 };
-#endif  //DLMS_IGNORE_MBUS_CLIENT
-#endif  //GXDLMSMBUSCLIENT_H
+#endif //DLMS_IGNORE_MBUS_CLIENT
+#endif //GXDLMSMBUSCLIENT_H

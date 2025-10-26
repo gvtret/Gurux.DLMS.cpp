@@ -34,7 +34,12 @@
 
 #include "../include/GXReplyData.h"
 
-CGXReplyData::CGXReplyData(DLMS_DATA_REQUEST_TYPES more, DLMS_COMMAND cmd, CGXByteBuffer *buff, bool complete) {
+CGXReplyData::CGXReplyData(
+    DLMS_DATA_REQUEST_TYPES more,
+    DLMS_COMMAND cmd,
+    CGXByteBuffer* buff,
+    bool complete)
+{
     Clear();
     m_DataType = DLMS_DATA_TYPE_NONE;
     m_MoreData = more;
@@ -45,59 +50,73 @@ CGXReplyData::CGXReplyData(DLMS_DATA_REQUEST_TYPES more, DLMS_COMMAND cmd, CGXBy
     m_pData = buff;
 }
 
-CGXReplyData::CGXReplyData() {
+CGXReplyData::CGXReplyData()
+{
     Clear();
 }
 
-DLMS_DATA_TYPE CGXReplyData::GetValueType() {
+DLMS_DATA_TYPE CGXReplyData::GetValueType()
+{
     return m_DataType;
 }
 
-void CGXReplyData::SetValueType(DLMS_DATA_TYPE value) {
+void CGXReplyData::SetValueType(DLMS_DATA_TYPE value)
+{
     m_DataType = value;
 }
 
-CGXDLMSVariant &CGXReplyData::GetValue() {
+CGXDLMSVariant& CGXReplyData::GetValue()
+{
     return m_DataValue;
 }
 
-void CGXReplyData::SetValue(CGXDLMSVariant &value) {
+void CGXReplyData::SetValue(CGXDLMSVariant& value)
+{
     m_DataValue = value;
 }
 
-unsigned long CGXReplyData::GetReadPosition() {
+unsigned long CGXReplyData::GetReadPosition()
+{
     return m_ReadPosition;
 }
 
-void CGXReplyData::SetReadPosition(unsigned long value) {
+void CGXReplyData::SetReadPosition(unsigned long value)
+{
     m_ReadPosition = value;
 }
 
-int CGXReplyData::GetPacketLength() {
+int CGXReplyData::GetPacketLength()
+{
     return m_PacketLength;
 }
 
-void CGXReplyData::SetPacketLength(int value) {
+void CGXReplyData::SetPacketLength(int value)
+{
     m_PacketLength = value;
 }
 
-void CGXReplyData::SetCommand(DLMS_COMMAND value) {
+void CGXReplyData::SetCommand(DLMS_COMMAND value)
+{
     m_Command = value;
 }
 
-void CGXReplyData::SetData(CGXByteBuffer &value) {
+void CGXReplyData::SetData(CGXByteBuffer& value)
+{
     m_pData = &value;
 }
 
-void CGXReplyData::SetComplete(bool value) {
+void CGXReplyData::SetComplete(bool value)
+{
     m_Complete = value;
 }
 
-void CGXReplyData::SetTotalCount(int value) {
+void CGXReplyData::SetTotalCount(int value)
+{
     m_TotalCount = value;
 }
 
-void CGXReplyData::Clear() {
+void CGXReplyData::Clear()
+{
     m_Data.Clear();
     m_pData = &m_Data;
     m_Time = NULL;
@@ -125,122 +144,154 @@ void CGXReplyData::Clear() {
     m_CipherIndex = 0;
 }
 
-bool CGXReplyData::IsMoreData() {
+bool CGXReplyData::IsMoreData()
+{
     return m_MoreData != DLMS_DATA_REQUEST_TYPES_NONE;
 }
 
-DLMS_DATA_REQUEST_TYPES CGXReplyData::GetMoreData() {
+DLMS_DATA_REQUEST_TYPES CGXReplyData::GetMoreData()
+{
     return m_MoreData;
 }
 
-void CGXReplyData::SetMoreData(DLMS_DATA_REQUEST_TYPES value) {
+void CGXReplyData::SetMoreData(DLMS_DATA_REQUEST_TYPES value)
+{
     m_MoreData = value;
 }
 
-DLMS_COMMAND CGXReplyData::GetCommand() {
+DLMS_COMMAND CGXReplyData::GetCommand()
+{
     return m_Command;
 }
 
-void CGXReplyData::SetCommandType(unsigned char value) {
+void CGXReplyData::SetCommandType(unsigned char value)
+{
     m_CommandType = value;
 }
 
-unsigned char CGXReplyData::GetCommandType() {
+unsigned char CGXReplyData::GetCommandType()
+{
     return m_CommandType;
 }
 
-CGXByteBuffer &CGXReplyData::GetData() {
+CGXByteBuffer& CGXReplyData::GetData()
+{
     return *m_pData;
 }
 
-bool CGXReplyData::IsComplete() {
+bool CGXReplyData::IsComplete()
+{
     return m_Complete;
 }
 
-int CGXReplyData::GetTotalCount() {
+int CGXReplyData::GetTotalCount()
+{
     return m_TotalCount;
 }
 
-int CGXReplyData::GetCount() {
-    if (m_DataValue.vt == DLMS_DATA_TYPE_ARRAY) {
+int CGXReplyData::GetCount()
+{
+    if (m_DataValue.vt == DLMS_DATA_TYPE_ARRAY)
+    {
         return (int)m_DataValue.Arr.size();
     }
     return 0;
 }
 
-bool CGXReplyData::GetPeek() {
+bool CGXReplyData::GetPeek()
+{
     return m_Peek;
 }
 
-void CGXReplyData::SetPeek(bool value) {
+void CGXReplyData::SetPeek(bool value)
+{
     m_Peek = value;
 }
 
-unsigned long CGXReplyData::GetCipherIndex() {
+unsigned long CGXReplyData::GetCipherIndex()
+{
     return m_CipherIndex;
 }
 
-void CGXReplyData::SetCipherIndex(unsigned long value) {
+void CGXReplyData::SetCipherIndex(unsigned long value)
+{
     m_CipherIndex = value;
 }
 
-struct tm *CGXReplyData::GetTime() {
+struct tm* CGXReplyData::GetTime()
+{
     return m_Time;
 }
 
-void CGXReplyData::SetTime(struct tm *value) {
-    if (value == NULL) {
-        if (m_Time != NULL) {
+void CGXReplyData::SetTime(struct tm* value)
+{
+    if (value == NULL)
+    {
+        if (m_Time != NULL)
+        {
             free(m_Time);
         }
         m_Time = value;
-    } else {
-        if (m_Time == NULL) {
-            m_Time = (struct tm *)malloc(sizeof(struct tm));
+    }
+    else
+    {
+        if (m_Time == NULL)
+        {
+            m_Time = (struct tm*)malloc(sizeof(struct tm));
         }
         memcpy(m_Time, value, sizeof(struct tm));
     }
 }
 
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-CGXDLMSTranslatorStructure *CGXReplyData::GetXml() {
+CGXDLMSTranslatorStructure* CGXReplyData::GetXml()
+{
     return m_pXml;
 }
 
-void CGXReplyData::SetXml(CGXDLMSTranslatorStructure *value) {
+void CGXReplyData::SetXml(CGXDLMSTranslatorStructure* value)
+{
     m_pXml = value;
 }
-#endif  //DLMS_IGNORE_XML_TRANSLATOR
+#endif //DLMS_IGNORE_XML_TRANSLATOR
 
-long CGXReplyData::GetInvokeId() {
+long CGXReplyData::GetInvokeId()
+{
     return m_InvokeId;
 }
 
-void CGXReplyData::SetInvokeId(long value) {
+void CGXReplyData::SetInvokeId(long value)
+{
     m_InvokeId = value;
 }
 
-int CGXReplyData::GetBlockNumber() {
+int CGXReplyData::GetBlockNumber()
+{
     return m_BlockNumber;
 }
 
-void CGXReplyData::SetBlockNumber(int value) {
+void CGXReplyData::SetBlockNumber(int value)
+{
     m_BlockNumber = value;
 }
 
-int CGXReplyData::GetBlockNumberAck() {
+int CGXReplyData::GetBlockNumberAck()
+{
     return m_BlockNumberAck;
 }
 
-void CGXReplyData::SetBlockNumberAck(int value) {
+void CGXReplyData::SetBlockNumberAck(int value)
+{
     m_BlockNumberAck = value;
 }
 
-bool CGXReplyData::GetStreaming() {
+bool CGXReplyData::GetStreaming()
+{
     return m_Streaming;
 }
 
-void CGXReplyData::SetStreaming(bool value) {
+void CGXReplyData::SetStreaming(bool value)
+{
     m_Streaming = value;
 }
 
@@ -248,35 +299,42 @@ unsigned char CGXReplyData::GetGbtWindowSize() {
     return m_GbtWindowSize;
 }
 
-void CGXReplyData::SetGbtWindowSize(unsigned char value) {
+void CGXReplyData::SetGbtWindowSize(unsigned char value)
+{
     m_GbtWindowSize = value;
 }
 
-bool CGXReplyData::IsStreaming() {
-    return (m_MoreData & DLMS_DATA_REQUEST_TYPES_FRAME) == 0 && m_Streaming &&
-        (m_BlockNumberAck * m_GbtWindowSize) + 1 > m_BlockNumber;
+bool CGXReplyData::IsStreaming()
+{
+    return (m_MoreData & DLMS_DATA_REQUEST_TYPES_FRAME) == 0 && m_Streaming && (m_BlockNumberAck * m_GbtWindowSize) + 1 > m_BlockNumber;
 }
 
-unsigned short CGXReplyData::GetClientAddress() {
+unsigned short CGXReplyData::GetClientAddress()
+{
     return m_ClientAddress;
 }
 
-void CGXReplyData::SetClientAddress(unsigned short value) {
+void CGXReplyData::SetClientAddress(unsigned short value)
+{
     m_ClientAddress = value;
 }
 
-int CGXReplyData::GetServerAddress() {
+int CGXReplyData::GetServerAddress()
+{
     return m_ServerAddress;
 }
 
-void CGXReplyData::SetServerAddress(int value) {
+void CGXReplyData::SetServerAddress(int value)
+{
     m_ServerAddress = value;
 }
 
-unsigned char CGXReplyData::GetCipheredCommand() {
+unsigned char CGXReplyData::GetCipheredCommand()
+{
     return m_CipheredCommand;
 }
 
-void CGXReplyData::SetCipheredCommand(unsigned char value) {
+void CGXReplyData::SetCipheredCommand(unsigned char value)
+{
     m_CipheredCommand = value;
 }

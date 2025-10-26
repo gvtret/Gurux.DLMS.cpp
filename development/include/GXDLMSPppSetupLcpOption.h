@@ -39,7 +39,8 @@
 #include "GXDLMSObject.h"
 #include "GXHelpers.h"
 
-typedef enum {
+typedef enum
+{
     PPP_SETUP_LCP_OPTION_TYPE_MAX_REC_UNIT = 1,
     PPP_SETUP_LCP_OPTION_TYPE_ASYNC_CONTROL_CHAR_MAP = 2,
     PPP_SETUP_LCP_OPTION_TYPE_AUTH_PROTOCOL = 3,
@@ -50,21 +51,22 @@ typedef enum {
     PPP_SETUP_LCP_OPTION_TYPE_CALLBACK = 13
 } PPP_SETUP_LCP_OPTION_TYPE;
 
-class CGXDLMSPppSetupLcpOption {
+class CGXDLMSPppSetupLcpOption
+{
     PPP_SETUP_LCP_OPTION_TYPE m_Type;
     CGXDLMSVariant m_Data;
     int m_Length;
-
 public:
+
     PPP_SETUP_LCP_OPTION_TYPE GetType();
     void SetType(PPP_SETUP_LCP_OPTION_TYPE value);
 
     int GetLength();
     void SetLength(int value);
 
-    CGXDLMSVariant &GetData();
-    void SetData(CGXDLMSVariant &value);
+    CGXDLMSVariant& GetData();
+    void SetData(CGXDLMSVariant& value);
 
     std::string ToString();
 };
-#endif  //GXDLMSPPPSETUPLCPOPTION_H
+#endif //GXDLMSPPPSETUPLCPOPTION_H

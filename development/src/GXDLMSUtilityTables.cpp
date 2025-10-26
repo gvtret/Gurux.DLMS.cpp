@@ -36,46 +36,59 @@
 
 #ifndef DLMS_IGNORE_UTILITY_TABLES
 //Constructor.
-CGXDLMSUtilityTables::CGXDLMSUtilityTables(): CGXDLMSUtilityTables("0.0.65.0.0.255", 0) {
+CGXDLMSUtilityTables::CGXDLMSUtilityTables() :
+    CGXDLMSUtilityTables("0.0.65.0.0.255", 0)
+{
 }
 
 //SN Constructor.
-CGXDLMSUtilityTables::CGXDLMSUtilityTables(std::string ln, unsigned short sn)
-    : CGXDLMSObject(DLMS_OBJECT_TYPE_UTILITY_TABLES, ln, sn) {
+CGXDLMSUtilityTables::CGXDLMSUtilityTables(std::string ln, unsigned short sn) :
+    CGXDLMSObject(DLMS_OBJECT_TYPE_UTILITY_TABLES, ln, sn)
+{
+
 }
 
 //LN Constructor.
-CGXDLMSUtilityTables::CGXDLMSUtilityTables(std::string ln): CGXDLMSUtilityTables(ln, 0) {
+CGXDLMSUtilityTables::CGXDLMSUtilityTables(std::string ln) :
+    CGXDLMSUtilityTables(ln, 0)
+{
     m_TableId = 0;
 }
 
-unsigned short CGXDLMSUtilityTables::GetTableId() {
+unsigned short CGXDLMSUtilityTables::GetTableId()
+{
     return m_TableId;
 }
 
-void CGXDLMSUtilityTables::SetTableId(unsigned short value) {
+void CGXDLMSUtilityTables::SetTableId(unsigned short value)
+{
     m_TableId = value;
 }
 
-CGXByteBuffer &CGXDLMSUtilityTables::GetBuffer() {
+CGXByteBuffer& CGXDLMSUtilityTables::GetBuffer()
+{
     return m_Buffer;
 }
 
-void CGXDLMSUtilityTables::SetBuffer(CGXByteBuffer &value) {
+void CGXDLMSUtilityTables::SetBuffer(CGXByteBuffer& value)
+{
     m_Buffer = value;
 }
 
 // Returns amount of attributes.
-int CGXDLMSUtilityTables::GetAttributeCount() {
+int CGXDLMSUtilityTables::GetAttributeCount()
+{
     return 4;
 }
 
 // Returns amount of methods.
-int CGXDLMSUtilityTables::GetMethodCount() {
+int CGXDLMSUtilityTables::GetMethodCount()
+{
     return 0;
 }
 
-void CGXDLMSUtilityTables::GetValues(std::vector<std::string> &values) {
+void CGXDLMSUtilityTables::GetValues(std::vector<std::string>& values)
+{
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -86,93 +99,105 @@ void CGXDLMSUtilityTables::GetValues(std::vector<std::string> &values) {
     values.push_back(m_Buffer.ToHexString());
 }
 
-void CGXDLMSUtilityTables::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+void CGXDLMSUtilityTables::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
+{
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
+    {
         attributes.push_back(1);
     }
     //Table ID
-    if (all || CanRead(2)) {
+    if (all || CanRead(2))
+    {
         attributes.push_back(2);
     }
     //Length
-    if (all || CanRead(3)) {
+    if (all || CanRead(3))
+    {
         attributes.push_back(3);
     }
     //Buffer
-    if (all || CanRead(4)) {
+    if (all || CanRead(4))
+    {
         attributes.push_back(4);
     }
 }
 
-int CGXDLMSUtilityTables::GetDataType(int index, DLMS_DATA_TYPE &type) {
+int CGXDLMSUtilityTables::GetDataType(int index, DLMS_DATA_TYPE& type)
+{
     switch (index) {
-        case 1:
-            type = DLMS_DATA_TYPE_OCTET_STRING;
-            break;
-        case 2:
-            type = DLMS_DATA_TYPE_UINT16;
-            break;
-        case 3:
-            type = DLMS_DATA_TYPE_UINT32;
-            break;
-        case 4:
-            type = DLMS_DATA_TYPE_OCTET_STRING;
-            break;
-        default:
-            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    case 1:
+        type = DLMS_DATA_TYPE_OCTET_STRING;
+        break;
+    case 2:
+        type = DLMS_DATA_TYPE_UINT16;
+        break;
+    case 3:
+        type = DLMS_DATA_TYPE_UINT32;
+        break;
+    case 4:
+        type = DLMS_DATA_TYPE_OCTET_STRING;
+        break;
+    default:
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
 
 // Returns value of given attribute.
-int CGXDLMSUtilityTables::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    switch (e.GetIndex()) {
-        case 1: {
-            int ret;
-            CGXDLMSVariant tmp;
-            if ((ret = GetLogicalName(this, tmp)) != 0) {
-                return ret;
-            }
-            e.SetValue(tmp);
-        } break;
-        case 2:
-            e.SetValue(m_TableId);
-            break;
-        case 3:
-            e.SetValue(m_Buffer.GetSize());
-            break;
-        case 4:
-            e.SetValue(m_Buffer);
-            break;
-        default:
-            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+int CGXDLMSUtilityTables::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
+    switch (e.GetIndex())
+    {
+    case 1:
+    {
+        int ret;
+        CGXDLMSVariant tmp;
+        if ((ret = GetLogicalName(this, tmp)) != 0)
+        {
+            return ret;
+        }
+        e.SetValue(tmp);
+    }
+    break;
+    case 2:
+        e.SetValue(m_TableId);
+        break;
+    case 3:
+        e.SetValue(m_Buffer.GetSize());
+        break;
+    case 4:
+        e.SetValue(m_Buffer);
+        break;
+    default:
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
 
 // Set value of given attribute.
-int CGXDLMSUtilityTables::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSUtilityTables::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
-        case 1:
-            ret = SetLogicalName(this, e.GetValue());
-            break;
-        case 2:
-            m_TableId = e.GetValue().ToInteger();
-            // Skip len.
-            break;
-        case 3:
-            // Skip len.
-            break;
-        case 4:
-            m_Buffer.Clear();
-            m_Buffer.Set(e.GetValue().byteArr, e.GetValue().GetSize());
-            break;
-        default:
-            ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-            break;
+    case 1:
+        ret = SetLogicalName(this, e.GetValue());
+        break;
+    case 2:
+        m_TableId = e.GetValue().ToInteger();
+        // Skip len.
+        break;
+    case 3:
+        // Skip len.
+        break;
+    case 4:
+        m_Buffer.Clear();
+        m_Buffer.Set(e.GetValue().byteArr, e.GetValue().GetSize());
+        break;
+    default:
+        ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
+        break;
     }
     return ret;
 }
-#endif  //DLMS_IGNORE_UTILITY_TABLES
+#endif //DLMS_IGNORE_UTILITY_TABLES

@@ -41,7 +41,8 @@
 #include "GXDLMSValueEventArg.h"
 #include "GXDLMSValueEventCollection.h"
 
-class CGXDLMSLongTransaction {
+class CGXDLMSLongTransaction
+{
 private:
     /**
     * Executed command.
@@ -59,6 +60,7 @@ private:
     CGXByteBuffer m_Data;
 
 public:
+
     /**
      * Constructor.
      *
@@ -66,7 +68,9 @@ public:
      * @param command
      * @param data
      */
-    CGXDLMSLongTransaction(CGXDLMSValueEventCollection &targets, DLMS_COMMAND command, CGXByteBuffer &data) {
+    CGXDLMSLongTransaction(CGXDLMSValueEventCollection& targets,
+                           DLMS_COMMAND command, CGXByteBuffer& data)
+    {
         m_Targets.insert(m_Targets.end(), targets.begin(), targets.end());
         targets.clear();
         m_Command = command;
@@ -80,7 +84,8 @@ public:
  * @param command
  * @param data
  */
-    CGXDLMSLongTransaction(DLMS_COMMAND command, CGXByteBuffer &data) {
+    CGXDLMSLongTransaction(DLMS_COMMAND command, CGXByteBuffer& data)
+    {
         m_Command = command;
         m_Data.Set(&data, data.GetPosition());
     }
@@ -88,21 +93,24 @@ public:
     /**
      * @return Executed command.
      */
-    DLMS_COMMAND GetCommand() {
+    DLMS_COMMAND GetCommand()
+    {
         return m_Command;
     }
 
     /**
      * @return Targets.
      */
-    std::vector<CGXDLMSValueEventArg *> &GetTargets() {
+    std::vector<CGXDLMSValueEventArg*>& GetTargets()
+    {
         return m_Targets;
     }
 
     /**
      * @return data.
      */
-    CGXByteBuffer &GetData() {
+    CGXByteBuffer& GetData()
+    {
         return m_Data;
     }
 
@@ -110,9 +118,10 @@ public:
      * @param value
      *            New data.
      */
-    void SetData(CGXByteBuffer &value) {
+    void SetData(CGXByteBuffer& value)
+    {
         m_Data.Clear();
         m_Data.Set(&value, value.GetPosition());
     }
 };
-#endif  //GXDLMSLONGTRANSACTION_H
+#endif //GXDLMSLONGTRANSACTION_H

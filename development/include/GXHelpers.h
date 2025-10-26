@@ -41,7 +41,8 @@
 
 class CGXDLMSSettings;
 
-class GXHelpers {
+class GXHelpers
+{
     /*
     * Convert char hex value to byte value.
     * @param c Character to convert hex.
@@ -50,16 +51,26 @@ class GXHelpers {
     static unsigned char GetValue(char c);
 
     static int GetCompactArrayItem(
-        CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt,
-        std::vector<CGXDLMSVariant> &list, int len
-    );
+        CGXDLMSSettings* settings,
+        CGXByteBuffer& buff,
+        std::vector< CGXDLMSVariant>& dt,
+        std::vector< CGXDLMSVariant>& list,
+        int len);
 
     static int GetCompactArrayItem(
-        CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE dt, std::vector<CGXDLMSVariant> &list, int len
-    );
+        CGXDLMSSettings* settings,
+        CGXByteBuffer& buff,
+        DLMS_DATA_TYPE dt,
+        std::vector< CGXDLMSVariant>& list,
+        int len);
 
-    static int GetDataTypes(CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &cols, int len);
-    static int AppendDataTypeAsXml(std::vector<CGXDLMSVariant> &cols, CGXDataInfo info);
+    static int GetDataTypes(
+        CGXByteBuffer& buff,
+        std::vector<CGXDLMSVariant>& cols,
+        int len);
+    static int AppendDataTypeAsXml(
+        std::vector<CGXDLMSVariant>& cols,
+        CGXDataInfo info);
 
 
     /**
@@ -71,18 +82,12 @@ class GXHelpers {
      *            Data info.
      * @return parsed UInt16 value.
      */
-    static int
-    GetCompactArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value);
-
+    static int GetCompactArray(
+        CGXDLMSSettings* settings,
+        CGXByteBuffer& buff,
+        CGXDataInfo& info,
+        CGXDLMSVariant& value);
 public:
-    /**
-    * Convert object to DLMS bytes.
-    *
-    * buff : Byte buffer where data is write.
-    * type : Data type.
-    * value : Added Value.
-    */
-    static int SetData2(CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE type, CGXDLMSVariant value);
 
     /**
     * Convert object to DLMS bytes.
@@ -91,7 +96,16 @@ public:
     * type : Data type.
     * value : Added Value.
     */
-    static int SetData(CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE type, CGXDLMSVariant &value);
+    static int SetData2(CGXDLMSSettings* settings, CGXByteBuffer& buff, DLMS_DATA_TYPE type, CGXDLMSVariant value);
+
+    /**
+    * Convert object to DLMS bytes.
+    *
+    * buff : Byte buffer where data is write.
+    * type : Data type.
+    * value : Added Value.
+    */
+    static int SetData(CGXDLMSSettings* settings, CGXByteBuffer& buff, DLMS_DATA_TYPE type, CGXDLMSVariant& value);
 
     /*
     * Get data from DLMS frame.
@@ -101,28 +115,28 @@ public:
     * value: Received data.
     @return Error code.
     */
-    static int GetData(CGXDLMSSettings *settings, CGXByteBuffer &data, CGXDataInfo &info, CGXDLMSVariant &value);
+    static int GetData(CGXDLMSSettings* settings, CGXByteBuffer& data, CGXDataInfo& info, CGXDLMSVariant& value);
 
-    static void GetLogicalName(unsigned char *buff, std::string &ln);
+    static void GetLogicalName(unsigned char* buff, std::string& ln);
 
-    static void GetLogicalName(CGXByteBuffer &buff, std::string &ln);
-
-    /////////////////////////////////////////////////////////////////////////////
-    //Set logical name from std::string.
-    /////////////////////////////////////////////////////////////////////////////
-    static int SetLogicalName(const char *name, CGXDLMSVariant &value);
+    static void GetLogicalName(CGXByteBuffer& buff, std::string& ln);
 
     /////////////////////////////////////////////////////////////////////////////
     //Set logical name from std::string.
     /////////////////////////////////////////////////////////////////////////////
-    static int SetLogicalName(const char *name, unsigned char ln[6]);
+    static int SetLogicalName(const char* name, CGXDLMSVariant& value);
+
+    /////////////////////////////////////////////////////////////////////////////
+    //Set logical name from std::string.
+    /////////////////////////////////////////////////////////////////////////////
+    static int SetLogicalName(const char* name, unsigned char ln[6]);
 
     /////////////////////////////////////////////////////////////////////////////
     // Get object count. If first byte is 0x80 or higger it will tell bytes count.
     // data ; received data.
     // Returns Object count.
     /////////////////////////////////////////////////////////////////////////////
-    static int GetObjectCount(CGXByteBuffer &data, uint32_t &count);
+    static int GetObjectCount(CGXByteBuffer& data, unsigned long& count);
 
     /**
         * Return how many bytes object count takes.
@@ -139,39 +153,34 @@ public:
     // count : Item count.
     // buff : Byte buffer.
     /////////////////////////////////////////////////////////////////////////////
-    static int SetObjectCount(unsigned long count, CGXByteBuffer &buff);
+    static int SetObjectCount(unsigned long count, CGXByteBuffer& buff);
 
-    static std::vector<std::string> Split(std::string &s, char separator);
+    static std::vector< std::string > Split(std::string& s, char separator);
 
-    static std::vector<std::string> Split(std::string &s, std::string separators, bool ignoreEmpty);
+    static std::vector< std::string > Split(std::string& s, std::string separators, bool ignoreEmpty);
 
-    static void Replace(std::string &str, std::string oldString, std::string newString);
+    static void Replace(std::string& str, std::string oldString, std::string newString);
 
-    static bool EndsWith(const std::string &value, const std::string &ending);
-
-    /**
-     * Convert wide string to UTF-8 encoded std::string.
-     */
-    static std::string WideToUtf8(const std::wstring &value);
+    static bool EndsWith(const std::string& value, const std::string& ending);
 
     /////////////////////////////////////////////////////////////////////////////
     // Trim from start.
     /////////////////////////////////////////////////////////////////////////////
-    static std::string &ltrim(std::string &s);
+    static std::string& ltrim(std::string& s);
 
     /////////////////////////////////////////////////////////////////////////////
     // Trim from end.
     /////////////////////////////////////////////////////////////////////////////
-    static std::string &rtrim(std::string &s);
+    static std::string& rtrim(std::string& s);
 
     /////////////////////////////////////////////////////////////////////////////
     // Trim from both ends
     /////////////////////////////////////////////////////////////////////////////
-    static std::string &Trim(std::string &s);
+    static std::string& Trim(std::string& s);
 
-    static std::string BytesToHex(const unsigned char *pBytes, int count);
+    static std::string BytesToHex(const unsigned char* pBytes, int count);
 
-    static std::string BytesToHex(const unsigned char *pBytes, int count, char addSpaces);
+    static std::string BytesToHex(const unsigned char* pBytes, int count, char addSpaces);
 
     /**
      * Convert std::string to byte array.
@@ -182,15 +191,15 @@ public:
      *            byte array.
      * @return Occurred error.
      */
-    static void HexToBytes(std::string &value, CGXByteBuffer &buffer);
+    static void HexToBytes(std::string& value, CGXByteBuffer& buffer);
 
-    static void Write(char *fileName, char *pData, int len);
+    static void Write(char* fileName, char* pData, int len);
 
     static void Write(std::string fileName, std::string data);
 
-    static bool GetBits(unsigned char &tmp, unsigned char BitMask);
+    static bool GetBits(unsigned char& tmp, unsigned char BitMask);
 
-    static inline bool StringCompare(const char *c1, const char *c2);
+    static inline bool StringCompare(const char* c1, const char* c2);
 
     /**
     * Get data type in bytes.
@@ -209,39 +218,40 @@ public:
     * value
     *            Added value.
     */
-    static int SetBitString(CGXByteBuffer &buff, CGXDLMSVariant &value, bool addCount);
+    static int SetBitString(CGXByteBuffer& buff, CGXDLMSVariant& value, bool addCount);
 
     //Reserved for internal use.
-    static void ToBitString(CGXByteBuffer &sb, unsigned char value, int count);
+    static void ToBitString(CGXByteBuffer& sb, unsigned char value, int count);
 
-    static std::string GeneralizedTime(struct tm *date);
-
-    static int GetLocalTimeOffsetMinutes(const std::tm * /*unused*/ = nullptr);
+    static std::string GeneralizedTime(struct tm* date);
 
     //Convert int value to string.
     static std::string IntToString(int value);
     //Join list of strings to one string.
-    static void Join(std::string separator, std::vector<std::string> &list, std::string &res);
+    static void Join(std::string separator, std::vector< std::string >& list, std::string& res);
 
     // Reserved for internal use.
     static unsigned char SwapBits(unsigned char value);
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-    static int Load(std::string &path, std::string &value);
+    static int Load(std::string& path,
+        std::string& value);
 
-    static int Save(std::string &path, std::string &value);
+    static int Save(std::string& path,
+        std::string& value);
 
 #ifndef DLMS_IGNORE_DIRECTORY
     /*Create new directory.*/
-    static int CreateDir(std::string &path);
+    static int CreateDir(std::string& path);
     /*Create new directory.*/
-    static int CreateDir(const char *path);
+    static int CreateDir(const char* path);
 
     /*Check if the directory exists.*/
-    static bool DirectoryExists(std::string &path);
+    static bool DirectoryExists(std::string& path);
     /*Check if the directory exists.*/
-    static bool DirectoryExists(const char *path);
-#endif  //DLMS_IGNORE_DIRECTORY
-#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    static  bool DirectoryExists(const char* path);
+#endif //DLMS_IGNORE_DIRECTORY
+#endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+
 };
-#endif  //GXHELPERS_H
+#endif //GXHELPERS_H
