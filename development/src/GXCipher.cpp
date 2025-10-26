@@ -426,7 +426,8 @@ int CGXCipher::Encrypt(
                                                               // sprintf("Data: %s\r\n", input.ToHexString().c_str());
 #endif                                                        //defined(_WIN32) || defined(_WIN64) || defined(__linux__)//If Windows or Linux
 #endif                                                        // _DEBUG
-    int ret;
+    int ret = 0;
+    const size_t kTagLength = 12;
     uint32_t aes[61] = {0};
     unsigned char H[16] = {0};
     unsigned char J0[16] = {0};
@@ -453,10 +454,13 @@ int CGXCipher::Encrypt(
 
     //Allocate space for authentication tag.
     if (security != DLMS_SECURITY_ENCRYPTION && !encrypt) {
+        if (input.GetSize() < kTagLength) {
+            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
         //Save authentication key to nonse.
         nonse.Clear();
-        nonse.Set(input.GetData() + input.GetSize() - 12, 12);
-        input.SetSize(input.GetSize() - 12);
+        nonse.Set(input.GetData() + input.GetSize() - kTagLength, kTagLength);
+        input.SetSize(input.GetSize() - kTagLength);
     }
     unsigned char offset;
     if (suite == DLMS_SECURITY_SUITE_V2) {
@@ -475,13 +479,19 @@ int CGXCipher::Encrypt(
         } else {
             input.Move(offset, 0, input.GetSize() - offset);
         }
-        Gctr(aes, J0, S, sizeof(S), input.GetData() + input.GetSize());
+        unsigned char authenticationTag[kTagLength];
+        unsigned char *tagOutput = authenticationTag;
         if (encrypt) {
-            input.IncreaseSize(12);
-        } else {
-            if (memcmp(nonse.GetData(), input.GetData() + input.GetSize(), 12) != 0) {
-                ret = DLMS_ERROR_CODE_INVALID_TAG;
+            uint32_t tagOffset = input.GetSize();
+            ret = input.IncreaseSize(static_cast<uint32_t>(kTagLength));
+            if (ret != 0) {
+                return ret;
             }
+            tagOutput = input.GetData() + tagOffset;
+        }
+        Gctr(aes, J0, S, sizeof(S), tagOutput);
+        if (!encrypt && memcmp(nonse.GetData(), tagOutput, kTagLength) != 0) {
+            ret = DLMS_ERROR_CODE_INVALID_TAG;
         }
     } else if (security == DLMS_SECURITY_ENCRYPTION) {
         //Encrypt the data.
@@ -498,18 +508,24 @@ int CGXCipher::Encrypt(
         memcpy(input.GetData() + 1, m_AuthenticationKey.GetData(), m_AuthenticationKey.GetSize());
         AesGcmGhash(H, input.GetData(), offset, input.GetData() + offset, input.GetSize() - offset, S);
         input.Move(offset, 0, input.GetSize() - offset);
-        Gctr(aes, J0, S, sizeof(S), input.GetData() + input.GetSize());
+        unsigned char authenticationTag[kTagLength];
+        unsigned char *tagOutput = authenticationTag;
+        if (encrypt) {
+            uint32_t tagOffset = input.GetSize();
+            ret = input.IncreaseSize(static_cast<uint32_t>(kTagLength));
+            if (ret != 0) {
+                return ret;
+            }
+            tagOutput = input.GetData() + tagOffset;
+        }
+        Gctr(aes, J0, S, sizeof(S), tagOutput);
         if (!encrypt) {
             //Decrypt the data.
             AesGcmGctr(aes, J0, input.GetData() + input.GetPosition(), input.Available(), NULL);
         }
-        Gctr(aes, J0, S, sizeof(S), input.GetData() + input.GetSize());
-        if (encrypt) {
-            input.IncreaseSize(12);
-        } else {
-            if (memcmp(nonse.GetData(), input.GetData() + input.GetSize(), 12) != 0) {
-                ret = DLMS_ERROR_CODE_INVALID_TAG;
-            }
+        Gctr(aes, J0, S, sizeof(S), tagOutput);
+        if (!encrypt && memcmp(nonse.GetData(), tagOutput, kTagLength) != 0) {
+            ret = DLMS_ERROR_CODE_INVALID_TAG;
         }
     }
     if (encrypt) {
@@ -529,7 +545,7 @@ int CGXCipher::Encrypt(
             }
         }
     }
-    return 0;
+    return ret;
 }
 
 int CGXCipher::Decrypt(
