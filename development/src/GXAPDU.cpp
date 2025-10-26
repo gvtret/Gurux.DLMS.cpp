@@ -37,6 +37,8 @@
 #include "../include/TranslatorStandardTags.h"
 #include "../include/GXDLMSConverter.h"
 
+#include <cstring>
+
 /**
  * Retrieves the string that indicates the level of authentication, if any.
  */
@@ -84,9 +86,13 @@ int CGXAPDU::GenerateApplicationContextName(CGXDLMSSettings &settings, CGXByteBu
     CGXCipher *activeCipher = cipher != NULL ? cipher : settingsCipher;
     //ProtocolVersion
     if (settings.GetProtocolVersion() != NULL) {
+        size_t protocolVersionLength = strlen(settings.GetProtocolVersion());
+        if (protocolVersionLength > 8) {
+            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
         data.SetUInt8(BER_TYPE_CONTEXT | PDU_TYPE_PROTOCOL_VERSION);
         data.SetUInt8(2);
-        data.SetUInt8((unsigned char)(8 - strlen(settings.GetProtocolVersion())));
+        data.SetUInt8((unsigned char)(8 - protocolVersionLength));
         CGXDLMSVariant tmp = settings.GetProtocolVersion();
         GXHelpers::SetBitString(data, tmp, false);
     }

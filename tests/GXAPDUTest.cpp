@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <gtest/gtest.h>
 
+#define private public
 #include "../development/include/GXAPDU.h"
+#undef private
 
 // Regression test for handling missing cipher configurations when user ID is set.
 TEST(CGXAPDUTest, GenerateAarqWithoutCipherDoesNotCrash) {
@@ -13,6 +15,17 @@ TEST(CGXAPDUTest, GenerateAarqWithoutCipherDoesNotCrash) {
     int ret = CGXAPDU::GenerateAarq(settings, nullptr, nullptr, data);
 
     EXPECT_TRUE(ret == 0 || ret == DLMS_ERROR_CODE_INVALID_PARAMETER);
+}
+
+TEST(CGXAPDUTest, GenerateApplicationContextNameRejectsLongProtocolVersion) {
+    CGXDLMSSettings settings(false);
+    settings.SetProtocolVersion("111111111");
+
+    CGXByteBuffer data;
+    int ret = CGXAPDU::GenerateApplicationContextName(settings, data, nullptr);
+
+    EXPECT_EQ(DLMS_ERROR_CODE_INVALID_PARAMETER, ret);
+    EXPECT_EQ(0u, data.GetSize());
 }
 
 // Verify that GenerateAARE encodes lengths larger than 255 bytes correctly.
