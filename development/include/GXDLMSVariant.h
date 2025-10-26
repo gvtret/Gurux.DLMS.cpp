@@ -51,26 +51,22 @@
 class CGXDLMSVariant;
 
 struct dlmsVARIANT {
-    union {
-        struct __tagVARIANT {
-            DLMS_DATA_TYPE vt;
+	DLMS_DATA_TYPE vt;
 
-            union {
-                unsigned char bVal;
-                char cVal;
-                short iVal;
-                long lVal;
-                long long llVal;
-                float fltVal;
-                double dblVal;
-                bool boolVal;
-                unsigned short uiVal;
-                unsigned long ulVal;
-                unsigned long long ullVal;
-                unsigned char *byteArr;
-            } __VARIANT_NAME_3;
-        } __VARIANT_NAME_2;
-    } __VARIANT_NAME_1;
+	union {
+		unsigned char bVal;
+		char cVal;
+		short iVal;
+		long lVal;
+		long long llVal;
+		float fltVal;
+		double dblVal;
+		bool boolVal;
+		unsigned short uiVal;
+		unsigned long ulVal;
+		unsigned long long ullVal;
+		unsigned char *byteArr;
+	} __VARIANT_NAME_3;
 
     CGXDateTime dateTime;
     //Size of byte array.
