@@ -222,11 +222,33 @@ if(BUILD_TESTS)
 endif()
 
 # ----------------------------------------------------------
-# Documentation
+# Agents (Build, Test, Lint, Doc)
 # ----------------------------------------------------------
-# ----------------------------------------------------------
-# Documentation target (doc)
-# ----------------------------------------------------------
+
+set(AGENTS_DIR ${CMAKE_SOURCE_DIR}/agents)
+
+# Build agent
+add_custom_target(build
+  COMMAND bash ${AGENTS_DIR}/build_agent.sh
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  COMMENT "Running BuildAgent (CMake build wrapper)"
+  VERBATIM)
+
+# Test agent
+add_custom_target(tests
+  COMMAND bash ${AGENTS_DIR}/test_agent.sh
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  COMMENT "Running TestAgent (GoogleTest + CTest)"
+  VERBATIM)
+
+# Lint agent
+add_custom_target(lint
+  COMMAND bash ${AGENTS_DIR}/lint_agent.sh
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+  COMMENT "Running LintAgent (clang-format + clang-tidy)"
+  VERBATIM)
+
+# Doc agent (wrapper for existing Doxygen doc target)
 find_package(Doxygen QUIET)
 
 if(DOXYGEN_FOUND)
@@ -246,7 +268,7 @@ else()
 	message(WARNING "Doxygen not found. Documentation target 'doc' will be unavailable.")
 endif()
 
-# ----------------------------------------------------------
+	# ----------------------------------------------------------
 # Summary
 # ----------------------------------------------------------
 message(STATUS "------------------------------------------------------")
