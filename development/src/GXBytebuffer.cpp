@@ -358,15 +358,15 @@ int CGXByteBuffer::AddString(std::string &&value) {
 }
 
 int CGXByteBuffer::AddString(const std::wstring &value) {
-        try {
-                std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-                std::string utf8Str = converter.to_bytes(value);
-                return AddString(utf8Str);
-        } catch (const std::range_error &) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        } catch (const std::bad_alloc &) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	try {
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+		std::string utf8Str = converter.to_bytes(value);
+		return AddString(utf8Str);
+	} catch (const std::range_error &) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	} catch (const std::bad_alloc &) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 }
 
 int CGXByteBuffer::AddString(const char *value) {
@@ -459,32 +459,32 @@ int CGXByteBuffer::GetUInt24(unsigned int *value) {
 }
 
 int CGXByteBuffer::GetUInt32(uint32_t *value) {
-        if (value == nullptr) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
+	if (value == nullptr) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
 
-        if (m_Position + 4 > m_Data.size()) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	if (m_Position + 4 > m_Data.size()) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 
-        *value = (static_cast<uint32_t>(m_Data[m_Position]) << 24) | (static_cast<uint32_t>(m_Data[m_Position + 1]) << 16) |
-            (static_cast<uint32_t>(m_Data[m_Position + 2]) << 8) | static_cast<uint32_t>(m_Data[m_Position + 3]);
-        m_Position += 4;
-        return 0;
+	*value = (static_cast<uint32_t>(m_Data[m_Position]) << 24) | (static_cast<uint32_t>(m_Data[m_Position + 1]) << 16) |
+	    (static_cast<uint32_t>(m_Data[m_Position + 2]) << 8) | static_cast<uint32_t>(m_Data[m_Position + 3]);
+	m_Position += 4;
+	return 0;
 }
 
 int CGXByteBuffer::GetUInt32(uint32_t index, uint32_t *value) {
-        if (value == nullptr) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
+	if (value == nullptr) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
 
-        if (index + 4 > m_Data.size()) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	if (index + 4 > m_Data.size()) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 
-        *value = (static_cast<uint32_t>(m_Data[index]) << 24) | (static_cast<uint32_t>(m_Data[index + 1]) << 16) |
-            (static_cast<uint32_t>(m_Data[index + 2]) << 8) | static_cast<uint32_t>(m_Data[index + 3]);
-        return 0;
+	*value = (static_cast<uint32_t>(m_Data[index]) << 24) | (static_cast<uint32_t>(m_Data[index + 1]) << 16) | (static_cast<uint32_t>(m_Data[index + 2]) << 8) |
+	    static_cast<uint32_t>(m_Data[index + 3]);
+	return 0;
 }
 
 int CGXByteBuffer::GetInt8(char *value) {
@@ -533,49 +533,48 @@ int CGXByteBuffer::GetInt64(int64_t *value) {
 }
 
 int CGXByteBuffer::GetUInt64(uint64_t *value) {
-        if (value == nullptr) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
+	if (value == nullptr) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
 
 	if (m_Position + 8 > m_Data.size()) {
 		return DLMS_ERROR_CODE_OUTOFMEMORY;
 	}
 
-        *value = (static_cast<uint64_t>(m_Data[m_Position]) << 56) | (static_cast<uint64_t>(m_Data[m_Position + 1]) << 48) |
-            (static_cast<uint64_t>(m_Data[m_Position + 2]) << 40) | (static_cast<uint64_t>(m_Data[m_Position + 3]) << 32) |
-            (static_cast<uint64_t>(m_Data[m_Position + 4]) << 24) | (static_cast<uint64_t>(m_Data[m_Position + 5]) << 16) |
-            (static_cast<uint64_t>(m_Data[m_Position + 6]) << 8) | static_cast<uint64_t>(m_Data[m_Position + 7]);
-        m_Position += 8;
-        return 0;
+	*value = (static_cast<uint64_t>(m_Data[m_Position]) << 56) | (static_cast<uint64_t>(m_Data[m_Position + 1]) << 48) |
+	    (static_cast<uint64_t>(m_Data[m_Position + 2]) << 40) | (static_cast<uint64_t>(m_Data[m_Position + 3]) << 32) |
+	    (static_cast<uint64_t>(m_Data[m_Position + 4]) << 24) | (static_cast<uint64_t>(m_Data[m_Position + 5]) << 16) |
+	    (static_cast<uint64_t>(m_Data[m_Position + 6]) << 8) | static_cast<uint64_t>(m_Data[m_Position + 7]);
+	m_Position += 8;
+	return 0;
 }
 
 int CGXByteBuffer::GetUInt64(uint32_t index, uint64_t *value) {
-        if (value == nullptr) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
+	if (value == nullptr) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
 
-        if (index + 8 > m_Data.size()) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	if (index + 8 > m_Data.size()) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 
-        *value = (static_cast<uint64_t>(m_Data[index]) << 56) | (static_cast<uint64_t>(m_Data[index + 1]) << 48) |
-            (static_cast<uint64_t>(m_Data[index + 2]) << 40) | (static_cast<uint64_t>(m_Data[index + 3]) << 32) |
-            (static_cast<uint64_t>(m_Data[index + 4]) << 24) | (static_cast<uint64_t>(m_Data[index + 5]) << 16) |
-            (static_cast<uint64_t>(m_Data[index + 6]) << 8) | static_cast<uint64_t>(m_Data[index + 7]);
-        return 0;
+	*value = (static_cast<uint64_t>(m_Data[index]) << 56) | (static_cast<uint64_t>(m_Data[index + 1]) << 48) |
+	    (static_cast<uint64_t>(m_Data[index + 2]) << 40) | (static_cast<uint64_t>(m_Data[index + 3]) << 32) | (static_cast<uint64_t>(m_Data[index + 4]) << 24) |
+	    (static_cast<uint64_t>(m_Data[index + 5]) << 16) | (static_cast<uint64_t>(m_Data[index + 6]) << 8) | static_cast<uint64_t>(m_Data[index + 7]);
+	return 0;
 }
 
 int CGXByteBuffer::GetUInt128(uint32_t index, uint8_t *value) {
-        if (value == nullptr) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
+	if (value == nullptr) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
 
-        if (index + 16 > m_Data.size()) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	if (index + 16 > m_Data.size()) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 
-        std::copy(m_Data.begin() + index, m_Data.begin() + index + 16, value);
-        return 0;
+	std::copy(m_Data.begin() + index, m_Data.begin() + index + 16, value);
+	return 0;
 }
 
 int CGXByteBuffer::GetFloat(float *value) {
@@ -854,64 +853,64 @@ int CGXByteBuffer::GetString(uint32_t index, uint32_t count, std::string &value)
 }
 
 int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::string &value) {
-        if (index > m_Data.size() || count > m_Data.size() - index) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	if (index > m_Data.size() || count > m_Data.size() - index) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 
-        size_t wcharSize = sizeof(wchar_t);
+	size_t wcharSize = sizeof(wchar_t);
 
-        if ((index % wcharSize) != 0 || (count % wcharSize) != 0) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
+	if ((index % wcharSize) != 0 || (count % wcharSize) != 0) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
 
-        if (count == 0) {
-                value.clear();
-                return 0;
-        }
+	if (count == 0) {
+		value.clear();
+		return 0;
+	}
 
-        size_t wideLen = count / wcharSize;
+	size_t wideLen = count / wcharSize;
 
-        try {
-                std::vector<wchar_t> buffer(wideLen);
-                std::memcpy(buffer.data(), m_Data.data() + index, count);
+	try {
+		std::vector<wchar_t> buffer(wideLen);
+		std::memcpy(buffer.data(), m_Data.data() + index, count);
 
-                std::wstring wstr(buffer.begin(), buffer.end());
-                std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-                value = converter.to_bytes(wstr);
-                return 0;
-        } catch (const std::range_error &) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        } catch (const std::bad_alloc &) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+		std::wstring wstr(buffer.begin(), buffer.end());
+		std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+		value = converter.to_bytes(wstr);
+		return 0;
+	} catch (const std::range_error &) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	} catch (const std::bad_alloc &) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 }
 
 int CGXByteBuffer::GetStringUnicode(uint32_t index, uint32_t count, std::wstring &value) {
-        if (index + count > m_Data.size()) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	if (index + count > m_Data.size()) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 
-        size_t wcharSize = sizeof(wchar_t);
+	size_t wcharSize = sizeof(wchar_t);
 
-        if ((index % wcharSize) != 0 || (count % wcharSize) != 0) {
-                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
+	if ((index % wcharSize) != 0 || (count % wcharSize) != 0) {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
 
-        if (count == 0) {
-                value.clear();
-                return 0;
-        }
+	if (count == 0) {
+		value.clear();
+		return 0;
+	}
 
-        size_t wideLen = count / wcharSize;
+	size_t wideLen = count / wcharSize;
 
-        try {
-                std::vector<wchar_t> buffer(wideLen);
-                std::memcpy(buffer.data(), m_Data.data() + index, count);
-                value.assign(buffer.begin(), buffer.end());
-                return 0;
-        } catch (const std::bad_alloc &) {
-                return DLMS_ERROR_CODE_OUTOFMEMORY;
-        }
+	try {
+		std::vector<wchar_t> buffer(wideLen);
+		std::memcpy(buffer.data(), m_Data.data() + index, count);
+		value.assign(buffer.begin(), buffer.end());
+		return 0;
+	} catch (const std::bad_alloc &) {
+		return DLMS_ERROR_CODE_OUTOFMEMORY;
+	}
 }
 
 static int GetIndex(char ch) {
@@ -942,29 +941,29 @@ int CGXByteBuffer::FromBase64(std::string &input) {
 	if (input.length() % 4 != 0) {
 		return DLMS_ERROR_CODE_INVALID_PARAMETER;
 	}
-        size_t len = (input.length() * 3) / 4;
-        size_t pos = input.find('=', 0);
-        if (pos != std::string::npos) {
-                len -= input.length() - pos;
-        }
-        if (len > 0) {
-                m_Data.reserve(m_Data.size() + len);
-        }
+	size_t len = (input.length() * 3) / 4;
+	size_t pos = input.find('=', 0);
+	if (pos != std::string::npos) {
+		len -= input.length() - pos;
+	}
+	if (len > 0) {
+		m_Data.reserve(m_Data.size() + len);
+	}
 	std::string inChars;
 	int b[4];
-        for (pos = 0; pos != input.length(); pos += 4) {
-                inChars = input.substr(pos, 4);
-                b[0] = GetIndex(inChars[0]);
-                b[1] = GetIndex(inChars[1]);
-                b[2] = GetIndex(inChars[2]);
-                b[3] = GetIndex(inChars[3]);
-                for (int idx = 0; idx < 4; ++idx) {
-                        if (b[idx] == -1) {
-                                return DLMS_ERROR_CODE_INVALID_PARAMETER;
-                        }
-                }
-                SetUInt8((b[0] << 2) | (b[1] >> 4));
-                if (b[2] < 64) {
+	for (pos = 0; pos != input.length(); pos += 4) {
+		inChars = input.substr(pos, 4);
+		b[0] = GetIndex(inChars[0]);
+		b[1] = GetIndex(inChars[1]);
+		b[2] = GetIndex(inChars[2]);
+		b[3] = GetIndex(inChars[3]);
+		for (int idx = 0; idx < 4; ++idx) {
+			if (b[idx] == -1) {
+				return DLMS_ERROR_CODE_INVALID_PARAMETER;
+			}
+		}
+		SetUInt8((b[0] << 2) | (b[1] >> 4));
+		if (b[2] < 64) {
 			SetUInt8((b[1] << 4) | (b[2] >> 2));
 			if (b[3] < 64) {
 				SetUInt8((b[2] << 6) | b[3]);

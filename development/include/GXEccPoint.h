@@ -38,37 +38,32 @@
 #include "GXBigInteger.h"
 
 /*ECC x and y points in the curve.*/
-class CGXEccPoint
-{
+class CGXEccPoint {
 public:
-    CGXBigInteger X;
-    CGXBigInteger Y;
-    /**
-     Constructor.
-    */
-    CGXEccPoint()
-    {
-    }
+	CGXBigInteger X;
+	CGXBigInteger Y;
 
-    /**
+	/**
      Constructor.
     */
-    CGXEccPoint(
-        CGXBigInteger& x,
-        CGXBigInteger& y)
-    {
-        X = x;
-        Y = y;
-    }
+	CGXEccPoint() {
+	}
 
-    /**
+	/**
      Constructor.
     */
-    CGXEccPoint(int x, int y)
-    {
-        X = CGXBigInteger(x);
-        Y = CGXBigInteger(y);
-    }
+	CGXEccPoint(CGXBigInteger &x, CGXBigInteger &y) {
+		X = x;
+		Y = y;
+	}
+
+	/**
+     Constructor.
+    */
+	CGXEccPoint(int x, int y) {
+		X = CGXBigInteger(x);
+		Y = CGXBigInteger(y);
+	}
 };
 
-#endif //GXEccPoint_H
+#endif  //GXEccPoint_H

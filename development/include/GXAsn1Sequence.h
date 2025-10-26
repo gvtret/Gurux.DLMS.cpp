@@ -39,33 +39,30 @@
 #include "GXAsn1Base.h"
 #include "GXDLMSVariant.h"
 
-class CGXAsn1Sequence : public CGXAsn1Base
-{
+class CGXAsn1Sequence: public CGXAsn1Base {
 private:
-    std::vector<CGXAsn1Base*> m_Values;
-public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Sequence()
-    {
-    }
+	std::vector<CGXAsn1Base *> m_Values;
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Destructor.
-    /////////////////////////////////////////////////////////////////////////////
-    ~CGXAsn1Sequence()
-    {
-        for (std::vector<CGXAsn1Base*>::iterator it = m_Values.begin(); it != m_Values.end(); ++it)
-        {
-            delete (*it);
-        }
-        m_Values.clear();
-    }
-    std::vector<CGXAsn1Base*>* GetValues()
-    {
-        return &m_Values;
-    }
+public:
+	/////////////////////////////////////////////////////////////////////////////
+	// Constructor.
+	/////////////////////////////////////////////////////////////////////////////
+	CGXAsn1Sequence() {
+	}
+
+	/////////////////////////////////////////////////////////////////////////////
+	// Destructor.
+	/////////////////////////////////////////////////////////////////////////////
+	~CGXAsn1Sequence() {
+		for (std::vector<CGXAsn1Base *>::iterator it = m_Values.begin(); it != m_Values.end(); ++it) {
+			delete (*it);
+		}
+		m_Values.clear();
+	}
+
+	std::vector<CGXAsn1Base *> *GetValues() {
+		return &m_Values;
+	}
 };
 
-#endif //GXASN1SEQUENCE_H
+#endif  //GXASN1SEQUENCE_H

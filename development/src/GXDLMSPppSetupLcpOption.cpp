@@ -35,40 +35,34 @@
 #include "../include/GXDLMSPppSetupLcpOption.h"
 #include <sstream>
 
-PPP_SETUP_LCP_OPTION_TYPE CGXDLMSPppSetupLcpOption::GetType()
-{
-    return m_Type;
-}
-void CGXDLMSPppSetupLcpOption::SetType(PPP_SETUP_LCP_OPTION_TYPE value)
-{
-    m_Type = value;
+PPP_SETUP_LCP_OPTION_TYPE CGXDLMSPppSetupLcpOption::GetType() {
+	return m_Type;
 }
 
-int CGXDLMSPppSetupLcpOption::GetLength()
-{
-    return m_Length;
+void CGXDLMSPppSetupLcpOption::SetType(PPP_SETUP_LCP_OPTION_TYPE value) {
+	m_Type = value;
 }
 
-void CGXDLMSPppSetupLcpOption::SetLength(int value)
-{
-    m_Length = value;
+int CGXDLMSPppSetupLcpOption::GetLength() {
+	return m_Length;
 }
 
-CGXDLMSVariant& CGXDLMSPppSetupLcpOption::GetData()
-{
-    return m_Data;
+void CGXDLMSPppSetupLcpOption::SetLength(int value) {
+	m_Length = value;
 }
 
-void CGXDLMSPppSetupLcpOption::SetData(CGXDLMSVariant& value)
-{
-    m_Data = value;
+CGXDLMSVariant &CGXDLMSPppSetupLcpOption::GetData() {
+	return m_Data;
 }
 
-std::string CGXDLMSPppSetupLcpOption::ToString()
-{
-    std::stringstream sb;
-    sb << m_Type;
-    sb << " ";
-    sb << m_Length;
-    return sb.str();
+void CGXDLMSPppSetupLcpOption::SetData(CGXDLMSVariant &value) {
+	m_Data = value;
+}
+
+std::string CGXDLMSPppSetupLcpOption::ToString() {
+	std::stringstream sb;
+	sb << m_Type;
+	sb << " ";
+	sb << m_Length;
+	return sb.str();
 }

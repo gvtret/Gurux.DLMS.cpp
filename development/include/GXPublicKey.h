@@ -39,135 +39,128 @@
 #include "GXAsn1Converter.h"
 #include "GXByteArray.h"
 
-class CGXPublicKey
-{
+class CGXPublicKey {
 private:
-    friend class CGXEcdsa;
-    friend class CGXPkcs10;
-    /**
+	friend class CGXEcdsa;
+	friend class CGXPkcs10;
+	/**
     * Used scheme.
     */
-    ECC m_Scheme;
-    /**
+	ECC m_Scheme;
+	/**
      Public key raw value.
     */
-    CGXByteArray m_RawValue;
-    /**
+	CGXByteArray m_RawValue;
+	/**
      SystemTitle is an extra information that can be used in debugging.
      SystemTitle is not serialized.
     */
-    CGXByteArray m_SystemTitle;
+	CGXByteArray m_SystemTitle;
+
 public:
-    /*Constructor.*/
-    CGXPublicKey();
+	/*Constructor.*/
+	CGXPublicKey();
 
-    CGXPublicKey& operator=(const CGXPublicKey& value);
+	CGXPublicKey &operator=(const CGXPublicKey &value);
 
-    /**
+	/**
     * Used scheme.
     */
-    ECC GetScheme();
+	ECC GetScheme();
 
-    /**
+	/**
      Private key raw value.
     */
-    CGXByteArray& GetRawValue();
+	CGXByteArray &GetRawValue();
 
-    /**
+	/**
      SystemTitle is an extra information that can be used in debugging.
      SystemTitle is not serialized.
     */
-    CGXByteArray& GetSystemTitle();
+	CGXByteArray &GetSystemTitle();
 
-    /**
+	/**
      SystemTitle is an extra information that can be used in debugging.
      SystemTitle is not serialized.
     */
-    void SetSystemTitle(CGXByteBuffer& value);
+	void SetSystemTitle(CGXByteBuffer &value);
 
-    /**
+	/**
      Create the key from raw bytes.
 
      key Raw data
      value: Public key.
      Returns the error code.
     */
-    static int FromRawBytes(
-        CGXByteBuffer& key,
-        CGXPublicKey& value);
+	static int FromRawBytes(CGXByteBuffer &key, CGXPublicKey &value);
 
-    /**
+	/**
      Create the key from DER.
 
      der: DER Base64 coded string.
      key: Public key.
      Returns the error code.
     */
-    static int FromDer(
-        std::string der,
-        CGXPublicKey& key);
+	static int FromDer(std::string der, CGXPublicKey &key);
 
-    /**
+	/**
      Create the key from PEM.
 
      pem: PEM Base64 coded string.
      key:Public key.
      Returns the error code.
     */
-    static int FromPem(
-        std::string pem,
-        CGXPublicKey& key);
+	static int FromPem(std::string pem, CGXPublicKey &key);
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-    /**
+	/**
      Create the key from PEM file.
 
      path: Path to the PEM file.
      value: Public key.
      Returns the error code.
      */
-    static int Load(std::string& path,
-        CGXPublicKey& value);
+	static int Load(std::string &path, CGXPublicKey &value);
 
-    /** 
+	/** 
      Save Pkcs #10 Certificate Signing Request to PEM file.
 
      path: File path.
      */
-    int Save(std::string& path);
-#endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+	int Save(std::string &path);
+#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
 
-    /**
+	/**
      Returns the key as a hex string.
 
      Returns
     */
-    std::string ToHex();
+	std::string ToHex();
 
-    /**
+	/**
      Get key as DER format.
     */
-    int ToDer(std::string& value);
+	int ToDer(std::string &value);
 
-    /**
+	/**
      Get key as encoded format.
     */
-    int GetEncoded(CGXByteBuffer& value);
+	int GetEncoded(CGXByteBuffer &value);
 
-    int ToPem(std::string& value);
+	int ToPem(std::string &value);
 
-    /**
+	/**
      X Coordinate.
     */
-    CGXByteArray GetX();
+	CGXByteArray GetX();
 
-    /**
+	/**
      Y Coordinate.
     */
-    CGXByteArray GetY();
+	CGXByteArray GetY();
 
-    std::string ToString();
+	std::string ToString();
 };
 
-#endif //GXPUBLICKEY_H
+#endif  //GXPUBLICKEY_H

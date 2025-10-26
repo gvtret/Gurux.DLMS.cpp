@@ -44,79 +44,72 @@
 /**
 This class is used to count repetition delay for the next push message.
 */
-class CGXRepetitionDelay
-{
+class CGXRepetitionDelay {
 private:
-    /**
+	/**
     * The minimum delay until a next push attempt is started in seconds.
     */
-    uint16_t m_Min;
+	uint16_t m_Min;
 
-    /**
+	/**
      * Calculating the next delay.
      */
-    uint16_t m_Exponent;
+	uint16_t m_Exponent;
 
-    /**
+	/**
      * The maximum delay until a next push attempt is started in seconds.
      */
-    uint16_t m_Max;
+	uint16_t m_Max;
 
 public:
-    /**
+	/**
      * Returns The minimum delay until a next push attempt is started in
      *         seconds.
      */
-    uint16_t GetMin()
-    {
-        return m_Min;
-    }
+	uint16_t GetMin() {
+		return m_Min;
+	}
 
-    /**
+	/**
      * value:
      *            The minimum delay until a next push attempt is started in
      *            seconds.
      */
-    void SetMin(uint16_t value)
-    {
-        m_Min = value;
-    }
+	void SetMin(uint16_t value) {
+		m_Min = value;
+	}
 
-    /**
+	/**
      * Returns Calculating the next delay.
      */
-    uint16_t GetExponent()
-    {
-        return m_Exponent;
-    }
+	uint16_t GetExponent() {
+		return m_Exponent;
+	}
 
-    /**
+	/**
      * value:
      *            Calculating the next delay.
      */
-    void SetExponent(uint16_t value)
-    {
-        m_Exponent = value;
-    }
+	void SetExponent(uint16_t value) {
+		m_Exponent = value;
+	}
 
-    /**
+	/**
      * Returns The maximum delay until a next push attempt is started in
      *         seconds.
      */
-    int GetMax()
-    {
-        return m_Max;
-    }
+	int GetMax() {
+		return m_Max;
+	}
 
-    /**
+	/**
      * value:
      *            The maximum delay until a next push attempt is started in
      *            seconds.
      */
-    void SetMax(uint16_t value)
-    {
-        m_Max = value;
-    }
+	void SetMax(uint16_t value) {
+		m_Max = value;
+	}
 };
-#endif //DLMS_IGNORE_PUSH_SETUP
-#endif //GXREPETITIONDELAY_H
+#endif  //DLMS_IGNORE_PUSH_SETUP
+#endif  //GXREPETITIONDELAY_H

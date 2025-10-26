@@ -39,58 +39,54 @@
 #ifndef DLMS_IGNORE_PUSH_SETUP
 
 /*Data protection identified key types.*/
-typedef enum
-{
-    /**
+typedef enum {
+	/**
      * Global unicast encryption key.
      */
-    DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE_UNICAST_ENCRYPTION,
-    /**
+	DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE_UNICAST_ENCRYPTION,
+	/**
      * Global broadcast encryption key.
      */
-    DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE_BROADCAST_ENCRYPTION
-}DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE;
+	DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE_BROADCAST_ENCRYPTION
+} DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE;
 
 /**
     Data protection identified key.
 */
-class CGXDLMSDataProtectionIdentifiedKey
-{
+class CGXDLMSDataProtectionIdentifiedKey {
 private:
-    /**
+	/**
      * Data protection key type.
      */
-    DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE m_KeyType;
+	DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE m_KeyType;
 
 public:
-    /**
+	/**
      * Constructor.
      */
-    CGXDLMSDataProtectionIdentifiedKey()
-    {
-        m_KeyType = DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE_UNICAST_ENCRYPTION;
-    }
+	CGXDLMSDataProtectionIdentifiedKey() {
+		m_KeyType = DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE_UNICAST_ENCRYPTION;
+	}
 
-    /**
+	/**
      * @return Data protection key type.
      */
-    DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE GetKeyType() {
-        return m_KeyType;
-    }
+	DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE GetKeyType() {
+		return m_KeyType;
+	}
 
-    /**
+	/**
      * @param value
      *            Data protection key type.
      */
-    void SetKeyType(DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE value) {
-        m_KeyType = value;
-    }
+	void SetKeyType(DLMS_DATA_PROTECTION_IDENTIFIED_KEY_TYPE value) {
+		m_KeyType = value;
+	}
 
-    std::string ToString()
-    {
-        std::string str = std::to_string(m_KeyType);
-        return str;
-    }
+	std::string ToString() {
+		std::string str = std::to_string(m_KeyType);
+		return str;
+	}
 };
-#endif //DLMS_IGNORE_PUSH_SETUP
-#endif //GXDLMSDATAPROTECTIONIDENTIFIEDKEY_H
+#endif  //DLMS_IGNORE_PUSH_SETUP
+#endif  //GXDLMSDATAPROTECTIONIDENTIFIEDKEY_H

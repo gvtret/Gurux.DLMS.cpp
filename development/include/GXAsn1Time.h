@@ -41,42 +41,36 @@
 /// <summary>
 /// ASN1 time value base class.
 /// </summary>
-class CGXAsn1Time : public CGXAsn1Base
-{
+class CGXAsn1Time: public CGXAsn1Base {
 private:
-    CGXDateTime m_Time;
+	CGXDateTime m_Time;
+
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Time()
-    {
+	/////////////////////////////////////////////////////////////////////////////
+	// Constructor.
+	/////////////////////////////////////////////////////////////////////////////
+	CGXAsn1Time() {
+	}
 
-    }
+	/////////////////////////////////////////////////////////////////////////////
+	// Constructor.
+	// value: date time.
+	/////////////////////////////////////////////////////////////////////////////
+	CGXAsn1Time(CGXDateTime &value) {
+		m_Time = value;
+	}
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    // value: date time.
-    /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Time(CGXDateTime& value)
-    {
-        m_Time = value;
-    }
+	CGXDateTime &GetValue() {
+		return m_Time;
+	}
 
-    CGXDateTime& GetValue()
-    {
-        return m_Time;
-    }
+	void SetValue(CGXDateTime &value) {
+		m_Time = value;
+	}
 
-    void SetValue(CGXDateTime& value)
-    {
-        m_Time = value;
-    }
-
-    std::string ToString()
-    {
-        return m_Time.ToString();
-    }
+	std::string ToString() {
+		return m_Time.ToString();
+	}
 };
 
-#endif //GXAsn1Time_H
+#endif  //GXAsn1Time_H

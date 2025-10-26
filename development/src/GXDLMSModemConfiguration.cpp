@@ -39,286 +39,229 @@
 #include <sstream>
 
 #ifndef DLMS_IGNORE_MODEM_CONFIGURATION
-CGXDLMSModemConfiguration::CGXDLMSModemConfiguration() :
-    CGXDLMSModemConfiguration("0.0.2.0.0.255", 0)
-{
+CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(): CGXDLMSModemConfiguration("0.0.2.0.0.255", 0) {
 }
 
-CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(std::string ln) :
-    CGXDLMSModemConfiguration(ln, 0)
-{
+CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(std::string ln): CGXDLMSModemConfiguration(ln, 0) {
 }
 
-CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(std::string ln, unsigned short sn) :
-    CGXDLMSObject(DLMS_OBJECT_TYPE_MODEM_CONFIGURATION, ln, sn)
-{
-    m_CommunicationSpeed = DLMS_BAUD_RATE_9600;
-    m_ModemProfile.push_back("OK");
-    m_ModemProfile.push_back("CONNECT");
-    m_ModemProfile.push_back("RING");
-    m_ModemProfile.push_back("NO CARRIER");
-    m_ModemProfile.push_back("ERROR");
-    m_ModemProfile.push_back("CONNECT 1200");
-    m_ModemProfile.push_back("NO DIAL TONE");
-    m_ModemProfile.push_back("BUSY");
-    m_ModemProfile.push_back("NO ANSWER");
-    m_ModemProfile.push_back("CONNECT 600");
-    m_ModemProfile.push_back("CONNECT 2400");
-    m_ModemProfile.push_back("CONNECT 4800");
-    m_ModemProfile.push_back("CONNECT 9600");
-    m_ModemProfile.push_back("CONNECT 14 400");
-    m_ModemProfile.push_back("CONNECT 28 800");
-    m_ModemProfile.push_back("CONNECT 33 600");
-    m_ModemProfile.push_back("CONNECT 56 000");
+CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_MODEM_CONFIGURATION, ln, sn) {
+	m_CommunicationSpeed = DLMS_BAUD_RATE_9600;
+	m_ModemProfile.push_back("OK");
+	m_ModemProfile.push_back("CONNECT");
+	m_ModemProfile.push_back("RING");
+	m_ModemProfile.push_back("NO CARRIER");
+	m_ModemProfile.push_back("ERROR");
+	m_ModemProfile.push_back("CONNECT 1200");
+	m_ModemProfile.push_back("NO DIAL TONE");
+	m_ModemProfile.push_back("BUSY");
+	m_ModemProfile.push_back("NO ANSWER");
+	m_ModemProfile.push_back("CONNECT 600");
+	m_ModemProfile.push_back("CONNECT 2400");
+	m_ModemProfile.push_back("CONNECT 4800");
+	m_ModemProfile.push_back("CONNECT 9600");
+	m_ModemProfile.push_back("CONNECT 14 400");
+	m_ModemProfile.push_back("CONNECT 28 800");
+	m_ModemProfile.push_back("CONNECT 33 600");
+	m_ModemProfile.push_back("CONNECT 56 000");
 }
 
-DLMS_BAUD_RATE CGXDLMSModemConfiguration::GetCommunicationSpeed()
-{
-    return m_CommunicationSpeed;
-}
-void CGXDLMSModemConfiguration::SetCommunicationSpeed(DLMS_BAUD_RATE value)
-{
-    m_CommunicationSpeed = value;
+DLMS_BAUD_RATE CGXDLMSModemConfiguration::GetCommunicationSpeed() {
+	return m_CommunicationSpeed;
 }
 
-std::vector<CGXDLMSModemInitialisation>& CGXDLMSModemConfiguration::GetInitialisationStrings()
-{
-    return m_InitialisationStrings;
-}
-void CGXDLMSModemConfiguration::SetInitialisationStrings(std::vector<CGXDLMSModemInitialisation>& value)
-{
-    m_InitialisationStrings = value;
+void CGXDLMSModemConfiguration::SetCommunicationSpeed(DLMS_BAUD_RATE value) {
+	m_CommunicationSpeed = value;
 }
 
-std::vector< std::string >& CGXDLMSModemConfiguration::GetModemProfile()
-{
-    return m_ModemProfile;
+std::vector<CGXDLMSModemInitialisation> &CGXDLMSModemConfiguration::GetInitialisationStrings() {
+	return m_InitialisationStrings;
 }
 
-void CGXDLMSModemConfiguration::SetModemProfile(std::vector< std::string >& value)
-{
-    m_ModemProfile = value;
+void CGXDLMSModemConfiguration::SetInitialisationStrings(std::vector<CGXDLMSModemInitialisation> &value) {
+	m_InitialisationStrings = value;
+}
+
+std::vector<std::string> &CGXDLMSModemConfiguration::GetModemProfile() {
+	return m_ModemProfile;
+}
+
+void CGXDLMSModemConfiguration::SetModemProfile(std::vector<std::string> &value) {
+	m_ModemProfile = value;
 }
 
 // Returns amount of attributes.
-int CGXDLMSModemConfiguration::GetAttributeCount()
-{
-    return 4;
+int CGXDLMSModemConfiguration::GetAttributeCount() {
+	return 4;
 }
 
 // Returns amount of methods.
-int CGXDLMSModemConfiguration::GetMethodCount()
-{
-    return 0;
+int CGXDLMSModemConfiguration::GetMethodCount() {
+	return 0;
 }
 
-void CGXDLMSModemConfiguration::GetValues(std::vector<std::string>& values)
-{
-    values.clear();
-    std::string ln;
-    GetLogicalName(ln);
-    values.push_back(ln);
-    values.push_back(CGXDLMSConverter::ToString(m_CommunicationSpeed));
-    std::stringstream sb;
-    sb << '[';
-    bool empty = true;
-    for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin(); it != m_InitialisationStrings.end(); ++it)
-    {
-        if (!empty)
-        {
-            sb << ", ";
-        }
-        empty = false;
-        std::string str = it->ToString();
-        sb.write(str.c_str(), str.size());
-    }
-    sb << ']';
-    values.push_back(sb.str());
+void CGXDLMSModemConfiguration::GetValues(std::vector<std::string> &values) {
+	values.clear();
+	std::string ln;
+	GetLogicalName(ln);
+	values.push_back(ln);
+	values.push_back(CGXDLMSConverter::ToString(m_CommunicationSpeed));
+	std::stringstream sb;
+	sb << '[';
+	bool empty = true;
+	for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin(); it != m_InitialisationStrings.end(); ++it) {
+		if (!empty) {
+			sb << ", ";
+		}
+		empty = false;
+		std::string str = it->ToString();
+		sb.write(str.c_str(), str.size());
+	}
+	sb << ']';
+	values.push_back(sb.str());
 
-    //Clear str.
-    sb.str(std::string());
-    sb << '[';
-    GXHelpers::Join(", ", m_ModemProfile, ln);
-    sb << ln;
-    sb << ']';
-    values.push_back(sb.str());
-
+	//Clear str.
+	sb.str(std::string());
+	sb << '[';
+	GXHelpers::Join(", ", m_ModemProfile, ln);
+	sb << ln;
+	sb << ']';
+	values.push_back(sb.str());
 }
 
-void CGXDLMSModemConfiguration::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
-{
-    //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
-    {
-        attributes.push_back(1);
-    }
-    //CommunicationSpeed
-    if (all || !IsRead(2))
-    {
-        attributes.push_back(2);
-    }
-    //InitialisationStrings
-    if (all || !IsRead(3))
-    {
-        attributes.push_back(3);
-    }
-    //ModemProfile
-    if (all || !IsRead(4))
-    {
-        attributes.push_back(4);
-    }
+void CGXDLMSModemConfiguration::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+	//LN is static and read only once.
+	if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
+		attributes.push_back(1);
+	}
+	//CommunicationSpeed
+	if (all || !IsRead(2)) {
+		attributes.push_back(2);
+	}
+	//InitialisationStrings
+	if (all || !IsRead(3)) {
+		attributes.push_back(3);
+	}
+	//ModemProfile
+	if (all || !IsRead(4)) {
+		attributes.push_back(4);
+	}
 }
 
-int CGXDLMSModemConfiguration::GetDataType(int index, DLMS_DATA_TYPE& type)
-{
-    if (index == 1)
-    {
-        type = DLMS_DATA_TYPE_OCTET_STRING;
-    }
-    else if (index == 2)
-    {
-        type = DLMS_DATA_TYPE_ENUM;
-    }
-    else if (index == 3)
-    {
-        type = DLMS_DATA_TYPE_ARRAY;
-    }
-    else if (index == 4)
-    {
-        type = DLMS_DATA_TYPE_ARRAY;
-    }
-    else
-    {
-        return DLMS_ERROR_CODE_INVALID_PARAMETER;
-    }
-    return DLMS_ERROR_CODE_OK;
+int CGXDLMSModemConfiguration::GetDataType(int index, DLMS_DATA_TYPE &type) {
+	if (index == 1) {
+		type = DLMS_DATA_TYPE_OCTET_STRING;
+	} else if (index == 2) {
+		type = DLMS_DATA_TYPE_ENUM;
+	} else if (index == 3) {
+		type = DLMS_DATA_TYPE_ARRAY;
+	} else if (index == 4) {
+		type = DLMS_DATA_TYPE_ARRAY;
+	} else {
+		return DLMS_ERROR_CODE_INVALID_PARAMETER;
+	}
+	return DLMS_ERROR_CODE_OK;
 }
 
 // Returns value of given attribute.
-int CGXDLMSModemConfiguration::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() == 1)
-    {
-        int ret;
-        CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0)
-        {
-            return ret;
-        }
-        e.SetValue(tmp);
-        return DLMS_ERROR_CODE_OK;
-    }
-    if (e.GetIndex() == 2)
-    {
-        e.SetValue(m_CommunicationSpeed);
-        return DLMS_ERROR_CODE_OK;
-    }
-    if (e.GetIndex() == 3)
-    {
-        e.SetByteArray(true);
-        CGXByteBuffer data;
-        data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
-        //Add count
-        int ret;
-        unsigned long cnt = (unsigned long)m_InitialisationStrings.size();
-        GXHelpers::SetObjectCount(cnt, data);
-        CGXDLMSVariant request, response, delay;
-        for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin();
-            it != m_InitialisationStrings.end(); ++it)
-        {
-            data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
-            data.SetUInt8(3); //Count
-            request = it->GetRequest();
-            response = it->GetResponse();
-            delay = it->GetDelay();
-            if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, request)) != 0 ||
-                (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, response)) != 0 ||
-                (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, delay)) != 0)
-            {
-                return ret;
-            }
-        }
-        e.SetValue(data);
-        return DLMS_ERROR_CODE_OK;
-    }
-    if (e.GetIndex() == 4)
-    {
-        e.SetByteArray(true);
-        CGXByteBuffer data;
-        data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
-        //Add count
-        int ret;
-        unsigned long cnt = (unsigned long)m_ModemProfile.size();
-        GXHelpers::SetObjectCount(cnt, data);
-        CGXDLMSVariant tmp;
-        for (std::vector< std::string >::iterator it = m_ModemProfile.begin();
-            it != m_ModemProfile.end(); ++it)
-        {
-            tmp = *it;
-            if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, tmp)) != 0)
-            {
-                return ret;
-            }
-        }
-        e.SetValue(data);
-        return DLMS_ERROR_CODE_OK;
-    }
-    return DLMS_ERROR_CODE_INVALID_PARAMETER;
+int CGXDLMSModemConfiguration::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+	if (e.GetIndex() == 1) {
+		int ret;
+		CGXDLMSVariant tmp;
+		if ((ret = GetLogicalName(this, tmp)) != 0) {
+			return ret;
+		}
+		e.SetValue(tmp);
+		return DLMS_ERROR_CODE_OK;
+	}
+	if (e.GetIndex() == 2) {
+		e.SetValue(m_CommunicationSpeed);
+		return DLMS_ERROR_CODE_OK;
+	}
+	if (e.GetIndex() == 3) {
+		e.SetByteArray(true);
+		CGXByteBuffer data;
+		data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
+		//Add count
+		int ret;
+		unsigned long cnt = (unsigned long)m_InitialisationStrings.size();
+		GXHelpers::SetObjectCount(cnt, data);
+		CGXDLMSVariant request, response, delay;
+		for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin(); it != m_InitialisationStrings.end(); ++it) {
+			data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
+			data.SetUInt8(3);  //Count
+			request = it->GetRequest();
+			response = it->GetResponse();
+			delay = it->GetDelay();
+			if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, request)) != 0 ||
+			    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, response)) != 0 ||
+			    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, delay)) != 0) {
+				return ret;
+			}
+		}
+		e.SetValue(data);
+		return DLMS_ERROR_CODE_OK;
+	}
+	if (e.GetIndex() == 4) {
+		e.SetByteArray(true);
+		CGXByteBuffer data;
+		data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
+		//Add count
+		int ret;
+		unsigned long cnt = (unsigned long)m_ModemProfile.size();
+		GXHelpers::SetObjectCount(cnt, data);
+		CGXDLMSVariant tmp;
+		for (std::vector<std::string>::iterator it = m_ModemProfile.begin(); it != m_ModemProfile.end(); ++it) {
+			tmp = *it;
+			if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, tmp)) != 0) {
+				return ret;
+			}
+		}
+		e.SetValue(data);
+		return DLMS_ERROR_CODE_OK;
+	}
+	return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
 // Set value of given attribute.
-int CGXDLMSModemConfiguration::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() == 1)
-    {
-        return SetLogicalName(this, e.GetValue());
-    }
-    else if (e.GetIndex() == 2)
-    {
-        m_CommunicationSpeed = (DLMS_BAUD_RATE)e.GetValue().bVal;
-        return DLMS_ERROR_CODE_OK;
-    }
-    else if (e.GetIndex() == 3)
-    {
-        m_InitialisationStrings.clear();
-        int ret;
-        for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it)
-        {
-            CGXDLMSModemInitialisation item;
-            CGXDLMSVariant tmp;
-            if ((ret = CGXDLMSClient::ChangeType(it->Arr[0], DLMS_DATA_TYPE_STRING, tmp)) != DLMS_ERROR_CODE_OK)
-            {
-                return ret;
-            }
-            item.SetRequest(tmp.ToString());
-            if ((ret = CGXDLMSClient::ChangeType(it->Arr[1], DLMS_DATA_TYPE_STRING, tmp)) != DLMS_ERROR_CODE_OK)
-            {
-                return ret;
-            }
-            item.SetResponse(tmp.ToString());
-            if (it->Arr.size() > 2)
-            {
-                item.SetDelay(it->Arr[2].uiVal);
-            }
-            m_InitialisationStrings.push_back(item);
-        }
-        return DLMS_ERROR_CODE_OK;
-    }
-    else if (e.GetIndex() == 4)
-    {
-        m_ModemProfile.clear();
-        int ret;
-        for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it)
-        {
-            CGXDLMSVariant tmp;
-            if ((ret = CGXDLMSClient::ChangeType(*it, DLMS_DATA_TYPE_STRING, tmp)) != DLMS_ERROR_CODE_OK)
-            {
-                return ret;
-            }
-            m_ModemProfile.push_back(tmp.ToString());
-        }
-        return DLMS_ERROR_CODE_OK;
-    }
-    return DLMS_ERROR_CODE_INVALID_PARAMETER;
+int CGXDLMSModemConfiguration::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+	if (e.GetIndex() == 1) {
+		return SetLogicalName(this, e.GetValue());
+	} else if (e.GetIndex() == 2) {
+		m_CommunicationSpeed = (DLMS_BAUD_RATE)e.GetValue().bVal;
+		return DLMS_ERROR_CODE_OK;
+	} else if (e.GetIndex() == 3) {
+		m_InitialisationStrings.clear();
+		int ret;
+		for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+			CGXDLMSModemInitialisation item;
+			CGXDLMSVariant tmp;
+			if ((ret = CGXDLMSClient::ChangeType(it->Arr[0], DLMS_DATA_TYPE_STRING, tmp)) != DLMS_ERROR_CODE_OK) {
+				return ret;
+			}
+			item.SetRequest(tmp.ToString());
+			if ((ret = CGXDLMSClient::ChangeType(it->Arr[1], DLMS_DATA_TYPE_STRING, tmp)) != DLMS_ERROR_CODE_OK) {
+				return ret;
+			}
+			item.SetResponse(tmp.ToString());
+			if (it->Arr.size() > 2) {
+				item.SetDelay(it->Arr[2].uiVal);
+			}
+			m_InitialisationStrings.push_back(item);
+		}
+		return DLMS_ERROR_CODE_OK;
+	} else if (e.GetIndex() == 4) {
+		m_ModemProfile.clear();
+		int ret;
+		for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+			CGXDLMSVariant tmp;
+			if ((ret = CGXDLMSClient::ChangeType(*it, DLMS_DATA_TYPE_STRING, tmp)) != DLMS_ERROR_CODE_OK) {
+				return ret;
+			}
+			m_ModemProfile.push_back(tmp.ToString());
+		}
+		return DLMS_ERROR_CODE_OK;
+	}
+	return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
-#endif //DLMS_IGNORE_MODEM_CONFIGURATION
+#endif  //DLMS_IGNORE_MODEM_CONFIGURATION

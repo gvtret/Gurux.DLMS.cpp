@@ -53,128 +53,104 @@
 #include "GXAsn1Helpers.h"
 #include "GXAsn1Time.h"
 
-class CGXAsn1Converter
-{
+class CGXAsn1Converter {
 private:
-    friend class CGXPkcs8;
-    static int GetValue(CGXByteBuffer& bb,
-        std::vector<CGXAsn1Base*>* objects,
-        bool getNext);
+	friend class CGXPkcs8;
+	static int GetValue(CGXByteBuffer &bb, std::vector<CGXAsn1Base *> *objects, bool getNext);
 
-    static CGXDateTime GetUtcTime(
-        std::string& dateString);
+	static CGXDateTime GetUtcTime(std::string &dateString);
 
-    static CGXDateTime GetGeneralizedTime(
-        std::string& dateString);
+	static CGXDateTime GetGeneralizedTime(std::string &dateString);
 
-    static std::string ToString(
-        int value, int numbers);
+	static std::string ToString(int value, int numbers);
 
-    static std::string DateToString(
-        CGXDateTime& date);
+	static std::string DateToString(CGXDateTime &date);
 
-    /*
+	/*
      Add ASN1 object to byte buffer.
      bb: Byte buffer where ANS1 object is serialized.
      target: ANS1 object
      Returns Size of the object.
     */
-    static int GetBytes(CGXByteBuffer& bb,
-        CGXAsn1Base* target,
-        int& count);
+	static int GetBytes(CGXByteBuffer &bb, CGXAsn1Base *target, int &count);
 
-    /**
+	/**
      Get certificate type from byte array.
      */
-    static DLMS_PKCS_TYPE GetCertificateType(
-        CGXByteBuffer& data,
-        CGXAsn1Sequence* seq);
+	static DLMS_PKCS_TYPE GetCertificateType(CGXByteBuffer &data, CGXAsn1Sequence *seq);
+
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Converter();
+	/////////////////////////////////////////////////////////////////////////////
+	// Constructor.
+	/////////////////////////////////////////////////////////////////////////////
+	CGXAsn1Converter();
 
 
-    static int EncodeSubject(std::string& value,
-        CGXAsn1Sequence* list);
+	static int EncodeSubject(std::string &value, CGXAsn1Sequence *list);
 
-    static int GetSubject(
-        CGXAsn1Sequence* values,
-        std::string& value);
+	static int GetSubject(CGXAsn1Sequence *values, std::string &value);
 
-    /**
+	/**
      Convert byte array to ASN1 objects->
      data: ASN-1 bytes.
      Returns  Parsed objects->
     */
-    static int FromByteArray(CGXByteBuffer& data,
-        CGXAsn1Base*& value);
+	static int FromByteArray(CGXByteBuffer &data, CGXAsn1Base *&value);
 
-    /*Get next ASN1 value from the byte buffer.*/
-    static int GetNext(CGXByteBuffer& data,
-        CGXDLMSVariant& value);
+	/*Get next ASN1 value from the byte buffer.*/
+	static int GetNext(CGXByteBuffer &data, CGXDLMSVariant &value);
 
-    /**
+	/**
      Convert ASN1 objects to byte array.
      @param objects ASN.1 objects->
      Returns  ASN.1 objects as byte array.
      */
-    static int ToByteArray(CGXAsn1Base* objects,
-        CGXByteBuffer& value);
+	static int ToByteArray(CGXAsn1Base *objects, CGXByteBuffer &value);
 
-    /**
+	/**
      Convert system title to subject.
 
      @param systemTitle System title.
      Returns Subject.
      */
-    static std::string SystemTitleToSubject(
-        CGXByteBuffer& systemTitle);
+	static std::string SystemTitleToSubject(CGXByteBuffer &systemTitle);
 
-    /**
+	/**
      Get system title from the subject.
 
      @param subject Subject.
      Returns System title.
      */
-    static int SystemTitleFromSubject(
-        std::string& subject,
-        CGXByteBuffer& value);
+	static int SystemTitleFromSubject(std::string &subject, CGXByteBuffer &value);
 
-    /**
+	/**
      Get system title in hex string from the subject.
 
      @param subject Subject.
      Returns System title.
      */
-    static int HexSystemTitleFromSubject(
-        std::string& subject,
-        std::string& value);
+	static int HexSystemTitleFromSubject(std::string &subject, std::string &value);
 
-    /**
+	/**
      Convert ASN1 certificate type to DLMS key usage.
 
      @param type
      Returns
     */
-    static DLMS_KEY_USAGE CertificateTypeToKeyUsage(
-        DLMS_CERTIFICATE_TYPE type);
+	static DLMS_KEY_USAGE CertificateTypeToKeyUsage(DLMS_CERTIFICATE_TYPE type);
 
-    /**
+	/**
      Get certificate type from byte array.
      */
-    static DLMS_PKCS_TYPE GetCertificateType(
-        CGXByteBuffer& data);
+	static DLMS_PKCS_TYPE GetCertificateType(CGXByteBuffer &data);
 
-    /**
+	/**
      Get certificate type from DER string.
 
      @param der DER string
      Returns error code.
      */
-    static DLMS_PKCS_TYPE GetCertificateType(
-        std::string& der);
+	static DLMS_PKCS_TYPE GetCertificateType(std::string &der);
 };
 
-#endif //GXASN1CONVERTER_H
+#endif  //GXASN1CONVERTER_H

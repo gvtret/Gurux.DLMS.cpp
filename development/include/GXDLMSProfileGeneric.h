@@ -40,36 +40,35 @@
 #include "GXDLMSCaptureObject.h"
 #include "GXDLMSRegister.h"
 
-enum GX_SORT_METHOD
-{
-    /**
+enum GX_SORT_METHOD {
+	/**
      First in first out
 
      When circle buffer is full first item is removed.
     */
-    DLMS_SORT_METHOD_FIFO = 1,
-    /**
+	DLMS_SORT_METHOD_FIFO = 1,
+	/**
      Last in first out.
 
      When circle buffer is full last item is removed.
     */
-    DLMS_SORT_METHOD_LIFO = 2,
-    /**
+	DLMS_SORT_METHOD_LIFO = 2,
+	/**
      Largest is first.
     */
-    DLMS_SORT_METHOD_LARGEST = 3,
-    /**
+	DLMS_SORT_METHOD_LARGEST = 3,
+	/**
      Smallest is first.
     */
-    DLMS_SORT_METHOD_SMALLEST = 4,
-    /**
+	DLMS_SORT_METHOD_SMALLEST = 4,
+	/**
      Nearst to zero is first.
     */
-    DLMS_SORT_METHOD_NEAREST_TO_ZERO = 5,
-    /**
+	DLMS_SORT_METHOD_NEAREST_TO_ZERO = 5,
+	/**
      Farest from zero is first.
     */
-    DLMS_SORT_METHOD_FAREST_FROM_ZERO = 6
+	DLMS_SORT_METHOD_FAREST_FROM_ZERO = 6
 };
 
 class CGXDLMSServer;
@@ -78,34 +77,28 @@ class CGXDLMSServer;
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSProfileGeneric
 */
-class CGXDLMSProfileGeneric : public CGXDLMSObject
-{
+class CGXDLMSProfileGeneric: public CGXDLMSObject {
 private:
-    std::vector< std::vector<CGXDLMSVariant> > m_Buffer;
-    std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> > m_CaptureObjects;
-    int m_CapturePeriod;
-    GX_SORT_METHOD m_SortMethod;
-    CGXDLMSObject* m_SortObject;
-    unsigned long m_ProfileEntries;
-    unsigned long m_EntriesInUse;
+	std::vector<std::vector<CGXDLMSVariant>> m_Buffer;
+	std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> m_CaptureObjects;
+	int m_CapturePeriod;
+	GX_SORT_METHOD m_SortMethod;
+	CGXDLMSObject *m_SortObject;
+	unsigned long m_ProfileEntries;
+	unsigned long m_EntriesInUse;
 
-    int m_SortObjectAttributeIndex;
-    int m_SortObjectDataIndex;
+	int m_SortObjectAttributeIndex;
+	int m_SortObjectDataIndex;
 
-    int GetColumns(CGXByteBuffer& data);
-    int GetData(
-        CGXDLMSSettings& settings,
-        CGXDLMSValueEventArg& e,
-        std::vector< std::vector<CGXDLMSVariant> >& table,
-        std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >& columns,
-        CGXByteBuffer& data);
+	int GetColumns(CGXByteBuffer &data);
+	int GetData(
+	    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, std::vector<std::vector<CGXDLMSVariant>> &table,
+	    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, CGXByteBuffer &data
+	);
 
-    int GetProfileGenericData(
-        CGXDLMSSettings& settings,
-        CGXDLMSValueEventArg& e,
-        CGXByteBuffer& reply);
+	int GetProfileGenericData(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &reply);
 
-    /**
+	/**
      * Get selected columns.
      *
      * @param parameters
@@ -113,19 +106,15 @@ private:
      * @param cols
      *            Selected columns.
      */
-    int GetSelectedColumns(
-        std::vector<CGXDLMSVariant>& cols,
-        std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >& columns);
+	int GetSelectedColumns(std::vector<CGXDLMSVariant> &cols, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns);
+
 public:
-    /*
+	/*
      * Add new capture object (column) to the profile generic.
      */
-    int AddCaptureObject(
-        CGXDLMSObject* pObj,
-        int attributeIndex,
-        int dataIndex);
+	int AddCaptureObject(CGXDLMSObject *pObj, int attributeIndex, int dataIndex);
 
-    /**
+	/**
     * Get selected columns from parameters.
     *
     * @param selector
@@ -134,127 +123,124 @@ public:
     *            Received parameters where columns information is found.
     * @return Selected columns.
     */
-    int GetSelectedColumns(
-        int selector,
-        CGXDLMSVariant& parameters,
-        std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >& columns);
+	int GetSelectedColumns(int selector, CGXDLMSVariant &parameters, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns);
 
-    /**
+	/**
      Constructor.
     */
-    CGXDLMSProfileGeneric();
+	CGXDLMSProfileGeneric();
 
-    //SN Constructor.
-    CGXDLMSProfileGeneric(std::string ln, unsigned short sn);
+	//SN Constructor.
+	CGXDLMSProfileGeneric(std::string ln, unsigned short sn);
 
-    /**
+	/**
      Constructor.
 
      @param ln Logical Name of the object.
     */
-    CGXDLMSProfileGeneric(std::string ln);
+	CGXDLMSProfileGeneric(std::string ln);
 
-    /**
+	/**
      Destructor.
     */
-    virtual ~CGXDLMSProfileGeneric();
+	virtual ~CGXDLMSProfileGeneric();
 
-    /**
+	/**
      Data of profile generic.
     */
-    std::vector< std::vector<CGXDLMSVariant> >& GetBuffer();
+	std::vector<std::vector<CGXDLMSVariant>> &GetBuffer();
 
-    /**
+	/**
      Captured Objects.
     */
-    std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >& GetCaptureObjects();
+	std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &GetCaptureObjects();
 
-    /**
+	/**
      How often values are captured.
     */
-    int GetCapturePeriod();
-    void SetCapturePeriod(int value);
+	int GetCapturePeriod();
+	void SetCapturePeriod(int value);
 
-    /**
+	/**
      How columns are sorted.
     */
-    GX_SORT_METHOD GetSortMethod();
-    void SetSortMethod(GX_SORT_METHOD value);
+	GX_SORT_METHOD GetSortMethod();
+	void SetSortMethod(GX_SORT_METHOD value);
 
-    /**
+	/**
      Column that is used for sorting.
     */
-    CGXDLMSObject* GetSortObject();
-    void SetSortObject(CGXDLMSObject* value);
+	CGXDLMSObject *GetSortObject();
+	void SetSortObject(CGXDLMSObject *value);
 
-    /**
+	/**
      Entries (rows) in Use.
     */
-    unsigned long GetEntriesInUse();
-    void SetEntriesInUse(unsigned long value);
+	unsigned long GetEntriesInUse();
+	void SetEntriesInUse(unsigned long value);
 
-    /**
+	/**
      Maximum Entries (rows) count.
     */
-    unsigned long GetProfileEntries();
-    void SetProfileEntries(unsigned long value);
-    /**
+	unsigned long GetProfileEntries();
+	void SetProfileEntries(unsigned long value);
+	/**
     Attribute index of sort object.
     */
-    int GetSortObjectAttributeIndex();
-    void SetSortObjectAttributeIndex(int value);
+	int GetSortObjectAttributeIndex();
+	void SetSortObjectAttributeIndex(int value);
 
-    /**
+	/**
      Data index of sort object.
     */
-    int GetSortObjectDataIndex();
-    void SetSortObjectDataIndex(int value);
+	int GetSortObjectDataIndex();
+	void SetSortObjectDataIndex(int value);
 
-    /**
+	/**
      Clears the buffer.
     */
-    void Reset();
+	void Reset();
 
-    /*
+	/*
     * Copies the values of the objects to capture into the buffer by reading
     * capture objects.
     */
-    int Capture(CGXDLMSServer* server);
+	int Capture(CGXDLMSServer *server);
 
-    //Get attribute values of object.
-    void GetValues(std::vector<std::string>& values);
+	//Get attribute values of object.
+	void GetValues(std::vector<std::string> &values);
 
-    /////////////////////////////////////////////////////////////////////////
-    // Returns collection of attributes to read.
-    //
-    // If attribute is static and already read or device is returned
-    // HW error it is not returned.
-    //
-    // all: All items are returned even if they are read already.
-    // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+	/////////////////////////////////////////////////////////////////////////
+	// Returns collection of attributes to read.
+	//
+	// If attribute is static and already read or device is returned
+	// HW error it is not returned.
+	//
+	// all: All items are returned even if they are read already.
+	// attributes: Collection of attributes to read.
+	void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    //Returns amount of attributes.
-    int GetAttributeCount();
+	//Returns amount of attributes.
+	int GetAttributeCount();
 
-    //Returns amount of methods.
-    int GetMethodCount();
+	//Returns amount of methods.
+	int GetMethodCount();
 
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+	int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+	int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-    /*
+	/*
     * Returns value of given attribute.
     */
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+	int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-    /*
+	/*
      * Set value of given attribute.
      */
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+	int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-    /**
+	/**
     * Clears the buffer.
     *
     * @param client
@@ -263,9 +249,9 @@ public:
     *            Action bytes.
     * @return Result code.
     */
-    int Reset(CGXDLMSClient& client, std::vector<CGXByteBuffer>& reply);
+	int Reset(CGXDLMSClient &client, std::vector<CGXByteBuffer> &reply);
 
-    /**
+	/**
     * Copies the values of the objects to capture into the buffer by reading
     * each capture object.
     *
@@ -275,7 +261,7 @@ public:
     *            Action bytes.
     * @return Result code.
     */
-    int Capture(CGXDLMSClient& client, std::vector<CGXByteBuffer>& reply);
+	int Capture(CGXDLMSClient &client, std::vector<CGXByteBuffer> &reply);
 };
-#endif //DLMS_IGNORE_PROFILE_GENERIC
-#endif //GXDLMSPROFILEGENERIC_H
+#endif  //DLMS_IGNORE_PROFILE_GENERIC
+#endif  //GXDLMSPROFILEGENERIC_H

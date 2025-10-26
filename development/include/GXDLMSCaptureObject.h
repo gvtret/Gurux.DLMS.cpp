@@ -35,32 +35,31 @@
 #ifndef GXDLMSCAPTUREOBJECT_H
 #define GXDLMSCAPTUREOBJECT_H
 
-class CGXDLMSCaptureObject
-{
+class CGXDLMSCaptureObject {
 private:
-    int m_AttributeIndex;
-    int m_DataIndex;
+	int m_AttributeIndex;
+	int m_DataIndex;
 
 public:
-    /*
+	/*
      * Constructor.
      */
-    CGXDLMSCaptureObject();
-    /*
+	CGXDLMSCaptureObject();
+	/*
      * Constructor.
      */
-    CGXDLMSCaptureObject(int attributeIndex, int dataIndex);
+	CGXDLMSCaptureObject(int attributeIndex, int dataIndex);
 
-    /**
+	/**
      Index of DLMS object in the profile generic table
     */
-    int GetAttributeIndex();
-    void SetAttributeIndex(int value);
+	int GetAttributeIndex();
+	void SetAttributeIndex(int value);
 
-    /**
+	/**
      Data index of DLMS object in the profile generic table.
     */
-    int GetDataIndex();
-    void SetDataIndex(int value);
+	int GetDataIndex();
+	void SetDataIndex(int value);
 };
-#endif //GXDLMSCAPTUREOBJECT_H
+#endif  //GXDLMSCAPTUREOBJECT_H

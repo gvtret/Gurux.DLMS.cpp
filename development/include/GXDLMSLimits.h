@@ -37,9 +37,7 @@
 
 #include "GXDLMSVariant.h"
 #include "GXHdlcSettings.h"
-// CGXDLMSLimits is obsolete. Use GXHdlcSettings instead.
-class CGXDLMSLimits : public CGXHdlcSettings
-{
 
-};
-#endif //GXDLMSLIMITS_H
+// CGXDLMSLimits is obsolete. Use GXHdlcSettings instead.
+class CGXDLMSLimits: public CGXHdlcSettings {};
+#endif  //GXDLMSLIMITS_H

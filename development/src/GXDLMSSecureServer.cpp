@@ -34,74 +34,45 @@
 
 #include "../include/GXDLMSSecureServer.h"
 
-CGXDLMSSecureServer::CGXDLMSSecureServer(bool UseLogicalNameReferencing,
-    DLMS_INTERFACE_TYPE intefaceType) :
-    CGXDLMSServer(
-        UseLogicalNameReferencing,
-        intefaceType), m_Cipher("ABCDEFGH")
-{
-    m_Settings.SetCipher(&m_Cipher);
+CGXDLMSSecureServer::CGXDLMSSecureServer(bool UseLogicalNameReferencing, DLMS_INTERFACE_TYPE intefaceType)
+    : CGXDLMSServer(UseLogicalNameReferencing, intefaceType)
+    , m_Cipher("ABCDEFGH") {
+	m_Settings.SetCipher(&m_Cipher);
 }
 
 #ifndef DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
-CGXDLMSSecureServer::CGXDLMSSecureServer(
-    CGXDLMSAssociationLogicalName* ln,
-    CGXDLMSIecHdlcSetup* hdlc) :
-    CGXDLMSServer(
-        ln,
-        hdlc), m_Cipher("ABCDEFGH")
-{
-    m_Settings.SetCipher(&m_Cipher);
+CGXDLMSSecureServer::CGXDLMSSecureServer(CGXDLMSAssociationLogicalName *ln, CGXDLMSIecHdlcSetup *hdlc): CGXDLMSServer(ln, hdlc), m_Cipher("ABCDEFGH") {
+	m_Settings.SetCipher(&m_Cipher);
 }
 
-CGXDLMSSecureServer::CGXDLMSSecureServer(
-    CGXDLMSAssociationLogicalName* ln,
-    CGXDLMSTcpUdpSetup* wrapper) :
-    CGXDLMSServer(
-        ln,
-        wrapper), m_Cipher("ABCDEFGH")
-{
-    m_Settings.SetCipher(&m_Cipher);
+CGXDLMSSecureServer::CGXDLMSSecureServer(CGXDLMSAssociationLogicalName *ln, CGXDLMSTcpUdpSetup *wrapper): CGXDLMSServer(ln, wrapper), m_Cipher("ABCDEFGH") {
+	m_Settings.SetCipher(&m_Cipher);
 }
-#endif //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
+#endif  //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
 
 #ifndef DLMS_IGNORE_ASSOCIATION_SHORT_NAME
-CGXDLMSSecureServer::CGXDLMSSecureServer(
-    CGXDLMSAssociationShortName* sn,
-    CGXDLMSIecHdlcSetup* hdlc) :
-    CGXDLMSServer(
-        sn,
-        hdlc), m_Cipher("ABCDEFGH")
-{
-    m_Settings.SetCipher(&m_Cipher);
+CGXDLMSSecureServer::CGXDLMSSecureServer(CGXDLMSAssociationShortName *sn, CGXDLMSIecHdlcSetup *hdlc): CGXDLMSServer(sn, hdlc), m_Cipher("ABCDEFGH") {
+	m_Settings.SetCipher(&m_Cipher);
 }
 
-CGXDLMSSecureServer::CGXDLMSSecureServer(
-    CGXDLMSAssociationShortName* sn,
-    CGXDLMSTcpUdpSetup* wrapper) :
-    CGXDLMSServer(
-        sn,
-        wrapper), m_Cipher("ABCDEFGH")
-{
-    m_Settings.SetCipher(&m_Cipher);
+CGXDLMSSecureServer::CGXDLMSSecureServer(CGXDLMSAssociationShortName *sn, CGXDLMSTcpUdpSetup *wrapper): CGXDLMSServer(sn, wrapper), m_Cipher("ABCDEFGH") {
+	m_Settings.SetCipher(&m_Cipher);
 }
 
-#endif //DLMS_IGNORE_ASSOCIATION_SHORT_NAME
+#endif  //DLMS_IGNORE_ASSOCIATION_SHORT_NAME
 
-CGXDLMSSecureServer::~CGXDLMSSecureServer()
-{
+CGXDLMSSecureServer::~CGXDLMSSecureServer() {
 }
 
-CGXCipher* CGXDLMSSecureServer::GetCiphering()
-{
-    return m_Settings.GetCipher();
+CGXCipher *CGXDLMSSecureServer::GetCiphering() {
+	return m_Settings.GetCipher();
 }
 
-CGXByteBuffer& CGXDLMSSecureServer::GetKek() {
-    return GetSettings().GetKek();
+CGXByteBuffer &CGXDLMSSecureServer::GetKek() {
+	return GetSettings().GetKek();
 }
 
-int CGXDLMSSecureServer::SetKek(CGXByteBuffer& value) {
-    GetSettings().SetKek(value);
-    return 0;
+int CGXDLMSSecureServer::SetKek(CGXByteBuffer &value) {
+	GetSettings().SetKek(value);
+	return 0;
 }

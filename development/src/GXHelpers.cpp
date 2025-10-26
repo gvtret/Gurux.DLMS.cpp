@@ -828,78 +828,78 @@ void GXHelpers::Replace(std::string &str, std::string oldString, std::string new
 }
 
 bool GXHelpers::EndsWith(const std::string &value, const std::string &ending) {
-        if (ending.size() > value.size()) {
-                return false;
-        }
-        return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+	if (ending.size() > value.size()) {
+		return false;
+	}
+	return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
 }
 
 std::string GXHelpers::WideToUtf8(const std::wstring &value) {
-        std::string result;
-        result.reserve(value.size());
-        const uint32_t replacement = 0xFFFD;
+	std::string result;
+	result.reserve(value.size());
+	const uint32_t replacement = 0xFFFD;
 
-        auto appendCodePoint = [&result](uint32_t cp) {
-                if (cp <= 0x7F) {
-                        result.push_back(static_cast<char>(cp));
-                } else if (cp <= 0x7FF) {
-                        result.push_back(static_cast<char>(0xC0 | (cp >> 6)));
-                        result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
-                } else if (cp <= 0xFFFF) {
-                        result.push_back(static_cast<char>(0xE0 | (cp >> 12)));
-                        result.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
-                        result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
-                } else if (cp <= 0x10FFFF) {
-                        result.push_back(static_cast<char>(0xF0 | (cp >> 18)));
-                        result.push_back(static_cast<char>(0x80 | ((cp >> 12) & 0x3F)));
-                        result.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
-                        result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
-                }
-        };
+	auto appendCodePoint = [&result](uint32_t cp) {
+		if (cp <= 0x7F) {
+			result.push_back(static_cast<char>(cp));
+		} else if (cp <= 0x7FF) {
+			result.push_back(static_cast<char>(0xC0 | (cp >> 6)));
+			result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+		} else if (cp <= 0xFFFF) {
+			result.push_back(static_cast<char>(0xE0 | (cp >> 12)));
+			result.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+			result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+		} else if (cp <= 0x10FFFF) {
+			result.push_back(static_cast<char>(0xF0 | (cp >> 18)));
+			result.push_back(static_cast<char>(0x80 | ((cp >> 12) & 0x3F)));
+			result.push_back(static_cast<char>(0x80 | ((cp >> 6) & 0x3F)));
+			result.push_back(static_cast<char>(0x80 | (cp & 0x3F)));
+		}
+	};
 
-        auto appendOrReplace = [&](uint32_t cp) {
-                if (cp > 0x10FFFF) {
-                        appendCodePoint(replacement);
-                } else {
-                        appendCodePoint(cp);
-                }
-        };
+	auto appendOrReplace = [&](uint32_t cp) {
+		if (cp > 0x10FFFF) {
+			appendCodePoint(replacement);
+		} else {
+			appendCodePoint(cp);
+		}
+	};
 
-        if (sizeof(wchar_t) == 2) {
-                for (size_t i = 0; i < value.size(); ++i) {
-                        uint32_t wc = static_cast<uint16_t>(value[i]);
-                        if (wc >= 0xD800 && wc <= 0xDBFF) {
-                                if (i + 1 < value.size()) {
-                                        uint32_t low = static_cast<uint16_t>(value[i + 1]);
-                                        if (low >= 0xDC00 && low <= 0xDFFF) {
-                                                uint32_t high = wc - 0xD800;
-                                                uint32_t lowVal = low - 0xDC00;
-                                                uint32_t codePoint = (high << 10) + lowVal + 0x10000;
-                                                appendCodePoint(codePoint);
-                                                ++i;
-                                                continue;
-                                        }
-                                }
-                                appendCodePoint(replacement);
-                        } else if (wc >= 0xDC00 && wc <= 0xDFFF) {
-                                appendCodePoint(replacement);
-                        } else {
-                                appendOrReplace(wc);
-                        }
-                }
-        } else {
-                for (wchar_t wc : value) {
-                        appendOrReplace(static_cast<uint32_t>(wc));
-                }
-        }
+	if (sizeof(wchar_t) == 2) {
+		for (size_t i = 0; i < value.size(); ++i) {
+			uint32_t wc = static_cast<uint16_t>(value[i]);
+			if (wc >= 0xD800 && wc <= 0xDBFF) {
+				if (i + 1 < value.size()) {
+					uint32_t low = static_cast<uint16_t>(value[i + 1]);
+					if (low >= 0xDC00 && low <= 0xDFFF) {
+						uint32_t high = wc - 0xD800;
+						uint32_t lowVal = low - 0xDC00;
+						uint32_t codePoint = (high << 10) + lowVal + 0x10000;
+						appendCodePoint(codePoint);
+						++i;
+						continue;
+					}
+				}
+				appendCodePoint(replacement);
+			} else if (wc >= 0xDC00 && wc <= 0xDFFF) {
+				appendCodePoint(replacement);
+			} else {
+				appendOrReplace(wc);
+			}
+		}
+	} else {
+		for (wchar_t wc: value) {
+			appendOrReplace(static_cast<uint32_t>(wc));
+		}
+	}
 
-        return result;
+	return result;
 }
 
 std::string &GXHelpers::ltrim(std::string &s) {
-        s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) {
-                        return !std::isspace(c);
-                }));
+	s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int c) {
+		        return !std::isspace(c);
+	        }));
 	return s;
 }
 
@@ -1129,7 +1129,7 @@ int GetUInt32(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
 		return 0;
 	}
 	value.vt = DLMS_DATA_TYPE_UINT32;
-	int ret = buff.GetUInt32((uint32_t*)&value.ulVal);
+	int ret = buff.GetUInt32((uint32_t *)&value.ulVal);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
 	if (ret == 0 && info.GetXml() != NULL) {
 		info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", value);
@@ -1154,7 +1154,7 @@ int GetInt32(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
 		return 0;
 	}
 	value.vt = DLMS_DATA_TYPE_INT32;
-	int ret = buff.GetInt32((int32_t*)&value.lVal);
+	int ret = buff.GetInt32((int32_t *)&value.lVal);
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
 	if (ret == 0 && info.GetXml() != NULL) {
 		info.GetXml()->AppendLine(info.GetXml()->GetDataType(info.GetType()), "", value);

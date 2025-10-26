@@ -35,37 +35,32 @@
 #include "../include/GXDLMSIp4SetupIpOption.h"
 #include <sstream>
 
-IP_OPTION_TYPE CGXDLMSIp4SetupIpOption::GetType()
-{
-    return m_Type;
-}
-void CGXDLMSIp4SetupIpOption::SetType(IP_OPTION_TYPE value)
-{
-    m_Type = value;
+IP_OPTION_TYPE CGXDLMSIp4SetupIpOption::GetType() {
+	return m_Type;
 }
 
-short CGXDLMSIp4SetupIpOption::GetLength()
-{
-    return m_Length;
-}
-void CGXDLMSIp4SetupIpOption::SetLength(short value)
-{
-    m_Length = value;
+void CGXDLMSIp4SetupIpOption::SetType(IP_OPTION_TYPE value) {
+	m_Type = value;
 }
 
-CGXByteBuffer& CGXDLMSIp4SetupIpOption::GetData()
-{
-    return m_Data;
+short CGXDLMSIp4SetupIpOption::GetLength() {
+	return m_Length;
 }
 
-void CGXDLMSIp4SetupIpOption::SetData(CGXByteBuffer& value)
-{
-    m_Data = value;
+void CGXDLMSIp4SetupIpOption::SetLength(short value) {
+	m_Length = value;
 }
 
-std::string CGXDLMSIp4SetupIpOption::ToString()
-{
-    std::stringstream sb;
-    sb << m_Type;
-    return sb.str();
+CGXByteBuffer &CGXDLMSIp4SetupIpOption::GetData() {
+	return m_Data;
+}
+
+void CGXDLMSIp4SetupIpOption::SetData(CGXByteBuffer &value) {
+	m_Data = value;
+}
+
+std::string CGXDLMSIp4SetupIpOption::ToString() {
+	std::stringstream sb;
+	sb << m_Type;
+	return sb.str();
 }

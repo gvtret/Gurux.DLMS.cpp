@@ -39,44 +39,43 @@
 #include "GXAsn1Base.h"
 #include "GXDLMSVariant.h"
 
-class CGXAsn1Context : public CGXAsn1Base
-{
+class CGXAsn1Context: public CGXAsn1Base {
 private:
-    /* Context index.*/
-    int m_Index;
-    /**
+	/* Context index.*/
+	int m_Index;
+	/**
      Constructed.
     */
-    bool m_Constructed;
-    std::vector<CGXAsn1Base*> m_Values;
+	bool m_Constructed;
+	std::vector<CGXAsn1Base *> m_Values;
+
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Context();
+	/////////////////////////////////////////////////////////////////////////////
+	// Constructor.
+	/////////////////////////////////////////////////////////////////////////////
+	CGXAsn1Context();
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Destructor.
-    /////////////////////////////////////////////////////////////////////////////
-    ~CGXAsn1Context();
+	/////////////////////////////////////////////////////////////////////////////
+	// Destructor.
+	/////////////////////////////////////////////////////////////////////////////
+	~CGXAsn1Context();
 
-    /* Context index.*/
-    int GetIndex();
+	/* Context index.*/
+	int GetIndex();
 
-    /* Context index.*/
-    void SetIndex(int value);
+	/* Context index.*/
+	void SetIndex(int value);
 
-    /**Constructed.*/
-    bool GetConstructed();
+	/**Constructed.*/
+	bool GetConstructed();
 
-    /**Constructed.*/
-    void SetConstructed(bool value);
+	/**Constructed.*/
+	void SetConstructed(bool value);
 
-    /* Returns collection values. */
-    std::vector<CGXAsn1Base*>* GetValues()
-    {
-        return &m_Values;
-    }
+	/* Returns collection values. */
+	std::vector<CGXAsn1Base *> *GetValues() {
+		return &m_Values;
+	}
 };
 
-#endif //GXASN1CONTEXT_H
+#endif  //GXASN1CONTEXT_H

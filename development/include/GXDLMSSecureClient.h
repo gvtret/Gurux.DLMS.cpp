@@ -37,35 +37,33 @@
 
 #include "GXDLMSClient.h"
 
-class CGXDLMSSecureClient : public CGXDLMSClient
-{
+class CGXDLMSSecureClient: public CGXDLMSClient {
 private:
-    CGXCipher m_Cipher;
+	CGXCipher m_Cipher;
+
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    //Constructor
-    /////////////////////////////////////////////////////////////////////////////
-    CGXDLMSSecureClient(
-        bool UseLogicalNameReferencing = true,
-        int ClientAddress = 16,
-        int ServerAddress = 1,
-        //Authentication type.
-        DLMS_AUTHENTICATION authentication = DLMS_AUTHENTICATION_NONE,
-        //Password if authentication is used.
-        const char* password = NULL,
-        DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC);
+	/////////////////////////////////////////////////////////////////////////////
+	//Constructor
+	/////////////////////////////////////////////////////////////////////////////
+	CGXDLMSSecureClient(
+	    bool UseLogicalNameReferencing = true, int ClientAddress = 16, int ServerAddress = 1,
+	    //Authentication type.
+	    DLMS_AUTHENTICATION authentication = DLMS_AUTHENTICATION_NONE,
+	    //Password if authentication is used.
+	    const char *password = NULL, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC
+	);
 
-    /////////////////////////////////////////////////////////////////////////////
-    //Destructor.
-    /////////////////////////////////////////////////////////////////////////////
-    ~CGXDLMSSecureClient();
+	/////////////////////////////////////////////////////////////////////////////
+	//Destructor.
+	/////////////////////////////////////////////////////////////////////////////
+	~CGXDLMSSecureClient();
 
-    /**
+	/**
      * @return Ciphering settings.
      */
-    CGXCipher* GetCiphering();
+	CGXCipher *GetCiphering();
 
-    /**
+	/**
     * Encrypt data using Key Encrypting Key.
     *
     * @param kek
@@ -74,12 +72,9 @@ public:
     *            Data to encrypt.
     * @return Encrypt data.
     */
-    static int Encrypt(
-        CGXByteBuffer& kek,
-        CGXByteBuffer& data,
-        CGXByteBuffer& reply);
+	static int Encrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply);
 
-    /**
+	/**
     * Decrypt data using Key Encrypting Key.
     *
     * @param kek
@@ -88,21 +83,18 @@ public:
     *            Data to decrypt.
     * @return Decrypted data.
     */
-    static int Decrypt(
-        CGXByteBuffer& kek,
-        CGXByteBuffer& data,
-        CGXByteBuffer& reply);
+	static int Decrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply);
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
-    CGXx509Certificate& GetClientPublicKeyCertificate();
+	// Optional ECDSA public key certificate that is send in part of AARE.
+	CGXx509Certificate &GetClientPublicKeyCertificate();
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
-    void SetClientPublicKeyCertificate(CGXx509Certificate& value);
+	// Optional ECDSA public key certificate that is send in part of AARE.
+	void SetClientPublicKeyCertificate(CGXx509Certificate &value);
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
-    CGXx509Certificate& GetServerPublicKeyCertificate();
+	// Optional ECDSA public key certificate that is send in part of AARE.
+	CGXx509Certificate &GetServerPublicKeyCertificate();
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
-    void SetServerPublicKeyCertificate(CGXx509Certificate& value);
+	// Optional ECDSA public key certificate that is send in part of AARE.
+	void SetServerPublicKeyCertificate(CGXx509Certificate &value);
 };
-#endif //GXDLMSCLIENT_H
+#endif  //GXDLMSCLIENT_H

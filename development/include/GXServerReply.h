@@ -38,120 +38,109 @@
 #include "GXBytebuffer.h"
 #include "GXDLMSConnectionEventArgs.h"
 
-class CGXServerReply
-{
+class CGXServerReply {
 private:
-    /*
+	/*
     * Connection info.
     */
-    CGXDLMSConnectionEventArgs m_ConnectionInfo;
+	CGXDLMSConnectionEventArgs m_ConnectionInfo;
 
-    /*
+	/*
      * Server received data.
      */
-    CGXByteBuffer m_Data;
+	CGXByteBuffer m_Data;
 
-    /*
+	/*
      * Server reply message.
      */
-    CGXByteBuffer m_Reply;
+	CGXByteBuffer m_Reply;
 
-    /*
+	/*
      * Message count to send.
      */
-    int m_Count;
+	int m_Count;
+
 public:
-    /*
+	/*
     * Constructor.
     */
-    CGXServerReply()
-    {
-        m_Count = 0;
-    }
+	CGXServerReply() {
+		m_Count = 0;
+	}
 
-    /*
+	/*
      * Constructor.
      *
      * @param value
      *            Received data.
      */
-    CGXServerReply(CGXByteBuffer& value)
-    {
-        m_Count = 0;
-        m_Data = value;
-    }
+	CGXServerReply(CGXByteBuffer &value) {
+		m_Count = 0;
+		m_Data = value;
+	}
 
-    /*
+	/*
      * returns the data
      */
-    CGXByteBuffer& GetData()
-    {
-        return m_Data;
-    }
+	CGXByteBuffer &GetData() {
+		return m_Data;
+	}
 
-    /*
+	/*
      * value: The data to set.
      */
-    void SetData(CGXByteBuffer& value)
-    {
-        m_Data = value;
-    }
+	void SetData(CGXByteBuffer &value) {
+		m_Data = value;
+	}
 
-    /*
+	/*
      * returns The reply message.
      */
-    CGXByteBuffer& GetReply()
-    {
-        return m_Reply;
-    }
+	CGXByteBuffer &GetReply() {
+		return m_Reply;
+	}
 
-    /*
+	/*
      * value: the replyMessages to set
      */
-    void SetReply(CGXByteBuffer& value)
-    {
-        m_Reply = value;
-    }
+	void SetReply(CGXByteBuffer &value) {
+		m_Reply = value;
+	}
 
-    /*
+	/*
      * returns Connection info.
      */
-    CGXDLMSConnectionEventArgs& GetConnectionInfo()
-    {
-        return m_ConnectionInfo;
-    }
+	CGXDLMSConnectionEventArgs &GetConnectionInfo() {
+		return m_ConnectionInfo;
+	}
 
-    /*
+	/*
      * value: Connection info.
      */
-    void SetConnectionInfo(CGXDLMSConnectionEventArgs& value)
-    {
-        m_ConnectionInfo = value;
-    }
+	void SetConnectionInfo(CGXDLMSConnectionEventArgs &value) {
+		m_ConnectionInfo = value;
+	}
 
-    /*
+	/*
      * returns Is GBT streaming in progress.
      */
-    bool IsStreaming()
-    {
-        return GetCount() != 0;
-    }
+	bool IsStreaming() {
+		return GetCount() != 0;
+	}
 
-    /*
+	/*
      * returns Message count to send.
      */
-    int GetCount()
-    {
-        return m_Count;
-    }
+	int GetCount() {
+		return m_Count;
+	}
 
-    /*
+	/*
      * value: Message count to send.
      */
-    void SetCount(int value)
-    {
-        m_Count = value;
-    }
+	void SetCount(int value) {
+		m_Count = value;
+	}
 };
 
-#endif //GXSERVERREPLY_H
+#endif  //GXSERVERREPLY_H

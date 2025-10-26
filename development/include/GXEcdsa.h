@@ -42,105 +42,96 @@
 
 /*This class implements ECDSA
 asynchronous ciphering.*/
-class CGXEcdsa
-{
-    friend class CGXPrivateKey;
-    /**
+class CGXEcdsa {
+	friend class CGXPrivateKey;
+	/**
     * Public key.
     */
-    CGXPublicKey m_PublicKey;
-    /**
+	CGXPublicKey m_PublicKey;
+	/**
     * Private key.
     */
-    CGXPrivateKey m_PrivateKey;
+	CGXPrivateKey m_PrivateKey;
 
-    CGXCurve m_Curve;
+	CGXCurve m_Curve;
 
-    /**
+	/**
      Generate random number.
 
      N N
      Returns Random number.
 
     */
-    static int GetRandomNumber(CGXBigInteger& N,
-        CGXByteBuffer& value);
+	static int GetRandomNumber(CGXBigInteger &N, CGXByteBuffer &value);
 
 public:
-    /**
+	/**
      Constructor.
     */
-    CGXEcdsa(ECC scheme);
+	CGXEcdsa(ECC scheme);
 
-    /**
+	/**
     Constructor.
 
     key Public key.
    */
-    CGXEcdsa(CGXPublicKey& key);
+	CGXEcdsa(CGXPublicKey &key);
 
-    /**
+	/**
      Constructor.
 
      key Private key.
     */
-    CGXEcdsa(CGXPrivateKey& key);
+	CGXEcdsa(CGXPrivateKey &key);
 
-    /**
+	/**
      Get scheme size in bytes.
 
      scheme
      Returns
     */
-    static int GetSchemeSize(ECC scheme);
+	static int GetSchemeSize(ECC scheme);
 
-    /**
+	/**
         Sign given data using and private key.
 
         data: Data to sign.
         signature: Signature.
         Returns error code.
     */
-    int Sign(CGXByteBuffer& data,
-        CGXByteBuffer& signature);
-    /**
+	int Sign(CGXByteBuffer &data, CGXByteBuffer &signature);
+	/**
         Generate shared secret from and private key.
 
         publicKey: Public key.
         secret: Generated secret.
         Returns error code.
     */
-    int GenerateSecret(
-        CGXPublicKey& publicKey,
-        CGXByteBuffer& secret);
+	int GenerateSecret(CGXPublicKey &publicKey, CGXByteBuffer &secret);
 
-    /**
+	/**
      Generates public and private key pair.
 
      Returns
     */
-    static int GenerateKeyPair(
-        ECC scheme,
-        std::pair<CGXPublicKey, CGXPrivateKey>& kp);
+	static int GenerateKeyPair(ECC scheme, std::pair<CGXPublicKey, CGXPrivateKey> &kp);
 
-    /**
+	/**
      Verify that signature matches the data.
 
      signature Generated signature.
      data Data to valuate.
      Returns
     */
-    int Verify(CGXByteBuffer& signature,
-        CGXByteBuffer& data,
-        bool& value);
+	int Verify(CGXByteBuffer &signature, CGXByteBuffer &data, bool &value);
 
-    /**
+	/**
      Check that this is correct key.
      This method can be used to verify that 
      public and private key are on the curve.
 
     */
-    static int Validate(CGXPublicKey& publicKey);
+	static int Validate(CGXPublicKey &publicKey);
 };
 
-#endif //GXECDSA_H
+#endif  //GXECDSA_H

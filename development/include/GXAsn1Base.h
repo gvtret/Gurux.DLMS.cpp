@@ -41,19 +41,16 @@
 /// <summary>
 /// ASN1 value base class.
 /// </summary>
-class CGXAsn1Base
-{
+class CGXAsn1Base {
 public:
-    virtual std::string ToString()
-    {
-        assert(0);
-        return "";
-    }
-    /*Destructor.*/
-    virtual ~CGXAsn1Base()
-    {
+	virtual std::string ToString() {
+		assert(0);
+		return "";
+	}
 
-    }
+	/*Destructor.*/
+	virtual ~CGXAsn1Base() {
+	}
 };
 
-#endif //CGXASNBASE_H
+#endif  //CGXASNBASE_H

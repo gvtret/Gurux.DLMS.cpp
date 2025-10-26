@@ -41,56 +41,43 @@
 /// <summary>
 /// This class implements GXShamir's trick.
 /// </summary>
-class CGXShamirs
-{
-public:    
-    /// <summary>
-    /// Count Shamir's trick.
-    /// </summary>
-    /// <param name="curve">Used curve.</param>
-    /// <param name="pub">Public key.</param>
-    /// <param name="ret">Result.</param>
-    /// <param name="u1"></param>
-    /// <param name="u2"></param>
-    static int Trick(CGXCurve& curve,
-        CGXPublicKey& pub,
-        CGXEccPoint& ret,
-        CGXBigInteger& u1,
-        CGXBigInteger& u2);
+class CGXShamirs {
+public:
+	/// <summary>
+	/// Count Shamir's trick.
+	/// </summary>
+	/// <param name="curve">Used curve.</param>
+	/// <param name="pub">Public key.</param>
+	/// <param name="ret">Result.</param>
+	/// <param name="u1"></param>
+	/// <param name="u2"></param>
+	static int Trick(CGXCurve &curve, CGXPublicKey &pub, CGXEccPoint &ret, CGXBigInteger &u1, CGXBigInteger &u2);
 
-    /// <summary>
-    /// Add points.
-    /// </summary>
-    /// <param name="curve">Used curve.</param>
-    /// <param name="ret">Result.</param>
-    /// <param name="p1">Point 1.</param>
-    /// <param name="p2">Point 2.</param>
-    static int PointAdd(CGXCurve& curve,
-        CGXEccPoint& ret,
-        CGXEccPoint& p1,
-        CGXEccPoint& p2);
+	/// <summary>
+	/// Add points.
+	/// </summary>
+	/// <param name="curve">Used curve.</param>
+	/// <param name="ret">Result.</param>
+	/// <param name="p1">Point 1.</param>
+	/// <param name="p2">Point 2.</param>
+	static int PointAdd(CGXCurve &curve, CGXEccPoint &ret, CGXEccPoint &p1, CGXEccPoint &p2);
 
-    /// <summary>
-    /// Double point.
-    /// </summary>
-    /// <param name="curve">Used curve.</param>
-    /// <param name="ret">Result value.</param>
-    /// <param name="p1">Point to double</param>
-    static int PointDouble(CGXCurve& curve,
-        CGXEccPoint& ret,
-        CGXEccPoint& p1);
+	/// <summary>
+	/// Double point.
+	/// </summary>
+	/// <param name="curve">Used curve.</param>
+	/// <param name="ret">Result value.</param>
+	/// <param name="p1">Point to double</param>
+	static int PointDouble(CGXCurve &curve, CGXEccPoint &ret, CGXEccPoint &p1);
 
-    /// <summary>
-       /// Multiply point with big integer value.
-       /// </summary>
-       /// <param name="curve">Used curve.</param>
-       /// <param name="ret">Return value.</param>
-       /// <param name="point">Point.</param>
-       /// <param name="scalar">Scaler.</param>
-    static int PointMulti(CGXCurve& curve,
-        CGXEccPoint& ret,
-        CGXEccPoint& point,
-        CGXBigInteger& scalar);
+	/// <summary>
+	/// Multiply point with big integer value.
+	/// </summary>
+	/// <param name="curve">Used curve.</param>
+	/// <param name="ret">Return value.</param>
+	/// <param name="point">Point.</param>
+	/// <param name="scalar">Scaler.</param>
+	static int PointMulti(CGXCurve &curve, CGXEccPoint &ret, CGXEccPoint &point, CGXBigInteger &scalar);
 };
 
-#endif //GXSHAMIRS_H
+#endif  //GXSHAMIRS_H

@@ -38,46 +38,46 @@
 #include "GXDateTime.h"
 #include "GXBytebuffer.h"
 
-class CGXDLMSSeasonProfile
-{
-    CGXByteBuffer m_Name;
-    CGXDateTime m_Start;
-    CGXByteBuffer m_WeekName;
+class CGXDLMSSeasonProfile {
+	CGXByteBuffer m_Name;
+	CGXDateTime m_Start;
+	CGXByteBuffer m_WeekName;
+
 public:
-    /**
+	/**
      Constructor.
     */
-    CGXDLMSSeasonProfile();
+	CGXDLMSSeasonProfile();
 
-    /**
+	/**
      Constructor.
     */
-    CGXDLMSSeasonProfile(std::string name, CGXDateTime& start, std::string weekName);
+	CGXDLMSSeasonProfile(std::string name, CGXDateTime &start, std::string weekName);
 
-    /**
+	/**
      Constructor.
     */
-    CGXDLMSSeasonProfile(CGXByteBuffer& name, CGXDateTime& start, CGXByteBuffer weekName);
+	CGXDLMSSeasonProfile(CGXByteBuffer &name, CGXDateTime &start, CGXByteBuffer weekName);
 
-    /**
+	/**
      Name of season profile.
     */
-    CGXByteBuffer& GetName();
-    void SetName(CGXByteBuffer& value);
+	CGXByteBuffer &GetName();
+	void SetName(CGXByteBuffer &value);
 
-    /**
+	/**
      Season Profile start time.
     */
-    CGXDateTime& GetStart();
-    void SetStart(CGXDateTime value);
+	CGXDateTime &GetStart();
+	void SetStart(CGXDateTime value);
 
-    /**
+	/**
      Week name of season profile.
     */
-    CGXByteBuffer& GetWeekName();
-    void SetWeekName(CGXByteBuffer& value);
+	CGXByteBuffer &GetWeekName();
+	void SetWeekName(CGXByteBuffer &value);
 
-    std::string ToString();
+	std::string ToString();
 };
 
-#endif //GXDLMSSEASONPROFILE_H
+#endif  //GXDLMSSEASONPROFILE_H

@@ -37,39 +37,39 @@
 
 #include <string>
 
-class GXAdjacentCell
-{
+class GXAdjacentCell {
 private:
-    /**
+	/**
     * Four byte cell ID.
     */
-    unsigned long m_CellId;
+	unsigned long m_CellId;
 
-    /**
+	/**
     * Signal quality.
     */
-    unsigned char m_SignalQuality;
+	unsigned char m_SignalQuality;
+
 public:
-    /**
+	/**
     * @return Four byte cell ID.
     */
-    unsigned long GetCellId();
+	unsigned long GetCellId();
 
-    /**
+	/**
     * @param value
     *            Four byte cell ID.
     */
-    void SetCellId(unsigned long value);
+	void SetCellId(unsigned long value);
 
-    /**
+	/**
     * @return Signal quality.
     */
-    unsigned char GetSignalQuality();
+	unsigned char GetSignalQuality();
 
-    /**
+	/**
     * @param value
     *            Signal quality.
     */
-    void SetSignalQuality(unsigned char value);
+	void SetSignalQuality(unsigned char value);
 };
-#endif //GXADJACENTCELL_H
+#endif  //GXADJACENTCELL_H

@@ -38,42 +38,36 @@
 #include <string>
 #include "GXAsn1Base.h"
 
-class CGXAsn1Utf8String : public CGXAsn1Base
-{
+class CGXAsn1Utf8String: public CGXAsn1Base {
 private:
-    std::string m_Value;
+	std::string m_Value;
+
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Utf8String()
-    {
+	/////////////////////////////////////////////////////////////////////////////
+	// Constructor.
+	/////////////////////////////////////////////////////////////////////////////
+	CGXAsn1Utf8String() {
+	}
 
-    }
+	/////////////////////////////////////////////////////////////////////////////
+	// Constructor.
+	// value: IA5 string.
+	/////////////////////////////////////////////////////////////////////////////
+	CGXAsn1Utf8String(std::string &value) {
+		m_Value = value;
+	}
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    // value: IA5 string.
-    /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Utf8String(std::string& value)
-    {
-        m_Value = value;
-    }
+	std::string &GetValue() {
+		return m_Value;
+	}
 
-    std::string& GetValue()
-    {
-        return m_Value;
-    }
+	void SetValue(std::string &value) {
+		m_Value = value;
+	}
 
-    void SetValue(std::string& value)
-    {
-        m_Value = value;
-    }
-
-    std::string ToString()
-    {
-        return m_Value;
-    }
+	std::string ToString() {
+		return m_Value;
+	}
 };
 
-#endif //GXASN1UTF8STRING_H
+#endif  //GXASN1UTF8STRING_H

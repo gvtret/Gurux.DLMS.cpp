@@ -37,64 +37,64 @@
 #include <string>
 #include "GXBytebuffer.h"
 
-class CGXDLMSWeekProfile
-{
-    CGXByteBuffer m_Name;
-    int m_Monday;
-    int m_Tuesday;
-    int m_Wednesday;
-    int m_Thursday;
-    int m_Friday;
-    int m_Saturday;
-    int m_Sunday;
+class CGXDLMSWeekProfile {
+	CGXByteBuffer m_Name;
+	int m_Monday;
+	int m_Tuesday;
+	int m_Wednesday;
+	int m_Thursday;
+	int m_Friday;
+	int m_Saturday;
+	int m_Sunday;
+
 public:
-    /**
+	/**
      Constructor.
     */
-    CGXDLMSWeekProfile();
+	CGXDLMSWeekProfile();
 
-    /**
+	/**
      Constructor.
     */
-    CGXDLMSWeekProfile(std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday);
+	CGXDLMSWeekProfile(std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday);
 
-    std::string GetName();
+	std::string GetName();
 
-    void SetName(std::string value);
+	void SetName(std::string value);
 
-    void GetName(CGXByteBuffer& value);
+	void GetName(CGXByteBuffer &value);
 
-    void SetName(CGXByteBuffer& value);
+	void SetName(CGXByteBuffer &value);
 
-    int GetMonday();
+	int GetMonday();
 
-    void SetMonday(int value);
+	void SetMonday(int value);
 
-    int GetTuesday();
+	int GetTuesday();
 
-    void SetTuesday(int value);
+	void SetTuesday(int value);
 
-    int GetWednesday();
+	int GetWednesday();
 
-    void SetWednesday(int value);
+	void SetWednesday(int value);
 
-    int GetThursday();
+	int GetThursday();
 
-    void SetThursday(int value);
+	void SetThursday(int value);
 
-    int GetFriday();
+	int GetFriday();
 
-    void SetFriday(int value);
+	void SetFriday(int value);
 
-    int GetSaturday();
+	int GetSaturday();
 
-    void SetSaturday(int value);
+	void SetSaturday(int value);
 
-    int GetSunday();
+	int GetSunday();
 
-    void SetSunday(int value);
+	void SetSunday(int value);
 
-    std::string ToString();
+	std::string ToString();
 };
 
-#endif //GXDLMSWEEKPROFILE_H
+#endif  //GXDLMSWEEKPROFILE_H

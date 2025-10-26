@@ -37,34 +37,29 @@
 #include "../include/GXDLMSCaptureObject.h"
 
 // Constructor.
-CGXDLMSCaptureObject::CGXDLMSCaptureObject()
-{
-
+CGXDLMSCaptureObject::CGXDLMSCaptureObject() {
 }
 
 // Constructor.
-CGXDLMSCaptureObject::CGXDLMSCaptureObject(int attributeIndex, int dataIndex)
-{
-    m_AttributeIndex = attributeIndex;
-    m_DataIndex = dataIndex;
+CGXDLMSCaptureObject::CGXDLMSCaptureObject(int attributeIndex, int dataIndex) {
+	m_AttributeIndex = attributeIndex;
+	m_DataIndex = dataIndex;
 }
 
 // Index of DLMS object in the profile generic table
-int CGXDLMSCaptureObject::GetAttributeIndex()
-{
-    return m_AttributeIndex;
+int CGXDLMSCaptureObject::GetAttributeIndex() {
+	return m_AttributeIndex;
 }
-void CGXDLMSCaptureObject::SetAttributeIndex(int value)
-{
-    m_AttributeIndex = value;
+
+void CGXDLMSCaptureObject::SetAttributeIndex(int value) {
+	m_AttributeIndex = value;
 }
 
 // Data index of DLMS object in the profile generic table.
-int CGXDLMSCaptureObject::GetDataIndex()
-{
-    return m_DataIndex;
+int CGXDLMSCaptureObject::GetDataIndex() {
+	return m_DataIndex;
 }
-void CGXDLMSCaptureObject::SetDataIndex(int value)
-{
-    m_DataIndex = value;
+
+void CGXDLMSCaptureObject::SetDataIndex(int value) {
+	m_DataIndex = value;
 }
