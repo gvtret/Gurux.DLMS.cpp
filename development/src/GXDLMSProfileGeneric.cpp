@@ -56,7 +56,8 @@
 
 #ifndef DLMS_IGNORE_PROFILE_GENERIC
 CGXDLMSProfileGeneric::~CGXDLMSProfileGeneric() {
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+         it != m_CaptureObjects.end(); ++it) {
         delete it->second;
     }
     m_CaptureObjects.clear();
@@ -86,7 +87,10 @@ int CGXDLMSProfileGeneric::GetSelectedColumns(
         }
         if (colStart != 1 || colCount != 0) {
             // Return all rows.
-            columns.insert(columns.end(), m_CaptureObjects.begin() + colStart - 1, m_CaptureObjects.begin() + colStart + colCount - 1);
+            columns.insert(
+                columns.end(), m_CaptureObjects.begin() + colStart - 1,
+                m_CaptureObjects.begin() + colStart + colCount - 1
+            );
 
         } else {
             // Return all rows.
@@ -107,7 +111,8 @@ int CGXDLMSProfileGeneric::GetColumns(CGXByteBuffer &data) {
     std::string ln;
     int ret;
     CGXDLMSVariant tmp, ai, di;
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+         it != m_CaptureObjects.end(); ++it) {
         data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
         data.SetUInt8(4);  //Count
         tmp = it->first->GetObjectType();
@@ -147,7 +152,8 @@ int CGXDLMSProfileGeneric::GetData(
     std::vector<DLMS_DATA_TYPE> types;
     DLMS_DATA_TYPE type;
     int ret;
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+         it != m_CaptureObjects.end(); ++it) {
         if ((ret = (*it).first->GetDataType((*it).second->GetAttributeIndex(), type)) != 0) {
             return ret;
         }
@@ -168,7 +174,8 @@ int CGXDLMSProfileGeneric::GetData(
                 types[pos] = tp;
             }
 
-            if (columns.size() == 0 || std::find(columns.begin(), columns.end(), m_CaptureObjects.at(pos)) != columns.end()) {
+            if (columns.size() == 0 ||
+                std::find(columns.begin(), columns.end(), m_CaptureObjects.at(pos)) != columns.end()) {
                 if ((ret = GXHelpers::SetData(&settings, data, tp, *value)) != 0) {
                     return ret;
                 }
@@ -210,7 +217,9 @@ int CGXDLMSProfileGeneric::AddCaptureObject(CGXDLMSObject *pObj, int attributeIn
      *            selected columns.
      * @return Selected columns.
      */
-int CGXDLMSProfileGeneric::GetSelectedColumns(std::vector<CGXDLMSVariant> &cols, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns) {
+int CGXDLMSProfileGeneric::GetSelectedColumns(
+    std::vector<CGXDLMSVariant> &cols, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns
+) {
     int dataIndex;
     unsigned char attributeIndex;
     std::string ln, ln2;
@@ -220,10 +229,11 @@ int CGXDLMSProfileGeneric::GetSelectedColumns(std::vector<CGXDLMSVariant> &cols,
         attributeIndex = it->Arr[2].ToInteger();
         dataIndex = it->Arr[3].ToInteger();
         // Find columns and update only them.
-        for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator c = m_CaptureObjects.begin(); c != m_CaptureObjects.end(); ++c) {
+        for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator c = m_CaptureObjects.begin();
+             c != m_CaptureObjects.end(); ++c) {
             c->first->GetLogicalName(ln2);
-            if (c->first->GetObjectType() == ot && c->second->GetAttributeIndex() == attributeIndex && c->second->GetDataIndex() == dataIndex &&
-                ln2.compare(ln) == 0) {
+            if (c->first->GetObjectType() == ot && c->second->GetAttributeIndex() == attributeIndex &&
+                c->second->GetDataIndex() == dataIndex && ln2.compare(ln) == 0) {
                 columns.push_back(*c);
                 break;
             }
@@ -232,7 +242,9 @@ int CGXDLMSProfileGeneric::GetSelectedColumns(std::vector<CGXDLMSVariant> &cols,
     return 0;
 }
 
-int CGXDLMSProfileGeneric::GetProfileGenericData(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &reply) {
+int CGXDLMSProfileGeneric::GetProfileGenericData(
+    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &reply
+) {
     std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> columns;
     //If all data is read.
     if (e.GetSelector() == 0 || e.GetParameters().vt == DLMS_DATA_TYPE_NONE || e.GetRowEndIndex() != 0) {
@@ -292,7 +304,10 @@ int CGXDLMSProfileGeneric::GetProfileGenericData(CGXDLMSSettings &settings, CGXD
             colCount = (int)m_CaptureObjects.size();
         }
         if (colStart != 1 || colCount != 0) {
-            columns.insert(columns.end(), m_CaptureObjects.begin() + colStart - 1, m_CaptureObjects.begin() + colStart + colCount - 1);
+            columns.insert(
+                columns.end(), m_CaptureObjects.begin() + colStart - 1,
+                m_CaptureObjects.begin() + colStart + colCount - 1
+            );
         }
         //Get rows.
         // Starting index is 1.
@@ -315,7 +330,8 @@ CGXDLMSProfileGeneric::CGXDLMSProfileGeneric(): CGXDLMSProfileGeneric("", 0) {
 }
 
 //SN Constructor.
-CGXDLMSProfileGeneric::CGXDLMSProfileGeneric(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_PROFILE_GENERIC, ln, sn) {
+CGXDLMSProfileGeneric::CGXDLMSProfileGeneric(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_PROFILE_GENERIC, ln, sn) {
     m_SortObjectAttributeIndex = 0;
     m_SortObjectDataIndex = 0;
     m_SortObject = NULL;
@@ -425,7 +441,8 @@ int CGXDLMSProfileGeneric::Capture(CGXDLMSServer *server) {
     args.push_back(e);
     server->PreGet(args);
     if (!e->GetHandled()) {
-        for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+        for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+             it != m_CaptureObjects.end(); ++it) {
             CGXDLMSValueEventArg tmp(server, it->first, it->second->GetAttributeIndex());
             if ((ret = it->first->GetValue(server->GetSettings(), tmp)) != 0) {
                 return ret;
@@ -476,7 +493,8 @@ void CGXDLMSProfileGeneric::GetValues(std::vector<std::string> &values) {
     sb.str(std::string());
     sb << '[';
     empty = true;
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+         it != m_CaptureObjects.end(); ++it) {
         if (!empty) {
             sb << ", ";
         } else {
@@ -687,7 +705,9 @@ int CGXDLMSProfileGeneric::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
         if (e.GetValue().vt != DLMS_DATA_TYPE_NONE) {
             std::vector<DLMS_DATA_TYPE> types;
             DLMS_DATA_TYPE type;
-            for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+            for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it =
+                     m_CaptureObjects.begin();
+                 it != m_CaptureObjects.end(); ++it) {
                 if ((ret = (*it).first->GetUIDataType((*it).second->GetAttributeIndex(), type)) != 0) {
                     return ret;
                 }
@@ -695,7 +715,8 @@ int CGXDLMSProfileGeneric::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
             }
 
             CGXDateTime lastDate;
-            for (std::vector<CGXDLMSVariant>::iterator row = e.GetValue().Arr.begin(); row != e.GetValue().Arr.end(); ++row) {
+            for (std::vector<CGXDLMSVariant>::iterator row = e.GetValue().Arr.begin(); row != e.GetValue().Arr.end();
+                 ++row) {
                 if ((*row).Arr.size() != m_CaptureObjects.size()) {
                     //Number of columns do not match.
                     return DLMS_ERROR_CODE_INVALID_PARAMETER;
@@ -714,11 +735,14 @@ int CGXDLMSProfileGeneric::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
                                 lastDate = data.dateTime;
                             }
                         }
-                    } else if (row->Arr[pos].vt == DLMS_DATA_TYPE_NONE || row->Arr[pos].vt == DLMS_DATA_TYPE_OCTET_STRING ||
+                    } else if (row->Arr[pos].vt == DLMS_DATA_TYPE_NONE ||
+                               row->Arr[pos].vt == DLMS_DATA_TYPE_OCTET_STRING ||
                                row->Arr[pos].vt == DLMS_DATA_TYPE_UINT32) {
-                        if (item.first->GetObjectType() == DLMS_OBJECT_TYPE_CLOCK && item.second->GetAttributeIndex() == 2) {
+                        if (item.first->GetObjectType() == DLMS_OBJECT_TYPE_CLOCK &&
+                            item.second->GetAttributeIndex() == 2) {
                             if (row->Arr[pos].vt == DLMS_DATA_TYPE_OCTET_STRING) {
-                                if ((ret = CGXDLMSClient::ChangeType(row->Arr[pos], DLMS_DATA_TYPE_DATETIME, data)) != 0) {
+                                if ((ret = CGXDLMSClient::ChangeType(row->Arr[pos], DLMS_DATA_TYPE_DATETIME, data)) !=
+                                    0) {
                                     return ret;
                                 }
                                 row->Arr[pos] = data;
@@ -727,19 +751,24 @@ int CGXDLMSProfileGeneric::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
                             //Some meters returns NULL date time to save bytes.
                             else if (row->Arr[pos].vt == DLMS_DATA_TYPE_NONE) {
                                 if ((ret = lastDate.AddSeconds(
-                                         m_SortMethod == DLMS_SORT_METHOD_FIFO || m_SortMethod == DLMS_SORT_METHOD_SMALLEST ? m_CapturePeriod : -m_CapturePeriod
+                                         m_SortMethod == DLMS_SORT_METHOD_FIFO ||
+                                                 m_SortMethod == DLMS_SORT_METHOD_SMALLEST
+                                             ? m_CapturePeriod
+                                             : -m_CapturePeriod
                                      )) != 0) {
                                     return ret;
                                 }
                                 row->Arr[pos] = lastDate;
                             }
-                        } else if (row->Arr[pos].vt == DLMS_DATA_TYPE_UINT32 && item.first->GetObjectType() == DLMS_OBJECT_TYPE_DATA &&
+                        } else if (row->Arr[pos].vt == DLMS_DATA_TYPE_UINT32 &&
+                                   item.first->GetObjectType() == DLMS_OBJECT_TYPE_DATA &&
                                    item.first->GetObjectType() == 2 && memcmp(item.first->m_LN, UNIX_TIME, 6) == 0) {
                             lastDate = CGXDateTime(row->Arr[pos].ulVal);
                             row->Arr[pos] = lastDate;
                         }
                     }
-                    if ((item.first->GetObjectType() == DLMS_OBJECT_TYPE_REGISTER || item.first->GetObjectType() == DLMS_OBJECT_TYPE_EXTENDED_REGISTER) &&
+                    if ((item.first->GetObjectType() == DLMS_OBJECT_TYPE_REGISTER ||
+                         item.first->GetObjectType() == DLMS_OBJECT_TYPE_EXTENDED_REGISTER) &&
                         item.second->GetAttributeIndex() == 2) {
                         double scaler = ((CGXDLMSRegister *)item.first)->GetScaler();
                         if (scaler != 1) {
@@ -765,7 +794,8 @@ int CGXDLMSProfileGeneric::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
         m_Buffer.clear();
         m_EntriesInUse = 0;
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 if ((*it).Arr.size() != 4) {
                     //Invalid structure format.
                     return DLMS_ERROR_CODE_INVALID_PARAMETER;

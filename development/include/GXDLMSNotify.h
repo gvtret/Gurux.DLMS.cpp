@@ -77,7 +77,9 @@ public:
          * @param interfaceType
          *            Object type.
          */
-    CGXDLMSNotify(bool useLogicalNameReferencing, int clientAddress, int serverAddress, DLMS_INTERFACE_TYPE interfaceType);
+    CGXDLMSNotify(
+        bool useLogicalNameReferencing, int clientAddress, int serverAddress, DLMS_INTERFACE_TYPE interfaceType
+    );
 
     /**
      * @return Get list of meter's objects.
@@ -204,7 +206,10 @@ public:
      *            List of objects and attribute indexes to notify.
      * @return Generated data notification message(s).
      */
-    int GenerateDataNotificationMessages(struct tm *date, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &objects, std::vector<CGXByteBuffer> &reply);
+    int GenerateDataNotificationMessages(
+        struct tm *date, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &objects,
+        std::vector<CGXByteBuffer> &reply
+    );
 
 #ifndef DLMS_IGNORE_PUSH_SETUP
     /**

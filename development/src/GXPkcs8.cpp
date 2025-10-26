@@ -40,7 +40,9 @@ CGXPkcs8::CGXPkcs8() {
     m_Algorithm = DLMS_X9_OBJECT_IDENTIFIER_ID_EC_PUBLIC_KEY;
 }
 
-int CGXPkcs8::GetFilePath(ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, CGXByteBuffer &systemTitle, std::string &path) {
+int CGXPkcs8::GetFilePath(
+    ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, CGXByteBuffer &systemTitle, std::string &path
+) {
     switch (certificateType) {
         case DLMS_CERTIFICATE_TYPE_DIGITAL_SIGNATURE:
             path = "D";
@@ -88,7 +90,9 @@ void CGXPkcs8::SetPrivateKey(CGXPrivateKey &value) {
     m_PrivateKey = value;
 }
 
-int CGXPkcs8::GetFilePath(ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, std::string &path, CGXByteBuffer &systemTitle) {
+int CGXPkcs8::GetFilePath(
+    ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, std::string &path, CGXByteBuffer &systemTitle
+) {
     switch (certificateType) {
         case DLMS_CERTIFICATE_TYPE_DIGITAL_SIGNATURE:
             path = "D";
@@ -168,7 +172,9 @@ int CGXPkcs8::FromPem(std::string data, CGXPkcs8 &cert) {
         size_t descStart = desc.rfind(DESCRIPTION);
         if (descStart != std::string::npos) {
             size_t descEnd = desc.find("\n", descStart, start);
-            desc = desc.substr(descStart + DESCRIPTION.length(), descStart + DESCRIPTION.length() + descEnd - DESCRIPTION.length());
+            desc = desc.substr(
+                descStart + DESCRIPTION.length(), descStart + DESCRIPTION.length() + descEnd - DESCRIPTION.length()
+            );
             GXHelpers::Trim(desc);
         } else {
             desc = "";
@@ -243,7 +249,8 @@ int CGXPkcs8::Init(CGXByteBuffer &data) {
                     m_Version = (DLMS_CERTIFICATE_VERSION)var->GetValue().cVal;
                 }
                 if (CGXAsn1Sequence *var = dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(1))) {
-                    if (CGXAsn1ObjectIdentifier *tmp = dynamic_cast<CGXAsn1ObjectIdentifier *>(var->GetValues()->at(0))) {
+                    if (CGXAsn1ObjectIdentifier *tmp =
+                            dynamic_cast<CGXAsn1ObjectIdentifier *>(var->GetValues()->at(0))) {
                         m_Algorithm = CGXDLMSConverter::ValueOfX9Identifier(tmp->GetObjectIdentifier().c_str());
                     }
                 } else {

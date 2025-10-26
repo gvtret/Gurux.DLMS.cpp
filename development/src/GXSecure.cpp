@@ -150,7 +150,10 @@ int CGXSecure::DecryptAesKeyWrapping(CGXByteBuffer &data, CGXByteBuffer &kek, CG
     *            Secret.
     * @return Chiphered text.
     */
-int CGXSecure::Secure(CGXDLMSSettings &settings, CGXCipher *cipher, unsigned long ic, CGXByteBuffer &data, CGXByteBuffer &secret, CGXByteBuffer &reply) {
+int CGXSecure::Secure(
+    CGXDLMSSettings &settings, CGXCipher *cipher, unsigned long ic, CGXByteBuffer &data, CGXByteBuffer &secret,
+    CGXByteBuffer &reply
+) {
     int ret = 0, pos;
     reply.Clear();
     if (settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH) {
@@ -179,7 +182,8 @@ int CGXSecure::Secure(CGXDLMSSettings &settings, CGXCipher *cipher, unsigned lon
     // Get shared secret
     if (settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_ECDSA) {
         //Do nothing.
-    } else if (settings.GetAuthentication() != DLMS_AUTHENTICATION_HIGH_GMAC && settings.GetAuthentication() != DLMS_AUTHENTICATION_HIGH_SHA256) {
+    } else if (settings.GetAuthentication() != DLMS_AUTHENTICATION_HIGH_GMAC &&
+               settings.GetAuthentication() != DLMS_AUTHENTICATION_HIGH_SHA256) {
         challenge.Set(&data);
         challenge.Set(&secret);
     }
@@ -191,7 +195,10 @@ int CGXSecure::Secure(CGXDLMSSettings &settings, CGXCipher *cipher, unsigned lon
         return CGXDLMSSha256::Hash(secret, reply);
     } else if (settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_GMAC) {
         CGXByteBuffer &key = cipher->GetBlockCipherKey();
-        ret = cipher->Encrypt(cipher->GetSecuritySuite(), DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_TAG, ic, 0, secret, key, data, true);
+        ret = cipher->Encrypt(
+            cipher->GetSecuritySuite(), DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_TAG, ic, 0, secret, key, data,
+            true
+        );
         if (ret == 0) {
             reply.SetUInt8(DLMS_SECURITY_AUTHENTICATION | cipher->GetSecuritySuite());
             reply.SetUInt32(ic);

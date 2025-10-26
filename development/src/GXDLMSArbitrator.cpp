@@ -39,7 +39,8 @@ CGXDLMSArbitrator::CGXDLMSArbitrator(): CGXDLMSArbitrator("", 0) {
 }
 
 //SN Constructor.
-CGXDLMSArbitrator::CGXDLMSArbitrator(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_ARBITRATOR, ln, sn) {
+CGXDLMSArbitrator::CGXDLMSArbitrator(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_ARBITRATOR, ln, sn) {
 }
 
 //LN Constructor.
@@ -94,7 +95,8 @@ void CGXDLMSArbitrator::GetValues(std::vector<std::string> &values) {
     sb.clear();
     sb << "{";
     empty = true;
-    for (std::vector<std::vector<uint16_t>>::iterator it = m_WeightingsTable.begin(); it != m_WeightingsTable.end(); ++it) {
+    for (std::vector<std::vector<uint16_t>>::iterator it = m_WeightingsTable.begin(); it != m_WeightingsTable.end();
+         ++it) {
         if (empty) {
             empty = false;
         } else {
@@ -115,7 +117,8 @@ void CGXDLMSArbitrator::GetValues(std::vector<std::string> &values) {
     sb.clear();
     sb << "{";
     empty = true;
-    for (std::vector<std::string>::iterator it = m_MostRecentRequestsTable.begin(); it != m_MostRecentRequestsTable.end(); ++it) {
+    for (std::vector<std::string>::iterator it = m_MostRecentRequestsTable.begin();
+         it != m_MostRecentRequestsTable.end(); ++it) {
         if (empty) {
             empty = false;
         } else {
@@ -194,7 +197,8 @@ int CGXDLMSArbitrator::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
                 CGXDLMSVariant tmp(ln, 6, DLMS_DATA_TYPE_OCTET_STRING);
                 if ((ret = data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 ||
                     //Count
-                    (ret = data.SetUInt8(2)) != 0 || (ret = GXHelpers::SetLogicalName(it->GetLogicalName().c_str(), ln)) != 0 ||
+                    (ret = data.SetUInt8(2)) != 0 ||
+                    (ret = GXHelpers::SetLogicalName(it->GetLogicalName().c_str(), ln)) != 0 ||
                     (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, tmp)) != 0 ||
                     (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, it->GetScriptSelector())) != 0) {
                     break;
@@ -205,7 +209,8 @@ int CGXDLMSArbitrator::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
         case 3: {
             data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_PermissionsTable.size(), data);
-            for (std::vector<std::string>::iterator it = m_PermissionsTable.begin(); it != m_PermissionsTable.end(); ++it) {
+            for (std::vector<std::string>::iterator it = m_PermissionsTable.begin(); it != m_PermissionsTable.end();
+                 ++it) {
                 if ((ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_BIT_STRING, *it)) != 0) {
                     break;
                 }
@@ -215,7 +220,8 @@ int CGXDLMSArbitrator::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
         case 4: {
             data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_WeightingsTable.size(), data);
-            for (std::vector<std::vector<uint16_t>>::iterator it = m_WeightingsTable.begin(); it != m_WeightingsTable.end(); ++it) {
+            for (std::vector<std::vector<uint16_t>>::iterator it = m_WeightingsTable.begin();
+                 it != m_WeightingsTable.end(); ++it) {
                 data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
                 GXHelpers::SetObjectCount((unsigned long)it->size(), data);
                 for (std::vector<uint16_t>::iterator it2 = it->begin(); it2 != it->end(); ++it2) {
@@ -229,7 +235,8 @@ int CGXDLMSArbitrator::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
         case 5: {
             data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_MostRecentRequestsTable.size(), data);
-            for (std::vector<std::string>::iterator it = m_MostRecentRequestsTable.begin(); it != m_MostRecentRequestsTable.end(); ++it) {
+            for (std::vector<std::string>::iterator it = m_MostRecentRequestsTable.begin();
+                 it != m_MostRecentRequestsTable.end(); ++it) {
                 if ((ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_BIT_STRING, *it)) != 0) {
                     break;
                 }
@@ -264,7 +271,8 @@ int CGXDLMSArbitrator::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
             break;
         case 2: {
             m_Actions.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXDLMSActionItem item;
                 if ((ret = CreateAction(it->Arr, item)) != 0) {
                     break;
@@ -274,13 +282,15 @@ int CGXDLMSArbitrator::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
         } break;
         case 3: {
             m_PermissionsTable.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 m_PermissionsTable.push_back(it->ToString());
             }
         } break;
         case 4: {
             m_WeightingsTable.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 std::vector<uint16_t> list;
                 for (std::vector<CGXDLMSVariant>::iterator it2 = it->Arr.begin(); it2 != it->Arr.end(); ++it2) {
                     list.push_back(it2->ToInteger());
@@ -290,7 +300,8 @@ int CGXDLMSArbitrator::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
         } break;
         case 5: {
             m_MostRecentRequestsTable.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 m_MostRecentRequestsTable.push_back(it->ToString());
             }
         } break;

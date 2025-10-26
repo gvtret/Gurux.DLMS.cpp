@@ -74,8 +74,8 @@ const char *CGXDLMSConverter::GetErrorMessage(int error) {
 #if (defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))  //Windows MSVC
         wchar_t *s = NULL;
         FormatMessageW(
-            FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, error & ~DLMS_ERROR_TYPE_COMMUNICATION_ERROR,
-            MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPWSTR)&s, 0, NULL
+            FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL,
+            error & ~DLMS_ERROR_TYPE_COMMUNICATION_ERROR, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPWSTR)&s, 0, NULL
         );
         fprintf(stderr, "%S\n", s);
         LocalFree(s);
@@ -1620,7 +1620,9 @@ void CGXDLMSConverter::UpdateObisCodes() {
     }
 }
 
-void CGXDLMSConverter::GetDescription(std::string &logicalName, DLMS_OBJECT_TYPE type, std::vector<std::string> &descriptions) {
+void CGXDLMSConverter::GetDescription(
+    std::string &logicalName, DLMS_OBJECT_TYPE type, std::vector<std::string> &descriptions
+) {
     UpdateObisCodes();
     std::vector<CGXStandardObisCode *> list;
     m_Codes.Find(logicalName, type, list);
@@ -1645,7 +1647,8 @@ void CGXDLMSConverter::UpdateOBISCodeInformation(CGXDLMSObjectCollection &object
             code->SetUIDataType("10");
         }
         //If date time is used.
-        else if (code->GetDataType().find("25") != std::string::npos || code->GetDataType().find("26") != std::string::npos) {
+        else if (code->GetDataType().find("25") != std::string::npos ||
+                 code->GetDataType().find("26") != std::string::npos) {
             code->SetUIDataType("25");
         } else if (code->GetDataType().find("9")) {
             //Time stamps of the billing periods objects (first scheme if there are two)
@@ -1686,10 +1689,12 @@ void CGXDLMSConverter::UpdateOBISCodeInformation(CGXDLMSObjectCollection &object
             }
         }
         //Unix time
-        else if ((*it)->GetObjectType() == DLMS_OBJECT_TYPE_DATA && CGXStandardObisCodeCollection::EqualsMask2("0.0.1.1.0.255", ln)) {
+        else if ((*it)->GetObjectType() == DLMS_OBJECT_TYPE_DATA &&
+                 CGXStandardObisCodeCollection::EqualsMask2("0.0.1.1.0.255", ln)) {
             code->SetUIDataType("25");
         }
-        if (code->GetDataType() != "*" && code->GetDataType() != "" && code->GetDataType().find(",") == std::string::npos) {
+        if (code->GetDataType() != "*" && code->GetDataType() != "" &&
+            code->GetDataType().find(",") == std::string::npos) {
             int value;
 #if _MSC_VER > 1000
             sscanf_s(code->GetDataType().c_str(), "%d", &value);

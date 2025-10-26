@@ -62,7 +62,8 @@ private:
     }
 
     static int ParsePDU2(
-        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
+        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result,
+        DLMS_SOURCE_DIAGNOSTIC &diagnostic
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
         ,
         CGXDLMSTranslatorStructure *xml
@@ -104,7 +105,8 @@ public:
     /**
      * Generates Aarq.
      */
-    static int GenerateAarq(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data);
+    static int
+    GenerateAarq(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data);
 
     /**
     * Generate user information.
@@ -115,13 +117,16 @@ public:
     * @param data
     *            Generated user information.
     */
-    static int GenerateUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data);
+    static int GenerateUserInformation(
+        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data
+    );
 
     /**
      * Parse APDU.
      */
     static int ParsePDU(
-        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
+        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result,
+        DLMS_SOURCE_DIAGNOSTIC &diagnostic
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
         ,
         CGXDLMSTranslatorStructure *xml
@@ -132,8 +137,8 @@ public:
      * Server generates AARE message.
      */
     static int GenerateAARE(
-        CGXDLMSSettings &settings, CGXByteBuffer &data, DLMS_ASSOCIATION_RESULT result, DLMS_SOURCE_DIAGNOSTIC diagnostic, CGXCipher *cipher,
-        CGXByteBuffer *errorData, CGXByteBuffer *encryptedData
+        CGXDLMSSettings &settings, CGXByteBuffer &data, DLMS_ASSOCIATION_RESULT result,
+        DLMS_SOURCE_DIAGNOSTIC diagnostic, CGXCipher *cipher, CGXByteBuffer *errorData, CGXByteBuffer *encryptedData
     );
 
     static int GetUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data);

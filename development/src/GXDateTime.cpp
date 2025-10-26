@@ -215,7 +215,9 @@ CGXDateTime::CGXDateTime(int year, int month, int day, int hour, int minute, int
 }
 
 // Constructor.
-CGXDateTime::CGXDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation) {
+CGXDateTime::CGXDateTime(
+    int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation
+) {
     Init(year, month, day, hour, minute, second, millisecond, devitation);
 }
 
@@ -298,9 +300,12 @@ int CGXDateTime::GetTimeFormat2(char &separator, char &use24HourClock) {
     return ret;
 }
 
-int CGXDateTime::GetDateTimeFormat(std::string &value, GXDLMS_DATE_FORMAT &format, char &dateSeparator, char &timeSeparator, char &use24HourClock) {
+int CGXDateTime::GetDateTimeFormat(
+    std::string &value, GXDLMS_DATE_FORMAT &format, char &dateSeparator, char &timeSeparator, char &use24HourClock
+) {
     int ret;
-    if ((ret = GetDateFormat2(format, dateSeparator)) == 0 && (ret = GetTimeFormat2(timeSeparator, use24HourClock)) == 0) {
+    if ((ret = GetDateFormat2(format, dateSeparator)) == 0 &&
+        (ret = GetTimeFormat2(timeSeparator, use24HourClock)) == 0) {
         switch (format) {
             case GXDLMS_DATE_FORMAT_DMY:
                 value.append("%d");
@@ -394,13 +399,15 @@ int Remove(CGXDateTime *value, std::string &format, char dateSeparator, char tim
         Remove(format, "%M", timeSeparator);
         Remove(format, "%S", timeSeparator);
         Remove(format, "%p", timeSeparator);
-        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
+        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE |
+                                        DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
     } else if (dynamic_cast<CGXTime *>(value) != NULL) {
         Remove(format, "%Y", dateSeparator);
         Remove(format, "%y", dateSeparator);
         Remove(format, "%m", dateSeparator);
         Remove(format, "%d", dateSeparator);
-        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY | DATETIME_SKIPS_DAYOFWEEK));
+        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH |
+                                        DATETIME_SKIPS_DAY | DATETIME_SKIPS_DAYOFWEEK));
     }
     // Trim spaces.
     format = GXHelpers::Trim(format);
@@ -457,7 +464,8 @@ int CGXDateTime::FromString(const char *datetime) {
                         ++lastFormatIndex;
                         c = format[lastFormatIndex + 1];
                         std::string val = "1";
-                        while (lastFormatIndex + cnt + 1 < (int)format.size() && format[lastFormatIndex + cnt + 1] == c) {
+                        while (lastFormatIndex + cnt + 1 < (int)format.size() && format[lastFormatIndex + cnt + 1] == c
+                        ) {
                             val += "0";
                             ++cnt;
                         }
@@ -588,7 +596,8 @@ int CGXDateTime::ToFormatString(const char *pattern, std::string &value) {
         }
         GXDLMS_DATE_FORMAT df;
         char dateSeparator = '/', timeSeparator = ':', use24HourClock = 0;
-        if (pattern != NULL || (ret = GetDateTimeFormat(format, df, dateSeparator, timeSeparator, use24HourClock)) == 0) {
+        if (pattern != NULL ||
+            (ret = GetDateTimeFormat(format, df, dateSeparator, timeSeparator, use24HourClock)) == 0) {
             Remove(this, format, dateSeparator, timeSeparator);
 
             if ((m_Extra & DATE_TIME_EXTRA_INFO_DST_BEGIN) != 0) {
@@ -646,7 +655,9 @@ int CGXDateTime::ToFormatString(std::string &value) {
 }
 
 // Constructor.
-void CGXDateTime::Init(int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation) {
+void CGXDateTime::Init(
+    int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation
+) {
     memset(&m_Value, 0, sizeof(m_Value));
     m_Extra = DATE_TIME_EXTRA_INFO_NONE;
     m_Status = DLMS_CLOCK_STATUS_OK;
@@ -757,7 +768,8 @@ std::string CGXDateTime::ToString() {
         GXDLMS_DATE_FORMAT format;
         char separator;
         //Add year, month and date if used.
-        if ((m_Skip & (DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY)) != (DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY)) {
+        if ((m_Skip & (DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY)) !=
+            (DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY)) {
             ret = GetDateFormat2(format, separator);
             switch (format) {
                 case GXDLMS_DATE_FORMAT_DMY: {
@@ -1094,7 +1106,9 @@ long CGXDateTime::GetDifference(struct tm &start, CGXDateTime &to) {
             if ((to.GetSkip() & DATETIME_SKIPS_DAY) == 0) {
                 diff += (to.m_Value.tm_mday - start.tm_mday) * 24 * 60 * 60000L;
             } else {
-                diff = ((DaysInMonth(start.tm_year, start.tm_mon) - start.tm_mday + to.m_Value.tm_mday) * 24 * 60 * 60000L) + diff;
+                diff = ((DaysInMonth(start.tm_year, start.tm_mon) - start.tm_mday + to.m_Value.tm_mday) * 24 * 60 *
+                        60000L) +
+                    diff;
             }
         }
     } else if (diff < 0) {

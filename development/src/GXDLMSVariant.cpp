@@ -182,7 +182,10 @@ int CGXDLMSVariant::Convert(CGXDLMSVariant *item, DLMS_DATA_TYPE type) {
             return DLMS_ERROR_CODE_OK;
         }
         if (tmp.vt == DLMS_DATA_TYPE_FLOAT32 || tmp.vt == DLMS_DATA_TYPE_FLOAT64) {
-            int ret = snprintf(buff, 250, tmp.vt == DLMS_DATA_TYPE_FLOAT32 ? "%f" : "%lf", tmp.vt == DLMS_DATA_TYPE_FLOAT32 ? tmp.fltVal : tmp.dblVal);
+            int ret = snprintf(
+                buff, 250, tmp.vt == DLMS_DATA_TYPE_FLOAT32 ? "%f" : "%lf",
+                tmp.vt == DLMS_DATA_TYPE_FLOAT32 ? tmp.fltVal : tmp.dblVal
+            );
             //Remove trailing zeroes.
             while (ret > 0 && buff[ret - 1] == '0') {
                 --ret;

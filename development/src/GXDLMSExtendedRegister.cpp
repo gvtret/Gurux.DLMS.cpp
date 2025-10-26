@@ -49,7 +49,8 @@ CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(): CGXDLMSExtendedRegister("", 
 }
 
 //SN Constructor.
-CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(std::string ln, unsigned short sn): CGXDLMSRegister(DLMS_OBJECT_TYPE_EXTENDED_REGISTER, ln, sn) {
+CGXDLMSExtendedRegister::CGXDLMSExtendedRegister(std::string ln, unsigned short sn)
+    : CGXDLMSRegister(DLMS_OBJECT_TYPE_EXTENDED_REGISTER, ln, sn) {
 }
 
 //LN Constructor.

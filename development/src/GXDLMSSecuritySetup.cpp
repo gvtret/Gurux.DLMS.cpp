@@ -45,7 +45,8 @@ CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(): CGXDLMSSecuritySetup("0.0.43.0.0.2
 }
 
 //SN Constructor.
-CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_SECURITY_SETUP, ln, sn) {
+CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SECURITY_SETUP, ln, sn) {
     m_Version = 1;
     m_SecurityPolicy = DLMS_SECURITY_POLICY_NOTHING;
     m_SecuritySuite = DLMS_SECURITY_SUITE_V0;
@@ -109,7 +110,8 @@ int CGXDLMSSecuritySetup::Activate(CGXDLMSClient *client, DLMS_SECURITY security
 }
 
 int CGXDLMSSecuritySetup::GlobalKeyTransfer(
-    CGXDLMSClient *client, CGXByteBuffer &kek, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer &>> &list, std::vector<CGXByteBuffer> &reply
+    CGXDLMSClient *client, CGXByteBuffer &kek, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer &>> &list,
+    std::vector<CGXByteBuffer> &reply
 ) {
     int ret = 0;
     CGXDLMSVariant data;
@@ -120,11 +122,13 @@ int CGXDLMSSecuritySetup::GlobalKeyTransfer(
     }
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
     bb.SetUInt8((unsigned char)list.size());
-    for (std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer &>>::iterator it = list.begin(); it != list.end(); ++it) {
+    for (std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer &>>::iterator it = list.begin(); it != list.end();
+         ++it) {
         bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
         bb.SetUInt8(2);
         data = (char)it->first;
-        if ((ret = GXHelpers::SetData(NULL, bb, DLMS_DATA_TYPE_ENUM, data)) != 0 || (ret = CGXDLMSSecureClient::Encrypt(kek, it->second, tmp)) != 0) {
+        if ((ret = GXHelpers::SetData(NULL, bb, DLMS_DATA_TYPE_ENUM, data)) != 0 ||
+            (ret = CGXDLMSSecureClient::Encrypt(kek, it->second, tmp)) != 0) {
             break;
         }
         data = tmp;
@@ -146,7 +150,8 @@ int CGXDLMSSecuritySetup::GlobalKeyTransfer(
 * Returns Generated action
 */
 int CGXDLMSSecuritySetup::KeyAgreement(
-    CGXDLMSSecureClient *client, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer>> list, std::vector<CGXByteBuffer> &reply
+    CGXDLMSSecureClient *client, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer>> list,
+    std::vector<CGXByteBuffer> &reply
 ) {
     if (list.size() == 0) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
@@ -154,7 +159,8 @@ int CGXDLMSSecuritySetup::KeyAgreement(
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
     bb.SetUInt8((unsigned char)list.size());
-    for (std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer>>::iterator it = list.begin(); it != list.end(); ++it) {
+    for (std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer>>::iterator it = list.begin(); it != list.end();
+         ++it) {
         bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
         bb.SetUInt8(2);
         CGXDLMSVariant data = it->first;
@@ -166,17 +172,23 @@ int CGXDLMSSecuritySetup::KeyAgreement(
     return client->Method(this, 3, data, DLMS_DATA_TYPE_ARRAY, reply);
 }
 
-int CGXDLMSSecuritySetup::GenerateKeyPair(CGXDLMSSecureClient *client, DLMS_CERTIFICATE_TYPE type, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSSecuritySetup::GenerateKeyPair(
+    CGXDLMSSecureClient *client, DLMS_CERTIFICATE_TYPE type, std::vector<CGXByteBuffer> &reply
+) {
     CGXDLMSVariant data = type;
     return client->Method(this, 4, data, DLMS_DATA_TYPE_ENUM, reply);
 }
 
-int CGXDLMSSecuritySetup::GenerateCertificate(CGXDLMSSecureClient *client, DLMS_CERTIFICATE_TYPE type, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSSecuritySetup::GenerateCertificate(
+    CGXDLMSSecureClient *client, DLMS_CERTIFICATE_TYPE type, std::vector<CGXByteBuffer> &reply
+) {
     CGXDLMSVariant data = type;
     return client->Method(this, 5, data, DLMS_DATA_TYPE_ENUM, reply);
 }
 
-int CGXDLMSSecuritySetup::ImportCertificate(CGXDLMSClient *client, CGXx509Certificate &certificate, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSSecuritySetup::ImportCertificate(
+    CGXDLMSClient *client, CGXx509Certificate &certificate, std::vector<CGXByteBuffer> &reply
+) {
     CGXByteBuffer bb;
     int ret = certificate.GetEncoded(bb);
     if (ret == 0) {
@@ -188,7 +200,8 @@ int CGXDLMSSecuritySetup::ImportCertificate(CGXDLMSClient *client, CGXx509Certif
 }
 
 int CGXDLMSSecuritySetup::ExportCertificateByEntity(
-    CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle, std::vector<CGXByteBuffer> &reply
+    CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle,
+    std::vector<CGXByteBuffer> &reply
 ) {
     int ret;
     CGXDLMSVariant data;
@@ -204,7 +217,8 @@ int CGXDLMSSecuritySetup::ExportCertificateByEntity(
         //Add certificate_type
         (ret = bb.SetUInt8(DLMS_DATA_TYPE_ENUM)) == 0 && (ret = bb.SetUInt8(type)) == 0 &&
         //system_title
-        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)systemTitle.GetSize(), bb)) == 0 &&
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 &&
+        (ret = GXHelpers::SetObjectCount((unsigned long)systemTitle.GetSize(), bb)) == 0 &&
         (ret = bb.Set(&systemTitle, 0, systemTitle.GetSize())) == 0) {
         data = bb;
         ret = client->Method(this, 7, data, DLMS_DATA_TYPE_ARRAY, reply);
@@ -227,10 +241,12 @@ int CGXDLMSSecuritySetup::ExportCertificateBySerial(
         //Add certificate_identification_by_entity
         (ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) == 0 && (ret = bb.SetUInt8(2)) == 0 &&
         //serialNumber
-        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)sn.GetSize(), bb)) == 0 &&
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 &&
+        (ret = GXHelpers::SetObjectCount((unsigned long)sn.GetSize(), bb)) == 0 &&
         (ret = bb.Set(sn.GetData(), sn.GetSize())) == 0 &&
         //issuer
-        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)issuer.GetSize(), bb)) == 0 &&
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 &&
+        (ret = GXHelpers::SetObjectCount((unsigned long)issuer.GetSize(), bb)) == 0 &&
         (ret = bb.Set(issuer.GetData(), issuer.GetSize())) == 0) {
         data = bb;
         ret = client->Method(this, 7, data, DLMS_DATA_TYPE_ARRAY, reply);
@@ -239,7 +255,8 @@ int CGXDLMSSecuritySetup::ExportCertificateBySerial(
 }
 
 int CGXDLMSSecuritySetup::RemoveCertificateByEntity(
-    CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle, std::vector<CGXByteBuffer> &reply
+    CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle,
+    std::vector<CGXByteBuffer> &reply
 ) {
     int ret;
     CGXDLMSVariant data;
@@ -255,7 +272,8 @@ int CGXDLMSSecuritySetup::RemoveCertificateByEntity(
         //Add certificate_type
         (ret = bb.SetUInt8(DLMS_DATA_TYPE_ENUM)) == 0 && (ret = bb.SetUInt8(type)) == 0 &&
         //system_title
-        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)systemTitle.GetSize(), bb)) == 0 &&
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 &&
+        (ret = GXHelpers::SetObjectCount((unsigned long)systemTitle.GetSize(), bb)) == 0 &&
         (ret = bb.Set(&systemTitle, 0, systemTitle.GetSize())) == 0) {
         data = bb;
         ret = client->Method(this, 8, data, DLMS_DATA_TYPE_ARRAY, reply);
@@ -276,10 +294,12 @@ int CGXDLMSSecuritySetup::RemoveCertificateBySerial(
         //Add certificate_identification_by_entity
         (ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) == 0 && (ret = bb.SetUInt8(2)) == 0 &&
         //serialNumber
-        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)serialNumber.GetSize(), bb)) == 0 &&
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 &&
+        (ret = GXHelpers::SetObjectCount((unsigned long)serialNumber.GetSize(), bb)) == 0 &&
         (ret = bb.Set(&serialNumber, 0, serialNumber.GetSize())) == 0 &&
         //issuer
-        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)issuer.GetSize(), bb)) == 0 &&
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 &&
+        (ret = GXHelpers::SetObjectCount((unsigned long)issuer.GetSize(), bb)) == 0 &&
         (ret = bb.Set(&issuer, 0, issuer.GetSize())) == 0) {
         data = bb;
         ret = client->Method(this, 8, data, DLMS_DATA_TYPE_ARRAY, reply);
@@ -291,7 +311,8 @@ int CGXDLMSSecuritySetup::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg
     if (e.GetIndex() == 1) {
         m_SecurityPolicy = (DLMS_SECURITY_POLICY)e.GetParameters().ToInteger();
     } else if (e.GetIndex() == 2) {
-        for (std::vector<CGXDLMSVariant>::iterator it = e.GetParameters().Arr.begin(); it != e.GetParameters().Arr.end(); ++it) {
+        for (std::vector<CGXDLMSVariant>::iterator it = e.GetParameters().Arr.begin();
+             it != e.GetParameters().Arr.end(); ++it) {
             DLMS_GLOBAL_KEY_TYPE type = (DLMS_GLOBAL_KEY_TYPE)it->Arr[0].ToInteger();
             CGXByteBuffer data, reply;
             CGXByteBuffer kek = settings.GetKek();
@@ -323,7 +344,8 @@ int CGXDLMSSecuritySetup::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg
 }
 
 int CGXDLMSSecuritySetup::ApplyKeys(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    for (std::vector<CGXDLMSVariant>::iterator it = e.GetParameters().Arr.begin(); it != e.GetParameters().Arr.end(); ++it) {
+    for (std::vector<CGXDLMSVariant>::iterator it = e.GetParameters().Arr.begin(); it != e.GetParameters().Arr.end();
+         ++it) {
         DLMS_GLOBAL_KEY_TYPE type = (DLMS_GLOBAL_KEY_TYPE)it->Arr[0].ToInteger();
         CGXByteBuffer data, reply;
         CGXByteBuffer kek = settings.GetKek();
@@ -368,7 +390,8 @@ void CGXDLMSSecuritySetup::GetValues(std::vector<std::string> &values) {
     if (GetVersion() > 0) {
         std::stringstream sb;
         bool empty = true;
-        for (std::vector<CGXDLMSCertificateInfo *>::iterator it = m_Certificates.begin(); it != m_Certificates.end(); ++it) {
+        for (std::vector<CGXDLMSCertificateInfo *>::iterator it = m_Certificates.begin(); it != m_Certificates.end();
+             ++it) {
             if (empty) {
                 empty = false;
             } else {
@@ -464,7 +487,8 @@ int CGXDLMSSecuritySetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
         CGXByteBuffer bb;
         bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         GXHelpers::SetObjectCount((unsigned long)m_Certificates.size(), bb);
-        for (std::vector<CGXDLMSCertificateInfo *>::iterator it = m_Certificates.begin(); it != m_Certificates.end(); ++it) {
+        for (std::vector<CGXDLMSCertificateInfo *>::iterator it = m_Certificates.begin(); it != m_Certificates.end();
+             ++it) {
             bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             GXHelpers::SetObjectCount(6, bb);
             bb.SetUInt8(DLMS_DATA_TYPE_ENUM);
@@ -503,7 +527,8 @@ int CGXDLMSSecuritySetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
             int ret;
             std::string tmp;
             CGXByteBuffer bb;
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXDLMSCertificateInfo *info = new CGXDLMSCertificateInfo();
                 info->SetEntity((DLMS_CERTIFICATE_ENTITY)it->Arr[0].ToInteger());
                 info->SetType((DLMS_CERTIFICATE_TYPE)it->Arr[1].ToInteger());

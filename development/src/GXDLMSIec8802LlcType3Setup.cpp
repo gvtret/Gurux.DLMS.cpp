@@ -40,7 +40,8 @@ CGXDLMSIec8802LlcType3Setup::CGXDLMSIec8802LlcType3Setup(): CGXDLMSIec8802LlcTyp
 }
 
 //SN Constructor.
-CGXDLMSIec8802LlcType3Setup::CGXDLMSIec8802LlcType3Setup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_8802_LLC_TYPE3_SETUP, ln, sn) {
+CGXDLMSIec8802LlcType3Setup::CGXDLMSIec8802LlcType3Setup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_8802_LLC_TYPE3_SETUP, ln, sn) {
     m_MaximumOctetsACnPdu = 0;
     m_MaximumTransmissions = 0;
     m_AcknowledgementTime = 0;

@@ -118,7 +118,8 @@ int CGXAPDU::GenerateApplicationContextName(CGXDLMSSettings &settings, CGXByteBu
     }
     // Add system title.
     if (!settings.IsServer() &&
-        (ciphered || settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_GMAC || settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_SHA256 ||
+        (ciphered || settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_GMAC ||
+         settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_SHA256 ||
          settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_ECDSA)) {
         if (activeCipher == NULL) {
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
@@ -147,7 +148,8 @@ int CGXAPDU::GenerateApplicationContextName(CGXDLMSSettings &settings, CGXByteBu
         }
     }
     //Add CallingAEInvocationId.
-    if (!settings.IsServer() && settings.GetUserID() != 0 && settingsCipher != NULL && settingsCipher->GetSecurity() != DLMS_SECURITY_NONE) {
+    if (!settings.IsServer() && settings.GetUserID() != 0 && settingsCipher != NULL &&
+        settingsCipher->GetSecurity() != DLMS_SECURITY_NONE) {
         data.SetUInt8(BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | PDU_TYPE_CALLING_AE_INVOCATION_ID);
         //LEN
         data.SetUInt8(3);
@@ -193,7 +195,8 @@ int GetInitiateRequest(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuff
     // Tag for xDLMS-Initiate request
     data.SetUInt8(DLMS_COMMAND_INITIATE_REQUEST);
     // Usage field for dedicated-key component.
-    if (settings.GetCipher() == NULL || settings.GetCipher()->GetDedicatedKey().GetSize() == 0 || settings.GetCipher()->GetSecurity() == DLMS_SECURITY_NONE) {
+    if (settings.GetCipher() == NULL || settings.GetCipher()->GetDedicatedKey().GetSize() == 0 ||
+        settings.GetCipher()->GetSecurity() == DLMS_SECURITY_NONE) {
         data.SetUInt8(0x00);
     } else {
         data.SetUInt8(0x1);
@@ -226,7 +229,9 @@ int GetInitiateRequest(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuff
     return 0;
 }
 
-int CGXAPDU::GenerateUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data) {
+int CGXAPDU::GenerateUserInformation(
+    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data
+) {
     int ret;
     data.SetUInt8(BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | PDU_TYPE_USER_INFORMATION);
     if (cipher == NULL || !cipher->IsCiphered()) {
@@ -258,8 +263,8 @@ int CGXAPDU::GenerateUserInformation(CGXDLMSSettings &settings, CGXCipher *ciphe
                 return ret;
             }
             if ((ret = cipher->Encrypt(
-                     cipher->GetSecuritySuite(), cipher->GetSecurity(), DLMS_COUNT_TYPE_PACKET, settings.GetCipher()->GetFrameCounter(), cmd,
-                     cipher->GetSystemTitle(), key, crypted, true
+                     cipher->GetSecuritySuite(), cipher->GetSecurity(), DLMS_COUNT_TYPE_PACKET,
+                     settings.GetCipher()->GetFrameCounter(), cmd, cipher->GetSystemTitle(), key, crypted, true
                  )) != 0) {
                 return ret;
             }
@@ -649,8 +654,9 @@ int CGXAPDU::ParseInitiate(
     if ((ret = data.GetUInt8(&tag)) != 0) {
         return ret;
     }
-    if (tag == DLMS_COMMAND_GLO_INITIATE_RESPONSE || tag == DLMS_COMMAND_GLO_INITIATE_REQUEST || tag == DLMS_COMMAND_DED_INITIATE_RESPONSE ||
-        tag == DLMS_COMMAND_DED_INITIATE_REQUEST || tag == DLMS_COMMAND_GENERAL_GLO_CIPHERING || tag == DLMS_COMMAND_GENERAL_DED_CIPHERING) {
+    if (tag == DLMS_COMMAND_GLO_INITIATE_RESPONSE || tag == DLMS_COMMAND_GLO_INITIATE_REQUEST ||
+        tag == DLMS_COMMAND_DED_INITIATE_RESPONSE || tag == DLMS_COMMAND_DED_INITIATE_REQUEST ||
+        tag == DLMS_COMMAND_GENERAL_GLO_CIPHERING || tag == DLMS_COMMAND_GENERAL_DED_CIPHERING) {
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
         if (xml != NULL) {
             std::string str;
@@ -674,7 +680,9 @@ int CGXAPDU::ParseInitiate(
                 DLMS_SECURITY security = DLMS_SECURITY_NONE;
                 DLMS_SECURITY_SUITE suite;
                 uint64_t invocationCounter;
-                if ((ret = cipher->Decrypt(st, settings.GetCipher()->GetBlockCipherKey(), data, security, suite, invocationCounter)) != 0) {
+                if ((ret = cipher->Decrypt(
+                         st, settings.GetCipher()->GetBlockCipherKey(), data, security, suite, invocationCounter
+                     )) != 0) {
                     return ret;
                 }
                 cipher->SetSecurity(security);
@@ -701,8 +709,10 @@ int CGXAPDU::ParseInitiate(
         DLMS_SECURITY security = DLMS_SECURITY_NONE;
         DLMS_SECURITY_SUITE suite;
         uint64_t invocationCounter;
-        if ((ret = cipher->Decrypt(settings.GetSourceSystemTitle(), settings.GetCipher()->GetBlockCipherKey(), data, security, suite, invocationCounter)) !=
-            0) {
+        if ((ret = cipher->Decrypt(
+                 settings.GetSourceSystemTitle(), settings.GetCipher()->GetBlockCipherKey(), data, security, suite,
+                 invocationCounter
+             )) != 0) {
             return ret;
         }
         if (settings.GetExpectedSecurityPolicy() != 0xFF && security != settings.GetExpectedSecurityPolicy()) {
@@ -1056,14 +1066,17 @@ int CGXAPDU::GetUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CG
     }
     if (cipher != NULL && cipher->IsCiphered()) {
         return cipher->Encrypt(
-            cipher->GetSecuritySuite(), cipher->GetSecurity(), DLMS_COUNT_TYPE_PACKET, settings.GetCipher()->GetFrameCounter(),
-            DLMS_COMMAND_GLO_INITIATE_RESPONSE, cipher->GetSystemTitle(), cipher->GetBlockCipherKey(), data, true
+            cipher->GetSecuritySuite(), cipher->GetSecurity(), DLMS_COUNT_TYPE_PACKET,
+            settings.GetCipher()->GetFrameCounter(), DLMS_COMMAND_GLO_INITIATE_RESPONSE, cipher->GetSystemTitle(),
+            cipher->GetBlockCipherKey(), data, true
         );
     }
     return 0;
 }
 
-int CGXAPDU::GenerateAarq(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data) {
+int CGXAPDU::GenerateAarq(
+    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data
+) {
     int ret;
     CGXByteBuffer tmp;
     ///////////////////////////////////////////
@@ -1155,7 +1168,8 @@ void AppendServerSystemTitleToXml(CGXDLMSSettings &settings, CGXDLMSTranslatorSt
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
 
 int CGXAPDU::ParsePDU2(
-    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
+    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result,
+    DLMS_SOURCE_DIAGNOSTIC &diagnostic
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     ,
     CGXDLMSTranslatorStructure *xml
@@ -1486,11 +1500,15 @@ int CGXAPDU::ParsePDU2(
                     }
                     settings.SetClientPublicKeyCertificate(cert);
                     if ((cert.GetKeyUsage() & DLMS_KEY_USAGE_KEY_CERT_SIGN) != 0) {
-                        std::pair<CGXPublicKey, CGXPrivateKey> kp(cert.GetPublicKey(), settings.GetCipher()->GetKeyAgreementKeyPair().second);
+                        std::pair<CGXPublicKey, CGXPrivateKey> kp(
+                            cert.GetPublicKey(), settings.GetCipher()->GetKeyAgreementKeyPair().second
+                        );
                         settings.GetCipher()->SetKeyAgreementKeyPair(kp);
                     }
                     if ((cert.GetKeyUsage() & DLMS_KEY_USAGE_DIGITAL_SIGNATURE) != 0) {
-                        std::pair<CGXPublicKey, CGXPrivateKey> kp(cert.GetPublicKey(), settings.GetCipher()->GetSigningKeyPair().second);
+                        std::pair<CGXPublicKey, CGXPrivateKey> kp(
+                            cert.GetPublicKey(), settings.GetCipher()->GetSigningKeyPair().second
+                        );
                         settings.GetCipher()->SetSigningKeyPair(kp);
                     }
                 } else {
@@ -1616,7 +1634,8 @@ int CGXAPDU::ParsePDU2(
                          xml
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                      )) != 0) {
-                    if (ret == DLMS_ERROR_CODE_INVOCATION_COUNTER_TOO_SMALL || ret == DLMS_ERROR_CODE_INVALID_DECIPHERING_ERROR ||
+                    if (ret == DLMS_ERROR_CODE_INVOCATION_COUNTER_TOO_SMALL ||
+                        ret == DLMS_ERROR_CODE_INVALID_DECIPHERING_ERROR ||
                         ret == DLMS_ERROR_CODE_INVALID_SECURITY_SUITE) {
                         return ret;
                     }
@@ -1655,7 +1674,8 @@ int CGXAPDU::ParsePDU2(
 }
 
 int CGXAPDU::ParsePDU(
-    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
+    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result,
+    DLMS_SOURCE_DIAGNOSTIC &diagnostic
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     ,
     CGXDLMSTranslatorStructure *xml
@@ -1719,8 +1739,8 @@ int CGXAPDU::ParsePDU(
  * Server generates AARE message.
  */
 int CGXAPDU::GenerateAARE(
-    CGXDLMSSettings &settings, CGXByteBuffer &data, DLMS_ASSOCIATION_RESULT result, DLMS_SOURCE_DIAGNOSTIC diagnostic, CGXCipher *cipher,
-    CGXByteBuffer *errorData, CGXByteBuffer *encryptedData
+    CGXDLMSSettings &settings, CGXByteBuffer &data, DLMS_ASSOCIATION_RESULT result, DLMS_SOURCE_DIAGNOSTIC diagnostic,
+    CGXCipher *cipher, CGXByteBuffer *errorData, CGXByteBuffer *encryptedData
 ) {
     int ret;
     CGXByteBuffer body;
@@ -1749,7 +1769,8 @@ int CGXAPDU::GenerateAARE(
     // SystemTitle
     if (cipher != NULL &&
         (cipher->IsCiphered() || settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_GMAC ||
-         settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_SHA256 || settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_ECDSA)) {
+         settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_SHA256 ||
+         settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_ECDSA)) {
         body.SetUInt8(BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | PDU_TYPE_CALLED_AP_INVOCATION_ID);
         GXHelpers::SetObjectCount(2 + cipher->GetSystemTitle().GetSize(), body);
         body.SetUInt8(BER_TYPE_OCTET_STRING);
@@ -1757,7 +1778,8 @@ int CGXAPDU::GenerateAARE(
         body.Set(&cipher->GetSystemTitle());
     }
     //Add CallingAeQualifier.
-    if (settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_ECDSA && settings.GetServerPublicKeyCertificate().m_RawData.GetSize() != 0) {
+    if (settings.GetAuthentication() == DLMS_AUTHENTICATION_HIGH_ECDSA &&
+        settings.GetServerPublicKeyCertificate().m_RawData.GetSize() != 0) {
         unsigned long len = settings.GetServerPublicKeyCertificate().m_RawData.GetSize();
         body.SetUInt8(BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | PDU_TYPE_CALLING_AE_QUALIFIER);
         GXHelpers::SetObjectCount(1 + GXHelpers::GetObjectCountSizeInBytes(len) + len, body);

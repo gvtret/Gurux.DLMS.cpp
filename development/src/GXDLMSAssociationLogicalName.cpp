@@ -123,7 +123,9 @@ int CGXDLMSAssociationLogicalName::UpdateSecret(CGXDLMSClient *client, std::vect
 }
 
 // Add user to user list.
-int CGXDLMSAssociationLogicalName::AddUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSAssociationLogicalName::AddUser(
+    CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply
+) {
     CGXByteBuffer data;
     data.SetUInt8((unsigned char)DLMS_DATA_TYPE_STRUCTURE);
     //Add structure size.
@@ -137,7 +139,9 @@ int CGXDLMSAssociationLogicalName::AddUser(CGXDLMSClient *client, unsigned char 
 }
 
 // Remove user fro user list.
-int CGXDLMSAssociationLogicalName::RemoveUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSAssociationLogicalName::RemoveUser(
+    CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply
+) {
     CGXByteBuffer data;
     data.SetUInt8((unsigned char)DLMS_DATA_TYPE_STRUCTURE);
     //Add structure size.
@@ -199,7 +203,8 @@ int CGXDLMSAssociationLogicalName::GetUsers(CGXDLMSSettings &settings, CGXDLMSVa
         //Add count
         GXHelpers::SetObjectCount((unsigned long)m_UserList.size(), data);
     }
-    for (std::vector<std::pair<unsigned char, std::string>>::iterator it = m_UserList.begin(); it != m_UserList.end(); ++it) {
+    for (std::vector<std::pair<unsigned char, std::string>>::iterator it = m_UserList.begin(); it != m_UserList.end();
+         ++it) {
         ++pos;
         if (!(pos <= settings.GetIndex())) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -227,7 +232,8 @@ CGXDLMSAssociationLogicalName::CGXDLMSAssociationLogicalName(): CGXDLMSAssociati
  Constructor.
  @param ln Logical Name of the object.
 */
-CGXDLMSAssociationLogicalName::CGXDLMSAssociationLogicalName(std::string ln): CGXDLMSObject(DLMS_OBJECT_TYPE_ASSOCIATION_LOGICAL_NAME, ln, 0) {
+CGXDLMSAssociationLogicalName::CGXDLMSAssociationLogicalName(std::string ln)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_ASSOCIATION_LOGICAL_NAME, ln, 0) {
     m_AssociationStatus = DLMS_ASSOCIATION_STATUS_NON_ASSOCIATED;
     m_Secret.AddString("Gurux");
     m_Version = 2;
@@ -351,7 +357,8 @@ void CGXDLMSAssociationLogicalName::GetValues(std::vector<std::string> &values) 
     if (GetVersion() > 1) {
         std::stringstream sb;
         bool empty = true;
-        for (std::vector<std::pair<unsigned char, std::string>>::iterator it = m_UserList.begin(); it != m_UserList.end(); ++it) {
+        for (std::vector<std::pair<unsigned char, std::string>>::iterator it = m_UserList.begin();
+             it != m_UserList.end(); ++it) {
             if (empty) {
                 empty = false;
             } else {
@@ -497,7 +504,9 @@ int CGXDLMSAssociationLogicalName::Invoke(CGXDLMSSettings &settings, CGXDLMSValu
             readSecret = &m_Secret;
         }
         CGXByteBuffer serverChallenge;
-        if ((ret = CGXSecure::Secure(settings, settings.GetCipher(), ic, settings.GetStoCChallenge(), *readSecret, serverChallenge)) != 0) {
+        if ((ret = CGXSecure::Secure(
+                 settings, settings.GetCipher(), ic, settings.GetStoCChallenge(), *readSecret, serverChallenge
+             )) != 0) {
             return ret;
         }
         if (serverChallenge.Compare(e.GetParameters().byteArr, e.GetParameters().GetSize())) {
@@ -515,7 +524,9 @@ int CGXDLMSAssociationLogicalName::Invoke(CGXDLMSSettings &settings, CGXDLMSValu
             } else {
                 readSecret = &m_Secret;
             }
-            if ((ret = CGXSecure::Secure(settings, settings.GetCipher(), ic, settings.GetCtoSChallenge(), *readSecret, serverChallenge)) != 0) {
+            if ((ret = CGXSecure::Secure(
+                     settings, settings.GetCipher(), ic, settings.GetCtoSChallenge(), *readSecret, serverChallenge
+                 )) != 0) {
                 return ret;
             }
             e.SetValue(serverChallenge);
@@ -536,13 +547,16 @@ int CGXDLMSAssociationLogicalName::Invoke(CGXDLMSSettings &settings, CGXDLMSValu
         if (e.GetParameters().Arr.size() != 2) {
             e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         } else {
-            m_UserList.push_back(std::pair<unsigned char, std::string>(e.GetParameters().Arr[0].bVal, e.GetParameters().Arr[1].strVal));
+            m_UserList.push_back(
+                std::pair<unsigned char, std::string>(e.GetParameters().Arr[0].bVal, e.GetParameters().Arr[1].strVal)
+            );
         }
     } else if (e.GetIndex() == 6) {
         if (e.GetParameters().Arr.size() != 2) {
             e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
         } else {
-            for (std::vector<std::pair<unsigned char, std::string>>::iterator it = m_UserList.begin(); it != m_UserList.end(); ++it) {
+            for (std::vector<std::pair<unsigned char, std::string>>::iterator it = m_UserList.begin();
+                 it != m_UserList.end(); ++it) {
                 if (it->first == e.GetParameters().Arr[0].bVal) {
                     m_UserList.erase(it);
                     break;
@@ -617,12 +631,22 @@ int CGXDLMSAssociationLogicalName::GetValue(CGXDLMSSettings &settings, CGXDLMSVa
         CGXByteBuffer data;
         data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
         data.SetUInt8(6);
-        if ((ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_BIT_STRING, CGXBitString::ToBitString(m_XDLMSContextInfo.GetConformance(), 24))) != 0 ||
-            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxReceivePduSize())) != 0 ||
-            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxSendPduSize())) != 0 ||
-            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT8, m_XDLMSContextInfo.GetDlmsVersionNumber())) != 0 ||
-            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_INT8, m_XDLMSContextInfo.GetQualityOfService())) != 0 ||
-            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, m_XDLMSContextInfo.GetCypheringInfo())) != 0) {
+        if ((ret = GXHelpers::SetData2(
+                 &settings, data, DLMS_DATA_TYPE_BIT_STRING,
+                 CGXBitString::ToBitString(m_XDLMSContextInfo.GetConformance(), 24)
+             )) != 0 ||
+            (ret =
+                 GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxReceivePduSize())
+            ) != 0 ||
+            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT16, m_XDLMSContextInfo.GetMaxSendPduSize())
+            ) != 0 ||
+            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT8, m_XDLMSContextInfo.GetDlmsVersionNumber())
+            ) != 0 ||
+            (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_INT8, m_XDLMSContextInfo.GetQualityOfService())
+            ) != 0 ||
+            (ret = GXHelpers::SetData2(
+                 &settings, data, DLMS_DATA_TYPE_OCTET_STRING, m_XDLMSContextInfo.GetCypheringInfo()
+             )) != 0) {
             return ret;
         }
         e.SetValue(data);
@@ -696,7 +720,8 @@ int CGXDLMSAssociationLogicalName::SetValue(CGXDLMSSettings &settings, CGXDLMSVa
     } else if (e.GetIndex() == 2) {
         m_ObjectList.clear();
         if (e.GetValue().vt != DLMS_DATA_TYPE_NONE) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 DLMS_OBJECT_TYPE type = (DLMS_OBJECT_TYPE)(*it).Arr[0].ToInteger();
                 int version = (*it).Arr[1].ToInteger();
                 std::string ln;

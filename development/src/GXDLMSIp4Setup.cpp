@@ -238,7 +238,8 @@ void CGXDLMSIp4Setup::GetValues(std::vector<std::string> &values) {
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<unsigned int>::iterator it = m_MulticastIPAddress.begin(); it != m_MulticastIPAddress.end(); ++it) {
+    for (std::vector<unsigned int>::iterator it = m_MulticastIPAddress.begin(); it != m_MulticastIPAddress.end();
+         ++it) {
         if (!empty) {
             sb << ", ";
         }
@@ -363,7 +364,8 @@ int CGXDLMSIp4Setup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
         GXHelpers::SetObjectCount((unsigned long)m_MulticastIPAddress.size(), data);
         int ret;
         CGXDLMSVariant tmp;
-        for (std::vector<unsigned int>::iterator it = m_MulticastIPAddress.begin(); it != m_MulticastIPAddress.end(); ++it) {
+        for (std::vector<unsigned int>::iterator it = m_MulticastIPAddress.begin(); it != m_MulticastIPAddress.end();
+             ++it) {
             tmp = *it;
             if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT32, tmp)) != 0) {
                 return ret;
@@ -425,14 +427,16 @@ int CGXDLMSIp4Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     } else if (e.GetIndex() == 4) {
         m_MulticastIPAddress.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 m_MulticastIPAddress.push_back((*it).ToInteger());
             }
         }
     } else if (e.GetIndex() == 5) {
         m_IPOptions.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXDLMSIp4SetupIpOption item;
                 item.SetType((IP_OPTION_TYPE)it->Arr[0].ToInteger());
                 item.SetLength(it->Arr[1].ToInteger());

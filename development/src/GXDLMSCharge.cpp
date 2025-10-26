@@ -219,7 +219,8 @@ int CGXDLMSCharge::GetUnitCharge(CGXUnitCharge &charge, CGXByteBuffer &bb) {
     }
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
     GXHelpers::SetObjectCount((unsigned long)charge.GetChargeTables().size(), bb);
-    for (std::vector<CGXChargeTable>::iterator it = charge.GetChargeTables().begin(); it != charge.GetChargeTables().end(); ++it) {
+    for (std::vector<CGXChargeTable>::iterator it = charge.GetChargeTables().begin();
+         it != charge.GetChargeTables().end(); ++it) {
         bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
         bb.SetUInt8(2);
         tmp = it->GetIndex();

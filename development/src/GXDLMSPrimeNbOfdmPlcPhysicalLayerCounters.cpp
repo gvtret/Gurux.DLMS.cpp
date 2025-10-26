@@ -37,15 +37,19 @@
 
 #ifndef DLMS_IGNORE_PRIME_NB_OFDM_PLC_PHYSICAL_LAYER_COUNTERS
 //Constructor.
-CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters(): CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters("0.0.28.1.0.255", 0) {
+CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters()
+    : CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters("0.0.28.1.0.255", 0) {
 }
 
-CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters(std::string ln, unsigned short sn)
+CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters(
+    std::string ln, unsigned short sn
+)
     : CGXDLMSObject(DLMS_OBJECT_TYPE_PRIME_NB_OFDM_PLC_PHYSICAL_LAYER_COUNTERS, ln, sn) {
     m_CrcIncorrectCount = m_CrcFailedCount = m_TxDropCount = m_RxDropCount = 0;
 }
 
-CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters(std::string ln): CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters(ln, 0) {
+CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters(std::string ln)
+    : CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters(ln, 0) {
 }
 
 unsigned short CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::GetCrcIncorrectCount() {

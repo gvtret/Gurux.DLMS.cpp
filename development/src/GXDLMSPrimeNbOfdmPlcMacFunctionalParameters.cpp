@@ -41,7 +41,9 @@ CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctional
 }
 
 //SN Constructor.
-CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(std::string ln, unsigned short sn)
+CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(
+    std::string ln, unsigned short sn
+)
     : CGXDLMSObject(DLMS_OBJECT_TYPE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS, ln, sn) {
     m_LnId = 0;
     m_LsId = 0;

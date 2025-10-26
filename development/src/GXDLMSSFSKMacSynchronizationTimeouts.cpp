@@ -36,7 +36,8 @@
 
 #ifndef DLMS_IGNORE_SFSK_MAC_SYNCHRONIZATION_TIMEOUTS
 //Constructor.
-CGXDLMSSFSKMacSynchronizationTimeouts::CGXDLMSSFSKMacSynchronizationTimeouts(): CGXDLMSSFSKMacSynchronizationTimeouts("0.0.26.2.0.255", 0) {
+CGXDLMSSFSKMacSynchronizationTimeouts::CGXDLMSSFSKMacSynchronizationTimeouts()
+    : CGXDLMSSFSKMacSynchronizationTimeouts("0.0.26.2.0.255", 0) {
 }
 
 //SN Constructor.
@@ -45,7 +46,8 @@ CGXDLMSSFSKMacSynchronizationTimeouts::CGXDLMSSFSKMacSynchronizationTimeouts(std
 }
 
 //LN Constructor.
-CGXDLMSSFSKMacSynchronizationTimeouts::CGXDLMSSFSKMacSynchronizationTimeouts(std::string ln): CGXDLMSSFSKMacSynchronizationTimeouts(ln, 0) {
+CGXDLMSSFSKMacSynchronizationTimeouts::CGXDLMSSFSKMacSynchronizationTimeouts(std::string ln)
+    : CGXDLMSSFSKMacSynchronizationTimeouts(ln, 0) {
     m_SearchInitiatorTimeout = 0;
     m_SynchronizationConfirmationTimeout = 0;
     m_TimeOutNotAddressed = 0;

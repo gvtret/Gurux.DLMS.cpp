@@ -283,7 +283,8 @@ bool IsCiphered(unsigned char cmd) {
 }
 
 int CGXDLMSTranslator::PduToXml(
-    CGXDLMSTranslatorStructure *xml, CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace, bool allowUnknownCommand, std::string &output
+    CGXDLMSTranslatorStructure *xml, CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace,
+    bool allowUnknownCommand, std::string &output
 ) {
     DLMS_ASSOCIATION_RESULT result;
     DLMS_SOURCE_DIAGNOSTIC diagnostic;
@@ -462,8 +463,9 @@ int CGXDLMSTranslator::PduToXml(
                 value.SetPosition(value.GetPosition() - 1);
                 DLMS_COMMAND c = (DLMS_COMMAND)cmd;
                 CGXByteBuffer *st;
-                if (c == DLMS_COMMAND_GLO_READ_REQUEST || c == DLMS_COMMAND_GLO_WRITE_REQUEST || c == DLMS_COMMAND_GLO_GET_REQUEST ||
-                    c == DLMS_COMMAND_GLO_SET_REQUEST || c == DLMS_COMMAND_GLO_METHOD_REQUEST || c == DLMS_COMMAND_DED_GET_REQUEST ||
+                if (c == DLMS_COMMAND_GLO_READ_REQUEST || c == DLMS_COMMAND_GLO_WRITE_REQUEST ||
+                    c == DLMS_COMMAND_GLO_GET_REQUEST || c == DLMS_COMMAND_GLO_SET_REQUEST ||
+                    c == DLMS_COMMAND_GLO_METHOD_REQUEST || c == DLMS_COMMAND_DED_GET_REQUEST ||
                     c == DLMS_COMMAND_DED_SET_REQUEST || c == DLMS_COMMAND_DED_METHOD_REQUEST) {
                     st = &settings.GetCipher()->GetSystemTitle();
                 } else {
@@ -473,7 +475,9 @@ int CGXDLMSTranslator::PduToXml(
                     DLMS_SECURITY security = DLMS_SECURITY_NONE;
                     DLMS_SECURITY_SUITE suite;
                     uint64_t InvocationCounter;
-                    if ((ret = settings.GetCipher()->Decrypt(*st, value, settings.GetCipher()->GetBlockCipherKey(), security, suite, InvocationCounter)) != 0) {
+                    if ((ret = settings.GetCipher()->Decrypt(
+                             *st, value, settings.GetCipher()->GetBlockCipherKey(), security, suite, InvocationCounter
+                         )) != 0) {
                         // It's OK if this fails. Ciphering settings are not correct.
                         xml->SetXmlLength(len2);
                     } else {
@@ -512,7 +516,8 @@ int CGXDLMSTranslator::PduToXml(
                 if (st.GetSize() != 0) {
                     data.GetData().SetPosition(data.GetData().GetPosition() - 1);
                     if (settings.GetCipher()->Decrypt(
-                            settings.GetSourceSystemTitle(), data.GetData(), settings.GetCipher()->GetBlockCipherKey(), security, suite, invocationCounter
+                            settings.GetSourceSystemTitle(), data.GetData(), settings.GetCipher()->GetBlockCipherKey(),
+                            security, suite, invocationCounter
                         ) == 0) {
                         xml->StartComment("Decrypt data: " + data.GetData().ToHexString());
                         CGXByteBuffer &bb = data.GetData();
@@ -528,7 +533,8 @@ int CGXDLMSTranslator::PduToXml(
                     st = settings.GetSourceSystemTitle();
                     if (st.GetSize() != 0) {
                         if (settings.GetCipher()->Decrypt(
-                                settings.GetSourceSystemTitle(), data.GetData(), settings.GetCipher()->GetBlockCipherKey(), security, suite, invocationCounter
+                                settings.GetSourceSystemTitle(), data.GetData(),
+                                settings.GetCipher()->GetBlockCipherKey(), security, suite, invocationCounter
                             ) == 0) {
                             xml->StartComment("Decrypt data: " + data.GetData().ToHexString());
                             ret = PduToXml(xml, data.GetData(), omitDeclaration, omitNameSpace, false, output);

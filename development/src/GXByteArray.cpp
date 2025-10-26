@@ -374,8 +374,9 @@ int CGXByteArray::GetUInt64(unsigned long index, unsigned long long *value) {
     if (index + 8 > m_Size) {
         return DLMS_ERROR_CODE_OUTOFMEMORY;
     }
-    *value = (unsigned long long)m_Data[index] << 56 | (unsigned long long)m_Data[index + 1] << 48 | (unsigned long long)m_Data[index + 2] << 40 |
-        (unsigned long long)m_Data[index + 3] << 32 | (unsigned long long)m_Data[index + 4] << 24 | (unsigned long long)m_Data[index + 5] << 16 |
+    *value = (unsigned long long)m_Data[index] << 56 | (unsigned long long)m_Data[index + 1] << 48 |
+        (unsigned long long)m_Data[index + 2] << 40 | (unsigned long long)m_Data[index + 3] << 32 |
+        (unsigned long long)m_Data[index + 4] << 24 | (unsigned long long)m_Data[index + 5] << 16 |
         (unsigned long long)m_Data[index + 6] << 8 | (unsigned long long)m_Data[index + 7];
     return 0;
 }
@@ -637,9 +638,10 @@ int CGXByteArray::FromBase64(std::string input) {
     return 0;
 }
 
-const char BASE_64_ARRAY[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-                              'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                              's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/', '='};
+const char BASE_64_ARRAY[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+                              'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+                              'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+                              'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/', '='};
 
 int CGXByteArray::ToBase64(std::string &value) {
     unsigned long b, pos;

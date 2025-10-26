@@ -46,7 +46,8 @@ class CGXDLMSAttribute {
     bool m_Static;
     int m_Order;
 
-    void Initialize(int index, DLMS_DATA_TYPE Type, DLMS_DATA_TYPE UiType, DLMS_ACCESS_MODE Access, int MinimumVersion) {
+    void
+    Initialize(int index, DLMS_DATA_TYPE Type, DLMS_DATA_TYPE UiType, DLMS_ACCESS_MODE Access, int MinimumVersion) {
         m_Access = Access;
         m_Static = false;
         m_Order = 0;
@@ -60,8 +61,8 @@ class CGXDLMSAttribute {
 public:
     //Constructor.
     CGXDLMSAttribute(
-        int index, DLMS_DATA_TYPE Type = DLMS_DATA_TYPE_NONE, DLMS_DATA_TYPE UiType = DLMS_DATA_TYPE_NONE, DLMS_ACCESS_MODE Access = DLMS_ACCESS_MODE_READ,
-        int MinimumVersion = 1
+        int index, DLMS_DATA_TYPE Type = DLMS_DATA_TYPE_NONE, DLMS_DATA_TYPE UiType = DLMS_DATA_TYPE_NONE,
+        DLMS_ACCESS_MODE Access = DLMS_ACCESS_MODE_READ, int MinimumVersion = 1
     )
         : m_Access(Access)
         , m_Index(index)

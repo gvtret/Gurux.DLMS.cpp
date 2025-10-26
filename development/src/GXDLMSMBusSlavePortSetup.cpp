@@ -41,7 +41,8 @@ CGXDLMSMBusSlavePortSetup::CGXDLMSMBusSlavePortSetup(): CGXDLMSMBusSlavePortSetu
 }
 
 //SN Constructor.
-CGXDLMSMBusSlavePortSetup::CGXDLMSMBusSlavePortSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_MBUS_SLAVE_PORT_SETUP, ln, sn) {
+CGXDLMSMBusSlavePortSetup::CGXDLMSMBusSlavePortSetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_MBUS_SLAVE_PORT_SETUP, ln, sn) {
 }
 
 //LN Constructor.

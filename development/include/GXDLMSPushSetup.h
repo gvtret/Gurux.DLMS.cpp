@@ -202,7 +202,10 @@ public:
     // Get received objects from push message.
     // values : Received values.
     // results: Push values.
-    int GetPushValues(CGXDLMSClient *client, std::vector<CGXDLMSVariant> &values, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject>> &results);
+    int GetPushValues(
+        CGXDLMSClient *client, std::vector<CGXDLMSVariant> &values,
+        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject>> &results
+    );
 
     /*Activates the push process.*/
     int Activate(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);

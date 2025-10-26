@@ -219,7 +219,8 @@ int CGXDLMSPppSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         GXHelpers::SetObjectCount((unsigned long)m_LCPOptions.size(), data);
         CGXDLMSVariant type, len;
-        for (std::vector<CGXDLMSPppSetupLcpOption>::iterator it = m_LCPOptions.begin(); it != m_LCPOptions.end(); ++it) {
+        for (std::vector<CGXDLMSPppSetupLcpOption>::iterator it = m_LCPOptions.begin(); it != m_LCPOptions.end();
+             ++it) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(3);
             type = it->GetType();
@@ -237,7 +238,8 @@ int CGXDLMSPppSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         GXHelpers::SetObjectCount((unsigned long)m_IPCPOptions.size(), data);
         CGXDLMSVariant type, len;
-        for (std::vector<CGXDLMSPppSetupIPCPOption>::iterator it = m_IPCPOptions.begin(); it != m_IPCPOptions.end(); ++it) {
+        for (std::vector<CGXDLMSPppSetupIPCPOption>::iterator it = m_IPCPOptions.begin(); it != m_IPCPOptions.end();
+             ++it) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(3);
             type = it->GetType();
@@ -281,7 +283,8 @@ int CGXDLMSPppSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     } else if (e.GetIndex() == 3) {
         m_LCPOptions.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+                 ++item) {
                 CGXDLMSPppSetupLcpOption it;
                 it.SetType((PPP_SETUP_LCP_OPTION_TYPE)(*item).Arr[0].ToInteger());
                 it.SetLength((*item).Arr[1].ToInteger());
@@ -292,7 +295,8 @@ int CGXDLMSPppSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     } else if (e.GetIndex() == 4) {
         m_IPCPOptions.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+                 ++item) {
                 CGXDLMSPppSetupIPCPOption it;
                 it.SetType((PPP_SETUP_IPCP_OPTION_TYPE)(*item).Arr[0].ToInteger());
                 it.SetLength((*item).Arr[1].ToInteger());

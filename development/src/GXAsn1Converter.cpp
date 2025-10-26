@@ -90,7 +90,9 @@ int CGXAsn1Converter::GetValue(CGXByteBuffer &bb, std::vector<CGXAsn1Base *> *ob
             }
             CGXAsn1Base *t = tmp.at(0);
             if (CGXAsn1Sequence *a = dynamic_cast<CGXAsn1Sequence *>(t)) {
-                objects->push_back(new CGXAsn1Set(CGXAsn1Helpers::Clone(a->GetValues()->at(0)), CGXAsn1Helpers::Clone(a->GetValues()->at(1))));
+                objects->push_back(new CGXAsn1Set(
+                    CGXAsn1Helpers::Clone(a->GetValues()->at(0)), CGXAsn1Helpers::Clone(a->GetValues()->at(1))
+                ));
             } else {
                 objects->push_back(new CGXAsn1Set(CGXAsn1Helpers::Clone(t), NULL));
             }
@@ -311,7 +313,8 @@ int CGXAsn1Converter::GetBytes(CGXByteBuffer &bb, CGXAsn1Base *target, int &coun
                 bb.AddString(a->GetValue().strVal);
                 break;
             case DLMS_DATA_TYPE_INT8:
-                if ((ret = bb.SetInt8(BER_TYPE_INTEGER)) == 0 && (ret = GXHelpers::SetObjectCount(1, bb)) == 0 && (ret = bb.SetInt8(a->GetValue().bVal)) == 0) {
+                if ((ret = bb.SetInt8(BER_TYPE_INTEGER)) == 0 && (ret = GXHelpers::SetObjectCount(1, bb)) == 0 &&
+                    (ret = bb.SetInt8(a->GetValue().bVal)) == 0) {
                 }
                 break;
             case DLMS_DATA_TYPE_INT16:
@@ -330,12 +333,14 @@ int CGXAsn1Converter::GetBytes(CGXByteBuffer &bb, CGXAsn1Base *target, int &coun
                 }
                 break;
             case DLMS_DATA_TYPE_OCTET_STRING:
-                if ((ret = bb.SetUInt8(BER_TYPE_OCTET_STRING)) == 0 && (ret = GXHelpers::SetObjectCount(a->GetValue().size, bb)) == 0 &&
+                if ((ret = bb.SetUInt8(BER_TYPE_OCTET_STRING)) == 0 &&
+                    (ret = GXHelpers::SetObjectCount(a->GetValue().size, bb)) == 0 &&
                     (ret = bb.Set(a->GetValue().byteArr, a->GetValue().size)) == 0) {
                 }
                 break;
             case DLMS_DATA_TYPE_BOOLEAN:
-                if ((ret = bb.SetUInt8(BER_TYPE_BOOLEAN)) == 0 && (ret = bb.SetUInt8(1)) == 0 && (ret = bb.SetUInt8(a->GetValue().bVal ? 255 : 0)) == 0) {
+                if ((ret = bb.SetUInt8(BER_TYPE_BOOLEAN)) == 0 && (ret = bb.SetUInt8(1)) == 0 &&
+                    (ret = bb.SetUInt8(a->GetValue().bVal ? 255 : 0)) == 0) {
                 }
                 break;
             default:
@@ -386,23 +391,25 @@ int CGXAsn1Converter::GetBytes(CGXByteBuffer &bb, CGXAsn1Base *target, int &coun
         return ret;
     } else if (CGXAsn1Utf8String *a = dynamic_cast<CGXAsn1Utf8String *>(target)) {
         str = a->GetValue();
-        if ((ret = bb.SetUInt8(BER_TYPE_UTF8_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)str.length(), bb)) == 0 &&
-            (ret = bb.AddString(str)) == 0) {
+        if ((ret = bb.SetUInt8(BER_TYPE_UTF8_STRING)) == 0 &&
+            (ret = GXHelpers::SetObjectCount((unsigned long)str.length(), bb)) == 0 && (ret = bb.AddString(str)) == 0) {
         }
     } else if (CGXAsn1Ia5String *a = dynamic_cast<CGXAsn1Ia5String *>(target)) {
         str = a->GetValue();
-        if ((ret = bb.SetUInt8(BER_TYPE_IA5_STRING)) == 0 && (ret = GXHelpers::SetObjectCount((unsigned long)str.length(), bb)) == 0 &&
-            (ret = bb.AddString(str)) == 0) {
+        if ((ret = bb.SetUInt8(BER_TYPE_IA5_STRING)) == 0 &&
+            (ret = GXHelpers::SetObjectCount((unsigned long)str.length(), bb)) == 0 && (ret = bb.AddString(str)) == 0) {
         }
     } else if (CGXAsn1BitString *bs = dynamic_cast<CGXAsn1BitString *>(target)) {
         bs->GetValue().SetPosition(0);
-        if ((ret = bb.SetUInt8(BER_TYPE_BIT_STRING)) == 0 && (ret = GXHelpers::SetObjectCount(1 + bs->GetValue().GetSize(), bb)) == 0 &&
+        if ((ret = bb.SetUInt8(BER_TYPE_BIT_STRING)) == 0 &&
+            (ret = GXHelpers::SetObjectCount(1 + bs->GetValue().GetSize(), bb)) == 0 &&
             (ret = bb.SetUInt8(bs->GetPadBits())) == 0 && (ret = bb.Set(&bs->GetValue())) == 0) {
         }
     } else if (CGXAsn1Time *dt = dynamic_cast<CGXAsn1Time *>(target)) {
         // Save date time in UTC.
         str = DateToString(dt->GetValue());
-        if ((ret = bb.SetUInt8(BER_TYPE_UTC_TIME)) == 0 && (ret = bb.SetUInt8((unsigned char)str.length())) == 0 && (ret = bb.AddString(str)) == 0) {
+        if ((ret = bb.SetUInt8(BER_TYPE_UTC_TIME)) == 0 && (ret = bb.SetUInt8((unsigned char)str.length())) == 0 &&
+            (ret = bb.AddString(str)) == 0) {
         }
     } else if (CGXAsn1Sequence *seq = dynamic_cast<CGXAsn1Sequence *>(target)) {
         tmp.Clear();
@@ -499,7 +506,8 @@ int CGXAsn1Converter::EncodeSubject(std::string &value, CGXAsn1Sequence *list) {
 int CGXAsn1Converter::GetSubject(CGXAsn1Sequence *values, std::string &value) {
     value.clear();
     CGXAsn1Variant tmp2;
-    for (std::vector<CGXAsn1Base *>::iterator tmp = values->GetValues()->begin(); tmp != values->GetValues()->end(); ++tmp) {
+    for (std::vector<CGXAsn1Base *>::iterator tmp = values->GetValues()->begin(); tmp != values->GetValues()->end();
+         ++tmp) {
         if (CGXAsn1Set *it = dynamic_cast<CGXAsn1Set *>(*tmp)) {
             DLMS_X509_NAME name = CGXDLMSConverter::ValueOfx509Name(it->GetKey()->ToString().c_str());
             value += CGXDLMSConverter::GetName(name);

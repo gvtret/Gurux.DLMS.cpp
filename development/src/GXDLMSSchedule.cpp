@@ -185,7 +185,10 @@ int AddEntry(CGXDLMSSettings &settings, CGXDLMSScheduleEntry *it, CGXByteBuffer 
         //Add validity window.
         (ret = data.SetUInt8(DLMS_DATA_TYPE_UINT16)) != 0 || (ret = data.SetUInt16(it->GetValidityWindow())) != 0 ||
         //Add exec week days.
-        (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_BIT_STRING, CGXBitString::ToBitString((unsigned char)it->GetExecWeekdays(), 7))) != 0 ||
+        (ret = GXHelpers::SetData2(
+             &settings, data, DLMS_DATA_TYPE_BIT_STRING,
+             CGXBitString::ToBitString((unsigned char)it->GetExecWeekdays(), 7)
+         )) != 0 ||
         //Add exec spec days.
         (ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_BIT_STRING, it->GetExecSpecDays())) != 0 ||
         //Add begin date.
@@ -232,7 +235,8 @@ int CGXDLMSSchedule::Enable(CGXDLMSClient *client, CGXDLMSScheduleEntry *entry, 
         (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, entry->GetIndex())) == 0 &&
         //lastIndex
         (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, entry->GetIndex())) == 0 &&
-        (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0 && (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0) {
+        (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0 &&
+        (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0) {
         CGXDLMSVariant tmp = data;
         ret = client->Method(this, 1, tmp, DLMS_DATA_TYPE_STRUCTURE, reply);
     }
@@ -246,7 +250,8 @@ int CGXDLMSSchedule::Disable(CGXDLMSClient *client, CGXDLMSScheduleEntry *entry,
         //Add structure size.
         (ret = data.SetUInt8(4)) == 0 &&
         //firstIndex
-        (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0 && (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0 &&
+        (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0 &&
+        (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, 0)) == 0 &&
         (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, entry->GetIndex())) == 0 &&
         //lastIndex
         (ret = GXHelpers::SetData2(NULL, data, DLMS_DATA_TYPE_UINT16, entry->GetIndex())) == 0) {
@@ -265,7 +270,8 @@ int CGXDLMSSchedule::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) 
             //Enable
             for (index = e.GetParameters().Arr[0].uiVal; index <= e.GetParameters().Arr[1].uiVal; ++index) {
                 if (index != 0) {
-                    for (std::vector<CGXDLMSScheduleEntry *>::iterator it = m_Entries.begin(); it != m_Entries.end(); ++it) {
+                    for (std::vector<CGXDLMSScheduleEntry *>::iterator it = m_Entries.begin(); it != m_Entries.end();
+                         ++it) {
                         if ((*it)->GetIndex() == index) {
                             (*it)->SetEnable(true);
                             break;
@@ -276,7 +282,8 @@ int CGXDLMSSchedule::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) 
             //Disable
             for (index = e.GetParameters().Arr[2].uiVal; index <= e.GetParameters().Arr[3].uiVal; ++index) {
                 if (index != 0) {
-                    for (std::vector<CGXDLMSScheduleEntry *>::iterator it = m_Entries.begin(); it != m_Entries.end(); ++it) {
+                    for (std::vector<CGXDLMSScheduleEntry *>::iterator it = m_Entries.begin(); it != m_Entries.end();
+                         ++it) {
                         if ((*it)->GetIndex() == index) {
                             (*it)->SetEnable(false);
                             break;

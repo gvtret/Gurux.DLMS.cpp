@@ -39,7 +39,9 @@ TEST(CGXAPDUTest, GenerateAareEncodesExtendedLengths) {
     }
 
     CGXByteBuffer apdu;
-    int ret = CGXAPDU::GenerateAARE(settings, apdu, DLMS_ASSOCIATION_RESULT_ACCEPTED, DLMS_SOURCE_DIAGNOSTIC_NONE, nullptr, &errorData, nullptr);
+    int ret = CGXAPDU::GenerateAARE(
+        settings, apdu, DLMS_ASSOCIATION_RESULT_ACCEPTED, DLMS_SOURCE_DIAGNOSTIC_NONE, nullptr, &errorData, nullptr
+    );
 
     ASSERT_EQ(0, ret);
     ASSERT_GE(apdu.GetSize(), static_cast<uint32_t>(300));
@@ -48,7 +50,9 @@ TEST(CGXAPDUTest, GenerateAareEncodesExtendedLengths) {
     ASSERT_NE(nullptr, data);
     ASSERT_GE(apdu.GetSize(), static_cast<uint32_t>(4));
 
-    EXPECT_EQ(static_cast<uint8_t>(BER_TYPE_APPLICATION | BER_TYPE_CONSTRUCTED | PDU_TYPE_APPLICATION_CONTEXT_NAME), data[0]);
+    EXPECT_EQ(
+        static_cast<uint8_t>(BER_TYPE_APPLICATION | BER_TYPE_CONSTRUCTED | PDU_TYPE_APPLICATION_CONTEXT_NAME), data[0]
+    );
 
     uint8_t lengthDescriptor = data[1];
     ASSERT_NE(0u, lengthDescriptor & 0x80u);

@@ -41,7 +41,8 @@ CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(): CGXDLMSIecHdlcSetup("0.0.22.0.0.255"
 }
 
 //SN Constructor.
-CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_HDLC_SETUP, ln, sn) {
+CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_HDLC_SETUP, ln, sn) {
     m_CommunicationSpeed = DLMS_BAUD_RATE_9600;
     m_WindowSizeTransmit = m_WindowSizeReceive = 1;
     m_MaximumInfoLengthTransmit = m_MaximumInfoLengthReceive = 128;

@@ -42,7 +42,8 @@ CGXDLMSCompactData::CGXDLMSCompactData(): CGXDLMSCompactData("", 0) {
 }
 
 //SN Constructor.
-CGXDLMSCompactData::CGXDLMSCompactData(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_COMPACT_DATA, ln, sn) {
+CGXDLMSCompactData::CGXDLMSCompactData(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_COMPACT_DATA, ln, sn) {
 }
 
 //LN Constructor.
@@ -50,7 +51,8 @@ CGXDLMSCompactData::CGXDLMSCompactData(std::string ln): CGXDLMSCompactData(ln, 0
 }
 
 CGXDLMSCompactData::~CGXDLMSCompactData() {
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+         it != m_CaptureObjects.end(); ++it) {
         delete it->second;
     }
     m_CaptureObjects.clear();
@@ -113,7 +115,8 @@ void CGXDLMSCompactData::GetValues(std::vector<std::string> &values) {
     sb.str(std::string());
     sb << '[';
     bool empty = true;
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+         it != m_CaptureObjects.end(); ++it) {
         if (!empty) {
             sb << ", ";
         }
@@ -191,7 +194,8 @@ int CGXDLMSCompactData::GetCaptureObjects(CGXDLMSSettings &settings, CGXDLMSValu
     std::string ln;
     int ret;
     CGXDLMSVariant tmp, ai, di;
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin();
+         it != m_CaptureObjects.end(); ++it) {
         data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
         data.SetUInt8(4);  //Count
         tmp = it->first->GetObjectType();
@@ -263,12 +267,15 @@ int CGXDLMSCompactData::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
             }
             break;
         case 3:
-            for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = m_CaptureObjects.begin(); it != m_CaptureObjects.end(); ++it) {
+            for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it =
+                     m_CaptureObjects.begin();
+                 it != m_CaptureObjects.end(); ++it) {
                 delete it->second;
             }
             m_CaptureObjects.clear();
             if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                     ++it) {
                     if ((*it).Arr.size() != 4) {
                         //Invalid structure format.
                         return DLMS_ERROR_CODE_INVALID_PARAMETER;
@@ -284,7 +291,8 @@ int CGXDLMSCompactData::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
                             settings.AddAllocateObject(pObj);
                         }
                     }
-                    CGXDLMSCaptureObject *pCO = new CGXDLMSCaptureObject(it->Arr[2].ToInteger(), it->Arr[3].ToInteger());
+                    CGXDLMSCaptureObject *pCO =
+                        new CGXDLMSCaptureObject(it->Arr[2].ToInteger(), it->Arr[3].ToInteger());
                     m_CaptureObjects.push_back(std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>(pObj, pCO));
                 }
             }

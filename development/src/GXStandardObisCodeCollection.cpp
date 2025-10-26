@@ -464,7 +464,9 @@ std::string CGXStandardObisCodeCollection::GetDescription(std::string &str) {
     return tmp;
 }
 
-int CGXStandardObisCodeCollection::Find(std::string ln, DLMS_OBJECT_TYPE objectType, std::vector<CGXStandardObisCode *> &list) {
+int CGXStandardObisCodeCollection::Find(
+    std::string ln, DLMS_OBJECT_TYPE objectType, std::vector<CGXStandardObisCode *> &list
+) {
     int ret;
     unsigned char bytes[6];
     if ((ret = GetBytes(ln, bytes)) != DLMS_ERROR_CODE_OK) {

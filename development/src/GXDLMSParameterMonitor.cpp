@@ -43,7 +43,8 @@ CGXDLMSParameterMonitor::CGXDLMSParameterMonitor(): CGXDLMSParameterMonitor("0.0
 }
 
 //SN Constructor.
-CGXDLMSParameterMonitor::CGXDLMSParameterMonitor(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_PARAMETER_MONITOR, ln, sn) {
+CGXDLMSParameterMonitor::CGXDLMSParameterMonitor(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_PARAMETER_MONITOR, ln, sn) {
 }
 
 //LN Constructor.
@@ -274,7 +275,8 @@ int CGXDLMSParameterMonitor::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEve
                 delete (*it);
             }
             m_Parameters.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 if (it->Arr.size() != 3) {
                     return DLMS_ERROR_CODE_INVALID_PARAMETER;
                 }

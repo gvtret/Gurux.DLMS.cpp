@@ -40,7 +40,8 @@ CGXDLMSSFSKPhyMacSetUp::CGXDLMSSFSKPhyMacSetUp(): CGXDLMSSFSKPhyMacSetUp("0.0.26
 }
 
 //SN Constructor.
-CGXDLMSSFSKPhyMacSetUp::CGXDLMSSFSKPhyMacSetUp(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_SFSK_PHY_MAC_SETUP, ln, sn) {
+CGXDLMSSFSKPhyMacSetUp::CGXDLMSSFSKPhyMacSetUp(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SFSK_PHY_MAC_SETUP, ln, sn) {
 }
 
 //LN Constructor.
@@ -356,7 +357,8 @@ int CGXDLMSSFSKPhyMacSetUp::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
             CGXByteBuffer bb;
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_MacGroupAddresses.size(), bb);
-            for (std::vector<uint16_t>::iterator it = m_MacGroupAddresses.begin(); it != m_MacGroupAddresses.end(); ++it) {
+            for (std::vector<uint16_t>::iterator it = m_MacGroupAddresses.begin(); it != m_MacGroupAddresses.end();
+                 ++it) {
                 if ((ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT16, *it)) != 0) {
                     break;
                 }
@@ -426,7 +428,8 @@ int CGXDLMSSFSKPhyMacSetUp::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
         case 9: {
             m_MacGroupAddresses.clear();
             if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                     ++it) {
                     m_MacGroupAddresses.push_back(it->ToInteger());
                 }
             }

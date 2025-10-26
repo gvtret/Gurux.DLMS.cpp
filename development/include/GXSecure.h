@@ -61,7 +61,10 @@ public:
     *            Secret.
     * @return Chiphered text.
     */
-    static int Secure(CGXDLMSSettings &settings, CGXCipher *cipher, unsigned long ic, CGXByteBuffer &data, CGXByteBuffer &secret, CGXByteBuffer &reply);
+    static int Secure(
+        CGXDLMSSettings &settings, CGXCipher *cipher, unsigned long ic, CGXByteBuffer &data, CGXByteBuffer &secret,
+        CGXByteBuffer &reply
+    );
 
     static int EncryptAesKeyWrapping(CGXByteBuffer &data, CGXByteBuffer &kek, CGXByteBuffer &reply);
     static int DecryptAesKeyWrapping(CGXByteBuffer &data, CGXByteBuffer &kek, CGXByteBuffer &reply);

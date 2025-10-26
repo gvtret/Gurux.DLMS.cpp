@@ -125,7 +125,8 @@ public:
     /// Returns Generated action.
     /////////////////////////////////////////////////////////////////////////
     int ExportCertificateByEntity(
-        CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle, std::vector<CGXByteBuffer> &reply
+        CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle,
+        std::vector<CGXByteBuffer> &reply
     );
 
     /////////////////////////////////////////////////////////////////////////
@@ -136,7 +137,9 @@ public:
     /// issuer: Issuer
     /// Returns Generated action.
     /////////////////////////////////////////////////////////////////////////
-    int ExportCertificateBySerial(CGXDLMSClient *client, CGXBigInteger &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply);
+    int ExportCertificateBySerial(
+        CGXDLMSClient *client, CGXBigInteger &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply
+    );
 
     /////////////////////////////////////////////////////////////////////////
     /// Removes X.509 v3 certificate from the server using entity.
@@ -148,7 +151,8 @@ public:
     /// Returns Generated action.
     /////////////////////////////////////////////////////////////////////////
     int RemoveCertificateByEntity(
-        CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle, std::vector<CGXByteBuffer> &reply
+        CGXDLMSClient *client, DLMS_CERTIFICATE_ENTITY entity, DLMS_CERTIFICATE_TYPE type, CGXByteBuffer &systemTitle,
+        std::vector<CGXByteBuffer> &reply
     );
 
     /////////////////////////////////////////////////////////////////////////
@@ -159,7 +163,9 @@ public:
     /// issuer: Issuer.
     /// Returns Generated action.
     /////////////////////////////////////////////////////////////////////////
-    int RemoveCertificateBySerial(CGXDLMSClient *client, CGXByteBuffer &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply);
+    int RemoveCertificateBySerial(
+        CGXDLMSClient *client, CGXByteBuffer &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply
+    );
 
     int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
@@ -204,7 +210,8 @@ public:
     // list: List of Global key types and keys.
     // reply: Generated action.
     int GlobalKeyTransfer(
-        CGXDLMSClient *client, CGXByteBuffer &kek, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer &>> &list, std::vector<CGXByteBuffer> &reply
+        CGXDLMSClient *client, CGXByteBuffer &kek, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer &>> &list,
+        std::vector<CGXByteBuffer> &reply
     );
 
 
@@ -215,7 +222,10 @@ public:
     * reply: Generated action.
     * Returns Error code.
     */
-    int KeyAgreement(CGXDLMSSecureClient *client, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer>> list, std::vector<CGXByteBuffer> &reply);
+    int KeyAgreement(
+        CGXDLMSSecureClient *client, std::vector<std::pair<DLMS_GLOBAL_KEY_TYPE, CGXByteBuffer>> list,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
     * Generates an asymmetric key pair as required by the security suite.

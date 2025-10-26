@@ -40,7 +40,8 @@ CGXDLMSUtilityTables::CGXDLMSUtilityTables(): CGXDLMSUtilityTables("0.0.65.0.0.2
 }
 
 //SN Constructor.
-CGXDLMSUtilityTables::CGXDLMSUtilityTables(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_UTILITY_TABLES, ln, sn) {
+CGXDLMSUtilityTables::CGXDLMSUtilityTables(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_UTILITY_TABLES, ln, sn) {
 }
 
 //LN Constructor.

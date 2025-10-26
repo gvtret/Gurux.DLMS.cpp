@@ -42,7 +42,9 @@
 #include "../include/GXDLMSAccessItem.h"
 
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-void AppendAttributeDescriptor(CGXDLMSTranslatorStructure *xml, int ci, unsigned char *ln, unsigned char attributeIndex) {
+void AppendAttributeDescriptor(
+    CGXDLMSTranslatorStructure *xml, int ci, unsigned char *ln, unsigned char attributeIndex
+) {
     xml->AppendStartTag(DLMS_TRANSLATOR_TAGS_ATTRIBUTE_DESCRIPTOR);
     if (xml->GetComments()) {
         xml->AppendComment(CGXDLMSConverter::ToString((DLMS_OBJECT_TYPE)ci));
@@ -78,8 +80,8 @@ void AppendMethodDescriptor(CGXDLMSTranslatorStructure *xml, int ci, unsigned ch
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
 
 int CGXDLMSLNCommandHandler::GetRequestNormal(
-    CGXDLMSSettings &settings, unsigned char invokeID, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, unsigned char invokeID, CGXDLMSServer *server, CGXByteBuffer &data,
+    CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     int ret;
     CGXByteBuffer bb;
@@ -194,8 +196,8 @@ int CGXDLMSLNCommandHandler::GetRequestNormal(
 }
 
 int CGXDLMSLNCommandHandler::GetRequestNextDataBlock(
-    CGXDLMSSettings &settings, unsigned char invokeID, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    bool streaming, unsigned char cipheredCommand
+    CGXDLMSSettings &settings, unsigned char invokeID, CGXDLMSServer *server, CGXByteBuffer &data,
+    CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml, bool streaming, unsigned char cipheredCommand
 ) {
     CGXByteBuffer bb;
     int ret;
@@ -214,13 +216,17 @@ int CGXDLMSLNCommandHandler::GetRequestNextDataBlock(
         }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         if (index != settings.GetBlockIndex()) {
-            CGXDLMSLNParameters p(&settings, invokeID, DLMS_COMMAND_GET_RESPONSE, 2, NULL, &bb, DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID, cipheredCommand);
+            CGXDLMSLNParameters p(
+                &settings, invokeID, DLMS_COMMAND_GET_RESPONSE, 2, NULL, &bb, DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID,
+                cipheredCommand
+            );
             return CGXDLMS::GetLNPdu(p, *replyData);
         }
     }
     settings.IncreaseBlockIndex();
     CGXDLMSLNParameters p(
-        &settings, invokeID, streaming ? DLMS_COMMAND_GENERAL_BLOCK_TRANSFER : DLMS_COMMAND_GET_RESPONSE, 2, NULL, &bb, DLMS_ERROR_CODE_OK, cipheredCommand
+        &settings, invokeID, streaming ? DLMS_COMMAND_GENERAL_BLOCK_TRANSFER : DLMS_COMMAND_GET_RESPONSE, 2, NULL, &bb,
+        DLMS_ERROR_CODE_OK, cipheredCommand
     );
     p.SetStreaming(streaming);
     p.SetWindowSize(settings.GetGbtWindowSize());
@@ -251,7 +257,8 @@ int CGXDLMSLNCommandHandler::GetRequestNextDataBlock(
                     if ((*arg)->IsByteArray() && value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
                         // If byte array is added do not add type.
                         bb.Set(value.byteArr, value.GetSize());
-                    } else if ((ret = CGXDLMS::AppendData(&settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value)) != 0) {
+                    } else if ((ret = CGXDLMS::AppendData(&settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value)
+                               ) != 0) {
                         return DLMS_ERROR_CODE_HARDWARE_FAULT;
                     }
                 }
@@ -272,8 +279,8 @@ int CGXDLMSLNCommandHandler::GetRequestNextDataBlock(
 }
 
 int CGXDLMSLNCommandHandler::GetRequestWithList(
-    CGXDLMSSettings &settings, unsigned char invokeID, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, unsigned char invokeID, CGXDLMSServer *server, CGXByteBuffer &data,
+    CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     CGXDLMSValueEventCollection list;
     CGXByteBuffer bb;
@@ -395,13 +402,15 @@ int CGXDLMSLNCommandHandler::GetRequestWithList(
 }
 
 int CGXDLMSLNCommandHandler::HandleGetRequest(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
+    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     // Return error if connection is not established.
-    if (xml == NULL && (settings.GetConnected() & DLMS_CONNECTION_STATE_DLMS) == 0 && cipheredCommand == DLMS_COMMAND_NONE) {
+    if (xml == NULL && (settings.GetConnected() & DLMS_CONNECTION_STATE_DLMS) == 0 &&
+        cipheredCommand == DLMS_COMMAND_NONE) {
         CGXDLMSServer::GenerateConfirmedServiceError(
-            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED, *replyData
+            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED,
+            *replyData
         );
         return 0;
     }
@@ -438,7 +447,9 @@ int CGXDLMSLNCommandHandler::HandleGetRequest(
         settings.ResetBlockIndex();
         // Access Error : Device reports a hardware fault.
         bb.SetUInt8(DLMS_ERROR_CODE_HARDWARE_FAULT);
-        CGXDLMSLNParameters p(&settings, invokeID, DLMS_COMMAND_GET_RESPONSE, type, NULL, &bb, DLMS_ERROR_CODE_OK, cipheredCommand);
+        CGXDLMSLNParameters p(
+            &settings, invokeID, DLMS_COMMAND_GET_RESPONSE, type, NULL, &bb, DLMS_ERROR_CODE_OK, cipheredCommand
+        );
         ret = CGXDLMS::GetLNPdu(p, *replyData);
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
@@ -451,7 +462,8 @@ int CGXDLMSLNCommandHandler::HandleGetRequest(
 }
 
 int CGXDLMSLNCommandHandler::HandleSetRequestNormal(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, short type, CGXDLMSLNParameters &p, CGXDLMSTranslatorStructure *xml
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, short type, CGXDLMSLNParameters &p,
+    CGXDLMSTranslatorStructure *xml
 ) {
     CGXDataInfo i;
     CGXDLMSVariant value;
@@ -592,7 +604,8 @@ int CGXDLMSLNCommandHandler::HandleSetRequestNormal(
 }
 
 int CGXDLMSLNCommandHandler::HanleSetRequestWithDataBlock(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSLNParameters &p, CGXDLMSTranslatorStructure *xml
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSLNParameters &p,
+    CGXDLMSTranslatorStructure *xml
 ) {
     CGXDataInfo reply;
     int ret;
@@ -668,8 +681,8 @@ int CGXDLMSLNCommandHandler::HanleSetRequestWithDataBlock(
 }
 
 int CGXDLMSLNCommandHandler::HanleSetRequestWithList(
-    CGXDLMSSettings &settings, unsigned char invoke, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSLNParameters &p, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, unsigned char invoke, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSLNParameters &p,
+    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     std::string str;
     int ret;
@@ -804,8 +817,8 @@ int CGXDLMSLNCommandHandler::HanleSetRequestWithList(
 }
 
 int CGXDLMSLNCommandHandler::HandleSetRequest(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
+    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     CGXDLMSVariant value;
     unsigned char type, invoke;
@@ -815,7 +828,8 @@ int CGXDLMSLNCommandHandler::HandleSetRequest(
     // Return error if connection is not established.
     if (xml == NULL && (settings.GetConnected() & DLMS_CONNECTION_STATE_DLMS) == 0) {
         CGXDLMSServer::GenerateConfirmedServiceError(
-            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED, *replyData
+            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED,
+            *replyData
         );
         return 0;
     }
@@ -840,7 +854,9 @@ int CGXDLMSLNCommandHandler::HandleSetRequest(
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
 
     CGXByteBuffer attributeDescriptor;
-    CGXDLMSLNParameters p(&settings, invoke, DLMS_COMMAND_SET_RESPONSE, type, &attributeDescriptor, NULL, 0xFF, cipheredCommand);
+    CGXDLMSLNParameters p(
+        &settings, invoke, DLMS_COMMAND_SET_RESPONSE, type, &attributeDescriptor, NULL, 0xFF, cipheredCommand
+    );
     if (type == DLMS_SET_COMMAND_TYPE_NORMAL || type == DLMS_SET_COMMAND_TYPE_FIRST_DATABLOCK) {
         if (type == DLMS_SET_COMMAND_TYPE_NORMAL) {
             p.SetStatus(0);
@@ -867,8 +883,9 @@ int CGXDLMSLNCommandHandler::HandleSetRequest(
 }
 
 int CGXDLMSLNCommandHandler::MethodRequestNormal(
-    CGXDLMSSettings &settings, uint8_t invokeId, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSConnectionEventArgs *connectionInfo,
-    CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
+    CGXDLMSSettings &settings, uint8_t invokeId, CGXDLMSServer *server, CGXByteBuffer &data,
+    CGXDLMSConnectionEventArgs *connectionInfo, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
+    unsigned char cipheredCommand
 ) {
     int ret;
     DLMS_ERROR_CODE error = DLMS_ERROR_CODE_OK;
@@ -983,8 +1000,9 @@ int CGXDLMSLNCommandHandler::MethodRequestNormal(
 }
 
 int CGXDLMSLNCommandHandler::MethodRequestNextBlock(
-    CGXDLMSSettings &settings, uint8_t invokeId, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSConnectionEventArgs *connectionInfo,
-    CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml, bool streaming, unsigned char cipheredCommand
+    CGXDLMSSettings &settings, uint8_t invokeId, CGXDLMSServer *server, CGXByteBuffer &data,
+    CGXDLMSConnectionEventArgs *connectionInfo, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
+    bool streaming, unsigned char cipheredCommand
 ) {
     int ret = 0;
     CGXByteBuffer bb;
@@ -1004,16 +1022,16 @@ int CGXDLMSLNCommandHandler::MethodRequestNextBlock(
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         if (index != settings.GetBlockIndex()) {
             CGXDLMSLNParameters p(
-                &settings, invokeId, DLMS_COMMAND_METHOD_RESPONSE, DLMS_ACTION_REQUEST_TYPE_NEXT_BLOCK, NULL, NULL, DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID,
-                cipheredCommand
+                &settings, invokeId, DLMS_COMMAND_METHOD_RESPONSE, DLMS_ACTION_REQUEST_TYPE_NEXT_BLOCK, NULL, NULL,
+                DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID, cipheredCommand
             );
             return CGXDLMS::GetLNPdu(p, *replyData);
         }
     }
     settings.IncreaseBlockIndex();
     CGXDLMSLNParameters p(
-        &settings, invokeId, streaming ? DLMS_COMMAND_GENERAL_BLOCK_TRANSFER : DLMS_COMMAND_METHOD_RESPONSE, DLMS_ACTION_REQUEST_TYPE_NEXT_BLOCK, NULL, &bb,
-        DLMS_ERROR_CODE_OK, cipheredCommand
+        &settings, invokeId, streaming ? DLMS_COMMAND_GENERAL_BLOCK_TRANSFER : DLMS_COMMAND_METHOD_RESPONSE,
+        DLMS_ACTION_REQUEST_TYPE_NEXT_BLOCK, NULL, &bb, DLMS_ERROR_CODE_OK, cipheredCommand
     );
 
     p.SetStreaming(streaming);
@@ -1046,7 +1064,8 @@ int CGXDLMSLNCommandHandler::MethodRequestNextBlock(
                     if ((*arg)->IsByteArray() && value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
                         // If byte array is added do not add type.
                         bb.Set(value.byteArr, value.GetSize());
-                    } else if ((ret = CGXDLMS::AppendData(&settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value)) != 0) {
+                    } else if ((ret = CGXDLMS::AppendData(&settings, (*arg)->GetTarget(), (*arg)->GetIndex(), bb, value)
+                               ) != 0) {
                         return DLMS_ERROR_CODE_HARDWARE_FAULT;
                     }
                 }
@@ -1075,8 +1094,8 @@ int CGXDLMSLNCommandHandler::MethodRequestNextBlock(
  * @return Reply.
  */
 int CGXDLMSLNCommandHandler::HandleMethodRequest(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSConnectionEventArgs *connectionInfo,
-    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
+    CGXDLMSConnectionEventArgs *connectionInfo, CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     int ret;
     unsigned char invokeId, type;
@@ -1095,10 +1114,13 @@ int CGXDLMSLNCommandHandler::HandleMethodRequest(
 
     switch (type) {
         case DLMS_ACTION_REQUEST_TYPE_NORMAL:
-            ret = MethodRequestNormal(settings, invokeId, server, data, connectionInfo, replyData, xml, cipheredCommand);
+            ret =
+                MethodRequestNormal(settings, invokeId, server, data, connectionInfo, replyData, xml, cipheredCommand);
             break;
         case DLMS_ACTION_REQUEST_TYPE_NEXT_BLOCK:
-            ret = MethodRequestNextBlock(settings, invokeId, server, data, connectionInfo, replyData, xml, false, cipheredCommand);
+            ret = MethodRequestNextBlock(
+                settings, invokeId, server, data, connectionInfo, replyData, xml, false, cipheredCommand
+            );
             break;
         case DLMS_ACTION_REQUEST_TYPE_WITH_FIRST_BLOCK:
             break;
@@ -1110,8 +1132,8 @@ int CGXDLMSLNCommandHandler::HandleMethodRequest(
                 type = DLMS_ACTION_REQUEST_TYPE_NORMAL;
                 data.Clear();
                 CGXDLMSLNParameters p(
-                    &settings, invokeId, DLMS_COMMAND_METHOD_RESPONSE, DLMS_ACTION_REQUEST_TYPE_NORMAL, NULL, NULL, DLMS_ERROR_CODE_READ_WRITE_DENIED,
-                    cipheredCommand
+                    &settings, invokeId, DLMS_COMMAND_METHOD_RESPONSE, DLMS_ACTION_REQUEST_TYPE_NORMAL, NULL, NULL,
+                    DLMS_ERROR_CODE_READ_WRITE_DENIED, cipheredCommand
                 );
                 ret = CGXDLMS::GetLNPdu(p, *replyData);
             }
@@ -1129,13 +1151,14 @@ int CGXDLMSLNCommandHandler::HandleMethodRequest(
 }
 
 int CGXDLMSLNCommandHandler::HandleAccessRequest(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
+    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     //Return error if connection is not established.
     if (xml == NULL && settings.GetConnected() == DLMS_CONNECTION_STATE_NONE) {
         CGXDLMSServer::GenerateConfirmedServiceError(
-            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED, *replyData
+            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED,
+            *replyData
         );
         return 0;
     }
@@ -1200,8 +1223,8 @@ int CGXDLMSLNCommandHandler::HandleAccessRequest(
             return ret;
         }
         type = (DLMS_ACCESS_SERVICE_COMMAND_TYPE)ch;
-        if (!(type == DLMS_ACCESS_SERVICE_COMMAND_TYPE_GET || type == DLMS_ACCESS_SERVICE_COMMAND_TYPE_SET || type == DLMS_ACCESS_SERVICE_COMMAND_TYPE_ACTION
-            )) {
+        if (!(type == DLMS_ACCESS_SERVICE_COMMAND_TYPE_GET || type == DLMS_ACCESS_SERVICE_COMMAND_TYPE_SET ||
+              type == DLMS_ACCESS_SERVICE_COMMAND_TYPE_ACTION)) {
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
         // CI
@@ -1224,7 +1247,9 @@ int CGXDLMSLNCommandHandler::HandleAccessRequest(
             xml->AppendEndTag(DLMS_COMMAND_ACCESS_REQUEST, (unsigned long)type);
             xml->AppendEndTag(DLMS_TRANSLATOR_TAGS_ACCESS_REQUEST_SPECIFICATION);
         } else {
-            list.push_back(CGXDLMSAccessItem(type, settings.GetObjects().FindByLN((DLMS_OBJECT_TYPE)id, ln), attributeIndex));
+            list.push_back(
+                CGXDLMSAccessItem(type, settings.GetObjects().FindByLN((DLMS_OBJECT_TYPE)id, ln), attributeIndex)
+            );
         }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
     }
@@ -1304,7 +1329,8 @@ int CGXDLMSLNCommandHandler::HandleAccessRequest(
                             if (e->IsByteArray()) {
                                 // If byte array is added do not add type.
                                 bb.Set(value.byteArr, value.GetSize());
-                            } else if ((ret = CGXDLMS::AppendData(&settings, it.GetTarget(), it.GetIndex(), bb, value)) != 0) {
+                            } else if ((ret = CGXDLMS::AppendData(&settings, it.GetTarget(), it.GetIndex(), bb, value)
+                                       ) != 0) {
                                 results.SetUInt8(DLMS_ERROR_CODE_HARDWARE_FAULT);
                             }
                             server->PostRead(args);
@@ -1336,7 +1362,9 @@ int CGXDLMSLNCommandHandler::HandleAccessRequest(
     {
         // Append status codes.
         bb.Set(&results);
-        CGXDLMSLNParameters p(&settings, invokeId, DLMS_COMMAND_ACCESS_RESPONSE, 0xFF, NULL, &bb, 0xFF, cipheredCommand);
+        CGXDLMSLNParameters p(
+            &settings, invokeId, DLMS_COMMAND_ACCESS_RESPONSE, 0xFF, NULL, &bb, 0xFF, cipheredCommand
+        );
         return CGXDLMS::GetLNPdu(p, *replyData);
     }
     return 0;

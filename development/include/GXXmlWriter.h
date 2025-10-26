@@ -87,7 +87,10 @@ public:
     //
     // name: Object name.
     // value: Object value.
-    int WriteElementObject(const char *name, CGXDLMSVariant &value, DLMS_DATA_TYPE dt = DLMS_DATA_TYPE_NONE, DLMS_DATA_TYPE uiType = DLMS_DATA_TYPE_NONE);
+    int WriteElementObject(
+        const char *name, CGXDLMSVariant &value, DLMS_DATA_TYPE dt = DLMS_DATA_TYPE_NONE,
+        DLMS_DATA_TYPE uiType = DLMS_DATA_TYPE_NONE
+    );
 
     //Save DLMS object to the file.
     int Save(CGXDLMSObject *obj);

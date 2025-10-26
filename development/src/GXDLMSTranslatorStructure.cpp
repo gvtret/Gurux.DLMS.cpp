@@ -92,7 +92,8 @@ void CGXDLMSTranslatorStructure::SetIgnoreSpaces(bool value) {
 }
 
 CGXDLMSTranslatorStructure::CGXDLMSTranslatorStructure(
-    DLMS_TRANSLATOR_OUTPUT_TYPE type, bool omitNameSpace, bool numericsAshex, bool hex, bool comments, std::map<unsigned long, std::string> list
+    DLMS_TRANSLATOR_OUTPUT_TYPE type, bool omitNameSpace, bool numericsAshex, bool hex, bool comments,
+    std::map<unsigned long, std::string> list
 ) {
     m_OutputType = type;
     m_OmitNameSpace = omitNameSpace;

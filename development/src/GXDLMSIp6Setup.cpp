@@ -47,7 +47,8 @@ CGXDLMSIp6Setup::CGXDLMSIp6Setup(std::string ln): CGXDLMSIp6Setup(ln, 0) {
 }
 
 CGXDLMSIp6Setup::~CGXDLMSIp6Setup() {
-    for (std::vector<CGXNeighborDiscoverySetup *>::iterator it = m_NeighborDiscoverySetup.begin(); it != m_NeighborDiscoverySetup.end(); ++it) {
+    for (std::vector<CGXNeighborDiscoverySetup *>::iterator it = m_NeighborDiscoverySetup.begin();
+         it != m_NeighborDiscoverySetup.end(); ++it) {
         delete *it;
     }
     m_NeighborDiscoverySetup.clear();
@@ -83,7 +84,9 @@ int GetIPAddress(std::vector<std::string> &values, std::vector<IN6_ADDR> &list) 
     return 0;
 }
 
-int GetNeighborDiscoverySetupAsString(std::vector<std::string> &values, std::vector<CGXNeighborDiscoverySetup *> &list) {
+int GetNeighborDiscoverySetupAsString(
+    std::vector<std::string> &values, std::vector<CGXNeighborDiscoverySetup *> &list
+) {
     std::string sb = "{";
     bool first = true;
     for (std::vector<CGXNeighborDiscoverySetup *>::iterator it = list.begin(); it != list.end(); ++it) {
@@ -299,7 +302,8 @@ int CGXDLMSIp6Setup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
             CGXByteBuffer data;
             data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_NeighborDiscoverySetup.size(), data);
-            for (std::vector<CGXNeighborDiscoverySetup *>::iterator it = m_NeighborDiscoverySetup.begin(); it != m_NeighborDiscoverySetup.end(); ++it) {
+            for (std::vector<CGXNeighborDiscoverySetup *>::iterator it = m_NeighborDiscoverySetup.begin();
+                 it != m_NeighborDiscoverySetup.end(); ++it) {
                 data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 data.SetUInt8(3);
                 GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_UINT8, (*it)->GetMaxRetry());
@@ -331,7 +335,8 @@ int CGXDLMSIp6Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     } else if (e.GetIndex() == 4) {
         m_UnicastIPAddress.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 if (it->GetSize() != 16) {
                     return DLMS_ERROR_CODE_INCONSISTENT_CLASS_OR_OBJECT;
                 }
@@ -341,7 +346,8 @@ int CGXDLMSIp6Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     } else if (e.GetIndex() == 5) {
         m_MulticastIPAddress.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 if (it->GetSize() != 16) {
                     return DLMS_ERROR_CODE_INCONSISTENT_CLASS_OR_OBJECT;
                 }
@@ -351,7 +357,8 @@ int CGXDLMSIp6Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     } else if (e.GetIndex() == 6) {
         m_GatewayIPAddress.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 if (it->GetSize() != 16) {
                     return DLMS_ERROR_CODE_INCONSISTENT_CLASS_OR_OBJECT;
                 }
@@ -373,7 +380,8 @@ int CGXDLMSIp6Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     } else if (e.GetIndex() == 10) {
         m_NeighborDiscoverySetup.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXNeighborDiscoverySetup *v = new CGXNeighborDiscoverySetup();
                 v->SetMaxRetry(it->Arr[0].ToInteger());
                 v->SetRetryWaitTime(it->Arr[1].ToInteger());

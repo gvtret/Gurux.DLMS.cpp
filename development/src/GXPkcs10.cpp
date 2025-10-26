@@ -47,7 +47,8 @@
 
 int CGXPkcs10::GetData(CGXAsn1Sequence *value) {
     int ret;
-    CGXAsn1ObjectIdentifier *alg = new CGXAsn1ObjectIdentifier(m_PublicKey.GetScheme() == ECC_P256 ? "1.2.840.10045.3.1.7" : "1.3.132.0.34");
+    CGXAsn1ObjectIdentifier *alg =
+        new CGXAsn1ObjectIdentifier(m_PublicKey.GetScheme() == ECC_P256 ? "1.2.840.10045.3.1.7" : "1.3.132.0.34");
     CGXByteBuffer bb;
     m_PublicKey.m_RawValue.ToByteBuffer(bb);
     CGXAsn1BitString *subjectPKInfo = new CGXAsn1BitString(bb, 0);
@@ -55,7 +56,9 @@ int CGXPkcs10::GetData(CGXAsn1Sequence *value) {
     tmp->GetValues()->push_back(new CGXAsn1ObjectIdentifier("1.2.840.10045.2.1"));
     tmp->GetValues()->push_back(alg);
     CGXAsn1Context *attributes = new CGXAsn1Context();
-    for (std::vector<std::pair<DLMS_PKCS_OBJECT_IDENTIFIER, std::vector<CGXAsn1Base *>>>::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
+    for (std::vector<std::pair<DLMS_PKCS_OBJECT_IDENTIFIER, std::vector<CGXAsn1Base *>>>::iterator it =
+             m_Attributes.begin();
+         it != m_Attributes.end(); ++it) {
         CGXAsn1Sequence *s = new CGXAsn1Sequence();
         s->GetValues()->push_back(new CGXAsn1ObjectIdentifier(CGXDLMSConverter::ToString(it->first)));
         //Convert object array to list.
@@ -106,7 +109,8 @@ int CGXPkcs10::Init(CGXByteBuffer &data) {
                         if (reqInfo->GetValues()->size() > 3) {
                             //PkcsObjectIdentifier
                             if (CGXAsn1Context *tmp = dynamic_cast<CGXAsn1Context *>(reqInfo->GetValues()->at(3))) {
-                                for (std::vector<CGXAsn1Base *>::iterator item = tmp->GetValues()->begin(); item != tmp->GetValues()->end(); ++item) {
+                                for (std::vector<CGXAsn1Base *>::iterator item = tmp->GetValues()->begin();
+                                     item != tmp->GetValues()->end(); ++item) {
                                     if (CGXAsn1Sequence *it = dynamic_cast<CGXAsn1Sequence *>(*item)) {
                                         std::vector<CGXAsn1Base *> values;
                                         if (CGXAsn1Set *it2 = dynamic_cast<CGXAsn1Set *>(it->GetValues()->at(1))) {
@@ -115,8 +119,13 @@ int CGXPkcs10::Init(CGXByteBuffer &data) {
                                             ret = DLMS_ERROR_CODE_INVALID_DATA_FORMAT;
                                         }
                                         CGXAsn1Base *tmp = it->GetValues()->at(0);
-                                        DLMS_PKCS_OBJECT_IDENTIFIER tmp2 = CGXDLMSConverter::ValueOfPKCSObjectIdentifier(tmp->ToString().c_str());
-                                        m_Attributes.push_back(std::pair<DLMS_PKCS_OBJECT_IDENTIFIER, std::vector<CGXAsn1Base *>>(tmp2, values));
+                                        DLMS_PKCS_OBJECT_IDENTIFIER tmp2 =
+                                            CGXDLMSConverter::ValueOfPKCSObjectIdentifier(tmp->ToString().c_str());
+                                        m_Attributes.push_back(
+                                            std::pair<DLMS_PKCS_OBJECT_IDENTIFIER, std::vector<CGXAsn1Base *>>(
+                                                tmp2, values
+                                            )
+                                        );
                                     } else {
                                         ret = DLMS_ERROR_CODE_INVALID_DATA_FORMAT;
                                     }
@@ -124,25 +133,34 @@ int CGXPkcs10::Init(CGXByteBuffer &data) {
                             }
                         }
                         if (CGXAsn1Sequence *it = dynamic_cast<CGXAsn1Sequence *>(subjectPKInfo->GetValues()->at(0))) {
-                            m_Algorithm = CGXDLMSConverter::ValueOfX9Identifier(it->GetValues()->at(0)->ToString().c_str());
+                            m_Algorithm =
+                                CGXDLMSConverter::ValueOfX9Identifier(it->GetValues()->at(0)->ToString().c_str());
                             if (m_Algorithm == DLMS_X9_OBJECT_IDENTIFIER_ID_EC_PUBLIC_KEY) {
-                                if (CGXAsn1BitString *pk = dynamic_cast<CGXAsn1BitString *>(subjectPKInfo->GetValues()->at(1))) {
+                                if (CGXAsn1BitString *pk =
+                                        dynamic_cast<CGXAsn1BitString *>(subjectPKInfo->GetValues()->at(1))) {
                                     ret = CGXPublicKey::FromRawBytes(pk->GetValue(), m_PublicKey);
                                     if (ret == 0) {
                                         ret = CGXEcdsa::Validate(m_PublicKey);
                                     }
                                     if (ret == 0) {
-                                        if (CGXAsn1Sequence *sign = dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(1))) {
-                                            m_SignatureAlgorithm = CGXDLMSConverter::ValueOfHashAlgorithm(sign->GetValues()->at(0)->ToString().c_str());
+                                        if (CGXAsn1Sequence *sign =
+                                                dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(1))) {
+                                            m_SignatureAlgorithm = CGXDLMSConverter::ValueOfHashAlgorithm(
+                                                sign->GetValues()->at(0)->ToString().c_str()
+                                            );
                                             if (m_SignatureAlgorithm != DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA &&
                                                 m_SignatureAlgorithm != DLMS_HASH_ALGORITHM_SHA_384_WITH_ECDSA) {
 #ifdef _DEBUG
-                                                printf("Invalid signature algorithm. %s\n", sign->GetValues()->at(0)->ToString().c_str());
+                                                printf(
+                                                    "Invalid signature algorithm. %s\n",
+                                                    sign->GetValues()->at(0)->ToString().c_str()
+                                                );
 #endif  //_DEBUG
                                                 ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
                                             }
                                         }
-                                        if (CGXAsn1BitString *signature = dynamic_cast<CGXAsn1BitString *>(seq->GetValues()->at(2))) {
+                                        if (CGXAsn1BitString *signature =
+                                                dynamic_cast<CGXAsn1BitString *>(seq->GetValues()->at(2))) {
                                             //Get raw data.
                                             CGXDLMSVariant value;
                                             uint32_t count;
@@ -161,13 +179,25 @@ int CGXPkcs10::Init(CGXByteBuffer &data) {
                                             m_Signature.ToByteBuffer(bb);
                                             ret = CGXAsn1Converter::FromByteArray(bb, tmp3);
                                             bb.Clear();
-                                            int size = m_SignatureAlgorithm == DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA ? 32 : 48;
+                                            int size = m_SignatureAlgorithm == DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA
+                                                ? 32
+                                                : 48;
                                             //Some implementations might add extra byte. It must removed.
                                             if (CGXAsn1Sequence *tmp4 = dynamic_cast<CGXAsn1Sequence *>(tmp3)) {
-                                                if (CGXAsn1Variant *tmp5 = dynamic_cast<CGXAsn1Variant *>(tmp4->GetValues()->at(0))) {
-                                                    ret = bb.Set(tmp5->GetValue().byteArr + (tmp5->GetValue().GetSize() == size ? 0 : 1), size);
-                                                    if (CGXAsn1Variant *tmp6 = dynamic_cast<CGXAsn1Variant *>(tmp4->GetValues()->at(1))) {
-                                                        ret = bb.Set(tmp6->GetValue().byteArr + (tmp6->GetValue().GetSize() == size ? 0 : 1), size);
+                                                if (CGXAsn1Variant *tmp5 =
+                                                        dynamic_cast<CGXAsn1Variant *>(tmp4->GetValues()->at(0))) {
+                                                    ret = bb.Set(
+                                                        tmp5->GetValue().byteArr +
+                                                            (tmp5->GetValue().GetSize() == size ? 0 : 1),
+                                                        size
+                                                    );
+                                                    if (CGXAsn1Variant *tmp6 =
+                                                            dynamic_cast<CGXAsn1Variant *>(tmp4->GetValues()->at(1))) {
+                                                        ret = bb.Set(
+                                                            tmp6->GetValue().byteArr +
+                                                                (tmp6->GetValue().GetSize() == size ? 0 : 1),
+                                                            size
+                                                        );
                                                         ret = tmp2.SubArray(tmp2.GetPosition(), tmp2.Available(), bb2);
                                                         data.SetPosition(0);
                                                         bool verify;
@@ -407,7 +437,9 @@ int CGXPkcs10::Sign(CGXPrivateKey &key, DLMS_HASH_ALGORITHM hashAlgorithm) {
     return ret;
 }
 
-int CGXPkcs10::CreateCertificateSigningRequest(std::pair<CGXPublicKey, CGXPrivateKey> &kp, std::string &subject, CGXPkcs10 &pkc10) {
+int CGXPkcs10::CreateCertificateSigningRequest(
+    std::pair<CGXPublicKey, CGXPrivateKey> &kp, std::string &subject, CGXPkcs10 &pkc10
+) {
     if (kp.first.m_RawValue.m_Size == 0) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
@@ -432,7 +464,9 @@ int CGXPkcs10::CreateCertificateSigningRequest(std::pair<CGXPublicKey, CGXPrivat
     return ret;
 }
 
-int CGXPkcs10::GetCertificate(std::vector<CGXCertificateRequest> &certifications, std::vector<CGXx509Certificate> &certificates) {
+int CGXPkcs10::GetCertificate(
+    std::vector<CGXCertificateRequest> &certifications, std::vector<CGXx509Certificate> &certificates
+) {
     const char *address = "certificates.gurux.fi";
     std::string usage;
     for (std::vector<CGXCertificateRequest>::iterator it = certifications.begin(); it != certifications.end(); ++it) {

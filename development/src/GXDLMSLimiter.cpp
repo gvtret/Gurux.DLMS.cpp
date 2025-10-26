@@ -206,7 +206,8 @@ void CGXDLMSLimiter::GetValues(std::vector<std::string> &values) {
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<int>::iterator it = m_EmergencyProfileGroupIDs.begin(); it != m_EmergencyProfileGroupIDs.end(); ++it) {
+    for (std::vector<int>::iterator it = m_EmergencyProfileGroupIDs.begin(); it != m_EmergencyProfileGroupIDs.end();
+         ++it) {
         if (!empty) {
             sb << ", ";
         }
@@ -372,7 +373,8 @@ int CGXDLMSLimiter::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         GXHelpers::SetObjectCount((unsigned long)m_EmergencyProfileGroupIDs.size(), data);
         CGXDLMSVariant tmp;
-        for (std::vector<int>::iterator it = m_EmergencyProfileGroupIDs.begin(); it != m_EmergencyProfileGroupIDs.end(); ++it) {
+        for (std::vector<int>::iterator it = m_EmergencyProfileGroupIDs.begin(); it != m_EmergencyProfileGroupIDs.end();
+             ++it) {
             tmp = *it;
             if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, tmp)) != 0) {
                 return ret;

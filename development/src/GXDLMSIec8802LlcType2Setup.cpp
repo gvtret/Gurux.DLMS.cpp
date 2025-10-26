@@ -40,7 +40,8 @@ CGXDLMSIec8802LlcType2Setup::CGXDLMSIec8802LlcType2Setup(): CGXDLMSIec8802LlcTyp
 }
 
 //SN Constructor.
-CGXDLMSIec8802LlcType2Setup::CGXDLMSIec8802LlcType2Setup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_8802_LLC_TYPE2_SETUP, ln, sn) {
+CGXDLMSIec8802LlcType2Setup::CGXDLMSIec8802LlcType2Setup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_8802_LLC_TYPE2_SETUP, ln, sn) {
     m_TransmitWindowSizeK = 1;
     m_TransmitWindowSizeRW = 1;
     m_MaximumOctetsPdu = 128;

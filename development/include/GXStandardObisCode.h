@@ -50,7 +50,9 @@ public:
     }
 
     // Constructor.
-    CGXStandardObisCode(std::vector<std::string> obis, std::string &desc, std::string &interfaces, std::string &dataType);
+    CGXStandardObisCode(
+        std::vector<std::string> obis, std::string &desc, std::string &interfaces, std::string &dataType
+    );
     // OBIS code.
     std::vector<std::string> &GetOBIS();
 

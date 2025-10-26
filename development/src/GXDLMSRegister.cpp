@@ -49,13 +49,15 @@ bool CGXDLMSRegister::IsRead(int index) {
 CGXDLMSRegister::CGXDLMSRegister(): CGXDLMSRegister("", 0) {
 }
 
-CGXDLMSRegister::CGXDLMSRegister(DLMS_OBJECT_TYPE type, std::string ln, unsigned short sn): CGXDLMSObject(type, ln, sn) {
+CGXDLMSRegister::CGXDLMSRegister(DLMS_OBJECT_TYPE type, std::string ln, unsigned short sn)
+    : CGXDLMSObject(type, ln, sn) {
     m_Unit = 0;
     m_Scaler = 0;
 }
 
 //SN Constructor.
-CGXDLMSRegister::CGXDLMSRegister(std::string ln, unsigned short sn): CGXDLMSRegister(DLMS_OBJECT_TYPE_REGISTER, ln, sn) {
+CGXDLMSRegister::CGXDLMSRegister(std::string ln, unsigned short sn)
+    : CGXDLMSRegister(DLMS_OBJECT_TYPE_REGISTER, ln, sn) {
 }
 
 //LN Constructor.

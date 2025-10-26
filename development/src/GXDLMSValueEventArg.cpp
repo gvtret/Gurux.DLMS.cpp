@@ -103,7 +103,9 @@ CGXDLMSValueEventArg::CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject 
     Init(server, target, index, 0);
 }
 
-CGXDLMSValueEventArg::CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters) {
+CGXDLMSValueEventArg::CGXDLMSValueEventArg(
+    CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters
+) {
     Init(server, target, index, selector);
     m_Parameters = parameters;
 }

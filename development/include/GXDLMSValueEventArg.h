@@ -154,7 +154,9 @@ private:
     * @param parameters
     *            Optional parameters.
     */
-    CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters);
+    CGXDLMSValueEventArg(
+        CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters
+    );
 
     /**
     * DLMS server.

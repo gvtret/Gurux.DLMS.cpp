@@ -45,7 +45,8 @@ CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(): CGXDLMSModemConfiguratio
 CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(std::string ln): CGXDLMSModemConfiguration(ln, 0) {
 }
 
-CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_MODEM_CONFIGURATION, ln, sn) {
+CGXDLMSModemConfiguration::CGXDLMSModemConfiguration(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_MODEM_CONFIGURATION, ln, sn) {
     m_CommunicationSpeed = DLMS_BAUD_RATE_9600;
     m_ModemProfile.push_back("OK");
     m_ModemProfile.push_back("CONNECT");
@@ -109,7 +110,8 @@ void CGXDLMSModemConfiguration::GetValues(std::vector<std::string> &values) {
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin(); it != m_InitialisationStrings.end(); ++it) {
+    for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin();
+         it != m_InitialisationStrings.end(); ++it) {
         if (!empty) {
             sb << ", ";
         }
@@ -187,7 +189,8 @@ int CGXDLMSModemConfiguration::GetValue(CGXDLMSSettings &settings, CGXDLMSValueE
         unsigned long cnt = (unsigned long)m_InitialisationStrings.size();
         GXHelpers::SetObjectCount(cnt, data);
         CGXDLMSVariant request, response, delay;
-        for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin(); it != m_InitialisationStrings.end(); ++it) {
+        for (std::vector<CGXDLMSModemInitialisation>::iterator it = m_InitialisationStrings.begin();
+             it != m_InitialisationStrings.end(); ++it) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(3);  //Count
             request = it->GetRequest();

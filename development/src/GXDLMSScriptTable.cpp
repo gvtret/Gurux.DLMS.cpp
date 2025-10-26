@@ -41,7 +41,8 @@ CGXDLMSScriptTable::CGXDLMSScriptTable(): CGXDLMSScriptTable("0.0.10.0.100.255",
 }
 
 //SN Constructor.
-CGXDLMSScriptTable::CGXDLMSScriptTable(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_SCRIPT_TABLE, ln, sn) {
+CGXDLMSScriptTable::CGXDLMSScriptTable(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SCRIPT_TABLE, ln, sn) {
 }
 
 //LN Constructor.
@@ -97,7 +98,8 @@ void CGXDLMSScriptTable::GetValues(std::vector<std::string> &values) {
         }
         empty = false;
         sb << (*it)->GetID();
-        for (std::vector<CGXDLMSScriptAction *>::iterator a = (*it)->GetActions().begin(); a != (*it)->GetActions().end(); ++a) {
+        for (std::vector<CGXDLMSScriptAction *>::iterator a = (*it)->GetActions().begin();
+             a != (*it)->GetActions().end(); ++a) {
             sb << " ";
             std::string str = (*a)->ToString();
             sb.write(str.c_str(), str.size());
@@ -162,7 +164,8 @@ int CGXDLMSScriptTable::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
             data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             //Count
             GXHelpers::SetObjectCount((unsigned long)(*it)->GetActions().size(), data);
-            for (std::vector<CGXDLMSScriptAction *>::iterator a = (*it)->GetActions().begin(); a != (*it)->GetActions().end(); ++a) {
+            for (std::vector<CGXDLMSScriptAction *>::iterator a = (*it)->GetActions().begin();
+                 a != (*it)->GetActions().end(); ++a) {
                 GXHelpers::SetLogicalName((*a)->GetLogicalName().c_str(), ln);
                 data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 data.SetUInt8(5);
@@ -200,11 +203,13 @@ int CGXDLMSScriptTable::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
         if (e.GetValue().Arr.size() != 0) {
             if (e.GetValue().Arr[0].vt == DLMS_DATA_TYPE_STRUCTURE) {
                 std::string ln;
-                for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+                for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin();
+                     item != e.GetValue().Arr.end(); ++item) {
                     CGXDLMSScript *script = new CGXDLMSScript();
                     script->SetID((*item).Arr[0].ToInteger());
                     m_Scripts.push_back(script);
-                    for (std::vector<CGXDLMSVariant>::iterator arr = (*item).Arr[1].Arr.begin(); arr != (*item).Arr[1].Arr.end(); ++arr) {
+                    for (std::vector<CGXDLMSVariant>::iterator arr = (*item).Arr[1].Arr.begin();
+                         arr != (*item).Arr[1].Arr.end(); ++arr) {
                         CGXDLMSScriptAction *it = new CGXDLMSScriptAction();
                         SCRIPT_ACTION_TYPE type = (SCRIPT_ACTION_TYPE)(*arr).Arr[0].ToInteger();
                         it->SetType(type);

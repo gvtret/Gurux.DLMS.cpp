@@ -40,7 +40,8 @@ CGXDLMSIec8802LlcType1Setup::CGXDLMSIec8802LlcType1Setup(): CGXDLMSIec8802LlcTyp
 }
 
 //SN Constructor.
-CGXDLMSIec8802LlcType1Setup::CGXDLMSIec8802LlcType1Setup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_8802_LLC_TYPE1_SETUP, ln, sn) {
+CGXDLMSIec8802LlcType1Setup::CGXDLMSIec8802LlcType1Setup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_8802_LLC_TYPE1_SETUP, ln, sn) {
 }
 
 //LN Constructor.

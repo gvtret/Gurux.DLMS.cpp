@@ -44,7 +44,9 @@ CGXDLMSWeekProfile::CGXDLMSWeekProfile() {
 /**
  Constructor.
 */
-CGXDLMSWeekProfile::CGXDLMSWeekProfile(std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday) {
+CGXDLMSWeekProfile::CGXDLMSWeekProfile(
+    std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday
+) {
     SetName(name);
     SetMonday(monday);
     SetTuesday(tuesday);

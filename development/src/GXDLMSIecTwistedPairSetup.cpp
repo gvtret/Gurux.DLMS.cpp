@@ -41,7 +41,8 @@ CGXDLMSIecTwistedPairSetup::CGXDLMSIecTwistedPairSetup(): CGXDLMSIecTwistedPairS
 }
 
 //SN Constructor.
-CGXDLMSIecTwistedPairSetup::CGXDLMSIecTwistedPairSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_TWISTED_PAIR_SETUP, ln, sn) {
+CGXDLMSIecTwistedPairSetup::CGXDLMSIecTwistedPairSetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_TWISTED_PAIR_SETUP, ln, sn) {
 }
 
 //LN Constructor.
@@ -179,7 +180,8 @@ int CGXDLMSIecTwistedPairSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValue
             CGXByteBuffer data;
             data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             data.SetUInt8((unsigned char)m_PrimaryAddresses.size());
-            for (std::vector<unsigned char>::iterator it = m_PrimaryAddresses.begin(); it != m_PrimaryAddresses.end(); ++it) {
+            for (std::vector<unsigned char>::iterator it = m_PrimaryAddresses.begin(); it != m_PrimaryAddresses.end();
+                 ++it) {
                 if ((ret = data.SetUInt8(DLMS_DATA_TYPE_UINT8)) != 0 || (ret = data.SetUInt8(*it)) != 0) {
                     break;
                 }
@@ -223,7 +225,8 @@ int CGXDLMSIecTwistedPairSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValue
         case 4: {
             m_PrimaryAddresses.clear();
             if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                     ++it) {
                     m_PrimaryAddresses.push_back(it->ToInteger());
                 }
             }
@@ -232,7 +235,8 @@ int CGXDLMSIecTwistedPairSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValue
         case 5: {
             m_Tabis.clear();
             if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                     ++it) {
                     m_Tabis.push_back(it->ToInteger());
                 }
             }

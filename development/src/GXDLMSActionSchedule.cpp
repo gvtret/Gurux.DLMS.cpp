@@ -47,7 +47,8 @@ CGXDLMSActionSchedule::CGXDLMSActionSchedule(): CGXDLMSActionSchedule("0.0.15.0.
 CGXDLMSActionSchedule::CGXDLMSActionSchedule(std::string ln): CGXDLMSActionSchedule(ln, 0) {
 }
 
-CGXDLMSActionSchedule::CGXDLMSActionSchedule(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_ACTION_SCHEDULE, ln, sn) {
+CGXDLMSActionSchedule::CGXDLMSActionSchedule(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_ACTION_SCHEDULE, ln, sn) {
     m_ExecutedScriptSelector = 0;
     m_Type = DLMS_SINGLE_ACTION_SCHEDULE_TYPE1;
 }
@@ -232,9 +233,11 @@ int CGXDLMSActionSchedule::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
                 return ret;
             }
             time.dateTime.SetSkip((DATETIME_SKIPS)(time.dateTime.GetSkip() &
-                                                   ~(DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY | DATETIME_SKIPS_DAYOFWEEK)));
+                                                   ~(DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
+                                                     DATETIME_SKIPS_DAYOFWEEK)));
             date.dateTime.SetSkip((DATETIME_SKIPS)(date.dateTime.GetSkip() &
-                                                   ~(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS)));
+                                                   ~(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE |
+                                                     DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS)));
             struct tm val = time.dateTime.GetValue();
             struct tm val2 = date.dateTime.GetValue();
             val2.tm_hour = val.tm_hour;

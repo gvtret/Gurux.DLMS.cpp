@@ -226,7 +226,8 @@ public:
      * subject: Subject.
      * Returns created GXPkcs10.
      */
-    static int CreateCertificateSigningRequest(std::pair<CGXPublicKey, CGXPrivateKey> &kp, std::string &subject, CGXPkcs10 &pkc10);
+    static int
+    CreateCertificateSigningRequest(std::pair<CGXPublicKey, CGXPrivateKey> &kp, std::string &subject, CGXPkcs10 &pkc10);
 
     /**
      * Ask Gurux certificate server to generate the new certificate.
@@ -235,7 +236,8 @@ public:
      *            std::vector of certification requests.
      * Returns Generated certificate(s).
      */
-    static int GetCertificate(std::vector<CGXCertificateRequest> &certifications, std::vector<CGXx509Certificate> &certificates);
+    static int
+    GetCertificate(std::vector<CGXCertificateRequest> &certifications, std::vector<CGXx509Certificate> &certificates);
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
     /**

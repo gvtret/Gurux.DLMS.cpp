@@ -106,7 +106,9 @@ private:
      * @param cols
      *            Selected columns.
      */
-    int GetSelectedColumns(std::vector<CGXDLMSVariant> &cols, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns);
+    int GetSelectedColumns(
+        std::vector<CGXDLMSVariant> &cols, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns
+    );
 
 public:
     /*
@@ -123,7 +125,10 @@ public:
     *            Received parameters where columns information is found.
     * @return Selected columns.
     */
-    int GetSelectedColumns(int selector, CGXDLMSVariant &parameters, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns);
+    int GetSelectedColumns(
+        int selector, CGXDLMSVariant &parameters,
+        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns
+    );
 
     /**
      Constructor.

@@ -43,7 +43,8 @@ CGXDLMSDisconnectControl::CGXDLMSDisconnectControl(): CGXDLMSDisconnectControl("
 }
 
 //SN Constructor.
-CGXDLMSDisconnectControl::CGXDLMSDisconnectControl(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_DISCONNECT_CONTROL, ln, sn) {
+CGXDLMSDisconnectControl::CGXDLMSDisconnectControl(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_DISCONNECT_CONTROL, ln, sn) {
     m_ControlState = DLMS_CONTROL_STATE_DISCONNECTED;
     m_ControlMode = DLMS_CONTROL_MODE_NONE;
     m_OutputState = false;

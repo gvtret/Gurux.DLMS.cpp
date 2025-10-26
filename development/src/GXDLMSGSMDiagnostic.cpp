@@ -45,7 +45,8 @@ CGXDLMSGSMDiagnostic::CGXDLMSGSMDiagnostic(std::string ln): CGXDLMSGSMDiagnostic
 }
 
 //SN Constructor.
-CGXDLMSGSMDiagnostic::CGXDLMSGSMDiagnostic(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_GSM_DIAGNOSTIC, ln, sn) {
+CGXDLMSGSMDiagnostic::CGXDLMSGSMDiagnostic(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_GSM_DIAGNOSTIC, ln, sn) {
     m_Status = DLMS_GSM_STATUS_NONE;
     m_CircuitSwitchStatus = DLMS_GSM_CIRCUIT_SWITCH_STATUS_INACTIVE;
     m_PacketSwitchStatus = DLMS_GSM_PACKET_SWITCH_STATUS_INACTIVE;
@@ -245,7 +246,9 @@ int CGXDLMSGSMDiagnostic::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
             locationId = m_CellInfo.GetLocationId();
             signalQuality = m_CellInfo.GetSignalQuality();
             ber = m_CellInfo.GetBer();
-            if ((ret = GXHelpers::SetData(&settings, bb, m_Version == 0 ? DLMS_DATA_TYPE_UINT16 : DLMS_DATA_TYPE_UINT32, cellId)) != 0 ||
+            if ((ret = GXHelpers::SetData(
+                     &settings, bb, m_Version == 0 ? DLMS_DATA_TYPE_UINT16 : DLMS_DATA_TYPE_UINT32, cellId
+                 )) != 0 ||
                 (ret = GXHelpers::SetData(&settings, bb, DLMS_DATA_TYPE_UINT16, locationId)) != 0 ||
                 (ret = GXHelpers::SetData(&settings, bb, DLMS_DATA_TYPE_UINT8, signalQuality)) != 0 ||
                 (ret = GXHelpers::SetData(&settings, bb, DLMS_DATA_TYPE_UINT8, ber)) != 0) {
@@ -266,12 +269,15 @@ int CGXDLMSGSMDiagnostic::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
         case 7:
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             bb.SetUInt8((unsigned char)m_AdjacentCells.size());
-            for (std::vector<GXAdjacentCell *>::iterator it = m_AdjacentCells.begin(); it != m_AdjacentCells.end(); ++it) {
+            for (std::vector<GXAdjacentCell *>::iterator it = m_AdjacentCells.begin(); it != m_AdjacentCells.end();
+                 ++it) {
                 bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 bb.SetUInt8(2);
                 cellId = (*it)->GetCellId();
                 signalQuality = (*it)->GetSignalQuality();
-                if ((ret = GXHelpers::SetData(&settings, bb, m_Version == 0 ? DLMS_DATA_TYPE_UINT16 : DLMS_DATA_TYPE_UINT32, cellId)) != 0 ||
+                if ((ret = GXHelpers::SetData(
+                         &settings, bb, m_Version == 0 ? DLMS_DATA_TYPE_UINT16 : DLMS_DATA_TYPE_UINT32, cellId
+                     )) != 0 ||
                     (ret = GXHelpers::SetData(&settings, bb, DLMS_DATA_TYPE_UINT8, locationId)) != 0) {
                     return ret;
                 }
@@ -327,7 +333,8 @@ int CGXDLMSGSMDiagnostic::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
             break;
         case 7:
             m_AdjacentCells.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 std::vector<CGXDLMSVariant> tmp = (std::vector<CGXDLMSVariant>)it->Arr;
                 GXAdjacentCell *ac = new GXAdjacentCell();
                 ac->SetCellId(tmp[0].ToInteger());

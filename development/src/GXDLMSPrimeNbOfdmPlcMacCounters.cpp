@@ -37,7 +37,8 @@
 
 #ifndef DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_COUNTERS
 //Constructor.
-CGXDLMSPrimeNbOfdmPlcMacCounters::CGXDLMSPrimeNbOfdmPlcMacCounters(): CGXDLMSPrimeNbOfdmPlcMacCounters("0.0.28.4.0.255", 0) {
+CGXDLMSPrimeNbOfdmPlcMacCounters::CGXDLMSPrimeNbOfdmPlcMacCounters()
+    : CGXDLMSPrimeNbOfdmPlcMacCounters("0.0.28.4.0.255", 0) {
 }
 
 //SN Constructor.
@@ -47,7 +48,8 @@ CGXDLMSPrimeNbOfdmPlcMacCounters::CGXDLMSPrimeNbOfdmPlcMacCounters(std::string l
 }
 
 //LN Constructor.
-CGXDLMSPrimeNbOfdmPlcMacCounters::CGXDLMSPrimeNbOfdmPlcMacCounters(std::string ln): CGXDLMSPrimeNbOfdmPlcMacCounters(ln, 0) {
+CGXDLMSPrimeNbOfdmPlcMacCounters::CGXDLMSPrimeNbOfdmPlcMacCounters(std::string ln)
+    : CGXDLMSPrimeNbOfdmPlcMacCounters(ln, 0) {
 }
 
 unsigned int CGXDLMSPrimeNbOfdmPlcMacCounters::GetTxDataPktCount() {
@@ -105,7 +107,8 @@ int CGXDLMSPrimeNbOfdmPlcMacCounters::Reset(CGXDLMSClient *client, std::vector<C
 
 int CGXDLMSPrimeNbOfdmPlcMacCounters::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
-        m_TxDataPktCount = m_RxDataPktCount = m_TxCtrlPktCount = m_RxCtrlPktCount = m_CsmaFailCount = m_CsmaChBusyCount = 0;
+        m_TxDataPktCount = m_RxDataPktCount = m_TxCtrlPktCount = m_RxCtrlPktCount = m_CsmaFailCount =
+            m_CsmaChBusyCount = 0;
     } else {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
     }

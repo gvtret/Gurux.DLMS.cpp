@@ -43,7 +43,8 @@ CGXDLMSSpecialDaysTable::CGXDLMSSpecialDaysTable(): CGXDLMSSpecialDaysTable("", 
 }
 
 //SN Constructor.
-CGXDLMSSpecialDaysTable::CGXDLMSSpecialDaysTable(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_SPECIAL_DAYS_TABLE, ln, sn) {
+CGXDLMSSpecialDaysTable::CGXDLMSSpecialDaysTable(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SPECIAL_DAYS_TABLE, ln, sn) {
 }
 
 //LN Constructor.
@@ -71,7 +72,9 @@ int CGXDLMSSpecialDaysTable::GetMethodCount() {
     return 2;
 }
 
-int CGXDLMSSpecialDaysTable::Insert(CGXDLMSClient *client, CGXDLMSSpecialDay *entry, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSSpecialDaysTable::Insert(
+    CGXDLMSClient *client, CGXDLMSSpecialDay *entry, std::vector<CGXByteBuffer> &reply
+) {
     CGXDLMSVariant data;
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -83,7 +86,9 @@ int CGXDLMSSpecialDaysTable::Insert(CGXDLMSClient *client, CGXDLMSSpecialDay *en
     return client->Method(this, 1, data, DLMS_DATA_TYPE_ARRAY, reply);
 }
 
-int CGXDLMSSpecialDaysTable::Delete(CGXDLMSClient *client, CGXDLMSSpecialDay *entry, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSSpecialDaysTable::Delete(
+    CGXDLMSClient *client, CGXDLMSSpecialDay *entry, std::vector<CGXByteBuffer> &reply
+) {
     CGXDLMSVariant data = entry->GetIndex();
     data.vt = DLMS_DATA_TYPE_UINT16;
     return client->Method(this, 2, data, reply);
@@ -187,7 +192,8 @@ int CGXDLMSSpecialDaysTable::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEve
         m_Entries.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
             CGXDLMSVariant tmp;
-            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+                 ++item) {
                 CGXDLMSSpecialDay *it = new CGXDLMSSpecialDay();
                 it->SetIndex((*item).Arr[0].ToInteger());
                 CGXDLMSClient::ChangeType((*item).Arr[1], DLMS_DATA_TYPE_DATE, tmp);

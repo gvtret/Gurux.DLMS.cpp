@@ -222,7 +222,8 @@ int CGXDLMSNtpSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
             for (std::map<uint32_t, CGXByteBuffer>::iterator it = m_Keys.begin(); it != m_Keys.end(); ++it) {
                 if ((ret = data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 || (ret = data.SetUInt8(2)) != 0 ||
                     (ret = data.SetUInt8(DLMS_DATA_TYPE_UINT32)) != 0 || (ret = data.SetUInt32(it->first)) != 0 ||
-                    (ret = data.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) != 0 || (ret = GXHelpers::SetObjectCount(it->second.GetSize(), data)) != 0 ||
+                    (ret = data.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) != 0 ||
+                    (ret = GXHelpers::SetObjectCount(it->second.GetSize(), data)) != 0 ||
                     (ret = data.Set(it->second.GetData(), it->second.GetSize())) != 0) {
                     break;
                 }
@@ -268,7 +269,8 @@ int CGXDLMSNtpSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
             break;
         case 6: {
             m_Keys.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXByteBuffer tmp;
                 if ((ret = tmp.Set(it->Arr.at(1).byteArr, it->Arr.at(1).size)) != 0) {
                     break;
@@ -291,11 +293,15 @@ int CGXDLMSNtpSetup::Synchronize(CGXDLMSClient *client, std::vector<CGXByteBuffe
     return client->Method(this, 1, data, DLMS_DATA_TYPE_ARRAY, reply);
 }
 
-int CGXDLMSNtpSetup::AddAuthenticationKey(CGXDLMSClient *client, uint32_t id, CGXByteBuffer &key, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSNtpSetup::AddAuthenticationKey(
+    CGXDLMSClient *client, uint32_t id, CGXByteBuffer &key, std::vector<CGXByteBuffer> &reply
+) {
     int ret;
     CGXByteBuffer bb;
-    if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) == 0 || (ret = bb.SetUInt8(2)) == 0 || (ret = bb.SetUInt8(DLMS_DATA_TYPE_UINT32)) == 0 ||
-        (ret = bb.SetUInt32(id)) == 0 || (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 || (ret = GXHelpers::SetObjectCount(key.GetSize(), bb)) == 0 ||
+    if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) == 0 || (ret = bb.SetUInt8(2)) == 0 ||
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_UINT32)) == 0 || (ret = bb.SetUInt32(id)) == 0 ||
+        (ret = bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING)) == 0 ||
+        (ret = GXHelpers::SetObjectCount(key.GetSize(), bb)) == 0 ||
         (ret = bb.Set(key.GetData(), key.GetSize())) == 0) {
         CGXDLMSVariant tmp = bb;
         ret = client->Method(this, 2, tmp, DLMS_DATA_TYPE_ARRAY, reply);

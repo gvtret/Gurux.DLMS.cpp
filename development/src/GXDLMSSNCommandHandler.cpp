@@ -40,8 +40,8 @@
 #include "../include/GXDLMSClient.h"
 
 int CGXDLMSSNCommandHandler::HandleReadRequest(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
+    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     CGXByteBuffer bb;
     int ret;
@@ -60,8 +60,8 @@ int CGXDLMSSNCommandHandler::HandleReadRequest(
             bb.Set(replyData);
             replyData->Clear();
         }
-        for (std::vector<CGXDLMSValueEventArg *>::iterator it = server->m_Transaction->GetTargets().begin(); it != server->m_Transaction->GetTargets().end();
-             ++it) {
+        for (std::vector<CGXDLMSValueEventArg *>::iterator it = server->m_Transaction->GetTargets().begin();
+             it != server->m_Transaction->GetTargets().end(); ++it) {
             list.push_back(*it);
         }
     } else {
@@ -89,9 +89,13 @@ int CGXDLMSSNCommandHandler::HandleReadRequest(
                 case DLMS_VARIABLE_ACCESS_SPECIFICATION_BLOCK_NUMBER_ACCESS:
                     return HandleReadBlockNumberAccess(settings, server, data, replyData, xml);
                 case DLMS_VARIABLE_ACCESS_SPECIFICATION_READ_DATA_BLOCK_ACCESS:
-                    return HandleReadDataBlockAccess(settings, server, DLMS_COMMAND_READ_RESPONSE, data, cnt, replyData, xml, cipheredCommand);
+                    return HandleReadDataBlockAccess(
+                        settings, server, DLMS_COMMAND_READ_RESPONSE, data, cnt, replyData, xml, cipheredCommand
+                    );
                 default:
-                    return ReturnSNError(settings, server, DLMS_COMMAND_READ_RESPONSE, DLMS_ERROR_CODE_READ_WRITE_DENIED, replyData);
+                    return ReturnSNError(
+                        settings, server, DLMS_COMMAND_READ_RESPONSE, DLMS_ERROR_CODE_READ_WRITE_DENIED, replyData
+                    );
             }
         }
         if (reads.size() != 0) {
@@ -117,7 +121,8 @@ int CGXDLMSSNCommandHandler::HandleReadRequest(
     }
     CGXDLMSSNParameters p(&settings, DLMS_COMMAND_READ_RESPONSE, cnt, requestType, NULL, &bb);
     CGXDLMS::GetSNPdu(p, *replyData);
-    if (server->m_Transaction == NULL && (bb.GetSize() != bb.GetPosition() || settings.GetCount() != settings.GetIndex())) {
+    if (server->m_Transaction == NULL &&
+        (bb.GetSize() != bb.GetPosition() || settings.GetCount() != settings.GetIndex())) {
         server->m_Transaction = new CGXDLMSLongTransaction(list, DLMS_COMMAND_READ_REQUEST, bb);
     } else if (server->m_Transaction != NULL) {
         replyData->Set(&bb);
@@ -126,13 +131,14 @@ int CGXDLMSSNCommandHandler::HandleReadRequest(
 }
 
 int CGXDLMSSNCommandHandler::HandleWriteRequest(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
-    unsigned char cipheredCommand
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
+    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     // Return error if connection is not established.
     if (xml == NULL && (settings.GetConnected() & DLMS_CONNECTION_STATE_DLMS) == 0) {
         CGXDLMSServer::GenerateConfirmedServiceError(
-            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED, *replyData
+            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED,
+            *replyData
         );
         return 0;
     }
@@ -173,7 +179,9 @@ int CGXDLMSSNCommandHandler::HandleWriteRequest(
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
                 if (xml != NULL) {
                     xml->IntegerToHex((int32_t)sn, 4, str);
-                    xml->AppendLine(DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME, "", str);
+                    xml->AppendLine(
+                        DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME, "", str
+                    );
                 } else
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
                 {
@@ -191,7 +199,9 @@ int CGXDLMSSNCommandHandler::HandleWriteRequest(
                 }
                 break;
             case DLMS_VARIABLE_ACCESS_SPECIFICATION_WRITE_DATA_BLOCK_ACCESS:
-                ret = HandleReadDataBlockAccess(settings, server, DLMS_COMMAND_WRITE_RESPONSE, data, cnt, replyData, xml, cipheredCommand);
+                ret = HandleReadDataBlockAccess(
+                    settings, server, DLMS_COMMAND_WRITE_RESPONSE, data, cnt, replyData, xml, cipheredCommand
+                );
                 if (xml == NULL) {
                     return ret;
                 }
@@ -348,7 +358,8 @@ int CGXDLMSSNCommandHandler::FindSNObject(CGXDLMSServer *server, int sn, CGXSNIn
 *            Response type.
 */
 int CGXDLMSSNCommandHandler::GetReadData(
-    CGXDLMSSettings &settings, std::vector<CGXDLMSValueEventArg *> &list, CGXByteBuffer &data, DLMS_SINGLE_READ_RESPONSE &type
+    CGXDLMSSettings &settings, std::vector<CGXDLMSValueEventArg *> &list, CGXByteBuffer &data,
+    DLMS_SINGLE_READ_RESPONSE &type
 ) {
     int ret = 0;
     unsigned char first = 1;
@@ -388,8 +399,9 @@ int CGXDLMSSNCommandHandler::GetReadData(
 }
 
 int CGXDLMSSNCommandHandler::HandleRead(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, DLMS_VARIABLE_ACCESS_SPECIFICATION type, CGXByteBuffer &data, CGXDLMSValueEventCollection &list,
-    std::vector<CGXDLMSValueEventArg *> &reads, std::vector<CGXDLMSValueEventArg *> &actions, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml
+    CGXDLMSSettings &settings, CGXDLMSServer *server, DLMS_VARIABLE_ACCESS_SPECIFICATION type, CGXByteBuffer &data,
+    CGXDLMSValueEventCollection &list, std::vector<CGXDLMSValueEventArg *> &reads,
+    std::vector<CGXDLMSValueEventArg *> &actions, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml
 ) {
     CGXSNInfo i;
     int ret;
@@ -421,10 +433,14 @@ int CGXDLMSSNCommandHandler::HandleRead(
                 return ret;
             }
             xml->AppendEndTag(DLMS_TRANSLATOR_TAGS_PARAMETER);
-            xml->AppendEndTag(DLMS_COMMAND_READ_REQUEST, (unsigned long)DLMS_VARIABLE_ACCESS_SPECIFICATION_PARAMETERISED_ACCESS);
+            xml->AppendEndTag(
+                DLMS_COMMAND_READ_REQUEST, (unsigned long)DLMS_VARIABLE_ACCESS_SPECIFICATION_PARAMETERISED_ACCESS
+            );
         } else {
             xml->IntegerToHex((int32_t)sn, 4, str);
-            xml->AppendLine((int)DLMS_COMMAND_READ_REQUEST << 8 | (int)DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME, "", str);
+            xml->AppendLine(
+                (int)DLMS_COMMAND_READ_REQUEST << 8 | (int)DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME, "", str
+            );
         }
         if (xml->GetOutputType() == DLMS_TRANSLATOR_OUTPUT_TYPE_STANDARD_XML) {
             xml->AppendEndTag(DLMS_TRANSLATOR_TAGS_VARIABLE_ACCESS_SPECIFICATION);
@@ -451,9 +467,11 @@ int CGXDLMSSNCommandHandler::HandleRead(
         e->SetParameters(params);
     }
     // Return error if connection is not established.
-    if (settings.GetConnected() == DLMS_CONNECTION_STATE_NONE && (!e->IsAction() || e->GetTarget()->GetShortName() != 0xFA00 || e->GetIndex() != 8)) {
+    if (settings.GetConnected() == DLMS_CONNECTION_STATE_NONE &&
+        (!e->IsAction() || e->GetTarget()->GetShortName() != 0xFA00 || e->GetIndex() != 8)) {
         CGXDLMSServer::GenerateConfirmedServiceError(
-            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED, *replyData
+            DLMS_CONFIRMED_SERVICE_ERROR_INITIATE_ERROR, DLMS_SERVICE_ERROR_SERVICE, DLMS_SERVICE_UNSUPPORTED,
+            *replyData
         );
         return 0;
     }
@@ -474,7 +492,8 @@ int CGXDLMSSNCommandHandler::HandleRead(
 }
 
 int CGXDLMSSNCommandHandler::HandleReadBlockNumberAccess(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml
+    CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
+    CGXDLMSTranslatorStructure *xml
 ) {
     unsigned short blockNumber;
     int ret;
@@ -484,17 +503,20 @@ int CGXDLMSSNCommandHandler::HandleReadBlockNumberAccess(
     if (blockNumber != settings.GetBlockIndex()) {
         CGXByteBuffer bb;
         bb.SetUInt8(DLMS_ERROR_CODE_DATA_BLOCK_NUMBER_INVALID);
-        CGXDLMSSNParameters p(&settings, DLMS_COMMAND_READ_RESPONSE, 1, DLMS_SINGLE_READ_RESPONSE_DATA_ACCESS_ERROR, &bb, NULL);
+        CGXDLMSSNParameters p(
+            &settings, DLMS_COMMAND_READ_RESPONSE, 1, DLMS_SINGLE_READ_RESPONSE_DATA_ACCESS_ERROR, &bb, NULL
+        );
         ret = CGXDLMS::GetSNPdu(p, *replyData);
         settings.ResetBlockIndex();
         return ret;
     }
-    if (settings.GetIndex() != settings.GetCount() && server->m_Transaction->GetData().GetSize() < settings.GetMaxPduSize()) {
+    if (settings.GetIndex() != settings.GetCount() &&
+        server->m_Transaction->GetData().GetSize() < settings.GetMaxPduSize()) {
         std::vector<CGXDLMSValueEventArg *> reads;
         std::vector<CGXDLMSValueEventArg *> actions;
 
-        for (std::vector<CGXDLMSValueEventArg *>::iterator it = server->m_Transaction->GetTargets().begin(); it != server->m_Transaction->GetTargets().end();
-             ++it) {
+        for (std::vector<CGXDLMSValueEventArg *>::iterator it = server->m_Transaction->GetTargets().begin();
+             it != server->m_Transaction->GetTargets().end(); ++it) {
             if ((*it)->IsAction()) {
                 actions.push_back(*it);
             } else {
@@ -521,7 +543,9 @@ int CGXDLMSSNCommandHandler::HandleReadBlockNumberAccess(
     }
     settings.IncreaseBlockIndex();
     CGXByteBuffer &tmp = server->m_Transaction->GetData();
-    CGXDLMSSNParameters p(&settings, DLMS_COMMAND_READ_RESPONSE, 1, DLMS_SINGLE_READ_RESPONSE_DATA_BLOCK_RESULT, NULL, &tmp);
+    CGXDLMSSNParameters p(
+        &settings, DLMS_COMMAND_READ_RESPONSE, 1, DLMS_SINGLE_READ_RESPONSE_DATA_BLOCK_RESULT, NULL, &tmp
+    );
     p.SetMultipleBlocks(true);
     ret = CGXDLMS::GetSNPdu(p, *replyData);
     // If all data is sent.
@@ -536,8 +560,8 @@ int CGXDLMSSNCommandHandler::HandleReadBlockNumberAccess(
 }
 
 int CGXDLMSSNCommandHandler::HandleReadDataBlockAccess(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, DLMS_COMMAND command, CGXByteBuffer &data, int cnt, CGXByteBuffer *replyData,
-    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
+    CGXDLMSSettings &settings, CGXDLMSServer *server, DLMS_COMMAND command, CGXByteBuffer &data, int cnt,
+    CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
 ) {
     int ret;
     uint32_t size;
@@ -695,7 +719,9 @@ int CGXDLMSSNCommandHandler::HandleInformationReport(CGXDLMSSettings &settings, 
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
             if (reply.GetXml() != NULL) {
                 reply.GetXml()->IntegerToHex((int32_t)sn, 4, str);
-                reply.GetXml()->AppendLine(DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME, "", str);
+                reply.GetXml()->AppendLine(
+                    DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME, "", str
+                );
             }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
         }

@@ -40,7 +40,8 @@ CGXDLMSSFSKMacCounters::CGXDLMSSFSKMacCounters(): CGXDLMSSFSKMacCounters("0.0.26
 }
 
 //SN Constructor.
-CGXDLMSSFSKMacCounters::CGXDLMSSFSKMacCounters(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_SFSK_MAC_COUNTERS, ln, sn) {
+CGXDLMSSFSKMacCounters::CGXDLMSSFSKMacCounters(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SFSK_MAC_COUNTERS, ln, sn) {
 }
 
 //LN Constructor.
@@ -262,7 +263,8 @@ int CGXDLMSSFSKMacCounters::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
         case 2: {
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_SynchronizationRegister.size(), bb);
-            for (std::vector<std::pair<uint16_t, uint32_t>>::iterator it = m_SynchronizationRegister.begin(); it != m_SynchronizationRegister.end(); ++it) {
+            for (std::vector<std::pair<uint16_t, uint32_t>>::iterator it = m_SynchronizationRegister.begin();
+                 it != m_SynchronizationRegister.end(); ++it) {
                 if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 || (ret = bb.SetUInt8(2)) != 0 ||
                     (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT16, it->first)) != 0 ||
                     (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, it->second)) != 0) {
@@ -273,18 +275,24 @@ int CGXDLMSSFSKMacCounters::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
         } break;
         case 3: {
             if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) == 0 && (ret = bb.SetUInt8(5)) == 0 &&
-                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_PhysicalLayerDesynchronization)) == 0 &&
-                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutNotAddressedDesynchronization)) == 0 &&
-                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutFrameNotOkDesynchronization)) == 0 &&
-                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_WriteRequestDesynchronization)) == 0 &&
-                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_WrongInitiatorDesynchronization)) == 0) {
+                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_PhysicalLayerDesynchronization)) ==
+                    0 &&
+                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutNotAddressedDesynchronization)
+                ) == 0 &&
+                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_TimeOutFrameNotOkDesynchronization)
+                ) == 0 &&
+                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_WriteRequestDesynchronization)) ==
+                    0 &&
+                (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, m_WrongInitiatorDesynchronization)) ==
+                    0) {
                 e.SetValue(bb);
             }
         } break;
         case 4: {
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_BroadcastFramesCounter.size(), bb);
-            for (std::vector<std::pair<uint16_t, uint32_t>>::iterator it = m_BroadcastFramesCounter.begin(); it != m_BroadcastFramesCounter.end(); ++it) {
+            for (std::vector<std::pair<uint16_t, uint32_t>>::iterator it = m_BroadcastFramesCounter.begin();
+                 it != m_BroadcastFramesCounter.end(); ++it) {
                 if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 || (ret = bb.SetUInt8(2)) != 0 ||
                     (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT16, it->first)) != 0 ||
                     (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_UINT32, it->second)) != 0) {
@@ -321,8 +329,11 @@ int CGXDLMSSFSKMacCounters::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
         case 2: {
             m_SynchronizationRegister.clear();
             if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
-                    m_SynchronizationRegister.push_back(std::pair<uint16_t, uint32_t>(it->Arr[0].ToInteger(), it->Arr[1].ToInteger()));
+                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                     ++it) {
+                    m_SynchronizationRegister.push_back(
+                        std::pair<uint16_t, uint32_t>(it->Arr[0].ToInteger(), it->Arr[1].ToInteger())
+                    );
                 }
             }
         } break;
@@ -344,8 +355,11 @@ int CGXDLMSSFSKMacCounters::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
         case 4: {
             m_BroadcastFramesCounter.clear();
             if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
-                    m_BroadcastFramesCounter.push_back(std::pair<uint16_t, uint32_t>(it->Arr[0].ToInteger(), it->Arr[1].ToInteger()));
+                for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                     ++it) {
+                    m_BroadcastFramesCounter.push_back(
+                        std::pair<uint16_t, uint32_t>(it->Arr[0].ToInteger(), it->Arr[1].ToInteger())
+                    );
                 }
             }
         } break;

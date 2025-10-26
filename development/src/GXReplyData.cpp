@@ -253,7 +253,8 @@ void CGXReplyData::SetGbtWindowSize(unsigned char value) {
 }
 
 bool CGXReplyData::IsStreaming() {
-    return (m_MoreData & DLMS_DATA_REQUEST_TYPES_FRAME) == 0 && m_Streaming && (m_BlockNumberAck * m_GbtWindowSize) + 1 > m_BlockNumber;
+    return (m_MoreData & DLMS_DATA_REQUEST_TYPES_FRAME) == 0 && m_Streaming &&
+        (m_BlockNumberAck * m_GbtWindowSize) + 1 > m_BlockNumber;
 }
 
 unsigned short CGXReplyData::GetClientAddress() {

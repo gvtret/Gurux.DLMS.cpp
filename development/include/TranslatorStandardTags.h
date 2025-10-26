@@ -101,8 +101,10 @@ public:
         list[DLMS_COMMAND_WRITE_RESPONSE] = "writeResponse";
         list[DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_SINGLE_READ_RESPONSE_DATA] = "Data";
         list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME] = "variable-name";
-        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_PARAMETERISED_ACCESS] = "parameterized-access";
-        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_BLOCK_NUMBER_ACCESS] = "BlockNumberAccess";
+        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_PARAMETERISED_ACCESS] =
+            "parameterized-access";
+        list[DLMS_COMMAND_READ_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_BLOCK_NUMBER_ACCESS] =
+            "BlockNumberAccess";
         list[DLMS_COMMAND_WRITE_REQUEST << 8 | DLMS_VARIABLE_ACCESS_SPECIFICATION_VARIABLE_NAME] = "variable-name";
         list[DLMS_COMMAND_READ_RESPONSE] = "readResponse";
         list[DLMS_COMMAND_READ_RESPONSE << 8 | DLMS_SINGLE_READ_RESPONSE_DATA_BLOCK_RESULT] = "DataBlockResult";
@@ -126,9 +128,12 @@ public:
         list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_NORMAL] = "action-request-normal";
         list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_NEXT_BLOCK] = "action-request-for-next-pblock";
         list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_LIST] = "action-request-with-list";
-        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_FIRST_BLOCK] = "action-request-with-first-block";
-        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_LIST_AND_FIRST_BLOCK] = "action-request-with-with-list-and-first-block";
-        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_BLOCK] = "action-request-with-with-list-and-block";
+        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_FIRST_BLOCK] =
+            "action-request-with-first-block";
+        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_LIST_AND_FIRST_BLOCK] =
+            "action-request-with-with-list-and-first-block";
+        list[DLMS_COMMAND_METHOD_REQUEST << 8 | DLMS_ACTION_REQUEST_TYPE_WITH_BLOCK] =
+            "action-request-with-with-list-and-block";
         list[DLMS_COMMAND_METHOD_RESPONSE] = "action-response";
         list[DLMS_COMMAND_METHOD_RESPONSE << 8 | DLMS_ACTION_RESPONSE_TYPE_NORMAL] = "action-response-normal";
         list[DLMS_COMMAND_METHOD_RESPONSE << 8 | DLMS_ACTION_RESPONSE_TYPE_WITH_BLOCK] = "action-response-with-pblock";
@@ -143,7 +148,8 @@ public:
         list[DLMS_COMMAND_SET_RESPONSE] = "set-response";
         list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_NORMAL] = "set-response-normal";
         list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_DATA_BLOCK] = "set-response-data-block";
-        list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_LAST_DATA_BLOCK] = "set-response-with-last-data-block";
+        list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_LAST_DATA_BLOCK] =
+            "set-response-with-last-data-block";
         list[DLMS_COMMAND_SET_RESPONSE << 8 | DLMS_SET_RESPONSE_TYPE_WITH_LIST] = "set-response-with-list";
         list[DLMS_COMMAND_ACCESS_REQUEST] = "access-request";
         list[DLMS_COMMAND_ACCESS_REQUEST << 8 | DLMS_ACCESS_SERVICE_COMMAND_TYPE_GET] = "access-request-get";

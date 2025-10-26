@@ -21,7 +21,11 @@ TEST(CGXCipherTest, DecryptReturnsInvalidTagWhenAuthenticationTagCorrupted) {
 
     const unsigned long frameCounter = 1;
     ASSERT_EQ(
-        0, cipher.Encrypt(DLMS_SECURITY_SUITE_V0, DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_DATA, frameCounter, 0, systemTitle, blockKey, encrypted, true)
+        0,
+        cipher.Encrypt(
+            DLMS_SECURITY_SUITE_V0, DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_DATA, frameCounter, 0, systemTitle,
+            blockKey, encrypted, true
+        )
     );
 
     const size_t kHeaderLength = 1 + cipher.GetAuthenticationKey().GetSize();
@@ -35,7 +39,10 @@ TEST(CGXCipherTest, DecryptReturnsInvalidTagWhenAuthenticationTagCorrupted) {
 
     EXPECT_EQ(
         DLMS_ERROR_CODE_INVALID_TAG,
-        cipher.Encrypt(DLMS_SECURITY_SUITE_V0, DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_DATA, frameCounter, 0, systemTitle, blockKey, tampered, false)
+        cipher.Encrypt(
+            DLMS_SECURITY_SUITE_V0, DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_DATA, frameCounter, 0, systemTitle,
+            blockKey, tampered, false
+        )
     );
 }
 
@@ -55,7 +62,10 @@ TEST(CGXCipherTest, DecryptRejectsFramesMissingAuthenticationTag) {
     const unsigned long frameCounter = 1;
     EXPECT_EQ(
         DLMS_ERROR_CODE_INVALID_PARAMETER,
-        cipher.Encrypt(DLMS_SECURITY_SUITE_V0, DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_DATA, frameCounter, 0, systemTitle, blockKey, encrypted, false)
+        cipher.Encrypt(
+            DLMS_SECURITY_SUITE_V0, DLMS_SECURITY_AUTHENTICATION, DLMS_COUNT_TYPE_DATA, frameCounter, 0, systemTitle,
+            blockKey, encrypted, false
+        )
     );
 }
 

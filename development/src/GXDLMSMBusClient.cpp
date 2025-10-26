@@ -39,7 +39,8 @@
 CGXDLMSMBusClient::CGXDLMSMBusClient(): CGXDLMSMBusClient("", 0) {
 }
 
-CGXDLMSMBusClient::CGXDLMSMBusClient(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_MBUS_CLIENT, ln, sn) {
+CGXDLMSMBusClient::CGXDLMSMBusClient(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_MBUS_CLIENT, ln, sn) {
     m_CapturePeriod = 0;
     m_PrimaryAddress = 0;
     m_IdentificationNumber = 0;
@@ -203,7 +204,9 @@ int CGXDLMSMBusClient::SynchronizeClock(CGXDLMSClient *client, std::vector<CGXBy
     return client->Method(this, 5, data, reply);
 }
 
-int CGXDLMSMBusClient::SendData(CGXDLMSClient *client, std::vector<CGXMBusClientData> &data, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSMBusClient::SendData(
+    CGXDLMSClient *client, std::vector<CGXMBusClientData> &data, std::vector<CGXByteBuffer> &reply
+) {
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
     bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -223,7 +226,9 @@ int CGXDLMSMBusClient::SendData(CGXDLMSClient *client, std::vector<CGXMBusClient
     return client->Method(this, 6, tmp, DLMS_DATA_TYPE_ARRAY, reply);
 }
 
-int CGXDLMSMBusClient::SetEncryptionKey(CGXDLMSClient *client, CGXByteBuffer &encryptionKey, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSMBusClient::SetEncryptionKey(
+    CGXDLMSClient *client, CGXByteBuffer &encryptionKey, std::vector<CGXByteBuffer> &reply
+) {
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING);
     GXHelpers::SetObjectCount(encryptionKey.GetSize(), bb);
@@ -232,7 +237,9 @@ int CGXDLMSMBusClient::SetEncryptionKey(CGXDLMSClient *client, CGXByteBuffer &en
     return client->Method(this, 7, tmp, DLMS_DATA_TYPE_ARRAY, reply);
 }
 
-int CGXDLMSMBusClient::TransferKey(CGXDLMSClient *client, CGXByteBuffer &encryptionKey, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSMBusClient::TransferKey(
+    CGXDLMSClient *client, CGXByteBuffer &encryptionKey, std::vector<CGXByteBuffer> &reply
+) {
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING);
     GXHelpers::SetObjectCount(encryptionKey.GetSize(), bb);
@@ -250,7 +257,8 @@ void CGXDLMSMBusClient::GetValues(std::vector<std::string> &values) {
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<std::pair<std::string, std::string>>::iterator it = m_CaptureDefinition.begin(); it != m_CaptureDefinition.end(); ++it) {
+    for (std::vector<std::pair<std::string, std::string>>::iterator it = m_CaptureDefinition.begin();
+         it != m_CaptureDefinition.end(); ++it) {
         if (!empty) {
             sb << ", ";
         }

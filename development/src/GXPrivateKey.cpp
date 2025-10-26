@@ -81,7 +81,8 @@ int CGXPrivateKey::FromRawBytes(CGXByteBuffer &value, CGXPrivateKey &key) {
 int CGXPrivateKey::UpdateSchema(CGXAsn1Sequence *seq, CGXPrivateKey &key) {
     int ret = 0;
     if (CGXAsn1Sequence *tmp = dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(2))) {
-        DLMS_X9_OBJECT_IDENTIFIER id = CGXDLMSConverter::ValueOfX9Identifier(tmp->GetValues()->at(0)->ToString().c_str());
+        DLMS_X9_OBJECT_IDENTIFIER id =
+            CGXDLMSConverter::ValueOfX9Identifier(tmp->GetValues()->at(0)->ToString().c_str());
         switch (id) {
             case DLMS_X9_OBJECT_IDENTIFIER_PRIME_256_V1:
                 key.m_Scheme = ECC_P256;

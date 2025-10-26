@@ -61,14 +61,16 @@ void CGXPlcSettings::SetDeltaCredit(unsigned char value) {
 }
 
 CGXByteBuffer &CGXPlcSettings::GetSystemTitle() {
-    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetCipher() != NULL) {
+    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
+        m_Settings->GetCipher() != NULL) {
         return m_Settings->GetCipher()->GetSystemTitle();
     }
     return m_SystemTitle;
 }
 
 void CGXPlcSettings::SetSystemTitle(CGXByteBuffer &value) {
-    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetCipher() != NULL) {
+    if (m_Settings != NULL && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
+        m_Settings->GetCipher() != NULL) {
         m_Settings->GetCipher()->SetSystemTitle(value);
     }
     m_SystemTitle = value;
@@ -150,7 +152,8 @@ CGXPlcSettings::CGXPlcSettings(CGXDLMSSettings *settings) {
 }
 
 int CGXPlcSettings::DiscoverRequest(CGXByteBuffer &data) {
-    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC) {
+    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
+        m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     int ret;
@@ -198,7 +201,8 @@ int CGXPlcSettings::DiscoverRequest(CGXByteBuffer &data) {
 }
 
 int CGXPlcSettings::DiscoverReport(CGXByteBuffer &systemTitle, bool newMeter, CGXByteBuffer &data) {
-    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC && m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC) {
+    if (m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC &&
+        m_Settings->GetInterfaceType() != DLMS_INTERFACE_TYPE_PLC_HDLC) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     CGXByteBuffer bb;
@@ -240,7 +244,9 @@ int CGXPlcSettings::DiscoverReport(CGXByteBuffer &systemTitle, bool newMeter, CG
     return ret;
 }
 
-int CGXPlcSettings::ParseDiscover(CGXByteBuffer &value, uint16_t sa, uint16_t da, std::vector<CGXDLMSPlcMeterInfo> &list) {
+int CGXPlcSettings::ParseDiscover(
+    CGXByteBuffer &value, uint16_t sa, uint16_t da, std::vector<CGXDLMSPlcMeterInfo> &list
+) {
     int ret;
     unsigned char ch, count;
     if ((ret = value.GetUInt8(&count)) == 0) {
@@ -276,7 +282,9 @@ int CGXPlcSettings::ParseDiscover(CGXByteBuffer &value, uint16_t sa, uint16_t da
     return ret;
 }
 
-int CGXPlcSettings::RegisterRequest(CGXByteBuffer &initiatorSystemTitle, CGXByteBuffer &systemTitle, CGXByteBuffer &data) {
+int CGXPlcSettings::RegisterRequest(
+    CGXByteBuffer &initiatorSystemTitle, CGXByteBuffer &systemTitle, CGXByteBuffer &data
+) {
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_COMMAND_REGISTER_REQUEST);
     bb.Set(initiatorSystemTitle.GetData(), initiatorSystemTitle.GetSize());

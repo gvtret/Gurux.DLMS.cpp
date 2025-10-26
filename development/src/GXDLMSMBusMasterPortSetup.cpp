@@ -41,7 +41,8 @@ CGXDLMSMBusMasterPortSetup::CGXDLMSMBusMasterPortSetup(): CGXDLMSMBusMasterPortS
 }
 
 //SN Constructor.
-CGXDLMSMBusMasterPortSetup::CGXDLMSMBusMasterPortSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_MBUS_MASTER_PORT_SETUP, ln, sn) {
+CGXDLMSMBusMasterPortSetup::CGXDLMSMBusMasterPortSetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_MBUS_MASTER_PORT_SETUP, ln, sn) {
     m_CommSpeed = DLMS_BAUD_RATE_2400;
 }
 

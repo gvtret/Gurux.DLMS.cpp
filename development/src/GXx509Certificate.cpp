@@ -71,7 +71,8 @@ int CGXx509Certificate::GetFilePath(CGXx509Certificate &cert, std::string &path)
 }
 
 int CGXx509Certificate::GetFilePath(ECC ecc, DLMS_KEY_USAGE usage, std::string &systemTitle, std::string &path) {
-    if ((usage & (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT)) == (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT)) {
+    if ((usage & (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT)) ==
+        (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT)) {
         path = "T";
     } else if ((usage & DLMS_KEY_USAGE_DIGITAL_SIGNATURE) != 0) {
         path = "D";
@@ -187,7 +188,8 @@ int CGXx509Certificate::UpdateSignatureAlgorithm(CGXAsn1Sequence *reqInfo) {
     if (CGXAsn1Sequence *tmp = dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(2))) {
         if (CGXAsn1ObjectIdentifier *value = dynamic_cast<CGXAsn1ObjectIdentifier *>(tmp->GetValues()->at(0))) {
             m_SignatureAlgorithm = CGXDLMSConverter::ValueOfHashAlgorithm(value->GetObjectIdentifier().c_str());
-            if (m_SignatureAlgorithm != DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA && m_SignatureAlgorithm != DLMS_HASH_ALGORITHM_SHA_384_WITH_ECDSA) {
+            if (m_SignatureAlgorithm != DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA &&
+                m_SignatureAlgorithm != DLMS_HASH_ALGORITHM_SHA_384_WITH_ECDSA) {
                 ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
             }
         } else {
@@ -288,9 +290,11 @@ int CGXx509Certificate::UpdateExtendedKeyUsage(CGXAsn1Base *value) {
         for (std::vector<CGXAsn1Base *>::iterator it = tmp->GetValues()->begin(); it != tmp->GetValues()->end(); ++it) {
             if (CGXAsn1ObjectIdentifier *eku = dynamic_cast<CGXAsn1ObjectIdentifier *>(*it)) {
                 if (eku->GetObjectIdentifier() == "1.3.6.1.5.5.7.3.1") {
-                    m_ExtendedKeyUsage = (DLMS_EXTENDED_KEY_USAGE)(m_ExtendedKeyUsage | DLMS_EXTENDED_KEY_USAGE_SERVER_AUTH);
+                    m_ExtendedKeyUsage =
+                        (DLMS_EXTENDED_KEY_USAGE)(m_ExtendedKeyUsage | DLMS_EXTENDED_KEY_USAGE_SERVER_AUTH);
                 } else if (eku->GetObjectIdentifier() == "1.3.6.1.5.5.7.3.2") {
-                    m_ExtendedKeyUsage = (DLMS_EXTENDED_KEY_USAGE)(m_ExtendedKeyUsage | DLMS_EXTENDED_KEY_USAGE_CLIENT_AUTH);
+                    m_ExtendedKeyUsage =
+                        (DLMS_EXTENDED_KEY_USAGE)(m_ExtendedKeyUsage | DLMS_EXTENDED_KEY_USAGE_CLIENT_AUTH);
                 } else {
                     printf("Invalid extended key usage.");
                     ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
@@ -320,9 +324,11 @@ int CGXx509Certificate::UpdateAuthorityKeyIdentifier(CGXAsn1Base *value) {
                         std::string sb;
                         if (CGXAsn1Context *a2 = dynamic_cast<CGXAsn1Context *>(a->GetValues()->at(0))) {
                             if (CGXAsn1Sequence *value = dynamic_cast<CGXAsn1Sequence *>(a2->GetValues()->at(0))) {
-                                for (std::vector<CGXAsn1Base *>::iterator kp = value->GetValues()->begin(); kp != value->GetValues()->end(); ++kp) {
+                                for (std::vector<CGXAsn1Base *>::iterator kp = value->GetValues()->begin();
+                                     kp != value->GetValues()->end(); ++kp) {
                                     if (CGXAsn1Set *it2 = dynamic_cast<CGXAsn1Set *>(*kp)) {
-                                        DLMS_X509_NAME name = CGXDLMSConverter::ValueOfx509Name(it2->GetKey()->ToString().c_str());
+                                        DLMS_X509_NAME name =
+                                            CGXDLMSConverter::ValueOfx509Name(it2->GetKey()->ToString().c_str());
                                         sb += CGXDLMSConverter::GetName(name);
                                         sb += "=";
                                         sb += it2->GetValue()->ToString();
@@ -364,10 +370,14 @@ int CGXx509Certificate::UpdateStandardExtensions(CGXAsn1Sequence *reqInfo, bool 
             if (CGXAsn1Context *list = dynamic_cast<CGXAsn1Context *>(reqInfo->GetValues()->at(7))) {
                 if (CGXAsn1Sequence *s = dynamic_cast<CGXAsn1Sequence *>(list->GetValues()->at(0))) {
                     DLMS_X509_CERTIFICATE_TYPE t;
-                    for (std::vector<CGXAsn1Base *>::iterator tmp = s->GetValues()->begin(); tmp != s->GetValues()->end(); ++tmp) {
+                    for (std::vector<CGXAsn1Base *>::iterator tmp = s->GetValues()->begin();
+                         tmp != s->GetValues()->end(); ++tmp) {
                         if (CGXAsn1Sequence *s = dynamic_cast<CGXAsn1Sequence *>(*tmp)) {
-                            if (CGXAsn1ObjectIdentifier *id = dynamic_cast<CGXAsn1ObjectIdentifier *>(s->GetValues()->at(0))) {
-                                t = CGXDLMSConverter::ValueOfSourceDiagnosticX509CertificateType(id->GetObjectIdentifier().c_str());
+                            if (CGXAsn1ObjectIdentifier *id =
+                                    dynamic_cast<CGXAsn1ObjectIdentifier *>(s->GetValues()->at(0))) {
+                                t = CGXDLMSConverter::ValueOfSourceDiagnosticX509CertificateType(
+                                    id->GetObjectIdentifier().c_str()
+                                );
                                 value = s->GetValues()->at(1);
                                 switch (t) {
                                     case DLMS_X509_CERTIFICATE_TYPE_SUBJECT_KEY_IDENTIFIER:
@@ -426,8 +436,9 @@ int CGXx509Certificate::Init(CGXByteBuffer &data) {
                 ret = DLMS_ERROR_CODE_INVALID_DATA_FORMAT;
             } else if (CGXAsn1Sequence *reqInfo = dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(0))) {
                 if (CGXAsn1Context *tmp = dynamic_cast<CGXAsn1Context *>(reqInfo->GetValues()->at(0))) {
-                    if ((ret = UpdateVersion(tmp)) != 0 || (ret = UpdateSerialNumber(reqInfo)) != 0 || (ret = UpdateSignatureAlgorithm(reqInfo)) != 0 ||
-                        (ret = UpdateIssuer(reqInfo)) != 0 || (ret = UpdateValidity(reqInfo)) != 0 ||
+                    if ((ret = UpdateVersion(tmp)) != 0 || (ret = UpdateSerialNumber(reqInfo)) != 0 ||
+                        (ret = UpdateSignatureAlgorithm(reqInfo)) != 0 || (ret = UpdateIssuer(reqInfo)) != 0 ||
+                        (ret = UpdateValidity(reqInfo)) != 0 ||
                         (ret = UpdateStandardExtensions(reqInfo, basicConstraintsExists)) != 0) {
                         delete value;
                         return ret;
@@ -450,7 +461,8 @@ int CGXx509Certificate::Init(CGXByteBuffer &data) {
                         bool commonNameFound = false;
                         CGXAsn1Sequence *tmp = dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(5));
                         {
-                            for (std::vector<CGXAsn1Base *>::iterator it = tmp->GetValues()->begin(); it != tmp->GetValues()->end(); ++it) {
+                            for (std::vector<CGXAsn1Base *>::iterator it = tmp->GetValues()->begin();
+                                 it != tmp->GetValues()->end(); ++it) {
                                 CGXAsn1Set *tmp2 = dynamic_cast<CGXAsn1Set *>(*it);
                                 {
                                     if (CN == tmp2->GetKey()->ToString()) {
@@ -476,26 +488,31 @@ int CGXx509Certificate::Init(CGXByteBuffer &data) {
                         delete value;
                         return DLMS_ERROR_CODE_INVALID_PARAMETER;
                     }
-                    if ((m_KeyUsage & (DLMS_KEY_USAGE_KEY_CERT_SIGN | DLMS_KEY_USAGE_CRL_SIGN)) != 0 && !basicConstraintsExists) {
+                    if ((m_KeyUsage & (DLMS_KEY_USAGE_KEY_CERT_SIGN | DLMS_KEY_USAGE_CRL_SIGN)) != 0 &&
+                        !basicConstraintsExists) {
                         printf("Basic Constraints value not present. It's mandotory.");
                         delete value;
                         return DLMS_ERROR_CODE_INVALID_PARAMETER;
                     }
-                    if (m_KeyUsage == (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT) && m_ExtendedKeyUsage == DLMS_EXTENDED_KEY_USAGE_NONE) {
+                    if (m_KeyUsage == (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT) &&
+                        m_ExtendedKeyUsage == DLMS_EXTENDED_KEY_USAGE_NONE) {
                         printf("Extended key usage not present. It's mandotory for TLS.");
                         delete value;
                         return DLMS_ERROR_CODE_INVALID_PARAMETER;
                     }
-                    if (m_ExtendedKeyUsage != DLMS_EXTENDED_KEY_USAGE_NONE && m_KeyUsage != (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT)) {
+                    if (m_ExtendedKeyUsage != DLMS_EXTENDED_KEY_USAGE_NONE &&
+                        m_KeyUsage != (DLMS_KEY_USAGE_DIGITAL_SIGNATURE | DLMS_KEY_USAGE_KEY_AGREEMENT)) {
                         printf("Extended key usage present. It's used only for TLS.");
                         delete value;
                         return DLMS_ERROR_CODE_INVALID_PARAMETER;
                     }
                     CGXAsn1Sequence *tmp2 = dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(1));
                     {
-                        m_PublicKeyAlgorithm = CGXDLMSConverter::ValueOfHashAlgorithm(tmp2->GetValues()->at(0)->ToString().c_str());
+                        m_PublicKeyAlgorithm =
+                            CGXDLMSConverter::ValueOfHashAlgorithm(tmp2->GetValues()->at(0)->ToString().c_str());
                     }
-                    if (m_PublicKeyAlgorithm != DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA && m_PublicKeyAlgorithm != DLMS_HASH_ALGORITHM_SHA_384_WITH_ECDSA) {
+                    if (m_PublicKeyAlgorithm != DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA &&
+                        m_PublicKeyAlgorithm != DLMS_HASH_ALGORITHM_SHA_384_WITH_ECDSA) {
                         printf("DLMS certificate must be signed with ECDSA with SHA256 or SHA384.");
                         delete value;
                         return DLMS_ERROR_CODE_INVALID_PARAMETER;

@@ -42,7 +42,9 @@ CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::CGXDLMSPrimeNbOfdmPlcMacNetwo
 }
 
 //SN Constructor.
-CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData(std::string ln, unsigned short sn)
+CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData(
+    std::string ln, unsigned short sn
+)
     : CGXDLMSObject(DLMS_OBJECT_TYPE_PRIME_NB_OFDM_PLC_MAC_NETWORK_ADMINISTRATION_DATA, ln, sn) {
 }
 
@@ -98,7 +100,8 @@ void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetValues(std::vector<st
     sb << '[';
     bool empty = true;
     {
-        for (std::vector<CGXMacMulticastEntry *>::iterator it = m_MulticastEntries.begin(); it != m_MulticastEntries.end(); ++it) {
+        for (std::vector<CGXMacMulticastEntry *>::iterator it = m_MulticastEntries.begin();
+             it != m_MulticastEntries.end(); ++it) {
             if (!empty) {
                 sb << ", ";
             }
@@ -147,7 +150,8 @@ void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetValues(std::vector<st
     {
         sb << '[';
         empty = true;
-        for (std::vector<CGXMacAvailableSwitch *>::iterator it = m_AvailableSwitches.begin(); it != m_AvailableSwitches.end(); ++it) {
+        for (std::vector<CGXMacAvailableSwitch *>::iterator it = m_AvailableSwitches.begin();
+             it != m_AvailableSwitches.end(); ++it) {
             if (!empty) {
                 sb << ", ";
             }
@@ -163,7 +167,8 @@ void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetValues(std::vector<st
     {  //std::vector<CGXMacPhyCommunication*> m_Communications;
         sb << '[';
         empty = true;
-        for (std::vector<CGXMacPhyCommunication *>::iterator it = m_Communications.begin(); it != m_Communications.end(); ++it) {
+        for (std::vector<CGXMacPhyCommunication *>::iterator it = m_Communications.begin();
+             it != m_Communications.end(); ++it) {
             if (!empty) {
                 sb << ", ";
             }
@@ -194,7 +199,9 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::Invoke(CGXDLMSSettings &s
     return DLMS_ERROR_CODE_OK;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetAttributeIndexToRead(
+    bool all, std::vector<int> &attributes
+) {
     //LN is static and read only once.
     if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
         attributes.push_back(1);
@@ -241,15 +248,19 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetDataType(int index, DL
     return ret;
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetMulticastEntries(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetMulticastEntries(
+    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+) {
     int ret = 0;
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
     GXHelpers::SetObjectCount((unsigned long)m_MulticastEntries.size(), bb);
-    for (std::vector<CGXMacMulticastEntry *>::iterator it = m_MulticastEntries.begin(); it != m_MulticastEntries.end(); ++it) {
+    for (std::vector<CGXMacMulticastEntry *>::iterator it = m_MulticastEntries.begin(); it != m_MulticastEntries.end();
+         ++it) {
         CGXDLMSVariant a = (*it)->GetId(), b = (*it)->GetMembers();
         if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 || (ret = bb.SetUInt8(2)) != 0 ||
-            (ret = GXHelpers::SetData(NULL, bb, DLMS_DATA_TYPE_INT8, a)) != 0 || (ret = GXHelpers::SetData(NULL, bb, DLMS_DATA_TYPE_INT16, b)) != 0) {
+            (ret = GXHelpers::SetData(NULL, bb, DLMS_DATA_TYPE_INT8, a)) != 0 ||
+            (ret = GXHelpers::SetData(NULL, bb, DLMS_DATA_TYPE_INT16, b)) != 0) {
             break;
         }
     }
@@ -259,7 +270,9 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetMulticastEntries(CGXDL
     return ret;
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetSwitchTable(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetSwitchTable(
+    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+) {
     int ret = 0;
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
@@ -275,7 +288,9 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetSwitchTable(CGXDLMSSet
     return ret;
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetDirectTable(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetDirectTable(
+    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+) {
     int ret = 0;
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
@@ -298,12 +313,15 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetDirectTable(CGXDLMSSet
     return ret;
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetAvailableSwitches(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetAvailableSwitches(
+    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+) {
     int ret = 0;
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
     GXHelpers::SetObjectCount((unsigned long)m_AvailableSwitches.size(), bb);
-    for (std::vector<CGXMacAvailableSwitch *>::iterator it = m_AvailableSwitches.begin(); it != m_AvailableSwitches.end(); ++it) {
+    for (std::vector<CGXMacAvailableSwitch *>::iterator it = m_AvailableSwitches.begin();
+         it != m_AvailableSwitches.end(); ++it) {
         if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 || (ret = bb.SetUInt8(5)) != 0 ||
             (ret = GXHelpers::SetData2(NULL, bb, DLMS_DATA_TYPE_OCTET_STRING, (*it)->GetSna())) != 0 ||
             (ret = GXHelpers::SetData2(NULL, bb, DLMS_DATA_TYPE_INT16, (*it)->GetLsId())) != 0 ||
@@ -319,12 +337,15 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetAvailableSwitches(CGXD
     return ret;
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetCommunications(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetCommunications(
+    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+) {
     int ret = 0;
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
     GXHelpers::SetObjectCount((unsigned long)m_Communications.size(), bb);
-    for (std::vector<CGXMacPhyCommunication *>::iterator it = m_Communications.begin(); it != m_Communications.end(); ++it) {
+    for (std::vector<CGXMacPhyCommunication *>::iterator it = m_Communications.begin(); it != m_Communications.end();
+         ++it) {
         if ((ret = bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE)) != 0 || (ret = bb.SetUInt8(9)) != 0 ||
             (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_OCTET_STRING, (*it)->GetEui())) != 0 ||
             (ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_INT8, (*it)->GetTxPower())) != 0 ||
@@ -378,7 +399,8 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetValue(CGXDLMSSettings 
 }
 
 void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::ClearMulticastEntry() {
-    for (std::vector<CGXMacMulticastEntry *>::iterator it = m_MulticastEntries.begin(); it != m_MulticastEntries.end(); ++it) {
+    for (std::vector<CGXMacMulticastEntry *>::iterator it = m_MulticastEntries.begin(); it != m_MulticastEntries.end();
+         ++it) {
         delete (*it);
     }
     m_MulticastEntries.clear();
@@ -392,14 +414,16 @@ void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::ClearDirectTable() {
 }
 
 void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::ClearAvailableSwitches() {
-    for (std::vector<CGXMacAvailableSwitch *>::iterator it = m_AvailableSwitches.begin(); it != m_AvailableSwitches.end(); ++it) {
+    for (std::vector<CGXMacAvailableSwitch *>::iterator it = m_AvailableSwitches.begin();
+         it != m_AvailableSwitches.end(); ++it) {
         delete (*it);
     }
     m_AvailableSwitches.clear();
 }
 
 void CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::ClearCommunications() {
-    for (std::vector<CGXMacPhyCommunication *>::iterator it = m_Communications.begin(); it != m_Communications.end(); ++it) {
+    for (std::vector<CGXMacPhyCommunication *>::iterator it = m_Communications.begin(); it != m_Communications.end();
+         ++it) {
         delete (*it);
     }
     m_Communications.clear();

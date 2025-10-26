@@ -70,8 +70,10 @@ class CGXDLMSTranslator {
 
     int PduToXml(CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace, std::string &output);
 
-    int
-    PduToXml(CGXDLMSTranslatorStructure *xml, CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace, bool allowUnknownCommand, std::string &output);
+    int PduToXml(
+        CGXDLMSTranslatorStructure *xml, CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace,
+        bool allowUnknownCommand, std::string &output
+    );
     void GetCiphering(CGXDLMSSettings &settings, bool force);
 
 public:
@@ -151,7 +153,10 @@ public:
     * list: List of tags by ID.
     * tagsByName: List of tags by name.
     */
-    static void GetTags(DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list, std::map<std::string, unsigned long> &tagsByName) {
+    static void GetTags(
+        DLMS_TRANSLATOR_OUTPUT_TYPE type, std::map<unsigned long, std::string> &list,
+        std::map<std::string, unsigned long> &tagsByName
+    ) {
         if (type == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
             CTranslatorSimpleTags::GetGeneralTags(type, list);
             CTranslatorSimpleTags::GetSnTags(type, list);

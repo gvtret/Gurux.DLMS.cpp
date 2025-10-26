@@ -99,7 +99,8 @@ public:
      systemTitle: System title.
      Returns File path.
     */
-    static int GetFilePath(ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, CGXByteBuffer &systemTitle, std::string &path);
+    static int
+    GetFilePath(ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, CGXByteBuffer &systemTitle, std::string &path);
 
     /**
      Description is extra metadata that is saved to PEM file.

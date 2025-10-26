@@ -40,7 +40,8 @@ CGXDLMSSFSKActiveInitiator::CGXDLMSSFSKActiveInitiator(): CGXDLMSSFSKActiveIniti
 }
 
 //SN Constructor.
-CGXDLMSSFSKActiveInitiator::CGXDLMSSFSKActiveInitiator(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_SFSK_ACTIVE_INITIATOR, ln, sn) {
+CGXDLMSSFSKActiveInitiator::CGXDLMSSFSKActiveInitiator(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SFSK_ACTIVE_INITIATOR, ln, sn) {
 }
 
 //LN Constructor.

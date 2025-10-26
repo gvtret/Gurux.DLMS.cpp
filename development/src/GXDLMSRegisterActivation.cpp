@@ -44,7 +44,8 @@ CGXDLMSRegisterActivation::CGXDLMSRegisterActivation(): CGXDLMSRegisterActivatio
 }
 
 //SN Constructor.
-CGXDLMSRegisterActivation::CGXDLMSRegisterActivation(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_REGISTER_ACTIVATION, ln, sn) {
+CGXDLMSRegisterActivation::CGXDLMSRegisterActivation(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_REGISTER_ACTIVATION, ln, sn) {
 }
 
 //LN Constructor.
@@ -82,7 +83,8 @@ void CGXDLMSRegisterActivation::GetValues(std::vector<std::string> &values) {
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<CGXDLMSObjectDefinition>::iterator it = m_RegisterAssignment.begin(); it != m_RegisterAssignment.end(); ++it) {
+    for (std::vector<CGXDLMSObjectDefinition>::iterator it = m_RegisterAssignment.begin();
+         it != m_RegisterAssignment.end(); ++it) {
         if (!empty) {
             sb << ", ";
         }
@@ -172,7 +174,8 @@ int CGXDLMSRegisterActivation::GetValue(CGXDLMSSettings &settings, CGXDLMSValueE
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         GXHelpers::SetObjectCount((unsigned long)m_RegisterAssignment.size(), data);
         CGXDLMSVariant id, ln;
-        for (std::vector<CGXDLMSObjectDefinition>::iterator it = m_RegisterAssignment.begin(); it != m_RegisterAssignment.end(); ++it) {
+        for (std::vector<CGXDLMSObjectDefinition>::iterator it = m_RegisterAssignment.begin();
+             it != m_RegisterAssignment.end(); ++it) {
             GXHelpers::SetLogicalName(it->GetLogicalName().c_str(), ln);
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(2);
@@ -191,7 +194,8 @@ int CGXDLMSRegisterActivation::GetValue(CGXDLMSSettings &settings, CGXDLMSValueE
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         CGXDLMSVariant tmp;
         GXHelpers::SetObjectCount((unsigned long)m_MaskList.size(), data);
-        for (std::vector<std::pair<CGXByteBuffer, CGXByteBuffer>>::iterator it = m_MaskList.begin(); it != m_MaskList.end(); ++it) {
+        for (std::vector<std::pair<CGXByteBuffer, CGXByteBuffer>>::iterator it = m_MaskList.begin();
+             it != m_MaskList.end(); ++it) {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             data.SetUInt8(2);
             tmp = it->first;
@@ -223,7 +227,8 @@ int CGXDLMSRegisterActivation::SetValue(CGXDLMSSettings &settings, CGXDLMSValueE
     } else if (e.GetIndex() == 2) {
         m_RegisterAssignment.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXDLMSObjectDefinition item;
                 item.SetObjectType((DLMS_OBJECT_TYPE)it->Arr[0].ToInteger());
                 std::string ln;
@@ -235,7 +240,8 @@ int CGXDLMSRegisterActivation::SetValue(CGXDLMSSettings &settings, CGXDLMSValueE
     } else if (e.GetIndex() == 3) {
         m_MaskList.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXByteBuffer key, arr;
                 key.Set(it->Arr[0].byteArr, it->Arr[0].size);
                 for (std::vector<CGXDLMSVariant>::iterator v = it->Arr[1].Arr.begin(); v != it->Arr[1].Arr.end(); ++v) {

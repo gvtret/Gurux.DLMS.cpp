@@ -125,8 +125,8 @@ public:
      *            Data.
      */
     CGXDLMSLNParameters(
-        CGXDLMSSettings *settings, unsigned long invokeId, DLMS_COMMAND command, int commandType, CGXByteBuffer *attributeDescriptor, CGXByteBuffer *data,
-        int status, unsigned char cipheredCommand
+        CGXDLMSSettings *settings, unsigned long invokeId, DLMS_COMMAND command, int commandType,
+        CGXByteBuffer *attributeDescriptor, CGXByteBuffer *data, int status, unsigned char cipheredCommand
     );
 
     /**

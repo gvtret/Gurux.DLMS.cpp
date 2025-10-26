@@ -62,7 +62,8 @@
     *            starting index.
     * Returns  CGXDLMSVariant array.
     */
-static int GetArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, int index, CGXDLMSVariant &value) {
+static int
+GetArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, int index, CGXDLMSVariant &value) {
     int ret;
     uint32_t cnt = 0;
     CGXDataInfo info2;
@@ -1259,7 +1260,8 @@ static int GetBool(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value
 }
 
 int GXHelpers::GetCompactArrayItem(
-    CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt, std::vector<CGXDLMSVariant> &list, int len
+    CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt, std::vector<CGXDLMSVariant> &list,
+    int len
 ) {
     int ret;
     CGXDLMSVariant tmp;
@@ -1279,7 +1281,9 @@ int GXHelpers::GetCompactArrayItem(
     return 0;
 }
 
-int GXHelpers::GetCompactArrayItem(CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE dt, std::vector<CGXDLMSVariant> &list, int len) {
+int GXHelpers::GetCompactArrayItem(
+    CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE dt, std::vector<CGXDLMSVariant> &list, int len
+) {
     int ret;
     CGXDataInfo tmp;
     tmp.SetType(dt);
@@ -1394,7 +1398,9 @@ int GXHelpers::AppendDataTypeAsXml(std::vector<CGXDLMSVariant> &cols, CGXDataInf
     return 0;
 }
 
-int GXHelpers::GetCompactArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
+int GXHelpers::GetCompactArray(
+    CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value
+) {
     std::string str;
     int ret;
     unsigned char ch;
@@ -2259,9 +2265,15 @@ int GXHelpers::GetDataTypeSize(DLMS_DATA_TYPE type) {
 std::string GXHelpers::GeneralizedTime(struct tm *date) {
     char tmp[20];
 #if _MSC_VER > 1000
-    sprintf_s(tmp, 20, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min, date->tm_sec);
+    sprintf_s(
+        tmp, 20, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min,
+        date->tm_sec
+    );
 #else
-    sprintf(tmp, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min, date->tm_sec);
+    sprintf(
+        tmp, "%.4d%.2d%.2d%.2d%.2d%.2dZ", date->tm_year, date->tm_mon, date->tm_mday, date->tm_hour, date->tm_min,
+        date->tm_sec
+    );
 #endif
     return tmp;
 }

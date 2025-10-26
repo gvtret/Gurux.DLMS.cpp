@@ -315,7 +315,8 @@ int CGXDLMSAccount::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
         case 9:
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_CreditReferences.size(), bb);
-            for (std::vector<std::string>::iterator it = m_CreditReferences.begin(); it != m_CreditReferences.end(); ++it) {
+            for (std::vector<std::string>::iterator it = m_CreditReferences.begin(); it != m_CreditReferences.end();
+                 ++it) {
                 bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING);
                 bb.SetUInt8(6);
                 if ((ret = GXHelpers::SetLogicalName(it->c_str(), ln)) != 0) {
@@ -328,7 +329,8 @@ int CGXDLMSAccount::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
         case 10:
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_ChargeReferences.size(), bb);
-            for (std::vector<std::string>::iterator it = m_ChargeReferences.begin(); it != m_ChargeReferences.end(); ++it) {
+            for (std::vector<std::string>::iterator it = m_ChargeReferences.begin(); it != m_ChargeReferences.end();
+                 ++it) {
                 bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING);
                 bb.SetUInt8(6);
                 if ((ret = GXHelpers::SetLogicalName(it->c_str(), ln)) != 0) {
@@ -341,8 +343,8 @@ int CGXDLMSAccount::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
         case 11:
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_CreditChargeConfigurations.size(), bb);
-            for (std::vector<CGXCreditChargeConfiguration>::iterator it = m_CreditChargeConfigurations.begin(); it != m_CreditChargeConfigurations.end();
-                 ++it) {
+            for (std::vector<CGXCreditChargeConfiguration>::iterator it = m_CreditChargeConfigurations.begin();
+                 it != m_CreditChargeConfigurations.end(); ++it) {
                 bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 bb.SetUInt8(3);
                 bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING);
@@ -357,8 +359,10 @@ int CGXDLMSAccount::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
                     return ret;
                 }
                 bb.Set(ln, 6);
-                if ((ret = GXHelpers::SetData2(&settings, bb, DLMS_DATA_TYPE_BIT_STRING, CGXBitString::ToBitString(it->GetCollectionConfiguration(), 3))) !=
-                    0) {
+                if ((ret = GXHelpers::SetData2(
+                         &settings, bb, DLMS_DATA_TYPE_BIT_STRING,
+                         CGXBitString::ToBitString(it->GetCollectionConfiguration(), 3)
+                     )) != 0) {
                     return ret;
                 }
             }
@@ -367,8 +371,8 @@ int CGXDLMSAccount::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
         case 12:
             bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             GXHelpers::SetObjectCount((unsigned long)m_TokenGatewayConfigurations.size(), bb);
-            for (std::vector<CGXTokenGatewayConfiguration>::iterator it = m_TokenGatewayConfigurations.begin(); it != m_TokenGatewayConfigurations.end();
-                 ++it) {
+            for (std::vector<CGXTokenGatewayConfiguration>::iterator it = m_TokenGatewayConfigurations.begin();
+                 it != m_TokenGatewayConfigurations.end(); ++it) {
                 bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 bb.SetUInt8(2);
                 bb.SetUInt8(DLMS_DATA_TYPE_OCTET_STRING);
@@ -489,21 +493,24 @@ int CGXDLMSAccount::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
             break;
         case 9:
             m_CreditReferences.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 GXHelpers::GetLogicalName(it->byteArr, ln);
                 m_CreditReferences.push_back(ln);
             }
             break;
         case 10:
             m_ChargeReferences.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 GXHelpers::GetLogicalName(it->byteArr, ln);
                 m_ChargeReferences.push_back(ln);
             }
             break;
         case 11:
             m_CreditChargeConfigurations.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXCreditChargeConfiguration item;
                 GXHelpers::GetLogicalName(it->Arr[0].byteArr, ln);
                 item.SetCreditReference(ln);
@@ -515,7 +522,8 @@ int CGXDLMSAccount::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
             break;
         case 12:
             m_TokenGatewayConfigurations.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 CGXTokenGatewayConfiguration item;
                 GXHelpers::GetLogicalName(it->Arr[0].byteArr, ln);
                 item.SetCreditReference(ln);

@@ -40,7 +40,8 @@ CGXDLMSTokenGateway::CGXDLMSTokenGateway(): CGXDLMSTokenGateway("", 0) {
 }
 
 //SN Constructor.
-CGXDLMSTokenGateway::CGXDLMSTokenGateway(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_TOKEN_GATEWAY, ln, sn) {
+CGXDLMSTokenGateway::CGXDLMSTokenGateway(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_TOKEN_GATEWAY, ln, sn) {
 }
 
 //LN Constructor.
@@ -205,7 +206,8 @@ int CGXDLMSTokenGateway::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventAr
             break;
         case 4:
             m_Descriptions.clear();
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 str.clear();
                 str.append((const char *)it->byteArr, it->GetSize());
                 m_Descriptions.push_back(str);

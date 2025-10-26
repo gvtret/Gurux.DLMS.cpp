@@ -56,7 +56,9 @@ public:
     /**
      Constructor.
     */
-    CGXDLMSWeekProfile(std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday);
+    CGXDLMSWeekProfile(
+        std::string name, int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday
+    );
 
     std::string GetName();
 

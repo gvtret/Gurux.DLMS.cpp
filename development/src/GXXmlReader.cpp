@@ -104,7 +104,8 @@ std::string &CGXXmlReader::GetText() {
 }
 
 void CGXXmlReader::GetNext() {
-    while (m_EventType == XML_EVENT_TYPE_COMMENT || m_EventType == XML_EVENT_TYPE_SPACE || m_EventType == XML_EVENT_TYPE_CHARACTERS) {
+    while (m_EventType == XML_EVENT_TYPE_COMMENT || m_EventType == XML_EVENT_TYPE_SPACE ||
+           m_EventType == XML_EVENT_TYPE_CHARACTERS) {
         Read();
     }
 }

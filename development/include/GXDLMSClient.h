@@ -102,7 +102,10 @@ private:
     * reply : Generated read message(s).
     * Returns error status.
     */
-    int Read(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, CGXByteBuffer *parameters, std::vector<CGXByteBuffer> &reply);
+    int Read(
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, CGXByteBuffer *parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
 
 public:
     /////////////////////////////////////////////////////////////////////////////
@@ -489,7 +492,8 @@ public:
     * reply : Generated read message(s).
     * Returns error status.
     */
-    int Read(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, std::vector<CGXByteBuffer> &reply);
+    int
+    Read(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, std::vector<CGXByteBuffer> &reply);
 
     /**
     * Generates a read message.
@@ -537,7 +541,10 @@ public:
     *             Generated write message(s).
     * Returns error status.
     */
-    int Write(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply);
+    int Write(
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
    * Generates a write message.
@@ -556,7 +563,10 @@ public:
    *             Generated write message(s).
    * Returns error status.
    */
-    int Write(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXByteBuffer *parameters, std::vector<CGXByteBuffer> &reply);
+    int Write(
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXByteBuffer *parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
   * Generates a write message.
@@ -575,8 +585,10 @@ public:
   *             Generated write message(s).
   * Returns error status.
   */
-    int
-    Write(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXDLMSVariant &parameters, std::vector<CGXByteBuffer> &reply);
+    int Write(
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXDLMSVariant &parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
     /**
     * Generates a write message.
     *
@@ -594,7 +606,10 @@ public:
     *             Generated write message(s).
     * Returns error status.
     */
-    int Write(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &data, CGXByteBuffer *parameters, std::vector<CGXByteBuffer> &reply);
+    int Write(
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &data, CGXByteBuffer *parameters,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
     * Generates a write message.
@@ -611,7 +626,10 @@ public:
     *             Generated write message(s).
     * Returns error status.
     */
-    int Write(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &value, std::vector<CGXByteBuffer> &reply);
+    int Write(
+        CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &value,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
      * Generates a write message.
@@ -670,7 +688,9 @@ public:
     *            Data type.
     * @return DLMS action message.
     */
-    int Method(CGXDLMSObject *item, int index, CGXDLMSVariant &data, DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply);
+    int Method(
+        CGXDLMSObject *item, int index, CGXDLMSVariant &data, DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply
+    );
 
     /**
    * Generate Method (Action) request..
@@ -687,7 +707,10 @@ public:
    *            Data type.
    * @return DLMS action message.
    */
-    int Method(CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply);
+    int Method(
+        CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
     * Generate Method (Action) request..
@@ -704,8 +727,10 @@ public:
     *            Data type.
     * @return DLMS action message.
     */
-    int
-    Method(CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data, DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply);
+    int Method(
+        CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data,
+        DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply
+    );
 
     /**
    * Generate Method (Action) request.
@@ -720,7 +745,10 @@ public:
    *            Method data.
    * @return DLMS action message.
    */
-    int Method(CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXByteBuffer &data, std::vector<CGXByteBuffer> &reply);
+    int Method(
+        CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXByteBuffer &data,
+        std::vector<CGXByteBuffer> &reply
+    );
 
     /**
     * Read rows by entry.
@@ -748,8 +776,8 @@ public:
     * @return Read message as byte array.
     */
     int ReadRowsByEntry(
-        CGXDLMSProfileGeneric *pg, int index, int count, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns,
-        std::vector<CGXByteBuffer> &reply
+        CGXDLMSProfileGeneric *pg, int index, int count,
+        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
     );
 
 
@@ -765,7 +793,9 @@ public:
     *            End time.
     * @return Generated read message.
     */
-    int ReadRowsByRange(CGXDLMSProfileGeneric *pObject, CGXDateTime &start, CGXDateTime &end, std::vector<CGXByteBuffer> &reply);
+    int ReadRowsByRange(
+        CGXDLMSProfileGeneric *pObject, CGXDateTime &start, CGXDateTime &end, std::vector<CGXByteBuffer> &reply
+    );
 
     /**
      * Read rows by range. Use this method to read Profile Generic table between
@@ -794,8 +824,8 @@ public:
     * @return Generated read message.
     */
     int ReadRowsByRange(
-        CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns,
-        std::vector<CGXByteBuffer> &reply
+        CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end,
+        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
     );
 
 
@@ -839,7 +869,9 @@ public:
      *            Set to NULL if standard formula is used.
      * @return Server address.
      */
-    static int GetServerAddressFromSerialNumber(unsigned long serialNumber, unsigned short logicalAddress, const char *formula = NULL);
+    static int GetServerAddressFromSerialNumber(
+        unsigned long serialNumber, unsigned short logicalAddress, const char *formula = NULL
+    );
 
     /**
      * Convert physical address and logical address to server address.
@@ -852,7 +884,8 @@ public:
      *            Address size in bytes.
      * @return Server address.
      */
-    static int GetServerAddress(unsigned long logicalAddress, unsigned long physicalAddress, unsigned char addressSize = 0);
+    static int
+    GetServerAddress(unsigned long logicalAddress, unsigned long physicalAddress, unsigned char addressSize = 0);
 
     /**
     * @return Protocol version.
@@ -871,7 +904,8 @@ public:
     }
 
     //Parse push objects.
-    int ParsePushObjects(std::vector<CGXDLMSVariant> &data, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &items);
+    int
+    ParsePushObjects(std::vector<CGXDLMSVariant> &data, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &items);
 
     /*
     Set custom challenge.

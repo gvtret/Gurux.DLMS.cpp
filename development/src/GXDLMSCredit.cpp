@@ -97,7 +97,8 @@ int CGXDLMSCredit::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
     } else if (e.GetIndex() == 2) {
         m_CurrentCreditAmount = e.GetValue().ToInteger();
     } else if (e.GetIndex() == 3) {
-        if ((m_CreditConfiguration & DLMS_CREDIT_CONFIGURATION_CONFIRMATION) != 0 && m_Status == DLMS_CREDIT_STATUS_SELECTABLE) {
+        if ((m_CreditConfiguration & DLMS_CREDIT_CONFIGURATION_CONFIRMATION) != 0 &&
+            m_Status == DLMS_CREDIT_STATUS_SELECTABLE) {
             m_Status = DLMS_CREDIT_STATUS_INVOKED;
         }
     } else {

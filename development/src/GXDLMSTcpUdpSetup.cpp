@@ -57,7 +57,8 @@ CGXDLMSTcpUdpSetup::CGXDLMSTcpUdpSetup(std::string ln): CGXDLMSTcpUdpSetup(ln, 0
  @param ln Logical Name of the object.
  @param sn Short Name of the object.
 */
-CGXDLMSTcpUdpSetup::CGXDLMSTcpUdpSetup(std::string ln, short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_TCP_UDP_SETUP, ln, sn) {
+CGXDLMSTcpUdpSetup::CGXDLMSTcpUdpSetup(std::string ln, short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_TCP_UDP_SETUP, ln, sn) {
     m_Port = 4059;
     m_IPReference = "127.0.0.1";
     m_MaximumSimultaneousConnections = 1;

@@ -35,7 +35,8 @@
 #include "../include/GXDLMSSNParameters.h"
 
 CGXDLMSSNParameters::CGXDLMSSNParameters(
-    CGXDLMSSettings *settings, DLMS_COMMAND command, int count, int commandType, CGXByteBuffer *attributeDescriptor, CGXByteBuffer *data
+    CGXDLMSSettings *settings, DLMS_COMMAND command, int count, int commandType, CGXByteBuffer *attributeDescriptor,
+    CGXByteBuffer *data
 ) {
     m_Settings = settings;
     m_BlockIndex = (unsigned short)settings->GetBlockIndex();

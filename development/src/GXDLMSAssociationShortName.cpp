@@ -91,13 +91,14 @@ void CGXDLMSAssociationShortName::UpdateAccessRights(CGXDLMSVariant &buff) {
         int sn = access->Arr[0].ToInteger();
         CGXDLMSObject *pObj = m_ObjectList.FindBySN(sn);
         if (pObj != NULL) {
-            for (std::vector<CGXDLMSVariant>::iterator attributeAccess = access->Arr[1].Arr.begin(); attributeAccess != access->Arr[1].Arr.end();
-                 ++attributeAccess) {
+            for (std::vector<CGXDLMSVariant>::iterator attributeAccess = access->Arr[1].Arr.begin();
+                 attributeAccess != access->Arr[1].Arr.end(); ++attributeAccess) {
                 int id = attributeAccess->Arr[0].ToInteger();
                 int tmp = attributeAccess->Arr[1].ToInteger();
                 pObj->SetAccess(id, (DLMS_ACCESS_MODE)tmp);
             }
-            for (std::vector<CGXDLMSVariant>::iterator methodAccess = access->Arr[2].Arr.begin(); methodAccess != access->Arr[2].Arr.end(); ++methodAccess) {
+            for (std::vector<CGXDLMSVariant>::iterator methodAccess = access->Arr[2].Arr.begin();
+                 methodAccess != access->Arr[2].Arr.end(); ++methodAccess) {
                 int id = methodAccess->Arr[0].ToInteger();
                 int tmp = methodAccess->Arr[1].ToInteger();
                 pObj->SetMethodAccess(id, (DLMS_METHOD_ACCESS_MODE)tmp);
@@ -261,7 +262,9 @@ int CGXDLMSAssociationShortName::Invoke(CGXDLMSSettings &settings, CGXDLMSValueE
             readSecret = &m_Secret;
         }
         CGXByteBuffer serverChallenge;
-        if ((ret = CGXSecure::Secure(settings, settings.GetCipher(), ic, settings.GetStoCChallenge(), *readSecret, serverChallenge)) != 0) {
+        if ((ret = CGXSecure::Secure(
+                 settings, settings.GetCipher(), ic, settings.GetStoCChallenge(), *readSecret, serverChallenge
+             )) != 0) {
             return ret;
         }
 
@@ -281,7 +284,9 @@ int CGXDLMSAssociationShortName::Invoke(CGXDLMSSettings &settings, CGXDLMSValueE
                 readSecret = &m_Secret;
             }
             serverChallenge.Clear();
-            if ((ret = CGXSecure::Secure(settings, settings.GetCipher(), ic, settings.GetCtoSChallenge(), *readSecret, serverChallenge)) != 0) {
+            if ((ret = CGXSecure::Secure(
+                     settings, settings.GetCipher(), ic, settings.GetCtoSChallenge(), *readSecret, serverChallenge
+                 )) != 0) {
                 return ret;
             }
             e.SetValue(serverChallenge);
@@ -343,7 +348,8 @@ int CGXDLMSAssociationShortName::SetValue(CGXDLMSSettings &settings, CGXDLMSValu
     } else if (e.GetIndex() == 2) {
         m_ObjectList.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
-            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+            for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+                 ++item) {
                 int sn = item->Arr[0].ToInteger();
                 CGXDLMSObject *pObj = settings.GetObjects().FindBySN(sn);
                 if (pObj == NULL) {

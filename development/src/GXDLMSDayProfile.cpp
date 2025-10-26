@@ -51,7 +51,8 @@ CGXDLMSDayProfile::CGXDLMSDayProfile(short dayId, std::vector<CGXDLMSDayProfileA
 }
 
 CGXDLMSDayProfile::~CGXDLMSDayProfile() {
-    for (std::vector<CGXDLMSDayProfileAction *>::iterator it = m_DaySchedules.begin(); it != m_DaySchedules.end(); ++it) {
+    for (std::vector<CGXDLMSDayProfileAction *>::iterator it = m_DaySchedules.begin(); it != m_DaySchedules.end();
+         ++it) {
         delete *it;
     }
     m_DaySchedules.clear();
@@ -79,7 +80,8 @@ void CGXDLMSDayProfile::SetDaySchedules(std::vector<CGXDLMSDayProfileAction *> &
 std::string CGXDLMSDayProfile::ToString() {
     std::stringstream sb;
     sb << m_DayId;
-    for (std::vector<CGXDLMSDayProfileAction *>::iterator it = m_DaySchedules.begin(); it != m_DaySchedules.end(); ++it) {
+    for (std::vector<CGXDLMSDayProfileAction *>::iterator it = m_DaySchedules.begin(); it != m_DaySchedules.end();
+         ++it) {
         sb << " ";
         sb << (*it)->ToString().c_str();
     }

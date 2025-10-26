@@ -115,7 +115,9 @@ class CGXDateTime {
     //Get time format.
     int GetTimeFormat2(char &separator, char &use24HourClock);
 
-    int GetDateTimeFormat(std::string &value, GXDLMS_DATE_FORMAT &format, char &dateSeparator, char &timeSeparator, char &use24HourClock);
+    int GetDateTimeFormat(
+        std::string &value, GXDLMS_DATE_FORMAT &format, char &dateSeparator, char &timeSeparator, char &use24HourClock
+    );
 
 public:
     // Constructor.

@@ -42,7 +42,8 @@ CGXDLMSIECLocalPortSetup::CGXDLMSIECLocalPortSetup(): CGXDLMSIECLocalPortSetup("
 }
 
 //SN Constructor.
-CGXDLMSIECLocalPortSetup::CGXDLMSIECLocalPortSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_LOCAL_PORT_SETUP, ln, sn) {
+CGXDLMSIECLocalPortSetup::CGXDLMSIECLocalPortSetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_LOCAL_PORT_SETUP, ln, sn) {
     m_DefaultMode = DLMS_OPTICAL_PROTOCOL_MODE_DEFAULT;
     m_DefaultBaudrate = DLMS_BAUD_RATE_300;
     m_ProposedBaudrate = DLMS_BAUD_RATE_9600;

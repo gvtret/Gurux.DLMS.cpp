@@ -67,7 +67,8 @@ void CGXDLMSSFSKReportingSystemList::GetValues(std::vector<std::string> &values)
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<CGXByteBuffer>::iterator it = m_ReportingSystemList.begin(); it != m_ReportingSystemList.end(); ++it) {
+    for (std::vector<CGXByteBuffer>::iterator it = m_ReportingSystemList.begin(); it != m_ReportingSystemList.end();
+         ++it) {
         if (!empty) {
             sb << ", ";
         } else {
@@ -114,7 +115,8 @@ int CGXDLMSSFSKReportingSystemList::GetValue(CGXDLMSSettings &settings, CGXDLMSV
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
         // Add count
         GXHelpers::SetObjectCount((unsigned long)m_ReportingSystemList.size(), data);
-        for (std::vector<CGXByteBuffer>::iterator it = m_ReportingSystemList.begin(); it != m_ReportingSystemList.end(); ++it) {
+        for (std::vector<CGXByteBuffer>::iterator it = m_ReportingSystemList.begin(); it != m_ReportingSystemList.end();
+             ++it) {
             if ((ret = GXHelpers::SetData2(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, *it)) != 0) {
                 break;
             }
@@ -135,7 +137,8 @@ int CGXDLMSSFSKReportingSystemList::SetValue(CGXDLMSSettings &settings, CGXDLMSV
         m_ReportingSystemList.clear();
         if (e.GetValue().vt == DLMS_DATA_TYPE_ARRAY) {
             CGXByteBuffer bb;
-            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end(); ++it) {
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
                 if ((ret = it->GetBytes(bb)) != 0) {
                     break;
                 }

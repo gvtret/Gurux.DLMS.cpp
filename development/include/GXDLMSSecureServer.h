@@ -45,7 +45,9 @@ public:
     /////////////////////////////////////////////////////////////////////////////
     //Constructor
     /////////////////////////////////////////////////////////////////////////////
-    CGXDLMSSecureServer(bool UseLogicalNameReferencing = true, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC);
+    CGXDLMSSecureServer(
+        bool UseLogicalNameReferencing = true, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC
+    );
 
 #ifndef DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
     /**

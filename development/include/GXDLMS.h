@@ -204,7 +204,8 @@ public:
      *            Wrapped data.
      * @return Wrapper frames.
     */
-    static int GetWrapperFrame(CGXDLMSSettings &settings, DLMS_COMMAND command, CGXByteBuffer &data, CGXByteBuffer &reply);
+    static int
+    GetWrapperFrame(CGXDLMSSettings &settings, DLMS_COMMAND command, CGXByteBuffer &data, CGXByteBuffer &reply);
 
     /**
     * Get next logical name PDU.
@@ -229,7 +230,8 @@ public:
     // type : Frame type
     // Returns : Acknowledgment message as unsigned char array.
     /////////////////////////////////////////////////////////////////////////////
-    static int ReceiverReady(CGXDLMSSettings &settings, DLMS_DATA_REQUEST_TYPES type, CGXCipher *cipher, CGXByteBuffer &reply);
+    static int
+    ReceiverReady(CGXDLMSSettings &settings, DLMS_DATA_REQUEST_TYPES type, CGXCipher *cipher, CGXByteBuffer &reply);
 
     /////////////////////////////////////////////////////////////////////////////
     // Generates an acknowledgment message, with which the server is informed to
@@ -250,7 +252,10 @@ public:
     */
     static int GetHdlcFrame(CGXDLMSSettings &settings, unsigned char frame, CGXByteBuffer *data, CGXByteBuffer &reply);
 
-    static int GetHdlcData(bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, CGXReplyData &data, unsigned char &frame, CGXReplyData *notify);
+    static int GetHdlcData(
+        bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, CGXReplyData &data, unsigned char &frame,
+        CGXReplyData *notify
+    );
 
 
     /////////////////////////////////////////////////////////////////////////////
@@ -261,7 +266,10 @@ public:
     // creditFields: Credit fields.
     // data: Data to add.
     // reply: MAC frame.
-    static int GetMacFrame(CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
+    static int GetMacFrame(
+        CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data,
+        CGXByteBuffer &reply
+    );
 
     /////////////////////////////////////////////////////////////////////////////
     // Get MAC LLC frame for data.
@@ -269,7 +277,8 @@ public:
     // settings: DLMS settings.
     // data: Data to add.
     // reply: MAC frame.
-    static int GetPlcFrame(CGXDLMSSettings &settings, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
+    static int
+    GetPlcFrame(CGXDLMSSettings &settings, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
 
     /////////////////////////////////////////////////////////////////////////////
     // Get MAC HDLC frame for data.
@@ -279,7 +288,10 @@ public:
     // creditFields: Credit fields.
     // data: Data to add.
     // reply: MAC frame.
-    static int GetMacHdlcFrame(CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
+    static int GetMacHdlcFrame(
+        CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data,
+        CGXByteBuffer &reply
+    );
 
     /**
      * Get HDLC address from byte array.
@@ -303,7 +315,10 @@ public:
      *            Position.
      * @return True, if client and server address match.
      */
-    static int CheckHdlcAddress(bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, int index, unsigned long &source, unsigned long &target);
+    static int CheckHdlcAddress(
+        bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, int index, unsigned long &source,
+        unsigned long &target
+    );
 
     /////////////////////////////////////////////////////////////////////////////
     // Get data from TCP/IP frame.
@@ -400,7 +415,9 @@ public:
     static int GetActionInfo(DLMS_OBJECT_TYPE objectType, unsigned char &value, unsigned char &count);
 
 
-    static int AppendData(CGXDLMSSettings *settings, CGXDLMSObject *obj, unsigned char index, CGXByteBuffer &bb, CGXDLMSVariant &value);
+    static int AppendData(
+        CGXDLMSSettings *settings, CGXDLMSObject *obj, unsigned char index, CGXByteBuffer &bb, CGXDLMSVariant &value
+    );
 
     static int ParseSnrmUaResponse(CGXByteBuffer &data, CGXHdlcSettings *limits);
 

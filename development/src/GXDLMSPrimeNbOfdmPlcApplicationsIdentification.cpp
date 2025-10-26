@@ -41,7 +41,9 @@ CGXDLMSPrimeNbOfdmPlcApplicationsIdentification::CGXDLMSPrimeNbOfdmPlcApplicatio
 }
 
 //SN Constructor.
-CGXDLMSPrimeNbOfdmPlcApplicationsIdentification::CGXDLMSPrimeNbOfdmPlcApplicationsIdentification(std::string ln, unsigned short sn)
+CGXDLMSPrimeNbOfdmPlcApplicationsIdentification::CGXDLMSPrimeNbOfdmPlcApplicationsIdentification(
+    std::string ln, unsigned short sn
+)
     : CGXDLMSObject(DLMS_OBJECT_TYPE_PRIME_NB_OFDM_PLC_APPLICATIONS_IDENTIFICATION, ln, sn) {
     m_VendorId = 0;
     m_ProductId = 0;
@@ -144,7 +146,9 @@ int CGXDLMSPrimeNbOfdmPlcApplicationsIdentification::GetValue(CGXDLMSSettings &s
         }
         e.SetValue(tmp);
     } else if (e.GetIndex() == 2) {
-        CGXDLMSVariant tmp((unsigned char *)m_FirmwareVersion.c_str(), (int)m_FirmwareVersion.size(), DLMS_DATA_TYPE_OCTET_STRING);
+        CGXDLMSVariant tmp(
+            (unsigned char *)m_FirmwareVersion.c_str(), (int)m_FirmwareVersion.size(), DLMS_DATA_TYPE_OCTET_STRING
+        );
         e.SetValue(tmp);
     } else if (e.GetIndex() == 3) {
         e.SetValue(m_VendorId);

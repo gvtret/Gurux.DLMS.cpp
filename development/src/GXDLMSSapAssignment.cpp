@@ -44,7 +44,8 @@ CGXDLMSSapAssignment::CGXDLMSSapAssignment(): CGXDLMSSapAssignment("0.0.41.0.0.2
 CGXDLMSSapAssignment::CGXDLMSSapAssignment(std::string ln): CGXDLMSSapAssignment(ln, 0) {
 }
 
-CGXDLMSSapAssignment::CGXDLMSSapAssignment(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_SAP_ASSIGNMENT, ln, sn) {
+CGXDLMSSapAssignment::CGXDLMSSapAssignment(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SAP_ASSIGNMENT, ln, sn) {
 }
 
 std::map<int, std::string> &CGXDLMSSapAssignment::GetSapAssignmentList() {
@@ -132,7 +133,8 @@ int CGXDLMSSapAssignment::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
         if (cnt != 0) {
             CGXDLMSVariant f, s;
             CGXByteBuffer bb;
-            for (std::map<int, std::string>::iterator it = m_SapAssignmentList.begin(); it != m_SapAssignmentList.end(); ++it) {
+            for (std::map<int, std::string>::iterator it = m_SapAssignmentList.begin(); it != m_SapAssignmentList.end();
+                 ++it) {
                 data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 data.SetUInt8(2);  //Count
                 f = it->first;
@@ -160,7 +162,8 @@ int CGXDLMSSapAssignment::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
     }
     if (e.GetIndex() == 2) {
         m_SapAssignmentList.clear();
-        for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+        for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+             ++item) {
             std::string str;
             if ((*item).Arr[1].vt == DLMS_DATA_TYPE_OCTET_STRING) {
                 CGXDLMSVariant tmp;
@@ -176,7 +179,9 @@ int CGXDLMSSapAssignment::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSSapAssignment::AddSap(CGXDLMSClient *client, uint16_t id, std::string &name, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSSapAssignment::AddSap(
+    CGXDLMSClient *client, uint16_t id, std::string &name, std::vector<CGXByteBuffer> &reply
+) {
     CGXByteBuffer bb;
     bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
     //Add structure size.
@@ -203,12 +208,15 @@ int CGXDLMSSapAssignment::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg
         uint16_t id = e.GetParameters().Arr[0].ToInteger();
         std::string str;
         if (e.GetParameters().Arr[1].vt == DLMS_DATA_TYPE_OCTET_STRING) {
-            str.append(reinterpret_cast<char const *>(e.GetParameters().Arr[1].byteArr), e.GetParameters().Arr[1].GetSize());
+            str.append(
+                reinterpret_cast<char const *>(e.GetParameters().Arr[1].byteArr), e.GetParameters().Arr[1].GetSize()
+            );
         } else {
             str = e.GetParameters().Arr[1].ToString();
         }
         if (id == 0) {
-            for (std::map<int, std::string>::iterator it = m_SapAssignmentList.begin(); it != m_SapAssignmentList.end(); ++it) {
+            for (std::map<int, std::string>::iterator it = m_SapAssignmentList.begin(); it != m_SapAssignmentList.end();
+                 ++it) {
                 if (it->second.compare(str) == 0) {
                     m_SapAssignmentList.erase(it);
                     break;

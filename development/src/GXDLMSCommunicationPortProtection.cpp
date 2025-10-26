@@ -38,7 +38,8 @@
 #ifndef DLMS_IGNORE_COMMUNICATION_PORT_PROTECTION
 
 //Constructor.
-CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(): CGXDLMSCommunicationPortProtection("0.0.44.2.0.255", 0) {
+CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection()
+    : CGXDLMSCommunicationPortProtection("0.0.44.2.0.255", 0) {
 }
 
 //SN Constructor.
@@ -48,7 +49,8 @@ CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(std::stri
 }
 
 //LN Constructor.
-CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(std::string ln): CGXDLMSCommunicationPortProtection(ln, 0) {
+CGXDLMSCommunicationPortProtection::CGXDLMSCommunicationPortProtection(std::string ln)
+    : CGXDLMSCommunicationPortProtection(ln, 0) {
 }
 
 DLMS_PROTECTION_MODE CGXDLMSCommunicationPortProtection::GetProtectionMode() {

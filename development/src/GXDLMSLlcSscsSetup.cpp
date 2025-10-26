@@ -41,7 +41,8 @@ CGXDLMSLlcSscsSetup::CGXDLMSLlcSscsSetup(): CGXDLMSLlcSscsSetup("0.0.28.0.0.255"
 }
 
 //SN Constructor.
-CGXDLMSLlcSscsSetup::CGXDLMSLlcSscsSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_LLC_SSCS_SETUP, ln, sn) {
+CGXDLMSLlcSscsSetup::CGXDLMSLlcSscsSetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_LLC_SSCS_SETUP, ln, sn) {
     m_BaseNodeAddress = m_ServiceNodeAddress = 0;
 }
 

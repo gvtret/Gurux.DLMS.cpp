@@ -42,7 +42,8 @@ CGXDLMSMacAddressSetup::CGXDLMSMacAddressSetup(): CGXDLMSMacAddressSetup("0.0.25
 CGXDLMSMacAddressSetup::CGXDLMSMacAddressSetup(std::string ln): CGXDLMSMacAddressSetup(ln, 0) {
 }
 
-CGXDLMSMacAddressSetup::CGXDLMSMacAddressSetup(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_MAC_ADDRESS_SETUP, ln, sn) {
+CGXDLMSMacAddressSetup::CGXDLMSMacAddressSetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_MAC_ADDRESS_SETUP, ln, sn) {
 }
 
 /**

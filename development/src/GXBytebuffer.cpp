@@ -43,7 +43,9 @@ CGXByteBuffer::CGXByteBuffer(int capacity): m_Position(0) {
 CGXByteBuffer::CGXByteBuffer(const CGXByteBuffer &value): m_Data(value.m_Data), m_Position(value.m_Position) {
 }
 
-CGXByteBuffer::CGXByteBuffer(CGXByteBuffer &&value) noexcept: m_Data(std::move(value.m_Data)), m_Position(value.m_Position) {
+CGXByteBuffer::CGXByteBuffer(CGXByteBuffer &&value) noexcept
+    : m_Data(std::move(value.m_Data))
+    , m_Position(value.m_Position) {
     value.m_Position = 0;
 }
 
@@ -445,8 +447,8 @@ int CGXByteBuffer::GetUInt24(uint32_t index, unsigned int *value) {
         return DLMS_ERROR_CODE_OUTOFMEMORY;
     }
 
-    *value =
-        (static_cast<unsigned int>(m_Data[index]) << 16) | (static_cast<unsigned int>(m_Data[index + 1]) << 8) | static_cast<unsigned int>(m_Data[index + 2]);
+    *value = (static_cast<unsigned int>(m_Data[index]) << 16) | (static_cast<unsigned int>(m_Data[index + 1]) << 8) |
+        static_cast<unsigned int>(m_Data[index + 2]);
     return 0;
 }
 
@@ -482,8 +484,8 @@ int CGXByteBuffer::GetUInt32(uint32_t index, uint32_t *value) {
         return DLMS_ERROR_CODE_OUTOFMEMORY;
     }
 
-    *value = (static_cast<uint32_t>(m_Data[index]) << 24) | (static_cast<uint32_t>(m_Data[index + 1]) << 16) | (static_cast<uint32_t>(m_Data[index + 2]) << 8) |
-        static_cast<uint32_t>(m_Data[index + 3]);
+    *value = (static_cast<uint32_t>(m_Data[index]) << 24) | (static_cast<uint32_t>(m_Data[index + 1]) << 16) |
+        (static_cast<uint32_t>(m_Data[index + 2]) << 8) | static_cast<uint32_t>(m_Data[index + 3]);
     return 0;
 }
 
@@ -559,8 +561,9 @@ int CGXByteBuffer::GetUInt64(uint32_t index, uint64_t *value) {
     }
 
     *value = (static_cast<uint64_t>(m_Data[index]) << 56) | (static_cast<uint64_t>(m_Data[index + 1]) << 48) |
-        (static_cast<uint64_t>(m_Data[index + 2]) << 40) | (static_cast<uint64_t>(m_Data[index + 3]) << 32) | (static_cast<uint64_t>(m_Data[index + 4]) << 24) |
-        (static_cast<uint64_t>(m_Data[index + 5]) << 16) | (static_cast<uint64_t>(m_Data[index + 6]) << 8) | static_cast<uint64_t>(m_Data[index + 7]);
+        (static_cast<uint64_t>(m_Data[index + 2]) << 40) | (static_cast<uint64_t>(m_Data[index + 3]) << 32) |
+        (static_cast<uint64_t>(m_Data[index + 4]) << 24) | (static_cast<uint64_t>(m_Data[index + 5]) << 16) |
+        (static_cast<uint64_t>(m_Data[index + 6]) << 8) | static_cast<uint64_t>(m_Data[index + 7]);
     return 0;
 }
 
@@ -750,7 +753,9 @@ bool CGXByteBuffer::Compare(const CGXByteBuffer &other) const {
         return false;
     }
 
-    return std::equal(m_Data.begin() + m_Position, m_Data.begin() + m_Position + Available(), other.m_Data.begin() + other.m_Position);
+    return std::equal(
+        m_Data.begin() + m_Position, m_Data.begin() + m_Position + Available(), other.m_Data.begin() + other.m_Position
+    );
 }
 
 bool CGXByteBuffer::IsAsciiString(uint8_t *value, uint32_t length) {
@@ -973,9 +978,10 @@ int CGXByteBuffer::FromBase64(std::string &input) {
     return 0;
 }
 
-const char BASE_64_ARRAY[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-                              'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r',
-                              's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/', '='};
+const char BASE_64_ARRAY[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
+                              'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+                              'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y',
+                              'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '/', '='};
 
 int CGXByteBuffer::ToBase64(std::string &value) const {
     uint32_t b, pos;

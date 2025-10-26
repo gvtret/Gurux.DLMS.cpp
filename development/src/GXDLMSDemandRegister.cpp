@@ -52,7 +52,8 @@ CGXDLMSDemandRegister::CGXDLMSDemandRegister(): CGXDLMSDemandRegister("", 0) {
 CGXDLMSDemandRegister::CGXDLMSDemandRegister(std::string ln): CGXDLMSDemandRegister(ln, 0) {
 }
 
-CGXDLMSDemandRegister::CGXDLMSDemandRegister(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_DEMAND_REGISTER, ln, sn) {
+CGXDLMSDemandRegister::CGXDLMSDemandRegister(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_DEMAND_REGISTER, ln, sn) {
     m_Period = m_NumberOfPeriods = m_Unit = m_Scaler = 0;
 }
 

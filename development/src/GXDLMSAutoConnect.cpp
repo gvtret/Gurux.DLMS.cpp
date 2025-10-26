@@ -42,7 +42,8 @@ CGXDLMSAutoConnect::CGXDLMSAutoConnect(): CGXDLMSAutoConnect("0.0.2.1.0.255", 0)
 }
 
 //SN Constructor.
-CGXDLMSAutoConnect::CGXDLMSAutoConnect(std::string ln, unsigned short sn): CGXDLMSObject(DLMS_OBJECT_TYPE_AUTO_CONNECT, ln, sn) {
+CGXDLMSAutoConnect::CGXDLMSAutoConnect(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_AUTO_CONNECT, ln, sn) {
     m_Mode = DLMS_AUTO_CONNECT_MODE_NO_AUTO_CONNECT;
     m_RepetitionDelay = m_Repetitions = 0;
     m_Version = 2;
@@ -118,7 +119,8 @@ void CGXDLMSAutoConnect::GetValues(std::vector<std::string> &values) {
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<std::pair<CGXDateTime, CGXDateTime>>::iterator it = m_CallingWindow.begin(); it != m_CallingWindow.end(); ++it) {
+    for (std::vector<std::pair<CGXDateTime, CGXDateTime>>::iterator it = m_CallingWindow.begin();
+         it != m_CallingWindow.end(); ++it) {
         if (!empty) {
             sb << ", ";
         }
@@ -235,7 +237,8 @@ int CGXDLMSAutoConnect::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
         GXHelpers::SetObjectCount(cnt, data);
         if (cnt != 0) {
             CGXDLMSVariant s, e;
-            for (std::vector<std::pair<CGXDateTime, CGXDateTime>>::iterator it = m_CallingWindow.begin(); it != m_CallingWindow.end(); ++it) {
+            for (std::vector<std::pair<CGXDateTime, CGXDateTime>>::iterator it = m_CallingWindow.begin();
+                 it != m_CallingWindow.end(); ++it) {
                 data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 data.SetUInt8(2);  //Count
                 s = it->first;
@@ -287,7 +290,8 @@ int CGXDLMSAutoConnect::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
         return DLMS_ERROR_CODE_OK;
     } else if (e.GetIndex() == 5) {
         m_CallingWindow.clear();
-        for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+        for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+             ++item) {
             CGXDLMSVariant tmp;
             CGXDLMSClient::ChangeType(item->Arr[0], DLMS_DATA_TYPE_DATETIME, tmp);
             CGXDateTime start = tmp.dateTime;
@@ -299,7 +303,8 @@ int CGXDLMSAutoConnect::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
     } else if (e.GetIndex() == 6) {
         m_Destinations.clear();
         std::vector<std::string> items;
-        for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item) {
+        for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end();
+             ++item) {
             CGXDLMSVariant value;
             CGXDLMSClient::ChangeType(*item, DLMS_DATA_TYPE_STRING, value);
             items.push_back(e.GetValue().ToString());

@@ -102,7 +102,10 @@ private:
 
     static void AesGcmGctr(unsigned int *aes, const unsigned char *J0, unsigned char *in, int len, unsigned char *out);
 
-    static void AesGcmGhash(const unsigned char *H, const unsigned char *aad, int aad_len, const unsigned char *crypt, int crypt_len, unsigned char *S);
+    static void AesGcmGhash(
+        const unsigned char *H, const unsigned char *aad, int aad_len, const unsigned char *crypt, int crypt_len,
+        unsigned char *S
+    );
 
     static void AesEncrypt(const unsigned int *rk, unsigned int Nr, const unsigned char *pt, unsigned char *ct);
 
@@ -145,8 +148,8 @@ public:
       *            Encrypted data.
       */
     int Encrypt(
-        DLMS_SECURITY_SUITE suite, DLMS_SECURITY security, DLMS_COUNT_TYPE type, unsigned long frameCounter, unsigned char tag, CGXByteBuffer &systemTitle,
-        CGXByteBuffer &key, CGXByteBuffer &input, bool encrypt
+        DLMS_SECURITY_SUITE suite, DLMS_SECURITY security, DLMS_COUNT_TYPE type, unsigned long frameCounter,
+        unsigned char tag, CGXByteBuffer &systemTitle, CGXByteBuffer &key, CGXByteBuffer &input, bool encrypt
     );
 
     /**
@@ -158,8 +161,10 @@ public:
       * suite: Used security suite.
       * InvocationCounter: Invocation counter value.
       */
-    int
-    Decrypt(CGXByteBuffer &title, CGXByteBuffer &key, CGXByteBuffer &data, DLMS_SECURITY &security, DLMS_SECURITY_SUITE &suite, uint64_t &InvocationCounter);
+    int Decrypt(
+        CGXByteBuffer &title, CGXByteBuffer &key, CGXByteBuffer &data, DLMS_SECURITY &security,
+        DLMS_SECURITY_SUITE &suite, uint64_t &InvocationCounter
+    );
 
     /*
      * Encrypt data using AES.

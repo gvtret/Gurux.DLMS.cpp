@@ -35,8 +35,8 @@
 #include "../include/GXDLMSLNParameters.h"
 
 CGXDLMSLNParameters::CGXDLMSLNParameters(
-    CGXDLMSSettings *settings, unsigned long invokeId, DLMS_COMMAND command, int commandType, CGXByteBuffer *attributeDescriptor, CGXByteBuffer *data,
-    int status, unsigned char cipheredCommand
+    CGXDLMSSettings *settings, unsigned long invokeId, DLMS_COMMAND command, int commandType,
+    CGXByteBuffer *attributeDescriptor, CGXByteBuffer *data, int status, unsigned char cipheredCommand
 ) {
     m_Settings = settings;
     m_BlockIndex = settings->GetBlockIndex();

@@ -118,7 +118,9 @@ private:
     *            code
     * @return
     */
-    static void GenerateConfirmedServiceError(DLMS_CONFIRMED_SERVICE_ERROR service, DLMS_SERVICE_ERROR type, unsigned char code, CGXByteBuffer &data);
+    static void GenerateConfirmedServiceError(
+        DLMS_CONFIRMED_SERVICE_ERROR service, DLMS_SERVICE_ERROR type, unsigned char code, CGXByteBuffer &data
+    );
 
     /**
     * Handle received command.
@@ -208,7 +210,8 @@ protected:
      *            Password.
      * @return Source diagnostic.
      */
-    virtual DLMS_SOURCE_DIAGNOSTIC ValidateAuthentication(DLMS_AUTHENTICATION authentication, CGXByteBuffer &password) = 0;
+    virtual DLMS_SOURCE_DIAGNOSTIC
+    ValidateAuthentication(DLMS_AUTHENTICATION authentication, CGXByteBuffer &password) = 0;
 
     /**
      * Find object.
@@ -580,7 +583,9 @@ public:
      * @return Response to the request. Response is NULL if request packet is
      *         not complete.
      */
-    int HandleRequest(CGXDLMSConnectionEventArgs &connectionInfo, unsigned char *data, unsigned short size, CGXByteBuffer &reply);
+    int HandleRequest(
+        CGXDLMSConnectionEventArgs &connectionInfo, unsigned char *data, unsigned short size, CGXByteBuffer &reply
+    );
 
 
     /**
@@ -599,7 +604,10 @@ public:
 
     int GenerateDataNotificationMessages(struct tm *time, CGXByteBuffer &data, std::vector<CGXByteBuffer> &reply);
 
-    int GenerateDataNotificationMessages(struct tm *date, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &objects, std::vector<CGXByteBuffer> &reply);
+    int GenerateDataNotificationMessages(
+        struct tm *date, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &objects,
+        std::vector<CGXByteBuffer> &reply
+    );
 
 #ifndef DLMS_IGNORE_PUSH_SETUP
     int GeneratePushSetupMessages(struct tm *date, CGXDLMSPushSetup *push, std::vector<CGXByteBuffer> &reply);

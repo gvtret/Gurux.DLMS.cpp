@@ -49,9 +49,14 @@ class GXHelpers {
     */
     static unsigned char GetValue(char c);
 
-    static int GetCompactArrayItem(CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt, std::vector<CGXDLMSVariant> &list, int len);
+    static int GetCompactArrayItem(
+        CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt,
+        std::vector<CGXDLMSVariant> &list, int len
+    );
 
-    static int GetCompactArrayItem(CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE dt, std::vector<CGXDLMSVariant> &list, int len);
+    static int GetCompactArrayItem(
+        CGXDLMSSettings *settings, CGXByteBuffer &buff, DLMS_DATA_TYPE dt, std::vector<CGXDLMSVariant> &list, int len
+    );
 
     static int GetDataTypes(CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &cols, int len);
     static int AppendDataTypeAsXml(std::vector<CGXDLMSVariant> &cols, CGXDataInfo info);
@@ -66,7 +71,8 @@ class GXHelpers {
      *            Data info.
      * @return parsed UInt16 value.
      */
-    static int GetCompactArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value);
+    static int
+    GetCompactArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value);
 
 public:
     /**

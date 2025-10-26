@@ -149,8 +149,8 @@ int CGXEcdsa::GenerateKeyPair(ECC scheme, std::pair<CGXPublicKey, CGXPrivateKey>
     CGXByteBuffer rn;
     CGXCurve curve;
     int ret;
-    if ((ret = curve.Init(scheme)) == 0 && (ret = GetRandomNumber(curve.m_N, rn)) == 0 && (ret = CGXPrivateKey::FromRawBytes(rn, pk)) == 0 &&
-        (ret = pk.GetPublicKey(pub)) == 0) {
+    if ((ret = curve.Init(scheme)) == 0 && (ret = GetRandomNumber(curve.m_N, rn)) == 0 &&
+        (ret = CGXPrivateKey::FromRawBytes(rn, pk)) == 0 && (ret = pk.GetPublicKey(pub)) == 0) {
         kp.first = pub;
         kp.second = pk;
     }

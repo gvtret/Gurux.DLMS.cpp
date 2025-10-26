@@ -95,7 +95,10 @@ public:
      * @param data
      *            Attribute descriptor
      */
-    CGXDLMSSNParameters(CGXDLMSSettings *settings, DLMS_COMMAND command, int count, int commandType, CGXByteBuffer *attributeDescriptor, CGXByteBuffer *data);
+    CGXDLMSSNParameters(
+        CGXDLMSSettings *settings, DLMS_COMMAND command, int count, int commandType, CGXByteBuffer *attributeDescriptor,
+        CGXByteBuffer *data
+    );
 
     /**
      * @return DLMS settings.

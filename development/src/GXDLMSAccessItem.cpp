@@ -81,7 +81,9 @@ CGXDLMSAccessItem::CGXDLMSAccessItem() {
     m_Error = DLMS_ERROR_CODE_OK;
 }
 
-CGXDLMSAccessItem::CGXDLMSAccessItem(DLMS_ACCESS_SERVICE_COMMAND_TYPE command, CGXDLMSObject *target, unsigned char attributeIndex) {
+CGXDLMSAccessItem::CGXDLMSAccessItem(
+    DLMS_ACCESS_SERVICE_COMMAND_TYPE command, CGXDLMSObject *target, unsigned char attributeIndex
+) {
     m_Error = DLMS_ERROR_CODE_OK;
     m_Command = command;
     m_Target = target;
