@@ -43,64 +43,64 @@ CGXDLMSSecureClient::CGXDLMSSecureClient(
 )
     : CGXDLMSClient(UseLogicalNameReferencing, clientAddress, serverAddress, authentication, password, intefaceType)
     , m_Cipher("ABCDEFGH") {
-	m_Settings.SetCipher(&m_Cipher);
+    m_Settings.SetCipher(&m_Cipher);
 }
 
 CGXDLMSSecureClient::~CGXDLMSSecureClient() {
 }
 
 CGXCipher *CGXDLMSSecureClient::GetCiphering() {
-	return m_Settings.GetCipher();
+    return m_Settings.GetCipher();
 }
 
 int CGXDLMSSecureClient::Encrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply) {
-	reply.Clear();
-	if (kek.GetSize() < 16) {
-		//Key Encrypting Key.
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
-	if (kek.GetSize() % 8 != 0) {
-		//Key Encrypting Key.
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
-	return CGXSecure::EncryptAesKeyWrapping(data, kek, reply);
+    reply.Clear();
+    if (kek.GetSize() < 16) {
+        //Key Encrypting Key.
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    if (kek.GetSize() % 8 != 0) {
+        //Key Encrypting Key.
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    return CGXSecure::EncryptAesKeyWrapping(data, kek, reply);
 }
 
 int CGXDLMSSecureClient::Decrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply) {
-	reply.Clear();
-	if (kek.GetSize() < 16) {
-		//Key Encrypting Key.
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
-	if (kek.GetSize() % 8 != 0) {
-		//Key Encrypting Key.
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
-	if (data.GetSize() < 16) {
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
-	if (data.GetSize() % 8 != 0) {
-		return DLMS_ERROR_CODE_INVALID_PARAMETER;
-	}
-	return CGXSecure::DecryptAesKeyWrapping(data, kek, reply);
+    reply.Clear();
+    if (kek.GetSize() < 16) {
+        //Key Encrypting Key.
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    if (kek.GetSize() % 8 != 0) {
+        //Key Encrypting Key.
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    if (data.GetSize() < 16) {
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    if (data.GetSize() % 8 != 0) {
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    return CGXSecure::DecryptAesKeyWrapping(data, kek, reply);
 }
 
 // Optional ECDSA public key certificate that is send in part of AARE.
 CGXx509Certificate &CGXDLMSSecureClient::GetClientPublicKeyCertificate() {
-	return m_Settings.GetClientPublicKeyCertificate();
+    return m_Settings.GetClientPublicKeyCertificate();
 }
 
 // Optional ECDSA public key certificate that is send in part of AARE.
 void CGXDLMSSecureClient::SetClientPublicKeyCertificate(CGXx509Certificate &value) {
-	m_Settings.SetClientPublicKeyCertificate(value);
+    m_Settings.SetClientPublicKeyCertificate(value);
 }
 
 // Optional ECDSA public key certificate that is send in part of AARE.
 CGXx509Certificate &CGXDLMSSecureClient::GetServerPublicKeyCertificate() {
-	return m_Settings.GetServerPublicKeyCertificate();
+    return m_Settings.GetServerPublicKeyCertificate();
 }
 
 // Optional ECDSA public key certificate that is send in part of AARE.
 void CGXDLMSSecureClient::SetServerPublicKeyCertificate(CGXx509Certificate &value) {
-	m_Settings.SetServerPublicKeyCertificate(value);
+    m_Settings.SetServerPublicKeyCertificate(value);
 }

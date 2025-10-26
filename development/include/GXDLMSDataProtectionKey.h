@@ -43,18 +43,18 @@
 
 // Enumerates data protection key types.
 typedef enum {
-	/**
+    /**
      Identified key.
     */
-	DLMS_DATA_PROTECTION_KEY_TYPE_IDENTIFIED,
-	/**
+    DLMS_DATA_PROTECTION_KEY_TYPE_IDENTIFIED,
+    /**
      Wrapped key.
     */
-	DLMS_DATA_PROTECTION_KEY_TYPE_WRAPPED,
-	/**
+    DLMS_DATA_PROTECTION_KEY_TYPE_WRAPPED,
+    /**
      Agreed.
     */
-	DLMS_DATA_PROTECTION_KEY_TYPE_AGREED
+    DLMS_DATA_PROTECTION_KEY_TYPE_AGREED
 } DLMS_DATA_PROTECTION_KEY_TYPE;
 
 /**
@@ -62,79 +62,79 @@ typedef enum {
 */
 class CGXDLMSDataProtectionKey {
 private:
-	/**
+    /**
       * Data protectionKey type.
       */
-	DLMS_DATA_PROTECTION_KEY_TYPE m_DataProtectionKeyType;
+    DLMS_DATA_PROTECTION_KEY_TYPE m_DataProtectionKeyType;
 
-	/**
+    /**
      * Identified key parameters.
      */
-	CGXDLMSDataProtectionIdentifiedKey m_IdentifiedKey;
+    CGXDLMSDataProtectionIdentifiedKey m_IdentifiedKey;
 
-	/**
+    /**
      * Wrapped key parameters.
      */
-	CGXDLMSDataProtectionWrappeddKey m_WrappedKey;
-	/**
+    CGXDLMSDataProtectionWrappeddKey m_WrappedKey;
+    /**
      * Agreed key parameters.
      */
-	CGXDLMSDataProtectionAgreedKey m_AgreedKey;
+    CGXDLMSDataProtectionAgreedKey m_AgreedKey;
 
 public:
-	/**
+    /**
      * Constructor.
      */
-	CGXDLMSDataProtectionKey() {
-		m_DataProtectionKeyType = DLMS_DATA_PROTECTION_KEY_TYPE_IDENTIFIED;
-	}
+    CGXDLMSDataProtectionKey() {
+        m_DataProtectionKeyType = DLMS_DATA_PROTECTION_KEY_TYPE_IDENTIFIED;
+    }
 
-	/**
+    /**
     * Returns Data protectionKey type.
     */
-	DLMS_DATA_PROTECTION_KEY_TYPE GetDataProtectionKeyType() {
-		return m_DataProtectionKeyType;
-	}
+    DLMS_DATA_PROTECTION_KEY_TYPE GetDataProtectionKeyType() {
+        return m_DataProtectionKeyType;
+    }
 
-	/**
+    /**
     * value : Data protectionKey type.
     */
-	void SetDataProtectionKeyType(DLMS_DATA_PROTECTION_KEY_TYPE value) {
-		m_DataProtectionKeyType = value;
-	}
+    void SetDataProtectionKeyType(DLMS_DATA_PROTECTION_KEY_TYPE value) {
+        m_DataProtectionKeyType = value;
+    }
 
-	/**
+    /**
      * Returns Identified key parameters.
      */
-	CGXDLMSDataProtectionIdentifiedKey &GetIdentifiedKey() {
-		return m_IdentifiedKey;
-	}
+    CGXDLMSDataProtectionIdentifiedKey &GetIdentifiedKey() {
+        return m_IdentifiedKey;
+    }
 
-	/**
+    /**
       * value : Wrapped key parameters.
       */
-	CGXDLMSDataProtectionWrappeddKey &GetWrappedKey() {
-		return m_WrappedKey;
-	}
+    CGXDLMSDataProtectionWrappeddKey &GetWrappedKey() {
+        return m_WrappedKey;
+    }
 
-	/**
+    /**
       * value : Agreed key parameters.
       */
-	CGXDLMSDataProtectionAgreedKey &GetAgreedKey() {
-		return m_AgreedKey;
-	}
+    CGXDLMSDataProtectionAgreedKey &GetAgreedKey() {
+        return m_AgreedKey;
+    }
 
-	std::string ToString() {
-		std::string str;
-		str = std::to_string(m_DataProtectionKeyType);
-		str += ", ";
-		str += m_IdentifiedKey.ToString();
-		str += ", ";
-		str += m_WrappedKey.ToString();
-		str += ", ";
-		str += m_AgreedKey.ToString();
-		return str;
-	}
+    std::string ToString() {
+        std::string str;
+        str = std::to_string(m_DataProtectionKeyType);
+        str += ", ";
+        str += m_IdentifiedKey.ToString();
+        str += ", ";
+        str += m_WrappedKey.ToString();
+        str += ", ";
+        str += m_AgreedKey.ToString();
+        return str;
+    }
 };
 #endif  //DLMS_IGNORE_PUSH_SETUP
 #endif  //GXDLMSDATAPROTECTIONKEY_H

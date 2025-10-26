@@ -51,14 +51,14 @@
 
 // Enumerated Address config modes.
 typedef enum {
-	// Auto Configuration.
-	DLMS_IP6_ADDRESS_CONFIG_MODE_AUTO,
-	// DHCP v6.
-	DLMS_IP6_ADDRESS_CONFIG_MODE_DHCP_V6,
-	// Manual
-	DLMS_IP6_ADDRESS_CONFIG_MODE_MANUAL,
-	// Neighbour Discovery.
-	DLMS_IP6_ADDRESS_CONFIG_MODE_NEIGHBOUR_DISCOVERY
+    // Auto Configuration.
+    DLMS_IP6_ADDRESS_CONFIG_MODE_AUTO,
+    // DHCP v6.
+    DLMS_IP6_ADDRESS_CONFIG_MODE_DHCP_V6,
+    // Manual
+    DLMS_IP6_ADDRESS_CONFIG_MODE_MANUAL,
+    // Neighbour Discovery.
+    DLMS_IP6_ADDRESS_CONFIG_MODE_NEIGHBOUR_DISCOVERY
 } DLMS_IP6_ADDRESS_CONFIG_MODE;
 
 /**
@@ -66,124 +66,124 @@ Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSIp6Setup
 */
 class CGXDLMSIp6Setup: public CGXDLMSObject {
-	friend class CGXXmlWriter;
-	std::string m_DataLinkLayerReference;
-	DLMS_IP6_ADDRESS_CONFIG_MODE m_AddressConfigMode;
-	std::vector<IN6_ADDR> m_UnicastIPAddress;
-	std::vector<IN6_ADDR> m_MulticastIPAddress;
-	std::vector<IN6_ADDR> m_GatewayIPAddress;
-	IN6_ADDR m_PrimaryDNSAddress;
-	IN6_ADDR m_SecondaryDNSAddress;
-	unsigned char m_TrafficClass;
-	std::vector<CGXNeighborDiscoverySetup *> m_NeighborDiscoverySetup;
+    friend class CGXXmlWriter;
+    std::string m_DataLinkLayerReference;
+    DLMS_IP6_ADDRESS_CONFIG_MODE m_AddressConfigMode;
+    std::vector<IN6_ADDR> m_UnicastIPAddress;
+    std::vector<IN6_ADDR> m_MulticastIPAddress;
+    std::vector<IN6_ADDR> m_GatewayIPAddress;
+    IN6_ADDR m_PrimaryDNSAddress;
+    IN6_ADDR m_SecondaryDNSAddress;
+    unsigned char m_TrafficClass;
+    std::vector<CGXNeighborDiscoverySetup *> m_NeighborDiscoverySetup;
 
 public:
-	//Constructor.
-	CGXDLMSIp6Setup();
+    //Constructor.
+    CGXDLMSIp6Setup();
 
-	//SN Constructor.
-	CGXDLMSIp6Setup(std::string ln, unsigned short sn);
+    //SN Constructor.
+    CGXDLMSIp6Setup(std::string ln, unsigned short sn);
 
-	//LN Constructor.
-	CGXDLMSIp6Setup(std::string ln);
+    //LN Constructor.
+    CGXDLMSIp6Setup(std::string ln);
 
-	//Destructor.
-	~CGXDLMSIp6Setup();
+    //Destructor.
+    ~CGXDLMSIp6Setup();
 
-	std::string &GetDataLinkLayerReference() {
-		return m_DataLinkLayerReference;
-	}
+    std::string &GetDataLinkLayerReference() {
+        return m_DataLinkLayerReference;
+    }
 
-	void SetDataLinkLayerReference(std::string &value) {
-		m_DataLinkLayerReference = value;
-	}
+    void SetDataLinkLayerReference(std::string &value) {
+        m_DataLinkLayerReference = value;
+    }
 
-	DLMS_IP6_ADDRESS_CONFIG_MODE GetAddressConfigMode() {
-		return m_AddressConfigMode;
-	}
+    DLMS_IP6_ADDRESS_CONFIG_MODE GetAddressConfigMode() {
+        return m_AddressConfigMode;
+    }
 
-	void SetAddressConfigMode(DLMS_IP6_ADDRESS_CONFIG_MODE value) {
-		m_AddressConfigMode = value;
-	}
+    void SetAddressConfigMode(DLMS_IP6_ADDRESS_CONFIG_MODE value) {
+        m_AddressConfigMode = value;
+    }
 
-	std::vector<IN6_ADDR> &GetUnicastIPAddress() {
-		return m_UnicastIPAddress;
-	}
+    std::vector<IN6_ADDR> &GetUnicastIPAddress() {
+        return m_UnicastIPAddress;
+    }
 
-	void SetUnicastIPAddress(std::vector<IN6_ADDR> &value) {
-		m_UnicastIPAddress = value;
-	}
+    void SetUnicastIPAddress(std::vector<IN6_ADDR> &value) {
+        m_UnicastIPAddress = value;
+    }
 
-	std::vector<IN6_ADDR> &GetMulticastIPAddress() {
-		return m_MulticastIPAddress;
-	}
+    std::vector<IN6_ADDR> &GetMulticastIPAddress() {
+        return m_MulticastIPAddress;
+    }
 
-	void setMulticastIPAddress(std::vector<IN6_ADDR> &value) {
-		m_MulticastIPAddress = value;
-	}
+    void setMulticastIPAddress(std::vector<IN6_ADDR> &value) {
+        m_MulticastIPAddress = value;
+    }
 
-	std::vector<IN6_ADDR> &GetGatewayIPAddress() {
-		return m_GatewayIPAddress;
-	}
+    std::vector<IN6_ADDR> &GetGatewayIPAddress() {
+        return m_GatewayIPAddress;
+    }
 
-	void SetGatewayIPAddress(std::vector<IN6_ADDR> &value) {
-		m_GatewayIPAddress = value;
-	}
+    void SetGatewayIPAddress(std::vector<IN6_ADDR> &value) {
+        m_GatewayIPAddress = value;
+    }
 
-	IN6_ADDR &GetPrimaryDNSAddress() {
-		return m_PrimaryDNSAddress;
-	}
+    IN6_ADDR &GetPrimaryDNSAddress() {
+        return m_PrimaryDNSAddress;
+    }
 
-	void SetPrimaryDNSAddress(IN6_ADDR &value) {
-		m_PrimaryDNSAddress = value;
-	}
+    void SetPrimaryDNSAddress(IN6_ADDR &value) {
+        m_PrimaryDNSAddress = value;
+    }
 
-	IN6_ADDR &GetSecondaryDNSAddress() {
-		return m_SecondaryDNSAddress;
-	}
+    IN6_ADDR &GetSecondaryDNSAddress() {
+        return m_SecondaryDNSAddress;
+    }
 
-	void m_SetSecondaryDNSAddress(IN6_ADDR &value) {
-		m_SecondaryDNSAddress = value;
-	}
+    void m_SetSecondaryDNSAddress(IN6_ADDR &value) {
+        m_SecondaryDNSAddress = value;
+    }
 
-	unsigned char GetTrafficClass() {
-		return m_TrafficClass;
-	}
+    unsigned char GetTrafficClass() {
+        return m_TrafficClass;
+    }
 
-	void m_SetTrafficClass(unsigned char value) {
-		m_TrafficClass = value;
-	}
+    void m_SetTrafficClass(unsigned char value) {
+        m_TrafficClass = value;
+    }
 
-	std::vector<CGXNeighborDiscoverySetup *> &GetNeighborDiscoverySetup() {
-		return m_NeighborDiscoverySetup;
-	}
+    std::vector<CGXNeighborDiscoverySetup *> &GetNeighborDiscoverySetup() {
+        return m_NeighborDiscoverySetup;
+    }
 
-	// Returns amount of attributes.
-	int GetAttributeCount();
+    // Returns amount of attributes.
+    int GetAttributeCount();
 
-	// Returns amount of methods.
-	int GetMethodCount();
+    // Returns amount of methods.
+    int GetMethodCount();
 
-	//Get attribute values of object.
-	void GetValues(std::vector<std::string> &values);
+    //Get attribute values of object.
+    void GetValues(std::vector<std::string> &values);
 
-	/////////////////////////////////////////////////////////////////////////
-	// Returns collection of attributes to read.
-	//
-	// If attribute is static and already read or device is returned
-	// HW error it is not returned.
-	//
-	// all: All items are returned even if they are read already.
-	// attributes: Collection of attributes to read.
-	void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    /////////////////////////////////////////////////////////////////////////
+    // Returns collection of attributes to read.
+    //
+    // If attribute is static and already read or device is returned
+    // HW error it is not returned.
+    //
+    // all: All items are returned even if they are read already.
+    // attributes: Collection of attributes to read.
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-	int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-	// Returns value of given attribute.
-	int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Returns value of given attribute.
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-	// Set value of given attribute.
-	int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Set value of given attribute.
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_IP6_SETUP
 #endif  //GXDLMSIP6SETUP_H

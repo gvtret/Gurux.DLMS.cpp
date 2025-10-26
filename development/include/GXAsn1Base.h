@@ -43,14 +43,14 @@
 /// </summary>
 class CGXAsn1Base {
 public:
-	virtual std::string ToString() {
-		assert(0);
-		return "";
-	}
+    virtual std::string ToString() {
+        assert(0);
+        return "";
+    }
 
-	/*Destructor.*/
-	virtual ~CGXAsn1Base() {
-	}
+    /*Destructor.*/
+    virtual ~CGXAsn1Base() {
+    }
 };
 
 #endif  //CGXASNBASE_H

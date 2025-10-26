@@ -52,32 +52,32 @@
 // available.
 /////////////////////////////////////////////////////////////////////////////
 class CGXAPDU {
-	friend class CGXDLMSTranslator;
+    friend class CGXDLMSTranslator;
 
 private:
-	/////////////////////////////////////////////////////////////////////////////
-	// Constructor.
-	/////////////////////////////////////////////////////////////////////////////
-	CGXAPDU() {
-	}
+    /////////////////////////////////////////////////////////////////////////////
+    // Constructor.
+    /////////////////////////////////////////////////////////////////////////////
+    CGXAPDU() {
+    }
 
-	static int ParsePDU2(
-	    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
+    static int ParsePDU2(
+        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-	    ,
-	    CGXDLMSTranslatorStructure *xml
+        ,
+        CGXDLMSTranslatorStructure *xml
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-	);
+    );
 
-	static int Parse(
-	    bool initiateRequest, CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data,
+    static int Parse(
+        bool initiateRequest, CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data,
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-	    CGXDLMSTranslatorStructure *xml,
+        CGXDLMSTranslatorStructure *xml,
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-	    unsigned char tag
-	);
+        unsigned char tag
+    );
 
-	/**
+    /**
     * Code application context name.
     *
     * @param settings
@@ -87,26 +87,26 @@ private:
     * @param cipher
     *            Is ciphering settings.
     */
-	static int GenerateApplicationContextName(CGXDLMSSettings &settings, CGXByteBuffer &data, CGXCipher *cipher);
+    static int GenerateApplicationContextName(CGXDLMSSettings &settings, CGXByteBuffer &data, CGXCipher *cipher);
 
 public:
-	/**
+    /**
      * Parse User Information from PDU.
      */
-	static int ParseUserInformation(
-	    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data
+    static int ParseUserInformation(
+        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-	    ,
-	    CGXDLMSTranslatorStructure *xml
+        ,
+        CGXDLMSTranslatorStructure *xml
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-	);
+    );
 
-	/**
+    /**
      * Generates Aarq.
      */
-	static int GenerateAarq(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data);
+    static int GenerateAarq(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data);
 
-	/**
+    /**
     * Generate user information.
     *
     * @param settings
@@ -115,36 +115,36 @@ public:
     * @param data
     *            Generated user information.
     */
-	static int GenerateUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data);
+    static int GenerateUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer *encryptedData, CGXByteBuffer &data);
 
-	/**
+    /**
      * Parse APDU.
      */
-	static int ParsePDU(
-	    CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
+    static int ParsePDU(
+        CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &buff, DLMS_ASSOCIATION_RESULT &result, DLMS_SOURCE_DIAGNOSTIC &diagnostic
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-	    ,
-	    CGXDLMSTranslatorStructure *xml
+        ,
+        CGXDLMSTranslatorStructure *xml
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-	);
+    );
 
-	/**
+    /**
      * Server generates AARE message.
      */
-	static int GenerateAARE(
-	    CGXDLMSSettings &settings, CGXByteBuffer &data, DLMS_ASSOCIATION_RESULT result, DLMS_SOURCE_DIAGNOSTIC diagnostic, CGXCipher *cipher,
-	    CGXByteBuffer *errorData, CGXByteBuffer *encryptedData
-	);
+    static int GenerateAARE(
+        CGXDLMSSettings &settings, CGXByteBuffer &data, DLMS_ASSOCIATION_RESULT result, DLMS_SOURCE_DIAGNOSTIC diagnostic, CGXCipher *cipher,
+        CGXByteBuffer *errorData, CGXByteBuffer *encryptedData
+    );
 
-	static int GetUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data);
+    static int GetUserInformation(CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data);
 
-	static int ParseInitiate(
-	    bool initiateRequest, CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data
+    static int ParseInitiate(
+        bool initiateRequest, CGXDLMSSettings &settings, CGXCipher *cipher, CGXByteBuffer &data
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-	    ,
-	    CGXDLMSTranslatorStructure *xml
+        ,
+        CGXDLMSTranslatorStructure *xml
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
-	);
+    );
 };
 
 #endif  //GXAPDU_H

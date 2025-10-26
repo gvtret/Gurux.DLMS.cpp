@@ -41,108 +41,108 @@
 
 class CGXDLMSCertificateInfo {
 private:
-	friend class CGXDLMSSecuritySetup;
-	/**
+    friend class CGXDLMSSecuritySetup;
+    /**
  * Used certificate entity.
  */
-	DLMS_CERTIFICATE_ENTITY m_Entity;
+    DLMS_CERTIFICATE_ENTITY m_Entity;
 
-	/**
+    /**
      * Used certificate type.
      */
-	DLMS_CERTIFICATE_TYPE m_Type;
+    DLMS_CERTIFICATE_TYPE m_Type;
 
-	/**
+    /**
      * Certificate serial number.
      */
-	CGXBigInteger m_SerialNumber;
+    CGXBigInteger m_SerialNumber;
 
-	/**
+    /**
      * Certificate issuer.
      */
-	std::string m_Issuer;
+    std::string m_Issuer;
 
-	/**
+    /**
     * Certificate issuer in ASN1 format.
     */
-	CGXByteBuffer m_IssuerRaw;
+    CGXByteBuffer m_IssuerRaw;
 
-	/**
+    /**
      * Certificate subject.
      */
-	std::string m_Subject;
+    std::string m_Subject;
 
-	/**
+    /**
      * Certificate subject alt name.
      */
-	std::string m_SubjectAltName;
+    std::string m_SubjectAltName;
 
 public:
-	//Constructor.
-	CGXDLMSCertificateInfo();
+    //Constructor.
+    CGXDLMSCertificateInfo();
 
-	/**
+    /**
      * Used certificate entity.
      */
-	DLMS_CERTIFICATE_ENTITY GetEntity();
-	/**
+    DLMS_CERTIFICATE_ENTITY GetEntity();
+    /**
      * Used certificate entity.
      */
-	void SetEntity(DLMS_CERTIFICATE_ENTITY value);
+    void SetEntity(DLMS_CERTIFICATE_ENTITY value);
 
-	/**
+    /**
      * Used certificate type.
      */
-	DLMS_CERTIFICATE_TYPE GetType();
+    DLMS_CERTIFICATE_TYPE GetType();
 
-	/**
+    /**
      * Used certificate type.
      */
-	void SetType(DLMS_CERTIFICATE_TYPE value);
+    void SetType(DLMS_CERTIFICATE_TYPE value);
 
-	/**
+    /**
      * @return Certificate serial number.
      */
-	CGXBigInteger &GetSerialNumber();
+    CGXBigInteger &GetSerialNumber();
 
-	/**
+    /**
      *  Certificate serial number.
      */
-	void SetSerialNumber(CGXBigInteger &value);
+    void SetSerialNumber(CGXBigInteger &value);
 
-	/**
+    /**
      * Certificate issuer.
      */
-	std::string &GetIssuer();
+    std::string &GetIssuer();
 
-	/**
+    /**
      * Certificate issuer.
      */
-	void SetIssuer(std::string &value);
+    void SetIssuer(std::string &value);
 
-	/**
+    /**
     * Certificate issuer in ASN1 format.
     */
-	CGXByteBuffer &GetIssuerRaw();
+    CGXByteBuffer &GetIssuerRaw();
 
-	/**
+    /**
      * Certificate subject.
      */
-	std::string &GetSubject();
+    std::string &GetSubject();
 
-	/**
+    /**
      * Certificate subject.
      */
-	void SetSubject(std::string &value);
+    void SetSubject(std::string &value);
 
-	/**
+    /**
      * Certificate subject alt name.
      */
-	std::string &GetSubjectAltName();
+    std::string &GetSubjectAltName();
 
-	/**
+    /**
      * Certificate subject alt name.
      */
-	void SetSubjectAltName(std::string &value);
+    void SetSubjectAltName(std::string &value);
 };
 #endif  //GXDLMSCERTIFICATEINFO_H

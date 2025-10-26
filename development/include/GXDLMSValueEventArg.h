@@ -47,92 +47,92 @@ class CGXDLMSSettings;
 class CGXDLMSAssociationLogicalName;
 
 class CGXDLMSValueEventArg {
-	friend class CGXDLMSClient;
-	friend class CGXDLMSServer;
-	friend class CGXDLMSNotify;
-	friend class CGXDLMSProfileGeneric;
-	friend class CGXDLMSAssociationLogicalName;
-	friend class CGXDLMSAssociationShortName;
-	friend class CGXDLMSLNCommandHandler;
-	friend class CGXDLMSSNCommandHandler;
+    friend class CGXDLMSClient;
+    friend class CGXDLMSServer;
+    friend class CGXDLMSNotify;
+    friend class CGXDLMSProfileGeneric;
+    friend class CGXDLMSAssociationLogicalName;
+    friend class CGXDLMSAssociationShortName;
+    friend class CGXDLMSLNCommandHandler;
+    friend class CGXDLMSSNCommandHandler;
 
 private:
-	/**
+    /**
     * CGXDLMSVariant value.
     */
-	CGXDLMSVariant m_Value;
-	/**
+    CGXDLMSVariant m_Value;
+    /**
     * Is request handled.
     */
-	bool m_Handled;
-	/**
+    bool m_Handled;
+    /**
     * Target DLMS object
     */
-	CGXDLMSObject *m_Target;
-	/**
+    CGXDLMSObject *m_Target;
+    /**
     * Attribute index.
     */
-	int m_Index;
-	/**
+    int m_Index;
+    /**
     * Optional selector.
     */
-	int m_Selector;
-	/**
+    int m_Selector;
+    /**
     * Optional parameters.
     */
-	CGXDLMSVariant m_Parameters;
+    CGXDLMSVariant m_Parameters;
 
-	/**
+    /**
      * Occurred error.
      */
-	DLMS_ERROR_CODE m_Error;
-	/**
+    DLMS_ERROR_CODE m_Error;
+    /**
     * Is action. This is reserved for internal use.
     */
-	bool m_Action;
+    bool m_Action;
 
-	/**
+    /**
     * Is data handled as byte array.
     */
-	bool m_ByteArray;
+    bool m_ByteArray;
 
-	/**
+    /**
     * Is value max PDU size skipped.
     */
-	bool m_SkipMaxPduSize;
+    bool m_SkipMaxPduSize;
 
-	/**
+    /**
     * Row to PDU is used with Profile Generic to tell how many rows are fit to
     * one PDU.
     */
-	unsigned short m_RowToPdu;
-	/**
+    unsigned short m_RowToPdu;
+    /**
     * Rows begin index.
     */
-	unsigned short m_RowBeginIndex;
-	/**
+    unsigned short m_RowBeginIndex;
+    /**
     * Rows end index.
     */
-	unsigned short m_RowEndIndex;
+    unsigned short m_RowEndIndex;
 
-	/**
+    /**
     * DLMS settings.
     */
-	CGXDLMSSettings *m_Settings;
+    CGXDLMSSettings *m_Settings;
 
-	/**
+    /**
     * DLMS server.
     */
-	CGXDLMSServer *m_Server;
+    CGXDLMSServer *m_Server;
 
-	/**
+    /**
     * Received invoke ID.
     */
-	unsigned int m_InvokeId;
+    unsigned int m_InvokeId;
 
-	void Init(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector);
+    void Init(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector);
 
-	/**
+    /**
     * Constructor.
     *
     * @param target
@@ -140,9 +140,9 @@ private:
     * @param index
     *            Event index.
     */
-	CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index);
+    CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index);
 
-	/**
+    /**
     * Constructor.
     *
     * @param target
@@ -154,74 +154,74 @@ private:
     * @param parameters
     *            Optional parameters.
     */
-	CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters);
+    CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters);
 
-	/**
+    /**
     * DLMS server.
     */
-	CGXDLMSServer *GetServer();
+    CGXDLMSServer *GetServer();
 
 public:
-	/**
+    /**
     * @return Target DLMS object.
     */
-	CGXDLMSObject *GetTarget();
+    CGXDLMSObject *GetTarget();
 
-	void SetTarget(CGXDLMSObject *value);
+    void SetTarget(CGXDLMSObject *value);
 
-	/**
+    /**
     * @return Attribute index of queried object.
     */
-	int GetIndex();
+    int GetIndex();
 
-	void SetIndex(int value);
+    void SetIndex(int value);
 
-	/**
+    /**
     * @return CGXDLMSVariant value.
     */
-	CGXDLMSVariant &GetValue();
+    CGXDLMSVariant &GetValue();
 
-	/**
+    /**
     * @param value
     *            CGXDLMSVariant value.
     */
-	void SetValue(CGXDLMSVariant value);
+    void SetValue(CGXDLMSVariant value);
 
-	/**
+    /**
     * @return Is request handled.
     */
-	bool GetHandled();
+    bool GetHandled();
 
-	/**
+    /**
     * @param value
     *            Is request handled.
     */
-	void SetHandled(bool value);
+    void SetHandled(bool value);
 
-	/**
+    /**
     * @return Optional selector.
     */
-	int GetSelector();
+    int GetSelector();
 
-	/**
+    /**
     * @param value
     *           Selector.
     */
-	void SetSelector(int value);
+    void SetSelector(int value);
 
-	/**
+    /**
     * @return Optional parameters.
     */
-	CGXDLMSVariant &GetParameters();
+    CGXDLMSVariant &GetParameters();
 
-	/**
+    /**
     * @param value
     *           Parameters.
     */
-	void SetParameters(CGXDLMSVariant &value);
+    void SetParameters(CGXDLMSVariant &value);
 
 
-	/**
+    /**
     * Constructor.
     *
     * @param target
@@ -229,9 +229,9 @@ public:
     * @param index
     *            Event index.
     */
-	CGXDLMSValueEventArg(CGXDLMSObject *target, int index);
+    CGXDLMSValueEventArg(CGXDLMSObject *target, int index);
 
-	/**
+    /**
     * Constructor.
     *
     * @param target
@@ -243,100 +243,100 @@ public:
     * @param parameters
     *            Optional parameters.
     */
-	CGXDLMSValueEventArg(CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters);
+    CGXDLMSValueEventArg(CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters);
 
-	/**
+    /**
     * @return Occurred error.
     */
-	DLMS_ERROR_CODE GetError();
+    DLMS_ERROR_CODE GetError();
 
-	/**
+    /**
      * @param error
      *            Occurred error.
      */
-	void SetError(DLMS_ERROR_CODE value);
+    void SetError(DLMS_ERROR_CODE value);
 
-	/**
+    /**
     * @return Is action.
     */
-	bool IsAction();
+    bool IsAction();
 
-	/**
+    /**
     * @param value
     *            Is action.
     */
-	void SetAction(bool value);
+    void SetAction(bool value);
 
-	/**
+    /**
        * @return Is byte array.
        */
-	bool IsByteArray();
+    bool IsByteArray();
 
-	/**
+    /**
     * @param value
     *            Is byte array.
     */
-	void SetByteArray(bool value);
+    void SetByteArray(bool value);
 
-	/**
+    /**
     * @return Is value max PDU size skipped.
     */
-	bool GetSkipMaxPduSize();
+    bool GetSkipMaxPduSize();
 
-	/**
+    /**
      * @param value
      *            Is value max PDU size skipped.
      */
-	void SetSkipMaxPduSize(bool value);
+    void SetSkipMaxPduSize(bool value);
 
 
-	/**
+    /**
     * @return How many rows are read to one PDU.
     */
-	unsigned short GetRowToPdu();
+    unsigned short GetRowToPdu();
 
-	/**
+    /**
     * @param value
     *            How many rows are read to one PDU.
     */
-	void SetRowToPdu(unsigned short value);
+    void SetRowToPdu(unsigned short value);
 
-	/**
+    /**
     * @return Rows end index.
     */
-	unsigned int GetRowEndIndex();
+    unsigned int GetRowEndIndex();
 
-	/**
+    /**
     * @param value
     *            Rows end index.
     */
-	void SetRowEndIndex(unsigned int value);
+    void SetRowEndIndex(unsigned int value);
 
-	/**
+    /**
     * @return Rows begin index.
     */
-	unsigned int GetRowBeginIndex();
+    unsigned int GetRowBeginIndex();
 
-	/**
+    /**
     * @param value
     *            Rows begin index.
     */
-	void SetRowBeginIndex(unsigned int value);
+    void SetRowBeginIndex(unsigned int value);
 
-	/**
+    /**
     * DLMS settings.
     */
-	CGXDLMSSettings *GetSettings();
+    CGXDLMSSettings *GetSettings();
 
-	/**
+    /**
     * @param value
     *            Received invoke ID.
     */
-	void SetInvokeId(unsigned int value);
+    void SetInvokeId(unsigned int value);
 
-	/**
+    /**
     * @return Received invoke ID.
     */
-	unsigned int GetInvokeId();
+    unsigned int GetInvokeId();
 };
 #endif  //GXDLMSVALUEEVENTARGS_H

@@ -41,43 +41,43 @@
 
 class CGXDLMSObjectCollection: public std::vector<CGXDLMSObject *> {
 public:
-	~CGXDLMSObjectCollection();
+    ~CGXDLMSObjectCollection();
 
-	CGXDLMSObject *FindByLN(DLMS_OBJECT_TYPE type, std::string &ln);
+    CGXDLMSObject *FindByLN(DLMS_OBJECT_TYPE type, std::string &ln);
 
-	CGXDLMSObject *FindByLN(DLMS_OBJECT_TYPE type, unsigned char ln[6]);
+    CGXDLMSObject *FindByLN(DLMS_OBJECT_TYPE type, unsigned char ln[6]);
 
-	CGXDLMSObject *FindBySN(unsigned short sn);
+    CGXDLMSObject *FindBySN(unsigned short sn);
 
-	void GetObjects(DLMS_OBJECT_TYPE type, CGXDLMSObjectCollection &items);
+    void GetObjects(DLMS_OBJECT_TYPE type, CGXDLMSObjectCollection &items);
 
-	void push_back(CGXDLMSObject *item);
+    void push_back(CGXDLMSObject *item);
 
-	void Free();
+    void Free();
 
-	std::string ToString();
+    std::string ToString();
 
-	/**
+    /**
     * Save COSEM objects to the file.
     *
     * fileName: File name.
     */
-	int Save(const char *fileName);
+    int Save(const char *fileName);
 
-	/**
+    /**
     * Save COSEM objects to the file.
     *
     * fileName: File name.
     * settings: XML write settings.
     */
-	int Save(const char *fileName, CGXXmlWriterSettings &settings);
+    int Save(const char *fileName, CGXXmlWriterSettings &settings);
 
-	/**
+    /**
     * Load COSEM objects from the file.
     *
     * fileName XML file name.
     */
-	int Load(const char *fileName);
+    int Load(const char *fileName);
 };
 
 #endif  //GXDLMSOBJECTCOLLECTION_H

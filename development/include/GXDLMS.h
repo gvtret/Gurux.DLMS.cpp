@@ -48,95 +48,95 @@
 
 class CGXDLMS {
 private:
-	friend class CGXDLMSClient;
-	friend class CGXDLMSServer;
+    friend class CGXDLMSClient;
+    friend class CGXDLMSServer;
 
-	static int AppendMultipleSNBlocks(CGXDLMSSNParameters &p, CGXByteBuffer &reply);
+    static int AppendMultipleSNBlocks(CGXDLMSSNParameters &p, CGXByteBuffer &reply);
 
-	static unsigned short CountFCS16(CGXByteBuffer &buff, int index, int count);
-	static uint32_t CountFCS24(unsigned char *buff, int index, int count);
+    static unsigned short CountFCS16(CGXByteBuffer &buff, int index, int count);
+    static uint32_t CountFCS24(unsigned char *buff, int index, int count);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get adress as GXDLMSVariant.
-	/////////////////////////////////////////////////////////////////////////////
-	static int GetAddress(long value, unsigned long &address, int &size);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get adress as GXDLMSVariant.
+    /////////////////////////////////////////////////////////////////////////////
+    static int GetAddress(long value, unsigned long &address, int &size);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get address as an byte array.
-	/////////////////////////////////////////////////////////////////////////////
-	static int GetAddressBytes(unsigned long value, CGXByteBuffer &bytes);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get address as an byte array.
+    /////////////////////////////////////////////////////////////////////////////
+    static int GetAddressBytes(unsigned long value, CGXByteBuffer &bytes);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Returns true if HDLC us used.
-	/////////////////////////////////////////////////////////////////////////////
-	// type : Interface type.
-	// Returns True, if HDLC is used.
-	/////////////////////////////////////////////////////////////////////////////
-	static bool UseHdlc(DLMS_INTERFACE_TYPE type);
+    /////////////////////////////////////////////////////////////////////////////
+    // Returns true if HDLC us used.
+    /////////////////////////////////////////////////////////////////////////////
+    // type : Interface type.
+    // Returns True, if HDLC is used.
+    /////////////////////////////////////////////////////////////////////////////
+    static bool UseHdlc(DLMS_INTERFACE_TYPE type);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Returns true if executed command is reply.
-	/////////////////////////////////////////////////////////////////////////////
-	// cmd : Executed command.
-	// Returns Is command reply.
-	/////////////////////////////////////////////////////////////////////////////
-	static bool IsReplyMessage(DLMS_COMMAND cmd);
+    /////////////////////////////////////////////////////////////////////////////
+    // Returns true if executed command is reply.
+    /////////////////////////////////////////////////////////////////////////////
+    // cmd : Executed command.
+    // Returns Is command reply.
+    /////////////////////////////////////////////////////////////////////////////
+    static bool IsReplyMessage(DLMS_COMMAND cmd);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Check LLC bytes.
-	/////////////////////////////////////////////////////////////////////////////
-	// server : Is server.
-	// data : Received data.
-	/////////////////////////////////////////////////////////////////////////////
-	static void GetLLCBytes(bool server, CGXByteBuffer &data);
+    /////////////////////////////////////////////////////////////////////////////
+    // Check LLC bytes.
+    /////////////////////////////////////////////////////////////////////////////
+    // server : Is server.
+    // data : Received data.
+    /////////////////////////////////////////////////////////////////////////////
+    static void GetLLCBytes(bool server, CGXByteBuffer &data);
 
-	/////////////////////////////////////////////////////////////////////////////
-	//
-	/////////////////////////////////////////////////////////////////////////////
-	static int CheckWrapperAddress(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData *notify);
+    /////////////////////////////////////////////////////////////////////////////
+    //
+    /////////////////////////////////////////////////////////////////////////////
+    static int CheckWrapperAddress(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData *notify);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get value from data.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings : DLMS settings.
-	// reply : Received data.
-	/////////////////////////////////////////////////////////////////////////////
-	static int GetValueFromData(CGXDLMSSettings &settings, CGXReplyData &reply);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get value from data.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings : DLMS settings.
+    // reply : Received data.
+    /////////////////////////////////////////////////////////////////////////////
+    static int GetValueFromData(CGXDLMSSettings &settings, CGXReplyData &reply);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get data from HDLC or wrapper frame.
-	/////////////////////////////////////////////////////////////////////////////
-	// reply : Received data that includes HDLC frame.
-	// info : Reply data.
-	// hdlc : Is HDLC framing used.
-	/////////////////////////////////////////////////////////////////////////////
-	static void GetDataFromFrame(CGXByteBuffer &reply, CGXReplyData &info, bool hdlc);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get data from HDLC or wrapper frame.
+    /////////////////////////////////////////////////////////////////////////////
+    // reply : Received data that includes HDLC frame.
+    // info : Reply data.
+    // hdlc : Is HDLC framing used.
+    /////////////////////////////////////////////////////////////////////////////
+    static void GetDataFromFrame(CGXByteBuffer &reply, CGXReplyData &info, bool hdlc);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get data from Wireless M-Bus frame.
-	/////////////////////////////////////////////////////////////////////////////
-	/// <param name="settings">DLMS settings.</param>
-	/// <param name="buff">Received data.</param>
-	/// <param name="data">Reply information.</param>
-	static int GetMBusData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get data from Wireless M-Bus frame.
+    /////////////////////////////////////////////////////////////////////////////
+    /// <param name="settings">DLMS settings.</param>
+    /// <param name="buff">Received data.</param>
+    /// <param name="data">Reply information.</param>
+    static int GetMBusData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get data from S-FSK PLC frame.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings: DLMS settings.
-	// buff: Received data.
-	// data: Reply information.
-	static int GetPlcData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get data from S-FSK PLC frame.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings: DLMS settings.
+    // buff: Received data.
+    // data: Reply information.
+    static int GetPlcData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get data from S-FSK PLC Hdlc frame.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings: DLMS settings.
-	// buff: Received data.
-	// data: Reply information.
-	static int GetPlcHdlcData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data, unsigned char *frame);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get data from S-FSK PLC Hdlc frame.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings: DLMS settings.
+    // buff: Received data.
+    // data: Reply information.
+    static int GetPlcHdlcData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data, unsigned char *frame);
 
-	/**
+    /**
     * Handle read response data block result.
     *
     * @param settings
@@ -146,24 +146,24 @@ private:
     * @param index
     *            Starting index.
     */
-	static int ReadResponseDataBlockResult(CGXDLMSSettings &settings, CGXReplyData &reply, int index);
+    static int ReadResponseDataBlockResult(CGXDLMSSettings &settings, CGXReplyData &reply, int index);
 
-	static int HandleGloDedRequest(CGXDLMSSettings &settings, CGXReplyData &data);
+    static int HandleGloDedRequest(CGXDLMSSettings &settings, CGXReplyData &data);
 
-	static int HandleGloDedResponse(CGXDLMSSettings &settings, CGXReplyData &data, int index);
+    static int HandleGloDedResponse(CGXDLMSSettings &settings, CGXReplyData &data, int index);
 
-	static int HandleGeneralCiphering(CGXDLMSSettings &settings, CGXReplyData &data);
+    static int HandleGeneralCiphering(CGXDLMSSettings &settings, CGXReplyData &data);
 
 
-	static int HandleGetResponseWithList(CGXDLMSSettings &settings, CGXReplyData &reply);
+    static int HandleGetResponseWithList(CGXDLMSSettings &settings, CGXReplyData &reply);
 
 public:
-	/////////////////////////////////////////////////////////////////////////////
-	// Check client and server addresses. Reserved for internal use.
-	/////////////////////////////////////////////////////////////////////////////
-	static int CheckInit(CGXDLMSSettings &settings);
+    /////////////////////////////////////////////////////////////////////////////
+    // Check client and server addresses. Reserved for internal use.
+    /////////////////////////////////////////////////////////////////////////////
+    static int CheckInit(CGXDLMSSettings &settings);
 
-	/**
+    /**
      * Get all Logical name messages. Client uses this to generate messages.
      *
      * @param p
@@ -172,9 +172,9 @@ public:
      *            Generated messages.
      * @return    Status code.
      */
-	static int GetLnMessages(CGXDLMSLNParameters &p, std::vector<CGXByteBuffer> &reply);
+    static int GetLnMessages(CGXDLMSLNParameters &p, std::vector<CGXByteBuffer> &reply);
 
-	/**
+    /**
     * Get all Short Name messages. Client uses this to generate messages.
     *
     * @param p
@@ -183,9 +183,9 @@ public:
     *            Generated messages.
     * @return    Status code.
     */
-	static int GetSnMessages(CGXDLMSSNParameters &p, std::vector<CGXByteBuffer> &reply);
+    static int GetSnMessages(CGXDLMSSNParameters &p, std::vector<CGXByteBuffer> &reply);
 
-	/**
+    /**
     * Handle General block transfer message.
     *
     * @param settings
@@ -193,9 +193,9 @@ public:
     * @param data
     *            received data.
     */
-	static int HandleGbt(CGXDLMSSettings &settings, CGXReplyData &data);
+    static int HandleGbt(CGXDLMSSettings &settings, CGXReplyData &data);
 
-	/**
+    /**
      * Split DLMS PDU to wrapper frames.
      *
      * @param settings
@@ -204,9 +204,9 @@ public:
      *            Wrapped data.
      * @return Wrapper frames.
     */
-	static int GetWrapperFrame(CGXDLMSSettings &settings, DLMS_COMMAND command, CGXByteBuffer &data, CGXByteBuffer &reply);
+    static int GetWrapperFrame(CGXDLMSSettings &settings, DLMS_COMMAND command, CGXByteBuffer &data, CGXByteBuffer &reply);
 
-	/**
+    /**
     * Get next logical name PDU.
     *
     * @param p
@@ -214,33 +214,33 @@ public:
     * @param reply
     *            Generated message.
     */
-	static int GetLNPdu(CGXDLMSLNParameters &p, CGXByteBuffer &reply);
+    static int GetLNPdu(CGXDLMSLNParameters &p, CGXByteBuffer &reply);
 
-	/**
+    /**
     * @param p
     * @param reply
     */
-	static int GetSNPdu(CGXDLMSSNParameters &p, CGXByteBuffer &reply);
+    static int GetSNPdu(CGXDLMSSNParameters &p, CGXByteBuffer &reply);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Generates an acknowledgment message, with which the server is informed to
-	// send next packets.
-	/////////////////////////////////////////////////////////////////////////////
-	// type : Frame type
-	// Returns : Acknowledgment message as unsigned char array.
-	/////////////////////////////////////////////////////////////////////////////
-	static int ReceiverReady(CGXDLMSSettings &settings, DLMS_DATA_REQUEST_TYPES type, CGXCipher *cipher, CGXByteBuffer &reply);
+    /////////////////////////////////////////////////////////////////////////////
+    // Generates an acknowledgment message, with which the server is informed to
+    // send next packets.
+    /////////////////////////////////////////////////////////////////////////////
+    // type : Frame type
+    // Returns : Acknowledgment message as unsigned char array.
+    /////////////////////////////////////////////////////////////////////////////
+    static int ReceiverReady(CGXDLMSSettings &settings, DLMS_DATA_REQUEST_TYPES type, CGXCipher *cipher, CGXByteBuffer &reply);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Generates an acknowledgment message, with which the server is informed to
-	// send next packets.
-	/////////////////////////////////////////////////////////////////////////////
-	// type : Frame type
-	// Returns : Acknowledgment message as unsigned char array.
-	/////////////////////////////////////////////////////////////////////////////
-	static int ReceiverReady(CGXDLMSSettings &settings, CGXReplyData &data, CGXCipher *cipher, CGXByteBuffer &reply);
+    /////////////////////////////////////////////////////////////////////////////
+    // Generates an acknowledgment message, with which the server is informed to
+    // send next packets.
+    /////////////////////////////////////////////////////////////////////////////
+    // type : Frame type
+    // Returns : Acknowledgment message as unsigned char array.
+    /////////////////////////////////////////////////////////////////////////////
+    static int ReceiverReady(CGXDLMSSettings &settings, CGXReplyData &data, CGXCipher *cipher, CGXByteBuffer &reply);
 
-	/**
+    /**
     * Get HDLC frame for data.
     *
     * settings: DLMS settings.
@@ -248,49 +248,49 @@ public:
     * data: Data to add.
     * reply: HDLC frame.
     */
-	static int GetHdlcFrame(CGXDLMSSettings &settings, unsigned char frame, CGXByteBuffer *data, CGXByteBuffer &reply);
+    static int GetHdlcFrame(CGXDLMSSettings &settings, unsigned char frame, CGXByteBuffer *data, CGXByteBuffer &reply);
 
-	static int GetHdlcData(bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, CGXReplyData &data, unsigned char &frame, CGXReplyData *notify);
+    static int GetHdlcData(bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, CGXReplyData &data, unsigned char &frame, CGXReplyData *notify);
 
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get MAC LLC frame for data.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings: DLMS settings.
-	// frame: HDLC frame sequence number.
-	// creditFields: Credit fields.
-	// data: Data to add.
-	// reply: MAC frame.
-	static int GetMacFrame(CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get MAC LLC frame for data.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings: DLMS settings.
+    // frame: HDLC frame sequence number.
+    // creditFields: Credit fields.
+    // data: Data to add.
+    // reply: MAC frame.
+    static int GetMacFrame(CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get MAC LLC frame for data.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings: DLMS settings.
-	// data: Data to add.
-	// reply: MAC frame.
-	static int GetPlcFrame(CGXDLMSSettings &settings, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get MAC LLC frame for data.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings: DLMS settings.
+    // data: Data to add.
+    // reply: MAC frame.
+    static int GetPlcFrame(CGXDLMSSettings &settings, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get MAC HDLC frame for data.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings: DLMS settings.
-	// frame: HDLC frame.
-	// creditFields: Credit fields.
-	// data: Data to add.
-	// reply: MAC frame.
-	static int GetMacHdlcFrame(CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get MAC HDLC frame for data.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings: DLMS settings.
+    // frame: HDLC frame.
+    // creditFields: Credit fields.
+    // data: Data to add.
+    // reply: MAC frame.
+    static int GetMacHdlcFrame(CGXDLMSSettings &settings, unsigned char frame, unsigned char creditFields, CGXByteBuffer *data, CGXByteBuffer &reply);
 
-	/**
+    /**
      * Get HDLC address from byte array.
      *
      * @param buff
      *            byte array.
      * @return HDLC address.
      */
-	static int GetHDLCAddress(CGXByteBuffer &buff, unsigned long &address);
+    static int GetHDLCAddress(CGXByteBuffer &buff, unsigned long &address);
 
-	/**
+    /**
      * Check that client and server address match.
      *
      * @param server
@@ -303,50 +303,50 @@ public:
      *            Position.
      * @return True, if client and server address match.
      */
-	static int CheckHdlcAddress(bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, int index, unsigned long &source, unsigned long &target);
+    static int CheckHdlcAddress(bool server, CGXDLMSSettings &settings, CGXByteBuffer &reply, int index, unsigned long &source, unsigned long &target);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get data from TCP/IP frame.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings : DLMS settigns.
-	// buff : Received data.
-	// data : Reply information.
-	/////////////////////////////////////////////////////////////////////////////
-	static int GetTcpData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data, CGXReplyData *notify);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get data from TCP/IP frame.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings : DLMS settigns.
+    // buff : Received data.
+    // data : Reply information.
+    /////////////////////////////////////////////////////////////////////////////
+    static int GetTcpData(CGXDLMSSettings &settings, CGXByteBuffer &buff, CGXReplyData &data, CGXReplyData *notify);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Handle read response and get data from block and/or update error status.
-	/////////////////////////////////////////////////////////////////////////////
-	// data : Received data from the client.
-	/////////////////////////////////////////////////////////////////////////////
-	static int HandleReadResponse(CGXDLMSSettings &settings, CGXReplyData &data, int index);
+    /////////////////////////////////////////////////////////////////////////////
+    // Handle read response and get data from block and/or update error status.
+    /////////////////////////////////////////////////////////////////////////////
+    // data : Received data from the client.
+    /////////////////////////////////////////////////////////////////////////////
+    static int HandleReadResponse(CGXDLMSSettings &settings, CGXReplyData &data, int index);
 
-	static int AddInvokeId(CGXDLMSTranslatorStructure *xml, DLMS_COMMAND command, uint8_t type, uint32_t invokeId);
+    static int AddInvokeId(CGXDLMSTranslatorStructure *xml, DLMS_COMMAND command, uint8_t type, uint32_t invokeId);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Handle method response and get data from block and/or update error status.
-	/////////////////////////////////////////////////////////////////////////////
-	// data : Received data from the client.
-	/////////////////////////////////////////////////////////////////////////////
-	static int HandleMethodResponse(CGXDLMSSettings &settings, CGXReplyData &data, unsigned long index);
+    /////////////////////////////////////////////////////////////////////////////
+    // Handle method response and get data from block and/or update error status.
+    /////////////////////////////////////////////////////////////////////////////
+    // data : Received data from the client.
+    /////////////////////////////////////////////////////////////////////////////
+    static int HandleMethodResponse(CGXDLMSSettings &settings, CGXReplyData &data, unsigned long index);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Handle push and get data from block and/or update error status.
-	/////////////////////////////////////////////////////////////////////////////
-	// reply : Received data from the client.
-	/////////////////////////////////////////////////////////////////////////////
-	static int HandlePush(CGXReplyData &reply);
+    /////////////////////////////////////////////////////////////////////////////
+    // Handle push and get data from block and/or update error status.
+    /////////////////////////////////////////////////////////////////////////////
+    // reply : Received data from the client.
+    /////////////////////////////////////////////////////////////////////////////
+    static int HandlePush(CGXReplyData &reply);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Handle set response and update error status.
-	/////////////////////////////////////////////////////////////////////////////
-	// reply : Received data from the client.
-	/////////////////////////////////////////////////////////////////////////////
-	static int HandleSetResponse(CGXDLMSSettings &settings, CGXReplyData &data);
+    /////////////////////////////////////////////////////////////////////////////
+    // Handle set response and update error status.
+    /////////////////////////////////////////////////////////////////////////////
+    // reply : Received data from the client.
+    /////////////////////////////////////////////////////////////////////////////
+    static int HandleSetResponse(CGXDLMSSettings &settings, CGXReplyData &data);
 
-	static int HandleAccessResponse(CGXDLMSSettings &settings, CGXReplyData &reply);
+    static int HandleAccessResponse(CGXDLMSSettings &settings, CGXReplyData &reply);
 
-	/**
+    /**
     * Handle data notification get data from block and/or update error status.
     *
     * @param settings
@@ -354,61 +354,61 @@ public:
     * @param reply
     *            Received data from the client.
     */
-	static int HandleDataNotification(CGXDLMSSettings &settings, CGXReplyData &reply);
+    static int HandleDataNotification(CGXDLMSSettings &settings, CGXReplyData &reply);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Handle write response and update error status.
-	/////////////////////////////////////////////////////////////////////////////
-	// reply : Received data from the client.
-	/////////////////////////////////////////////////////////////////////////////
-	static int HandleWriteResponse(CGXReplyData &data);
+    /////////////////////////////////////////////////////////////////////////////
+    // Handle write response and update error status.
+    /////////////////////////////////////////////////////////////////////////////
+    // reply : Received data from the client.
+    /////////////////////////////////////////////////////////////////////////////
+    static int HandleWriteResponse(CGXReplyData &data);
 
-	static int HandleGetResponseNormal(CGXDLMSSettings &settings, CGXReplyData &reply, bool &empty);
+    static int HandleGetResponseNormal(CGXDLMSSettings &settings, CGXReplyData &reply, bool &empty);
 
-	static int HandleGetResponseNextDataBlock(CGXDLMSSettings &settings, CGXReplyData &reply, int index);
+    static int HandleGetResponseNextDataBlock(CGXDLMSSettings &settings, CGXReplyData &reply, int index);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Handle get response and get data from block and/or update error status.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings : DLMS settings.
-	// reply : Received data from the client.
-	// index : Block index number.
-	/////////////////////////////////////////////////////////////////////////////
-	static int HandleGetResponse(CGXDLMSSettings &settings, CGXReplyData &reply, int index);
+    /////////////////////////////////////////////////////////////////////////////
+    // Handle get response and get data from block and/or update error status.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings : DLMS settings.
+    // reply : Received data from the client.
+    // index : Block index number.
+    /////////////////////////////////////////////////////////////////////////////
+    static int HandleGetResponse(CGXDLMSSettings &settings, CGXReplyData &reply, int index);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get PDU from the packet.
-	/////////////////////////////////////////////////////////////////////////////
-	// settings : DLMS settings.
-	// data : received data.
-	// cipher : Cipher interface.
-	/////////////////////////////////////////////////////////////////////////////
-	static int GetPdu(CGXDLMSSettings &settings, CGXReplyData &data);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get PDU from the packet.
+    /////////////////////////////////////////////////////////////////////////////
+    // settings : DLMS settings.
+    // data : received data.
+    // cipher : Cipher interface.
+    /////////////////////////////////////////////////////////////////////////////
+    static int GetPdu(CGXDLMSSettings &settings, CGXReplyData &data);
 
-	/////////////////////////////////////////////////////////////////////////////
-	//
-	/////////////////////////////////////////////////////////////////////////////
-	static int GetData(CGXDLMSSettings &settings, CGXByteBuffer &reply, CGXReplyData &data, CGXReplyData *notify);
+    /////////////////////////////////////////////////////////////////////////////
+    //
+    /////////////////////////////////////////////////////////////////////////////
+    static int GetData(CGXDLMSSettings &settings, CGXByteBuffer &reply, CGXReplyData &data, CGXReplyData *notify);
 
-	/////////////////////////////////////////////////////////////////////////////
-	// Get action info.
-	/////////////////////////////////////////////////////////////////////////////
-	// objectType : Object type.
-	// value : Starting address.
-	// count : Attribute count.
-	/////////////////////////////////////////////////////////////////////////////
-	static int GetActionInfo(DLMS_OBJECT_TYPE objectType, unsigned char &value, unsigned char &count);
+    /////////////////////////////////////////////////////////////////////////////
+    // Get action info.
+    /////////////////////////////////////////////////////////////////////////////
+    // objectType : Object type.
+    // value : Starting address.
+    // count : Attribute count.
+    /////////////////////////////////////////////////////////////////////////////
+    static int GetActionInfo(DLMS_OBJECT_TYPE objectType, unsigned char &value, unsigned char &count);
 
 
-	static int AppendData(CGXDLMSSettings *settings, CGXDLMSObject *obj, unsigned char index, CGXByteBuffer &bb, CGXDLMSVariant &value);
+    static int AppendData(CGXDLMSSettings *settings, CGXDLMSObject *obj, unsigned char index, CGXByteBuffer &bb, CGXDLMSVariant &value);
 
-	static int ParseSnrmUaResponse(CGXByteBuffer &data, CGXHdlcSettings *limits);
+    static int ParseSnrmUaResponse(CGXByteBuffer &data, CGXHdlcSettings *limits);
 
-	// Add HDLC parameter.
-	static void AppendHdlcParameter(CGXByteBuffer &data, unsigned short value);
+    // Add HDLC parameter.
+    static void AppendHdlcParameter(CGXByteBuffer &data, unsigned short value);
 
-	static int HandleConfirmedServiceError(CGXReplyData &data);
+    static int HandleConfirmedServiceError(CGXReplyData &data);
 
-	static int HandleExceptionResponse(CGXReplyData &data);
+    static int HandleExceptionResponse(CGXReplyData &data);
 };
 #endif  //GXDLMS_H

@@ -44,182 +44,182 @@ Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCommunicationPortProtection
 */
 class CGXDLMSCommunicationPortProtection: public CGXDLMSObject {
-	/**
+    /**
      * Controls the protection mode.
      */
-	DLMS_PROTECTION_MODE m_ProtectionMode;
-	/**
+    DLMS_PROTECTION_MODE m_ProtectionMode;
+    /**
      * Number of allowed failed communication attempts before port is disabled.
      */
-	uint16_t m_AllowedFailedAttempts;
-	/**
+    uint16_t m_AllowedFailedAttempts;
+    /**
      * The lockout time.
      */
-	uint32_t m_InitialLockoutTime;
-	/**
+    uint32_t m_InitialLockoutTime;
+    /**
      * Holds a factor that controls how the lockout time is increased with each
      * failed attempt.
      */
-	unsigned char m_SteepnessFactor;
-	/**
+    unsigned char m_SteepnessFactor;
+    /**
      * The lockout time.
      */
-	uint32_t m_MaxLockoutTime;
-	/**
+    uint32_t m_MaxLockoutTime;
+    /**
      * The communication port being protected
      */
-	CGXDLMSObject *m_Port;
-	/**
+    CGXDLMSObject *m_Port;
+    /**
      * Current protection status.
      */
-	DLMS_PROTECTION_STATUS m_ProtectionStatus;
-	/**
+    DLMS_PROTECTION_STATUS m_ProtectionStatus;
+    /**
      * Failed attempts.
      */
-	uint32_t m_FailedAttempts;
-	/**
+    uint32_t m_FailedAttempts;
+    /**
      * Total failed attempts.
      */
-	uint32_t m_CumulativeFailedAttempts;
+    uint32_t m_CumulativeFailedAttempts;
 
 public:
-	//Constructor.
-	CGXDLMSCommunicationPortProtection();
+    //Constructor.
+    CGXDLMSCommunicationPortProtection();
 
-	//SN Constructor.
-	CGXDLMSCommunicationPortProtection(std::string ln, unsigned short sn);
+    //SN Constructor.
+    CGXDLMSCommunicationPortProtection(std::string ln, unsigned short sn);
 
-	//LN Constructor.
-	CGXDLMSCommunicationPortProtection(std::string ln);
+    //LN Constructor.
+    CGXDLMSCommunicationPortProtection(std::string ln);
 
-	/**
+    /**
     * Returns Controls the protection mode.
     */
-	DLMS_PROTECTION_MODE GetProtectionMode();
+    DLMS_PROTECTION_MODE GetProtectionMode();
 
-	/**
+    /**
      * value: Controls the protection mode.
      */
-	void SetProtectionMode(DLMS_PROTECTION_MODE value);
+    void SetProtectionMode(DLMS_PROTECTION_MODE value);
 
-	/**
+    /**
      * Returns Number of allowed failed communication attempts before port is
      *         disabled.
      */
-	uint16_t GetAllowedFailedAttempts();
+    uint16_t GetAllowedFailedAttempts();
 
-	/**
+    /**
      * value: Number of allowed failed communication attempts before port is disabled.
      */
-	void SetAllowedFailedAttempts(uint16_t value);
+    void SetAllowedFailedAttempts(uint16_t value);
 
-	/**
+    /**
      * Returns The lockout time.
      */
-	uint32_t GetInitialLockoutTime();
+    uint32_t GetInitialLockoutTime();
 
-	/**
+    /**
      * value: The lockout time.
      */
-	void SetInitialLockoutTime(uint32_t value);
+    void SetInitialLockoutTime(uint32_t value);
 
-	/**
+    /**
      * Returns Holds a factor that controls how the lockout time is increased
      *         with each failed attempt.
      */
-	unsigned char GetSteepnessFactor();
+    unsigned char GetSteepnessFactor();
 
-	/**
+    /**
      * value: Holds a factor that controls how the lockout time is increased
      *            with each failed attempt.
      */
-	void SetSteepnessFactor(unsigned char value);
+    void SetSteepnessFactor(unsigned char value);
 
-	/**
+    /**
      * Returns The lockout time.
      */
-	uint32_t GetMaxLockoutTime();
+    uint32_t GetMaxLockoutTime();
 
-	/**
+    /**
      * value: The lockout time.
      */
-	void SetMaxLockoutTime(uint32_t value);
+    void SetMaxLockoutTime(uint32_t value);
 
-	/**
+    /**
      * Returns The communication port being protected
      */
-	CGXDLMSObject *GetPort();
+    CGXDLMSObject *GetPort();
 
-	/**
+    /**
      * value: The communication port being protected
      */
-	void SetPort(CGXDLMSObject *value);
+    void SetPort(CGXDLMSObject *value);
 
-	/**
+    /**
      * Returns Current protection status.
      */
-	DLMS_PROTECTION_STATUS GetProtectionStatus();
+    DLMS_PROTECTION_STATUS GetProtectionStatus();
 
-	/**
+    /**
      * value: Current protection status.
      */
-	void SetProtectionStatus(DLMS_PROTECTION_STATUS value);
+    void SetProtectionStatus(DLMS_PROTECTION_STATUS value);
 
-	/**
+    /**
      * Returns Failed attempts.
      */
-	uint32_t GetFailedAttempts();
+    uint32_t GetFailedAttempts();
 
-	/**
+    /**
      * value: Failed attempts.
      */
-	void SetFailedAttempts(uint32_t value);
+    void SetFailedAttempts(uint32_t value);
 
-	/**
+    /**
      * Returns Total failed attempts.
      */
-	uint32_t GetCumulativeFailedAttempts();
+    uint32_t GetCumulativeFailedAttempts();
 
-	/**
+    /**
      * value: Total failed attempts.
      */
-	void SetCumulativeFailedAttempts(uint32_t value);
+    void SetCumulativeFailedAttempts(uint32_t value);
 
-	/*
+    /*
      * Resets FailedAttempts and current lockout time to zero. Protection status
      * is set to unlocked.
      *
      * client: DLMS client.
      * Returns Action bytes.
      */
-	int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
 
-	// Returns amount of attributes.
-	int GetAttributeCount();
+    // Returns amount of attributes.
+    int GetAttributeCount();
 
-	// Returns amount of methods.
-	int GetMethodCount();
+    // Returns amount of methods.
+    int GetMethodCount();
 
-	//Get attribute values of object.
-	void GetValues(std::vector<std::string> &values);
+    //Get attribute values of object.
+    void GetValues(std::vector<std::string> &values);
 
-	/////////////////////////////////////////////////////////////////////////
-	// Returns collection of attributes to read.
-	//
-	// If attribute is static and already read or device is returned
-	// HW error it is not returned.
-	//
-	// all: All items are returned even if they are read already.
-	// attributes: Collection of attributes to read.
-	void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    /////////////////////////////////////////////////////////////////////////
+    // Returns collection of attributes to read.
+    //
+    // If attribute is static and already read or device is returned
+    // HW error it is not returned.
+    //
+    // all: All items are returned even if they are read already.
+    // attributes: Collection of attributes to read.
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-	int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-	// Returns value of given attribute.
-	int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Returns value of given attribute.
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
-	// Set value of given attribute.
-	int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    // Set value of given attribute.
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_COMMUNICATION_PORT_PROTECTION
 #endif  //GXDLMSCommunicationPortProtection_H
