@@ -56,6 +56,11 @@
 #include <netdb.h>
 #endif
 
+#include <map>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "../include/GXDLMSBase.h"
 
 #include "../../development/include/GXTime.h"
@@ -86,7 +91,6 @@
 #include "../../development/include/GXDLMSScriptTable.h"
 #include "../../development/include/GXDLMSSchedule.h"
 
-using namespace std;
 #if defined(_WIN32) || defined(_WIN64)//Windows
 TCHAR DATAFILE[FILENAME_MAX];
 char IMAGEFILE[FILENAME_MAX];
@@ -117,7 +121,7 @@ void ListenerThread(void* pVoid)
     struct sockaddr_in client;
     memset(&client, 0, sizeof(client));
     //Get buffer data
-    basic_string<char> senderInfo;
+    std::string senderInfo;
     while (server->IsConnected())
     {
         len = sizeof(client);
@@ -485,7 +489,7 @@ void AddRegisterMonitor(CGXDLMSObjectCollection& items, CGXDLMSRegister* pRegist
 {
     CGXDLMSRegisterMonitor* pRm = new CGXDLMSRegisterMonitor("0.0.16.1.0.255");
     CGXDLMSVariant threshold;
-    vector<CGXDLMSVariant> thresholds;
+    std::vector<CGXDLMSVariant> thresholds;
     threshold.Add("Gurux1", 6);
     thresholds.push_back(threshold);
     threshold.Clear();
@@ -496,7 +500,7 @@ void AddRegisterMonitor(CGXDLMSObjectCollection& items, CGXDLMSRegister* pRegist
     mv.Update(pRegister, 2);
     pRm->SetMonitoredValue(mv);
     CGXDLMSActionSet* action = new CGXDLMSActionSet();
-    string ln;
+    std::string ln;
     pRm->GetLogicalName(ln);
     action->GetActionDown().SetLogicalName(ln);
     action->GetActionDown().SetScriptSelector(1);
@@ -526,7 +530,7 @@ void AddActionSchedule(CGXDLMSObjectCollection& items)
 void AddSapAssignment(CGXDLMSObjectCollection& items)
 {
     CGXDLMSSapAssignment* pSap = new CGXDLMSSapAssignment();
-    std::map<int, basic_string<char> > list;
+    std::map<int, std::string> list;
     list[1] = "Gurux";
     list[16] = "Gurux-2";
     pSap->SetSapAssignmentList(list);
@@ -556,7 +560,7 @@ void AddModemConfiguration(CGXDLMSObjectCollection& items)
     CGXDLMSModemConfiguration* pMc = new CGXDLMSModemConfiguration();
     pMc->SetCommunicationSpeed(DLMS_BAUD_RATE_38400);
     CGXDLMSModemInitialisation init;
-    vector<CGXDLMSModemInitialisation> initialisationStrings;
+    std::vector<CGXDLMSModemInitialisation> initialisationStrings;
     init.SetRequest("AT");
     init.SetResponse("OK");
     init.SetDelay(0);
