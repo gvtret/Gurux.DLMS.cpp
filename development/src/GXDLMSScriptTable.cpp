@@ -37,53 +37,67 @@
 #include <sstream>
 #ifndef DLMS_IGNORE_SCRIPT_TABLE
 //Constructor.
-CGXDLMSScriptTable::CGXDLMSScriptTable(): CGXDLMSScriptTable("0.0.10.0.100.255", 0) {
+CGXDLMSScriptTable::CGXDLMSScriptTable() : CGXDLMSScriptTable("0.0.10.0.100.255", 0)
+{
 }
 
 //SN Constructor.
-CGXDLMSScriptTable::CGXDLMSScriptTable(std::string ln, unsigned short sn)
-    : CGXDLMSObject(DLMS_OBJECT_TYPE_SCRIPT_TABLE, ln, sn) {
+CGXDLMSScriptTable::CGXDLMSScriptTable(std::string ln, unsigned short sn) : CGXDLMSObject(DLMS_OBJECT_TYPE_SCRIPT_TABLE, ln, sn)
+{
+
 }
 
 //LN Constructor.
-CGXDLMSScriptTable::CGXDLMSScriptTable(std::string ln): CGXDLMSScriptTable(ln, 0) {
+CGXDLMSScriptTable::CGXDLMSScriptTable(std::string ln) : CGXDLMSScriptTable(ln, 0)
+{
+
 }
 
 //Destructor.
-CGXDLMSScriptTable::~CGXDLMSScriptTable() {
-    for (std::vector<CGXDLMSScript *>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it) {
+CGXDLMSScriptTable::~CGXDLMSScriptTable()
+{
+    for (std::vector<CGXDLMSScript*>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it)
+    {
         delete *it;
     }
     m_Scripts.clear();
 }
 
-std::vector<CGXDLMSScript *> &CGXDLMSScriptTable::GetScripts() {
+
+std::vector<CGXDLMSScript*>& CGXDLMSScriptTable::GetScripts()
+{
     return m_Scripts;
 }
 
-int CGXDLMSScriptTable::Execute(CGXDLMSClient *client, CGXDLMSScript *script, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSScriptTable::Execute(CGXDLMSClient* client, CGXDLMSScript* script, std::vector<CGXByteBuffer>& reply)
+{
     CGXDLMSVariant data(script->GetID());
     data.vt = DLMS_DATA_TYPE_UINT16;
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSScriptTable::Execute(CGXDLMSClient *client, unsigned short scriptId, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSScriptTable::Execute(CGXDLMSClient* client, unsigned short scriptId, std::vector<CGXByteBuffer>& reply)
+{
     CGXDLMSVariant data(scriptId);
     data.vt = DLMS_DATA_TYPE_UINT16;
     return client->Method(this, 1, data, reply);
 }
 
+
 // Returns amount of attributes.
-int CGXDLMSScriptTable::GetAttributeCount() {
+int CGXDLMSScriptTable::GetAttributeCount()
+{
     return 2;
 }
 
 // Returns amount of methods.
-int CGXDLMSScriptTable::GetMethodCount() {
+int CGXDLMSScriptTable::GetMethodCount()
+{
     return 1;
 }
 
-void CGXDLMSScriptTable::GetValues(std::vector<std::string> &values) {
+void CGXDLMSScriptTable::GetValues(std::vector<std::string>& values)
+{
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -92,14 +106,16 @@ void CGXDLMSScriptTable::GetValues(std::vector<std::string> &values) {
     std::stringstream sb;
     sb << '[';
     bool empty = true;
-    for (std::vector<CGXDLMSScript *>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it) {
-        if (!empty) {
+    for (std::vector<CGXDLMSScript*>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it)
+    {
+        if (!empty)
+        {
             sb << ", ";
         }
         empty = false;
         sb << (*it)->GetID();
-        for (std::vector<CGXDLMSScriptAction *>::iterator a = (*it)->GetActions().begin();
-             a != (*it)->GetActions().end(); ++a) {
+        for (std::vector<CGXDLMSScriptAction*>::iterator a = (*it)->GetActions().begin(); a != (*it)->GetActions().end(); ++a)
+        {
             sb << " ";
             std::string str = (*a)->ToString();
             sb.write(str.c_str(), str.size());
@@ -109,24 +125,30 @@ void CGXDLMSScriptTable::GetValues(std::vector<std::string> &values) {
     values.push_back(sb.str());
 }
 
-void CGXDLMSScriptTable::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+void CGXDLMSScriptTable::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
+{
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
+    {
         attributes.push_back(1);
     }
     //Scripts
-    if (all || CanRead(2)) {
+    if (all || CanRead(2))
+    {
         attributes.push_back(2);
     }
 }
 
-int CGXDLMSScriptTable::GetDataType(int index, DLMS_DATA_TYPE &type) {
-    if (index == 1) {
+int CGXDLMSScriptTable::GetDataType(int index, DLMS_DATA_TYPE& type)
+{
+    if (index == 1)
+    {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
     //Scripts
-    if (index == 2) {
+    if (index == 2)
+    {
         type = DLMS_DATA_TYPE_ARRAY;
         return DLMS_ERROR_CODE_OK;
     }
@@ -134,17 +156,21 @@ int CGXDLMSScriptTable::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSScriptTable::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    if (e.GetIndex() == 1) {
+int CGXDLMSScriptTable::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
+    if (e.GetIndex() == 1)
+    {
         int ret;
         CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0) {
+        if ((ret = GetLogicalName(this, tmp)) != 0)
+        {
             return ret;
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 2) {
+    if (e.GetIndex() == 2)
+    {
         e.SetByteArray(true);
         CGXByteBuffer data;
         data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
@@ -152,20 +178,22 @@ int CGXDLMSScriptTable::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
         GXHelpers::SetObjectCount((unsigned long)m_Scripts.size(), data);
         int ret;
         CGXDLMSVariant id, type, oType, ln, index;
-        for (std::vector<CGXDLMSScript *>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it) {
+        for (std::vector<CGXDLMSScript*>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it)
+        {
             data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             //Count
             data.SetUInt8(2);
             //Script_identifier:
             id = (*it)->GetID();
-            if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, id)) != 0) {
+            if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, id)) != 0)
+            {
                 return ret;
             }
             data.SetUInt8(DLMS_DATA_TYPE_ARRAY);
             //Count
             GXHelpers::SetObjectCount((unsigned long)(*it)->GetActions().size(), data);
-            for (std::vector<CGXDLMSScriptAction *>::iterator a = (*it)->GetActions().begin();
-                 a != (*it)->GetActions().end(); ++a) {
+            for (std::vector<CGXDLMSScriptAction*>::iterator a = (*it)->GetActions().begin(); a != (*it)->GetActions().end(); ++a)
+            {
                 GXHelpers::SetLogicalName((*a)->GetLogicalName().c_str(), ln);
                 data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 data.SetUInt8(5);
@@ -173,11 +201,11 @@ int CGXDLMSScriptTable::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
                 oType = (*a)->GetObjectType();
                 index = (*a)->GetIndex();
                 CGXDLMSVariant param = (*a)->GetParameter();
-                if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_ENUM, type)) != 0 ||        //service_id
-                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, oType)) != 0 ||     //class_id
-                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, ln)) != 0 ||  //logical_name
-                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_INT8, index)) != 0 ||       //index
-                    (ret = GXHelpers::SetData(&settings, data, (*a)->GetParameter().vt, param)) != 0)     //parameter
+                if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_ENUM, type)) != 0 || //service_id
+                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT16, oType)) != 0 || //class_id
+                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, ln)) != 0 || //logical_name
+                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_INT8, index)) != 0 || //index
+                    (ret = GXHelpers::SetData(&settings, data, (*a)->GetParameter().vt, param)) != 0) //parameter
                 {
                     return ret;
                 }
@@ -190,27 +218,34 @@ int CGXDLMSScriptTable::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
 }
 
 // Set value of given attribute.
-int CGXDLMSScriptTable::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    if (e.GetIndex() == 1) {
+int CGXDLMSScriptTable::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
+    if (e.GetIndex() == 1)
+    {
         return SetLogicalName(this, e.GetValue());
-    } else if (e.GetIndex() == 2) {
-        for (std::vector<CGXDLMSScript *>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it) {
+    }
+    else if (e.GetIndex() == 2)
+    {
+        for (std::vector<CGXDLMSScript*>::iterator it = m_Scripts.begin(); it != m_Scripts.end(); ++it)
+        {
             delete *it;
         }
         m_Scripts.clear();
         //Fix Xemex bug here.
         //Xemex meters do not return array as they shoul be according standard.
-        if (e.GetValue().Arr.size() != 0) {
-            if (e.GetValue().Arr[0].vt == DLMS_DATA_TYPE_STRUCTURE) {
+        if (e.GetValue().Arr.size() != 0)
+        {
+            if (e.GetValue().Arr[0].vt == DLMS_DATA_TYPE_STRUCTURE)
+            {
                 std::string ln;
-                for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin();
-                     item != e.GetValue().Arr.end(); ++item) {
-                    CGXDLMSScript *script = new CGXDLMSScript();
+                for (std::vector<CGXDLMSVariant>::iterator item = e.GetValue().Arr.begin(); item != e.GetValue().Arr.end(); ++item)
+                {
+                    CGXDLMSScript* script = new CGXDLMSScript();
                     script->SetID((*item).Arr[0].ToInteger());
                     m_Scripts.push_back(script);
-                    for (std::vector<CGXDLMSVariant>::iterator arr = (*item).Arr[1].Arr.begin();
-                         arr != (*item).Arr[1].Arr.end(); ++arr) {
-                        CGXDLMSScriptAction *it = new CGXDLMSScriptAction();
+                    for (std::vector<CGXDLMSVariant>::iterator arr = (*item).Arr[1].Arr.begin(); arr != (*item).Arr[1].Arr.end(); ++arr)
+                    {
+                        CGXDLMSScriptAction* it = new CGXDLMSScriptAction();
                         SCRIPT_ACTION_TYPE type = (SCRIPT_ACTION_TYPE)(*arr).Arr[0].ToInteger();
                         it->SetType(type);
                         DLMS_OBJECT_TYPE ot = (DLMS_OBJECT_TYPE)(*arr).Arr[1].ToInteger();
@@ -223,9 +258,10 @@ int CGXDLMSScriptTable::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
                         script->GetActions().push_back(it);
                     }
                 }
-            } else  //Read Xemex meter here.
+            }
+            else //Read Xemex meter here.
             {
-                CGXDLMSScript *script = new CGXDLMSScript();
+                CGXDLMSScript* script = new CGXDLMSScript();
                 script->SetID(e.GetValue().Arr[0].ToInteger());
                 m_Scripts.push_back(script);
                 CGXDLMSScriptAction *it = new CGXDLMSScriptAction();
@@ -241,9 +277,11 @@ int CGXDLMSScriptTable::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
                 script->GetActions().push_back(it);
             }
         }
-    } else {
+    }
+    else
+    {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
-#endif  //DLMS_IGNORE_SCRIPT_TABLE
+#endif //DLMS_IGNORE_SCRIPT_TABLE

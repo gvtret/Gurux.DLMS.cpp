@@ -37,7 +37,8 @@
 
 #include "GXDLMSScriptAction.h"
 
-class CGXDLMSScript {
+class CGXDLMSScript
+{
     /**
      * Script identifier.
      */
@@ -46,7 +47,7 @@ class CGXDLMSScript {
     /**
      * Script actions.
      */
-    std::vector<CGXDLMSScriptAction *> m_Actions;
+    std::vector<CGXDLMSScriptAction*> m_Actions;
 
 public:
     /**
@@ -73,6 +74,6 @@ public:
     /**
      * @return Script actions.
      */
-    std::vector<CGXDLMSScriptAction *> &GetActions();
+    std::vector<CGXDLMSScriptAction*>& GetActions();
 };
-#endif  //GXDLMSSCRIPT_H
+#endif //GXDLMSSCRIPT_H

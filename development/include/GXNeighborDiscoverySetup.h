@@ -41,7 +41,8 @@
  * Online help: <br>
  * https://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSIp6Setup
  */
-class CGXNeighborDiscoverySetup {
+class CGXNeighborDiscoverySetup
+{
     /**
      * Gives the maximum number of router solicitation retries to be performed
      * by a node if the expected router advertisement has not been received.
@@ -61,24 +62,29 @@ public:
     /**
      * Constructor.
      */
-    CGXNeighborDiscoverySetup() {
+    CGXNeighborDiscoverySetup()
+    {
         m_MaxRetry = 3;
         m_RetryWaitTime = 10000;
     }
 
-    int GetMaxRetry() {
+    int GetMaxRetry()
+    {
         return m_MaxRetry;
     }
 
-    void SetMaxRetry(int value) {
+    void SetMaxRetry(int value)
+    {
         m_MaxRetry = value;
     }
 
-    int GetRetryWaitTime() {
+    int GetRetryWaitTime()
+    {
         return m_RetryWaitTime;
     }
 
-    void SetRetryWaitTime(int value) {
+    void SetRetryWaitTime(int value)
+    {
         m_RetryWaitTime = value;
     }
 
@@ -98,4 +104,4 @@ public:
     }
 };
 
-#endif  //GXNEIGHBORDISCOVERYSETUP_H
+#endif //GXNEIGHBORDISCOVERYSETUP_H

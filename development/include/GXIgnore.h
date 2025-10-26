@@ -32,7 +32,7 @@
 #ifndef GXIGNORE_H
 #define GXIGNORE_H
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 extern "C" {
 #endif
 
@@ -122,8 +122,8 @@ extern "C" {
 // Gas OBIS codes are ignored.
 // #define DLMS_IGNORE_OBIS_GAS
 
-#ifdef __cplusplus
+#ifdef  __cplusplus
 }
 #endif
 
-#endif  //GXIGNORE_H
+#endif //GXIGNORE_H

@@ -34,52 +34,64 @@
 
 #include "../include/GXDLMSTarget.h"
 
-CGXDLMSTarget::CGXDLMSTarget(): m_Target(NULL), m_AttributeIndex(0), m_DataIndex(0){};
+CGXDLMSTarget::CGXDLMSTarget() : m_Target(NULL), m_AttributeIndex(0), m_DataIndex(0)
+{
+};
 
-CGXDLMSTarget::~CGXDLMSTarget() {
+CGXDLMSTarget::~CGXDLMSTarget()
+{
     Clear();
 };
 
-void CGXDLMSTarget::Clear() {
+void CGXDLMSTarget::Clear()
+{
     m_Target = NULL;
     m_AttributeIndex = 0;
     m_DataIndex = 0;
 }
 
-CGXDLMSObject *CGXDLMSTarget::GetTarget() {
+CGXDLMSObject* CGXDLMSTarget::GetTarget()
+{
     return m_Target;
 }
 
-void CGXDLMSTarget::SetTarget(CGXDLMSObject *value) {
+void CGXDLMSTarget::SetTarget(CGXDLMSObject* value)
+{
     m_Target = value;
 }
 
-unsigned char CGXDLMSTarget::GetAttributeIndex() {
+unsigned char CGXDLMSTarget::GetAttributeIndex()
+{
     return m_AttributeIndex;
 }
 
-void CGXDLMSTarget::SetAttributeIndex(unsigned char value) {
+void CGXDLMSTarget::SetAttributeIndex(unsigned char value)
+{
     m_AttributeIndex = value;
 }
 
-unsigned char CGXDLMSTarget::GetDataIndex() {
+unsigned char CGXDLMSTarget::GetDataIndex()
+{
     return m_DataIndex;
 }
 
-void CGXDLMSTarget::SetDataIndex(unsigned char value) {
+void CGXDLMSTarget::SetDataIndex(unsigned char value)
+{
     m_DataIndex = value;
 }
 
-CGXDLMSVariant &CGXDLMSTarget::GetValue() {
+CGXDLMSVariant& CGXDLMSTarget::GetValue() {
     return m_Value;
 }
 
-void CGXDLMSTarget::SetValue(CGXDLMSVariant &value) {
+void CGXDLMSTarget::SetValue(CGXDLMSVariant& value) {
     m_Value = value;
 }
 
-std::string CGXDLMSTarget::ToString() {
-    if (m_Target == NULL) {
+std::string CGXDLMSTarget::ToString()
+{
+    if (m_Target == NULL)
+    {
         return "";
     }
     std::string ln;

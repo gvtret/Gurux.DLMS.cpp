@@ -44,7 +44,8 @@
 #include "enums.h"
 
 // DataType enumerates skipped fields from date time.
-enum DATETIME_SKIPS {
+enum DATETIME_SKIPS
+{
     // Nothing is skipped from date time.
     DATETIME_SKIPS_NONE = 0x0,
     // Year part of date time is skipped.
@@ -70,7 +71,8 @@ enum DATETIME_SKIPS {
 };
 
 // DataType extra info.
-enum DATE_TIME_EXTRA_INFO {
+enum DATE_TIME_EXTRA_INFO
+{
     // No extra info.
     DATE_TIME_EXTRA_INFO_NONE = 0x0,
     // Daylight savings begin.
@@ -83,8 +85,10 @@ enum DATE_TIME_EXTRA_INFO {
     DATE_TIME_EXTRA_INFO_LAST_DAY2 = 0x8,
 };
 
+
 //Constants for different orders of date components.
-typedef enum {
+typedef enum
+{
     GXDLMS_DATE_FORMAT_INVALID = -1,
     GXDLMS_DATE_FORMAT_DMY = 0,
     GXDLMS_DATE_FORMAT_MDY = 1,
@@ -94,7 +98,8 @@ typedef enum {
 
 // This class is used because in COSEM object model some fields from date time can be ignored.
 // Default behavior of DateTime do not allow this.
-class CGXDateTime {
+class CGXDateTime
+{
     friend class CGXTime;
     friend class CGXDate;
     short m_Deviation;
@@ -110,15 +115,21 @@ class CGXDateTime {
 
     void Init(int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation);
     //Get date format.
-    int GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator);
+    int GetDateFormat2(
+        GXDLMS_DATE_FORMAT& format,
+        char& separator);
 
     //Get time format.
-    int GetTimeFormat2(char &separator, char &use24HourClock);
+    int GetTimeFormat2(
+        char& separator,
+        char& use24HourClock);
 
     int GetDateTimeFormat(
-        std::string &value, GXDLMS_DATE_FORMAT &format, char &dateSeparator, char &timeSeparator, char &use24HourClock
-    );
-
+        std::string& value,
+        GXDLMS_DATE_FORMAT& format,
+        char& dateSeparator,
+        char& timeSeparator,
+        char& use24HourClock);
 public:
     // Constructor.
     CGXDateTime();
@@ -128,10 +139,10 @@ public:
     CGXDateTime(const unsigned long long unixTime);
 
     // Constructor.
-    CGXDateTime(struct tm &value);
+    CGXDateTime(struct tm& value);
 
     // Constructor.
-    CGXDateTime(struct tm *value);
+    CGXDateTime(struct tm* value);
 
     // Constructor.
     CGXDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond);
@@ -141,26 +152,29 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     //Get system date-time format.
-    static void GetSystemDateTimeFormat(std::string &value);
+    static void GetSystemDateTimeFormat(std::string& value);
 
     //Destructor.
     virtual ~CGXDateTime();
 
     // Get date time from string.
-    int FromString(const char *value);
+    int FromString(const char* value);
 
     /////////////////////////////////////////////////////////////////////////
     //Convert date time value to the format string using given pattern.
-    int ToFormatString(const char *pattern, std::string &value);
+    int ToFormatString(
+        const char* pattern,
+        std::string& value);
 
     /////////////////////////////////////////////////////////////////////////
     //Convert date time value to the format using system date-time format.
-    int ToFormatString(std::string &value);
+    int ToFormatString(
+        std::string& value);
 
     /////////////////////////////////////////////////////////////////////////
     // Used date time value.
-    struct tm &GetValue();
-    void SetValue(const struct tm &value);
+    struct tm& GetValue();
+    void SetValue(const struct tm& value);
 
     /////////////////////////////////////////////////////////////////////////
     // Skip selected date time fields.
@@ -220,7 +234,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Compare current time to another time.
-    int CompareTo(CGXDateTime &antherDate);
+    int CompareTo(CGXDateTime& antherDate);
 
     /////////////////////////////////////////////////////////////////////////
     // Get amount of days in given month.
@@ -232,11 +246,11 @@ public:
     // start:  Start date time.
     // to:  Compared time.
     // Returns difference in milliseconds.
-    static long GetDifference(struct tm &start, CGXDateTime &to);
+    static long GetDifference(struct tm& start, CGXDateTime& to);
 
     /////////////////////////////////////////////////////////////////////////
     //Convert value to local time.
-    int ToLocalTime(struct tm &localTime);
+    int ToLocalTime(struct tm& localTime);
 
     /////////////////////////////////////////////////////////////////////////
     //Get currect timezone.
@@ -257,5 +271,6 @@ public:
     //
     bool GetUseUtc2NormalTime();
     void SetUseUtc2NormalTime(bool value);
+
 };
-#endif  //GXDATETIME_H
+#endif //GXDATETIME_H

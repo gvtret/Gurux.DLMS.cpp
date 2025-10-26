@@ -38,33 +38,36 @@
 /**
  Defines which action to be applied to the referenced object.
 */
-SCRIPT_ACTION_TYPE CGXDLMSScriptAction::GetType() {
+SCRIPT_ACTION_TYPE CGXDLMSScriptAction::GetType()
+{
     return m_Type;
 }
-
-void CGXDLMSScriptAction::SetType(SCRIPT_ACTION_TYPE value) {
+void CGXDLMSScriptAction::SetType(SCRIPT_ACTION_TYPE value)
+{
     m_Type = value;
 }
 
 /**
  Executed object type.
 */
-DLMS_OBJECT_TYPE CGXDLMSScriptAction::GetObjectType() {
+DLMS_OBJECT_TYPE CGXDLMSScriptAction::GetObjectType()
+{
     return m_ObjectType;
 }
-
-void CGXDLMSScriptAction::SetObjectType(DLMS_OBJECT_TYPE value) {
+void CGXDLMSScriptAction::SetObjectType(DLMS_OBJECT_TYPE value)
+{
     m_ObjectType = value;
 }
 
 /**
  Logical name of executed object.
 */
-std::string CGXDLMSScriptAction::GetLogicalName() {
+std::string CGXDLMSScriptAction::GetLogicalName()
+{
     return m_LogicalName;
 }
-
-void CGXDLMSScriptAction::SetLogicalName(std::string value) {
+void CGXDLMSScriptAction::SetLogicalName(std::string value)
+{
     m_LogicalName = value;
 }
 
@@ -72,26 +75,29 @@ void CGXDLMSScriptAction::SetLogicalName(std::string value) {
  defines which attribute of the selected object is affected; or
  * which specific method is to be executed.
 */
-int CGXDLMSScriptAction::GetIndex() {
+int CGXDLMSScriptAction::GetIndex()
+{
     return m_Index;
 }
-
-void CGXDLMSScriptAction::SetIndex(int value) {
+void CGXDLMSScriptAction::SetIndex(int value)
+{
     m_Index = value;
 }
 
 /**
  Parameter is service spesific.
 */
-CGXDLMSVariant CGXDLMSScriptAction::GetParameter() {
+CGXDLMSVariant CGXDLMSScriptAction::GetParameter()
+{
     return m_Parameter;
 }
-
-void CGXDLMSScriptAction::SetParameter(CGXDLMSVariant value) {
+void CGXDLMSScriptAction::SetParameter(CGXDLMSVariant value)
+{
     m_Parameter = value;
 }
 
-std::string CGXDLMSScriptAction::ToString() {
+std::string CGXDLMSScriptAction::ToString()
+{
     std::stringstream sb;
     sb << m_Type;
     sb << " ";

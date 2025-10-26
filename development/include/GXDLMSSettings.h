@@ -59,7 +59,8 @@ const unsigned char DLMS_VERSION = 6;
 const unsigned short MAX_RECEIVE_PDU_SIZE = 0xFFFF;
 
 // This class includes DLMS communication Settings.
-class CGXDLMSSettings {
+class CGXDLMSSettings
+{
     // List of server or client objects that are dynamically allocated.
     CGXDLMSObjectCollection m_AllocatedObjects;
     //Is connection made for the server.
@@ -160,7 +161,7 @@ class CGXDLMSSettings {
     /**
      * Cipher interface that is used to cipher PDU.
      */
-    CGXCipher *m_Cipher;
+    CGXCipher* m_Cipher;
 
     /*
    * Block number acknowledged in GBT.
@@ -185,7 +186,7 @@ class CGXDLMSSettings {
     /**
     *  Protocol version.
     */
-    char *m_ProtocolVersion;
+    char* m_ProtocolVersion;
 
     unsigned char m_UserId;
 
@@ -228,7 +229,6 @@ class CGXDLMSSettings {
 
     // Optional ECDSA public key certificate that is send in part of AARE.
     CGXx509Certificate m_ServerPublicKeyCertificate;
-
 public:
     // Constructor.
     CGXDLMSSettings(bool isServer);
@@ -237,16 +237,16 @@ public:
     ~CGXDLMSSettings();
 
     // Client to Server challenge.
-    CGXByteBuffer &GetCtoSChallenge();
+    CGXByteBuffer& GetCtoSChallenge();
 
     // Client to Server challenge.
-    void SetCtoSChallenge(CGXByteBuffer &value);
+    void SetCtoSChallenge(CGXByteBuffer& value);
 
     // Get server to Client challenge.
-    CGXByteBuffer &GetStoCChallenge();
+    CGXByteBuffer& GetStoCChallenge();
 
     // Set server to Client challenge.
-    void SetStoCChallenge(CGXByteBuffer &value);
+    void SetStoCChallenge(CGXByteBuffer& value);
 
     // Gets used authentication.
     DLMS_AUTHENTICATION GetAuthentication();
@@ -255,10 +255,10 @@ public:
     void SetAuthentication(DLMS_AUTHENTICATION value);
 
     //Gets password.
-    CGXByteBuffer &GetPassword();
+    CGXByteBuffer& GetPassword();
 
     // Sets password.
-    void SetPassword(CGXByteBuffer &value);
+    void SetPassword(CGXByteBuffer& value);
 
     // Used DLMS version number.
     unsigned char GetDlmsVersionNumber();
@@ -296,10 +296,10 @@ public:
     bool IsServer();
 
     //HDLC connection settings.
-    CGXDLMSLimits &GetHdlcSettings();
+    CGXDLMSLimits& GetHdlcSettings();
 
     //PLC connection settings.
-    CGXPlcSettings &GetPlcSettings();
+    CGXPlcSettings& GetPlcSettings();
 
     // Used interface.
     DLMS_INTERFACE_TYPE GetInterfaceType();
@@ -383,7 +383,7 @@ public:
     int SetLongInvokeID(unsigned long value);
 
     // Collection of the objects.
-    CGXDLMSObjectCollection &GetObjects();
+    CGXDLMSObjectCollection& GetObjects();
 
     // Get Is custom challenges used.
     bool GetUseCustomChallenge();
@@ -400,44 +400,44 @@ public:
     /**
     * Cipher interface that is used to cipher PDU.
     */
-    CGXCipher *GetCipher();
+    CGXCipher* GetCipher();
 
     /**
     * Cipher interface that is used to cipher PDU.
     */
-    void SetCipher(CGXCipher *value);
+    void SetCipher(CGXCipher* value);
 
     /**
      * @return Source system title.
      */
-    CGXByteBuffer &GetSourceSystemTitle();
+    CGXByteBuffer& GetSourceSystemTitle();
 
     /**
      * @param value
      *            Source system title.
      */
-    int SetSourceSystemTitle(CGXByteBuffer &value);
+    int SetSourceSystemTitle(CGXByteBuffer& value);
 
     /**
      * @return Pre-established system title.
      */
-    CGXByteBuffer &GetPreEstablishedSystemTitle();
+    CGXByteBuffer& GetPreEstablishedSystemTitle();
 
     /**
      * value: Pre-established system title..
      */
-    int SetPreEstablishedSystemTitle(CGXByteBuffer &value);
+    int SetPreEstablishedSystemTitle(CGXByteBuffer& value);
 
     /**
      * @return Key Encrypting Key, also known as Master key.
      */
-    CGXByteBuffer &GetKek();
+    CGXByteBuffer& GetKek();
 
     /**
      * @param value
      *            Key Encrypting Key, also known as Master key.
      */
-    void SetKek(CGXByteBuffer &value);
+    void SetKek(CGXByteBuffer& value);
 
     /**
      * @return Long data count.
@@ -491,8 +491,8 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Protocol version.
-    char *GetProtocolVersion();
-    void SetProtocolVersion(const char *value);
+    char* GetProtocolVersion();
+    void SetProtocolVersion(const char* value);
 
     /////////////////////////////////////////////////////////////////////////
     // DLMS Standard says that Time zone is from normal time to UTC in minutes.
@@ -584,19 +584,19 @@ public:
 
     //Add dynamically allocated objects here so they are released.
     //This is done if object is not in the association view, but might be ex. capture objects.
-    void AddAllocateObject(CGXDLMSObject *pObj);
+    void AddAllocateObject(CGXDLMSObject* pObj);
 
     // Optional ECDSA public key certificate that is send in part of AARQ.
-    CGXx509Certificate &GetClientPublicKeyCertificate();
+    CGXx509Certificate& GetClientPublicKeyCertificate();
 
     // Optional ECDSA public key certificate that is send in part of AARQ.
-    void SetClientPublicKeyCertificate(CGXx509Certificate &cert);
+    void SetClientPublicKeyCertificate(CGXx509Certificate& cert);
 
     // Optional ECDSA public key certificate that is send in part of AARE.
-    CGXx509Certificate &GetServerPublicKeyCertificate();
+    CGXx509Certificate& GetServerPublicKeyCertificate();
 
     // Optional ECDSA public key certificate that is send in part of AARE.
-    void SetServerPublicKeyCertificate(CGXx509Certificate &cert);
+    void SetServerPublicKeyCertificate(CGXx509Certificate& cert);
 };
 
-#endif  //GXDLMSSETTINGS_H
+#endif //GXDLMSSETTINGS_H

@@ -38,54 +38,66 @@
 
 #ifndef DLMS_IGNORE_GPRS_SETUP
 //Constructor.
-CGXDLMSGPRSSetup::CGXDLMSGPRSSetup(): CGXDLMSGPRSSetup("", 0) {
+CGXDLMSGPRSSetup::CGXDLMSGPRSSetup() :
+    CGXDLMSGPRSSetup("", 0)
+{
 }
 
 //SN Constructor.
-CGXDLMSGPRSSetup::CGXDLMSGPRSSetup(std::string ln, unsigned short sn)
-    : CGXDLMSObject(DLMS_OBJECT_TYPE_GPRS_SETUP, ln, sn) {
+CGXDLMSGPRSSetup::CGXDLMSGPRSSetup(std::string ln, unsigned short sn) :
+    CGXDLMSObject(DLMS_OBJECT_TYPE_GPRS_SETUP, ln, sn)
+{
     m_PINCode = 0;
 }
 
 //LN Constructor.
-CGXDLMSGPRSSetup::CGXDLMSGPRSSetup(std::string ln): CGXDLMSGPRSSetup(ln, 0) {
+CGXDLMSGPRSSetup::CGXDLMSGPRSSetup(std::string ln) :
+    CGXDLMSGPRSSetup(ln, 0)
+{
 }
 
-std::string &CGXDLMSGPRSSetup::GetAPN() {
+std::string& CGXDLMSGPRSSetup::GetAPN()
+{
     return m_APN;
 }
-
-void CGXDLMSGPRSSetup::SetAPN(std::string &value) {
+void CGXDLMSGPRSSetup::SetAPN(std::string& value)
+{
     m_APN = value;
 }
 
-long CGXDLMSGPRSSetup::GetPINCode() {
+long CGXDLMSGPRSSetup::GetPINCode()
+{
     return m_PINCode;
 }
-
-void CGXDLMSGPRSSetup::SetPINCode(long value) {
+void CGXDLMSGPRSSetup::SetPINCode(long value)
+{
     m_PINCode = value;
 }
 
-CGXDLMSQualityOfService &CGXDLMSGPRSSetup::GetDefaultQualityOfService() {
+CGXDLMSQualityOfService& CGXDLMSGPRSSetup::GetDefaultQualityOfService()
+{
     return m_DefaultQualityOfService;
 }
 
-CGXDLMSQualityOfService &CGXDLMSGPRSSetup::GetRequestedQualityOfService() {
+CGXDLMSQualityOfService& CGXDLMSGPRSSetup::GetRequestedQualityOfService()
+{
     return m_RequestedQualityOfService;
 }
 
 // Returns amount of attributes.
-int CGXDLMSGPRSSetup::GetAttributeCount() {
+int CGXDLMSGPRSSetup::GetAttributeCount()
+{
     return 4;
 }
 
 // Returns amount of methods.
-int CGXDLMSGPRSSetup::GetMethodCount() {
+int CGXDLMSGPRSSetup::GetMethodCount()
+{
     return 0;
 }
 
-void CGXDLMSGPRSSetup::GetValues(std::vector<std::string> &values) {
+void CGXDLMSGPRSSetup::GetValues(std::vector<std::string>& values)
+{
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -95,39 +107,49 @@ void CGXDLMSGPRSSetup::GetValues(std::vector<std::string> &values) {
     values.push_back(m_DefaultQualityOfService.ToString() + " " + m_RequestedQualityOfService.ToString());
 }
 
-void CGXDLMSGPRSSetup::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+void CGXDLMSGPRSSetup::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
+{
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
+    {
         attributes.push_back(1);
     }
     //APN
-    if (all || !IsRead(2)) {
+    if (all || !IsRead(2))
+    {
         attributes.push_back(2);
     }
     //PINCode
-    if (all || !IsRead(3)) {
+    if (all || !IsRead(3))
+    {
         attributes.push_back(3);
     }
     //DefaultQualityOfService + RequestedQualityOfService
-    if (all || !IsRead(4)) {
+    if (all || !IsRead(4))
+    {
         attributes.push_back(4);
     }
 }
 
-int CGXDLMSGPRSSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
-    if (index == 1) {
+int CGXDLMSGPRSSetup::GetDataType(int index, DLMS_DATA_TYPE& type)
+{
+    if (index == 1)
+    {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 2) {
+    if (index == 2)
+    {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 3) {
+    if (index == 3)
+    {
         type = DLMS_DATA_TYPE_UINT16;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 4) {
+    if (index == 4)
+    {
         type = DLMS_DATA_TYPE_ARRAY;
         return DLMS_ERROR_CODE_OK;
     }
@@ -135,27 +157,33 @@ int CGXDLMSGPRSSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSGPRSSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    if (e.GetIndex() == 1) {
+int CGXDLMSGPRSSetup::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
+    if (e.GetIndex() == 1)
+    {
         int ret;
         CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0) {
+        if ((ret = GetLogicalName(this, tmp)) != 0)
+        {
             return ret;
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 2) {
+    if (e.GetIndex() == 2)
+    {
         CGXByteBuffer bb;
         bb.AddString(m_APN);
         e.SetValue(bb);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 3) {
+    if (e.GetIndex() == 3)
+    {
         e.SetValue(m_PINCode);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 4) {
+    if (e.GetIndex() == 4)
+    {
         e.SetByteArray(true);
         CGXByteBuffer data;
         data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -172,7 +200,8 @@ int CGXDLMSGPRSSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &
             (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, delay)) != 0 ||
             (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, reliability)) != 0 ||
             (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, peak)) != 0 ||
-            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, mean)) != 0) {
+            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, mean)) != 0)
+        {
             return ret;
         }
         data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -187,7 +216,8 @@ int CGXDLMSGPRSSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &
             (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, delay)) != 0 ||
             (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, reliability)) != 0 ||
             (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, peak)) != 0 ||
-            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, mean)) != 0) {
+            (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_UINT8, mean)) != 0)
+        {
             return ret;
         }
         e.SetValue(data);
@@ -197,19 +227,30 @@ int CGXDLMSGPRSSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &
 }
 
 // Set value of given attribute.
-int CGXDLMSGPRSSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    if (e.GetIndex() == 1) {
+int CGXDLMSGPRSSetup::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
+    if (e.GetIndex() == 1)
+    {
         return SetLogicalName(this, e.GetValue());
-    } else if (e.GetIndex() == 2) {
-        if (e.GetValue().vt == DLMS_DATA_TYPE_STRING) {
+    }
+    else if (e.GetIndex() == 2)
+    {
+        if (e.GetValue().vt == DLMS_DATA_TYPE_STRING)
+        {
             m_APN = e.GetValue().ToString();
-        } else {
+        }
+        else
+        {
             m_APN.clear();
             m_APN.append(e.GetValue().byteArr, e.GetValue().byteArr + e.GetValue().GetSize());
         }
-    } else if (e.GetIndex() == 3) {
+    }
+    else if (e.GetIndex() == 3)
+    {
         m_PINCode = e.GetValue().uiVal;
-    } else if (e.GetIndex() == 4) {
+    }
+    else if (e.GetIndex() == 4)
+    {
         m_DefaultQualityOfService.SetPrecedence(e.GetValue().Arr[0].Arr[0].iVal);
         m_DefaultQualityOfService.SetDelay(e.GetValue().Arr[0].Arr[1].iVal);
         m_DefaultQualityOfService.SetReliability(e.GetValue().Arr[0].Arr[2].iVal);
@@ -221,9 +262,11 @@ int CGXDLMSGPRSSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &
         m_RequestedQualityOfService.SetReliability(e.GetValue().Arr[1].Arr[2].iVal);
         m_RequestedQualityOfService.SetPeakThroughput(e.GetValue().Arr[1].Arr[3].iVal);
         m_RequestedQualityOfService.SetMeanThroughput(e.GetValue().Arr[1].Arr[4].iVal);
-    } else {
+    }
+    else
+    {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
-#endif  //DLMS_IGNORE_GPRS_SETUP
+#endif //DLMS_IGNORE_GPRS_SETUP

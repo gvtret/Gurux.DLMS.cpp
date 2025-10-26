@@ -39,11 +39,11 @@
 #include "GXChargePerUnitScaling.h"
 #include "GXCommodity.h"
 #include "GXChargeTable.h"
-
 /**
 * Time object. Date part is ignored.
 */
-class CGXUnitCharge {
+class CGXUnitCharge
+{
     /**
     * Charge per unit scaling. <br>
     * Online help:<br>
@@ -64,7 +64,6 @@ class CGXUnitCharge {
      * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
      */
     std::vector<CGXChargeTable> m_ChargeTables;
-
 public:
     // Constructor.
     CGXUnitCharge();
@@ -75,7 +74,7 @@ public:
     *
     * @return Charge per unit scaling.
     */
-    CGXChargePerUnitScaling &GetChargePerUnitScaling();
+    CGXChargePerUnitScaling& GetChargePerUnitScaling();
 
     /**
      * Online help:<br>
@@ -83,7 +82,7 @@ public:
      *
      * @return Commodity
      */
-    CGXCommodity &GetCommodity();
+    CGXCommodity& GetCommodity();
 
     /**
      * Online help:<br>
@@ -91,8 +90,9 @@ public:
      *
      * @return Charge tables.
      */
-    std::vector<CGXChargeTable> &GetChargeTables();
+    std::vector<CGXChargeTable>& GetChargeTables();
 
     std::string ToString();
+
 };
-#endif  //CGXUNIT_CHARGE_H
+#endif //CGXUNIT_CHARGE_H

@@ -36,7 +36,8 @@
 #include "../include/GXHelpers.h"
 
 // Constructor.
-CGXCurrency::CGXCurrency() {
+CGXCurrency::CGXCurrency()
+{
     m_Scale = 0;
     m_Unit = DLMS_CURRENCY_TIME;
 };
@@ -44,7 +45,8 @@ CGXCurrency::CGXCurrency() {
 /**
  * @return Currency name.
  */
-std::string &CGXCurrency::GetName() {
+std::string& CGXCurrency::GetName()
+{
     return m_Name;
 }
 
@@ -52,14 +54,16 @@ std::string &CGXCurrency::GetName() {
  * @param value
  *            Currency name.
  */
-void CGXCurrency::SetName(std::string &value) {
+void CGXCurrency::SetName(std::string& value)
+{
     m_Name = value;
 }
 
 /**
  * @return Currency scale.
  */
-char CGXCurrency::GetScale() {
+char CGXCurrency::GetScale()
+{
     return m_Scale;
 }
 
@@ -67,14 +71,16 @@ char CGXCurrency::GetScale() {
  * @param value
  *            Currency scale.
  */
-void CGXCurrency::SetScale(char value) {
+void CGXCurrency::SetScale(char value)
+{
     m_Scale = value;
 }
 
 /**
  * @return Currency unit.
  */
-DLMS_CURRENCY CGXCurrency::GetUnit() {
+DLMS_CURRENCY CGXCurrency::GetUnit()
+{
     return m_Unit;
 }
 
@@ -82,11 +88,13 @@ DLMS_CURRENCY CGXCurrency::GetUnit() {
  * @param value
  *            Currency unit.
  */
-void CGXCurrency::SetUnit(DLMS_CURRENCY value) {
+void CGXCurrency::SetUnit(DLMS_CURRENCY value)
+{
     m_Unit = value;
 }
 
-std::string CGXCurrency::ToString() {
+std::string CGXCurrency::ToString()
+{
     std::string str = m_Name;
     str.append(", ");
     str.append(GXHelpers::IntToString(m_Scale));

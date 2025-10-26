@@ -40,17 +40,17 @@
 #include "enums.h"
 #include "GXBytebuffer.h"
 
-class CGXByteArray {
+class CGXByteArray
+{
     friend class CGXCipher;
     friend class CGXByteBuffer;
     friend class CGXPrivateKey;
     friend class CGXEcdsa;
     friend class CGXPkcs10;
     friend class CGXPkcs8;
-    unsigned char *m_Data;
+    unsigned char* m_Data;
     unsigned long m_Capacity;
     unsigned long m_Size;
-
 public:
     //Constructor.
     CGXByteArray();
@@ -59,7 +59,7 @@ public:
     CGXByteArray(int capacity);
 
     //Copy constructor.
-    CGXByteArray(const CGXByteArray &value);
+    CGXByteArray(const CGXByteArray& value);
 
     //Destructor.
     ~CGXByteArray();
@@ -108,31 +108,31 @@ public:
 
     int SetDouble(double value);
 
-    int Set(const void *pSource, unsigned long count);
+    int Set(const void* pSource, unsigned long count);
 
-    int Set(CGXByteBuffer *data, unsigned long index = 0, unsigned long count = -1);
-
-    //Add string to byte buffer.
-    int AddString(const std::string &value);
+    int Set(CGXByteBuffer* data, unsigned long index = 0, unsigned long count = -1);
 
     //Add string to byte buffer.
-    int AddString(const std::wstring &value);
+    int AddString(const std::string& value);
 
-    int AddString(const char *value);
+    //Add string to byte buffer.
+    int AddString(const std::wstring& value);
 
-    int AttachString(char *value);
+    int AddString(const char* value);
+
+    int AttachString(char* value);
 
     void Clear();
 
-    int GetUInt8(unsigned long index, unsigned char *value);
+    int GetUInt8(unsigned long index, unsigned char* value);
 
-    int GetUInt24(unsigned long index, unsigned int *value);
+    int GetUInt24(unsigned long index, unsigned int* value);
 
-    unsigned char *GetData();
+    unsigned char* GetData();
 
-    void ToArray(unsigned char *&value, unsigned long &count);
+    void ToArray(unsigned char*& value, unsigned long& count);
 
-    int ToByteBuffer(CGXByteBuffer &value);
+    int ToByteBuffer(CGXByteBuffer& value);
 
     /**
      * Compares, whether two given arrays are similar starting from current
@@ -142,12 +142,12 @@ public:
      *            Array to compare.
      * @return True, if arrays are similar. False, if the arrays differ.
      */
-    bool Compare(unsigned char *buff, unsigned long length);
+    bool Compare(unsigned char* buff, unsigned long length);
 
-    int GetUInt16(unsigned long index, unsigned short *value);
-    int GetUInt32(unsigned long index, unsigned long *value);
-    int GetUInt64(unsigned long index, unsigned long long *value);
-    int GetUInt128(unsigned long index, unsigned char *value);
+    int GetUInt16(unsigned long index, unsigned short* value);
+    int GetUInt32(unsigned long index, unsigned long* value);
+    int GetUInt64(unsigned long index, unsigned long long* value);
+    int GetUInt128(unsigned long index, unsigned char* value);
 
     //Get byte array as a std::string.
     std::string ToString();
@@ -172,42 +172,52 @@ public:
         *
         * @param bb Byte buffer as a byte array.
         */
-    int SubArray(unsigned long index, int count, CGXByteArray &bb);
+    int SubArray(unsigned long index, 
+        int count, 
+        CGXByteArray& bb);
 
     /**
     * Returns data as byte array.
     *
     * @param bb Byte buffer as a byte array.
     */
-    int SubArray(unsigned long index, int count, CGXByteBuffer &bb);
+    int SubArray(unsigned long index,
+        int count,
+        CGXByteBuffer& bb);
 
-    CGXByteArray &operator=(CGXByteArray &value);
+    CGXByteArray& operator=(CGXByteArray& value);
 
-    CGXByteArray &operator=(CGXByteBuffer &value);
+    CGXByteArray& operator=(CGXByteBuffer& value);
 
     //Push the given hex string as byte array into this buffer at the current position, and then increments the position.
-    void SetHexString(std::string &value);
+    void SetHexString(std::string& value);
 
     //Push the given hex string as byte array into this buffer at the current position, and then increments the position.
     void SetHexString2(std::string value);
 
     //Push the given hex string as byte array into this buffer at the current position, and then increments the position.
-    void SetHexString(char *value);
+    void SetHexString(char* value);
 
     //Check is byte buffer ASCII string.
-    static bool IsAsciiString(unsigned char *value, unsigned long length);
+    static bool IsAsciiString(unsigned char* value, unsigned long length);
 
     //Check is byte buffer ASCII string.
     bool IsAsciiString();
 
     // Get String value from byte array.
-    int GetString(unsigned long index, unsigned long count, std::string &value);
+    int GetString(unsigned long index,
+        unsigned long count,
+        std::string& value);
 
     // Get UTF-8 value from byte array.
-    int GetStringUnicode(unsigned long index, unsigned long count, std::string &value);
+    int GetStringUnicode(unsigned long index,
+        unsigned long count,
+        std::string& value);
 
     // Get unicode string value from byte array.
-    int GetStringUnicode(unsigned long index, unsigned long count, std::wstring &value);
+    int GetStringUnicode(unsigned long index,
+        unsigned long count,
+        std::wstring& value);
 
     /**
     * Convert Base64 string to byte array.
@@ -223,14 +233,17 @@ public:
    *            Byte array to convert.
    * @return Base64 string.
    */
-    int ToBase64(std::string &value);
+    int ToBase64(std::string& value);
 
-    CGXByteArray &operator=(const CGXByteArray &value);
+    CGXByteArray& operator=(
+        const CGXByteArray& value);
 
-    CGXByteArray &operator=(const CGXByteBuffer &value);
+    CGXByteArray& operator=(
+        const CGXByteBuffer& value);
 
     /*Reverse byte array.*/
-    void Reverse(unsigned long index, unsigned long count);
+    void Reverse(unsigned long index,
+        unsigned long count);
 };
 
-#endif  //GXBYTEARRAY_H
+#endif //GXBYTEARRAY_H

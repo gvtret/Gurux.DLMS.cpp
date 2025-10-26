@@ -39,7 +39,8 @@
 #ifndef DLMS_IGNORE_AUTO_CONNECT
 #include "GXDLMSObject.h"
 
-typedef enum {
+typedef enum
+{
     /*
      * The device never connects.
      */
@@ -72,36 +73,37 @@ typedef enum {
     /*
    * The device is permanently connected to the communication network.
    */
-    DLMS_AUTO_CONNECT_MODE_PERMANENTLY_CONNECT = 101,
-    /*
+   DLMS_AUTO_CONNECT_MODE_PERMANENTLY_CONNECT = 101,
+   /*
    * The device is permanently connected to the communication network. No
    * connection possible outside the calling window.
    */
-    DLMS_AUTO_CONNECT_MODE_CONNECT_WITH_CALLING_WINDOW = 102,
-    /*
+   DLMS_AUTO_CONNECT_MODE_CONNECT_WITH_CALLING_WINDOW = 102,
+   /*
    * The device is permanently connected to the communication network.
    * Connection is possible as soon as the connect method is invoked.
    */
-    DLMS_AUTO_CONNECT_MODE_CONNECT_INVOKED = 103,
-    /*
+   DLMS_AUTO_CONNECT_MODE_CONNECT_INVOKED = 103,
+   /*
    * The device is usually disconnected. It connects to the communication
    * network as soon as the connect method is invoked
    */
-    DLMS_AUTO_CONNECT_MODE_DISCONNECT_CONNECT_INVOKED = 104,
-    /*
+   DLMS_AUTO_CONNECT_MODE_DISCONNECT_CONNECT_INVOKED = 104,
+   /*
    * (200..255) manufacturer specific modes
    */
-    DLMS_AUTO_CONNECT_MODE_MANUFACTURE_SPESIFIC = 200
+   DLMS_AUTO_CONNECT_MODE_MANUFACTURE_SPESIFIC = 200
 } DLMS_AUTO_CONNECT_MODE;
 
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAutoConnect
 */
-class CGXDLMSAutoConnect: public CGXDLMSObject {
+class CGXDLMSAutoConnect : public CGXDLMSObject
+{
     DLMS_AUTO_CONNECT_MODE m_Mode;
-    std::vector<std::pair<CGXDateTime, CGXDateTime>> m_CallingWindow;
-    std::vector<std::string> m_Destinations;
+    std::vector<std::pair< CGXDateTime, CGXDateTime> > m_CallingWindow;
+    std::vector< std::string > m_Destinations;
     int m_RepetitionDelay;
     int m_Repetitions;
 
@@ -125,15 +127,16 @@ public:
     int GetRepetitionDelay();
     void SetRepetitionDelay(int value);
 
-    std::vector<std::pair<CGXDateTime, CGXDateTime>> &GetCallingWindow();
-    void SetCallingWindow(std::vector<std::pair<CGXDateTime, CGXDateTime>> value);
+    std::vector<std::pair< CGXDateTime, CGXDateTime> >& GetCallingWindow();
+    void SetCallingWindow(std::vector<std::pair< CGXDateTime, CGXDateTime> > value);
 
-    std::vector<std::string> &GetDestinations();
+    std::vector< std::string >& GetDestinations();
 
-    void SetDestinations(std::vector<std::string> &value);
+    void SetDestinations(std::vector< std::string >& value);
 
     //Initiates the connection process.
-    int Connect(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Connect(CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
 
     // Returns amount of attributes.
@@ -143,7 +146,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -153,15 +156,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_AUTO_CONNECT
-#endif  //GXDLMSAUTOCONNECT_H
+#endif //DLMS_IGNORE_AUTO_CONNECT
+#endif //GXDLMSAUTOCONNECT_H

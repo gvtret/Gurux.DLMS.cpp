@@ -46,7 +46,8 @@ class CGXDLMSNotify;
 class CGXDLMSSettings;
 class CGXDLMSAssociationLogicalName;
 
-class CGXDLMSValueEventArg {
+class CGXDLMSValueEventArg
+{
     friend class CGXDLMSClient;
     friend class CGXDLMSServer;
     friend class CGXDLMSNotify;
@@ -55,7 +56,6 @@ class CGXDLMSValueEventArg {
     friend class CGXDLMSAssociationShortName;
     friend class CGXDLMSLNCommandHandler;
     friend class CGXDLMSSNCommandHandler;
-
 private:
     /**
     * CGXDLMSVariant value.
@@ -68,7 +68,7 @@ private:
     /**
     * Target DLMS object
     */
-    CGXDLMSObject *m_Target;
+    CGXDLMSObject* m_Target;
     /**
     * Attribute index.
     */
@@ -118,19 +118,23 @@ private:
     /**
     * DLMS settings.
     */
-    CGXDLMSSettings *m_Settings;
+    CGXDLMSSettings* m_Settings;
 
     /**
     * DLMS server.
     */
-    CGXDLMSServer *m_Server;
+    CGXDLMSServer* m_Server;
 
     /**
     * Received invoke ID.
     */
     unsigned int m_InvokeId;
 
-    void Init(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector);
+    void Init(
+        CGXDLMSServer* server,
+        CGXDLMSObject* target,
+        int index,
+        int selector);
 
     /**
     * Constructor.
@@ -140,7 +144,10 @@ private:
     * @param index
     *            Event index.
     */
-    CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index);
+    CGXDLMSValueEventArg(
+        CGXDLMSServer* server,
+        CGXDLMSObject* target,
+        int index);
 
     /**
     * Constructor.
@@ -155,21 +162,23 @@ private:
     *            Optional parameters.
     */
     CGXDLMSValueEventArg(
-        CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters
-    );
+        CGXDLMSServer* server,
+        CGXDLMSObject* target,
+        int index,
+        int selector,
+        CGXDLMSVariant& parameters);
 
     /**
     * DLMS server.
     */
-    CGXDLMSServer *GetServer();
-
+    CGXDLMSServer* GetServer();
 public:
     /**
     * @return Target DLMS object.
     */
-    CGXDLMSObject *GetTarget();
+    CGXDLMSObject* GetTarget();
 
-    void SetTarget(CGXDLMSObject *value);
+    void SetTarget(CGXDLMSObject* value);
 
     /**
     * @return Attribute index of queried object.
@@ -181,7 +190,7 @@ public:
     /**
     * @return CGXDLMSVariant value.
     */
-    CGXDLMSVariant &GetValue();
+    CGXDLMSVariant& GetValue();
 
     /**
     * @param value
@@ -214,13 +223,13 @@ public:
     /**
     * @return Optional parameters.
     */
-    CGXDLMSVariant &GetParameters();
+    CGXDLMSVariant& GetParameters();
 
     /**
     * @param value
     *           Parameters.
     */
-    void SetParameters(CGXDLMSVariant &value);
+    void SetParameters(CGXDLMSVariant& value);
 
 
     /**
@@ -231,7 +240,9 @@ public:
     * @param index
     *            Event index.
     */
-    CGXDLMSValueEventArg(CGXDLMSObject *target, int index);
+    CGXDLMSValueEventArg(
+        CGXDLMSObject* target,
+        int index);
 
     /**
     * Constructor.
@@ -245,7 +256,11 @@ public:
     * @param parameters
     *            Optional parameters.
     */
-    CGXDLMSValueEventArg(CGXDLMSObject *target, int index, int selector, CGXDLMSVariant &parameters);
+    CGXDLMSValueEventArg(
+        CGXDLMSObject* target,
+        int index,
+        int selector,
+        CGXDLMSVariant& parameters);
 
     /**
     * @return Occurred error.
@@ -328,7 +343,7 @@ public:
     /**
     * DLMS settings.
     */
-    CGXDLMSSettings *GetSettings();
+    CGXDLMSSettings* GetSettings();
 
     /**
     * @param value
@@ -341,4 +356,4 @@ public:
     */
     unsigned int GetInvokeId();
 };
-#endif  //GXDLMSVALUEEVENTARGS_H
+#endif //GXDLMSVALUEEVENTARGS_H

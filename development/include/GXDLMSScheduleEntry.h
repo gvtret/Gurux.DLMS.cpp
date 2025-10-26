@@ -40,7 +40,8 @@
 /**
 * Executed scripts.
 */
-class CGXDLMSScheduleEntry {
+class CGXDLMSScheduleEntry
+{
 private:
     /**
     * Schedule entry index.
@@ -151,12 +152,12 @@ public:
     /**
      * Returns Switch time.
      */
-    CGXTime &GetSwitchTime();
+    CGXTime& GetSwitchTime();
 
     /**
      * value: Switch time.
      */
-    void SetSwitchTime(CGXTime &value);
+    void SetSwitchTime(CGXTime& value);
 
     /**
      * Defines a period in minutes, in which an entry shall be processed after
@@ -195,7 +196,7 @@ public:
      *
      * Returns day_id.
      */
-    std::string &GetExecSpecDays();
+    std::string& GetExecSpecDays();
 
     /**
      * Perform the link to the IC Special days table.
@@ -203,14 +204,14 @@ public:
      * value:
      *            day_id
      */
-    void SetExecSpecDays(std::string &value);
+    void SetExecSpecDays(std::string& value);
 
     /**
      * Date starting period in which the entry is valid.
      *
      * Returns Begin date.
      */
-    CGXDate &GetBeginDate();
+    CGXDate& GetBeginDate();
 
     /**
      * Date starting period in which the entry is valid.
@@ -218,14 +219,14 @@ public:
      * value:
      *            Begin date.
      */
-    void SetBeginDate(CGXDate &value);
+    void SetBeginDate(CGXDate& value);
 
     /**
      * Get date starting period in which the entry is valid.
      *
      * Returns End date.
      */
-    CGXDate &GetEndDate();
+    CGXDate& GetEndDate();
 
     /**
      * Set date starting period in which the entry is valid.
@@ -233,7 +234,7 @@ public:
      * value:
      *            End date.
      */
-    void SetEndDate(CGXDate &value);
+    void SetEndDate(CGXDate& value);
 };
 
-#endif  //GXDLMSSCHEDULEENTRY_H
+#endif //GXDLMSSCHEDULEENTRY_H

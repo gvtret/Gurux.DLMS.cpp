@@ -46,8 +46,10 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAssociationLogicalName
 */
-class CGXDLMSAssociationLogicalName: public CGXDLMSObject {
+class CGXDLMSAssociationLogicalName : public CGXDLMSObject
+{
 private:
+
     DLMS_ASSOCIATION_STATUS m_AssociationStatus;
     CGXDLMSObjectCollection m_ObjectList;
     unsigned char m_ClientSAP;
@@ -63,19 +65,29 @@ private:
 
     std::string m_SecuritySetupReference;
 
-    std::vector<std::pair<unsigned char, std::string>> m_UserList;
+    std::vector<std::pair<unsigned char, std::string> > m_UserList;
 
     std::pair<unsigned char, std::string> m_CurrentUser;
 
-    void UpdateAccessRights(CGXDLMSObject *pObj, CGXDLMSVariant data);
+    void UpdateAccessRights(
+        CGXDLMSObject* pObj,
+        CGXDLMSVariant data);
 
-    int GetAccessRights(CGXDLMSObject *pItem, CGXDLMSServer *server, CGXByteBuffer &data);
+    int GetAccessRights(
+        CGXDLMSObject* pItem,
+        CGXDLMSServer* server,
+        CGXByteBuffer& data);
 
     // Returns LN Association View.
-    int GetObjects(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
+    int GetObjects(
+        CGXDLMSSettings& settings,
+        CGXDLMSValueEventArg& e,
+        CGXByteBuffer& data);
 
-    int GetUsers(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
-
+    int GetUsers(
+        CGXDLMSSettings& settings,
+        CGXDLMSValueEventArg& e,
+        CGXByteBuffer& data);
 public:
     /**
      Constructor.
@@ -93,7 +105,7 @@ public:
     */
     ~CGXDLMSAssociationLogicalName();
 
-    CGXDLMSObjectCollection &GetObjectList();
+    CGXDLMSObjectCollection& GetObjectList();
 
 
     // Contains the identifiers of the COSEM client APs within the physical devices hosting these APs,
@@ -106,33 +118,43 @@ public:
     unsigned short GetServerSAP();
     void SetServerSAP(unsigned short value);
 
-    CGXApplicationContextName &GetApplicationContextName();
+    CGXApplicationContextName& GetApplicationContextName();
 
-    CGXDLMSContextType &GetXDLMSContextInfo();
+    CGXDLMSContextType& GetXDLMSContextInfo();
 
-    CGXAuthenticationMechanismName &GetAuthenticationMechanismName();
+    CGXAuthenticationMechanismName& GetAuthenticationMechanismName();
 
-    CGXByteBuffer &GetSecret();
+    CGXByteBuffer& GetSecret();
 
-    void SetSecret(CGXByteBuffer &value);
+    void SetSecret(CGXByteBuffer& value);
 
-    std::vector<std::pair<unsigned char, std::string>> &GetUserList();
+    std::vector<std::pair<unsigned char, std::string> >& GetUserList();
 
-    void SetUserList(std::vector<std::pair<unsigned char, std::string>> &value);
+    void SetUserList(std::vector<std::pair<unsigned char, std::string> >& value);
 
-    std::pair<unsigned char, std::string> &GetCurrentUser();
+    std::pair<unsigned char, std::string>& GetCurrentUser();
 
-    void SetCurrentUser(std::pair<unsigned char, std::string> &value);
+    void SetCurrentUser(std::pair<unsigned char, std::string>& value);
 
 
     // Updates secret.
-    int UpdateSecret(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int UpdateSecret(
+        CGXDLMSClient* client,
+        std::vector<CGXByteBuffer>& reply);
 
     // Add user to user list.
-    int AddUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply);
+    int AddUser(
+        CGXDLMSClient* client,
+        unsigned char id,
+        std::string name,
+        std::vector<CGXByteBuffer>& reply);
 
     // Remove user fro user list.
-    int RemoveUser(CGXDLMSClient *client, unsigned char id, std::string name, std::vector<CGXByteBuffer> &reply);
+    int RemoveUser(
+        CGXDLMSClient* client,
+        unsigned char id,
+        std::string name,
+        std::vector<CGXByteBuffer>& reply);
 
 
     DLMS_ASSOCIATION_STATUS GetAssociationStatus();
@@ -149,7 +171,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -159,14 +181,14 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
-    int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
-#endif  //GXDLMSASSOCIATIONLOGICALNAME_H
+#endif //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
+#endif //GXDLMSASSOCIATIONLOGICALNAME_H

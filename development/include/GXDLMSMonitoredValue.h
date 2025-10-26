@@ -38,14 +38,15 @@
 #include "GXIgnore.h"
 #include "GXDLMSObject.h"
 
-class CGXDLMSMonitoredValue {
+class CGXDLMSMonitoredValue
+{
     DLMS_OBJECT_TYPE m_ObjectType;
     std::string m_LogicalName;
     int m_AttributeIndex;
-
 public:
+
     CGXDLMSMonitoredValue();
-    void Update(CGXDLMSObject *pObj, int attributeIndex);
+    void Update(CGXDLMSObject* pObj, int attributeIndex);
 
     DLMS_OBJECT_TYPE GetObjectType();
     void SetObjectType(DLMS_OBJECT_TYPE value);
@@ -59,4 +60,4 @@ public:
     std::string ToString();
 };
 
-#endif  //GXDLMSMONITOREDVALUE_H
+#endif //GXDLMSMONITOREDVALUE_H

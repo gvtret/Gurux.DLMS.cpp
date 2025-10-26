@@ -42,7 +42,8 @@
 #include "GXDLMSDataProtectionAgreedKey.h"
 
 // Enumerates data protection key types.
-typedef enum {
+typedef enum
+{
     /**
      Identified key.
     */
@@ -55,12 +56,13 @@ typedef enum {
      Agreed.
     */
     DLMS_DATA_PROTECTION_KEY_TYPE_AGREED
-} DLMS_DATA_PROTECTION_KEY_TYPE;
+}DLMS_DATA_PROTECTION_KEY_TYPE;
 
 /**
     Data protection Key.
 */
-class CGXDLMSDataProtectionKey {
+class CGXDLMSDataProtectionKey
+{
 private:
     /**
       * Data protectionKey type.
@@ -85,10 +87,10 @@ public:
     /**
      * Constructor.
      */
-    CGXDLMSDataProtectionKey() {
+    CGXDLMSDataProtectionKey()
+    {
         m_DataProtectionKeyType = DLMS_DATA_PROTECTION_KEY_TYPE_IDENTIFIED;
     }
-
     /**
     * Returns Data protectionKey type.
     */
@@ -99,32 +101,37 @@ public:
     /**
     * value : Data protectionKey type.
     */
-    void SetDataProtectionKeyType(DLMS_DATA_PROTECTION_KEY_TYPE value) {
+    void SetDataProtectionKeyType(DLMS_DATA_PROTECTION_KEY_TYPE value)
+    {
         m_DataProtectionKeyType = value;
     }
 
     /**
      * Returns Identified key parameters.
      */
-    CGXDLMSDataProtectionIdentifiedKey &GetIdentifiedKey() {
+    CGXDLMSDataProtectionIdentifiedKey& GetIdentifiedKey()
+    {
         return m_IdentifiedKey;
     }
 
     /**
       * value : Wrapped key parameters.
       */
-    CGXDLMSDataProtectionWrappeddKey &GetWrappedKey() {
+    CGXDLMSDataProtectionWrappeddKey& GetWrappedKey()
+    {
         return m_WrappedKey;
     }
 
     /**
       * value : Agreed key parameters.
       */
-    CGXDLMSDataProtectionAgreedKey &GetAgreedKey() {
+    CGXDLMSDataProtectionAgreedKey& GetAgreedKey()
+    {
         return m_AgreedKey;
     }
 
-    std::string ToString() {
+    std::string ToString()
+    {
         std::string str;
         str = std::to_string(m_DataProtectionKeyType);
         str += ", ";
@@ -136,5 +143,5 @@ public:
         return str;
     }
 };
-#endif  //DLMS_IGNORE_PUSH_SETUP
-#endif  //GXDLMSDATAPROTECTIONKEY_H
+#endif //DLMS_IGNORE_PUSH_SETUP
+#endif //GXDLMSDATAPROTECTIONKEY_H

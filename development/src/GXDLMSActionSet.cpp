@@ -35,18 +35,22 @@
 #include "../include/GXDLMSActionSet.h"
 #include <sstream>
 
-CGXDLMSActionSet::CGXDLMSActionSet() {
+CGXDLMSActionSet::CGXDLMSActionSet()
+{
 }
 
-CGXDLMSActionItem &CGXDLMSActionSet::GetActionUp() {
+CGXDLMSActionItem& CGXDLMSActionSet::GetActionUp()
+{
     return m_ActionUp;
 }
 
-CGXDLMSActionItem &CGXDLMSActionSet::GetActionDown() {
+CGXDLMSActionItem& CGXDLMSActionSet::GetActionDown()
+{
     return m_ActionDown;
 }
 
-std::string CGXDLMSActionSet::ToString() {
+std::string CGXDLMSActionSet::ToString()
+{
     std::stringstream sb;
     sb << m_ActionUp.ToString().c_str();
     sb << " ";

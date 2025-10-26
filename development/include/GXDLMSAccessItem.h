@@ -40,11 +40,12 @@
 /**
 Access item is used to generate Access Service message.
 */
-class CGXDLMSAccessItem {
+class CGXDLMSAccessItem
+{
     /**
      * COSEM target object.
      */
-    CGXDLMSObject *m_Target;
+    CGXDLMSObject* m_Target;
     /**
      * Executed command type.
      */
@@ -60,17 +61,16 @@ class CGXDLMSAccessItem {
 
     // Reply value.
     CGXDLMSVariant m_Value;
-
 public:
     /**
      * Returns COSEM target object.
      */
-    CGXDLMSObject *GetTarget();
+    CGXDLMSObject* GetTarget();
 
     /**
      * value: COSEM target object.
      */
-    void SetTarget(CGXDLMSObject *value);
+    void SetTarget(CGXDLMSObject* value);
 
     /**
      * Returns Executed command type.
@@ -105,11 +105,11 @@ public:
     /**
      * value:  Reply value.
      */
-    void SetValue(CGXDLMSVariant &value);
+    void SetValue(CGXDLMSVariant& value);
     /**
      *  Returns reply value.
      */
-    CGXDLMSVariant &GetValue();
+    CGXDLMSVariant& GetValue();
 
     /**
      * Constructor.
@@ -123,6 +123,8 @@ public:
      * target: COSEM target object.
      * attributeIndex: Attribute index.
      */
-    CGXDLMSAccessItem(DLMS_ACCESS_SERVICE_COMMAND_TYPE command, CGXDLMSObject *target, unsigned char attributeIndex);
+    CGXDLMSAccessItem(DLMS_ACCESS_SERVICE_COMMAND_TYPE command,
+        CGXDLMSObject* target,
+        unsigned char attributeIndex);
 };
-#endif  //CGXDLMSACCESSITEM_H
+#endif //CGXDLMSACCESSITEM_H

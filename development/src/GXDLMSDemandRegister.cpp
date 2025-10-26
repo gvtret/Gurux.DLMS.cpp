@@ -39,119 +39,146 @@
 #include "../include/GXDLMSDemandRegister.h"
 
 #ifndef DLMS_IGNORE_DEMAND_REGISTER
-bool CGXDLMSDemandRegister::IsRead(int index) {
-    if (index == 4) {
+bool CGXDLMSDemandRegister::IsRead(int index)
+{
+    if (index == 4)
+    {
         return m_Unit != 0;
     }
     return CGXDLMSObject::IsRead(index);
 }
 
-CGXDLMSDemandRegister::CGXDLMSDemandRegister(): CGXDLMSDemandRegister("", 0) {
+CGXDLMSDemandRegister::CGXDLMSDemandRegister() :
+    CGXDLMSDemandRegister("", 0)
+{
 }
 
-CGXDLMSDemandRegister::CGXDLMSDemandRegister(std::string ln): CGXDLMSDemandRegister(ln, 0) {
+CGXDLMSDemandRegister::CGXDLMSDemandRegister(std::string ln) :
+    CGXDLMSDemandRegister(ln, 0)
+{
 }
 
-CGXDLMSDemandRegister::CGXDLMSDemandRegister(std::string ln, unsigned short sn)
-    : CGXDLMSObject(DLMS_OBJECT_TYPE_DEMAND_REGISTER, ln, sn) {
+CGXDLMSDemandRegister::CGXDLMSDemandRegister(std::string ln, unsigned short sn) :
+    CGXDLMSObject(DLMS_OBJECT_TYPE_DEMAND_REGISTER, ln, sn)
+{
     m_Period = m_NumberOfPeriods = m_Unit = m_Scaler = 0;
 }
 
-CGXDLMSVariant &CGXDLMSDemandRegister::GetCurrentAverageValue() {
+CGXDLMSVariant& CGXDLMSDemandRegister::GetCurrentAverageValue()
+{
     return m_CurrentAverageValue;
 }
-
-void CGXDLMSDemandRegister::SetCurrentAverageValue(CGXDLMSVariant &value) {
+void CGXDLMSDemandRegister::SetCurrentAverageValue(CGXDLMSVariant& value)
+{
     m_CurrentAverageValue = value;
 }
 
-void CGXDLMSDemandRegister::SetCurrentAverageValue(CGXDLMSVariant value) {
+void CGXDLMSDemandRegister::SetCurrentAverageValue(CGXDLMSVariant value)
+{
     m_CurrentAverageValue = value;
 }
 
-CGXDLMSVariant &CGXDLMSDemandRegister::GetLastAverageValue() {
+CGXDLMSVariant& CGXDLMSDemandRegister::GetLastAverageValue()
+{
     return m_LastAverageValue;
 }
-
-void CGXDLMSDemandRegister::SetLastAverageValue(CGXDLMSVariant &value) {
+void CGXDLMSDemandRegister::SetLastAverageValue(CGXDLMSVariant& value)
+{
+    m_LastAverageValue = value;
+}
+void CGXDLMSDemandRegister::SetLastAverageValue(CGXDLMSVariant value)
+{
     m_LastAverageValue = value;
 }
 
-void CGXDLMSDemandRegister::SetLastAverageValue(CGXDLMSVariant value) {
-    m_LastAverageValue = value;
-}
-
-double CGXDLMSDemandRegister::GetScaler() {
+double CGXDLMSDemandRegister::GetScaler()
+{
     return pow((float)10, m_Scaler);
 }
 
-void CGXDLMSDemandRegister::SetScaler(double value) {
+void CGXDLMSDemandRegister::SetScaler(double value)
+{
     m_Scaler = (signed char)log10(value);
 }
 
-int CGXDLMSDemandRegister::GetUnit() {
+int CGXDLMSDemandRegister::GetUnit()
+{
     return m_Unit;
 }
 
-void CGXDLMSDemandRegister::SetUnit(unsigned char value) {
+void CGXDLMSDemandRegister::SetUnit(unsigned char value)
+{
     m_Unit = value;
 }
 
-CGXDLMSVariant &CGXDLMSDemandRegister::GetStatus() {
+CGXDLMSVariant& CGXDLMSDemandRegister::GetStatus()
+{
     return m_Status;
 }
-
-void CGXDLMSDemandRegister::SetStatus(CGXDLMSVariant &value) {
+void CGXDLMSDemandRegister::SetStatus(CGXDLMSVariant& value)
+{
     m_Status = value;
 }
 
-void CGXDLMSDemandRegister::SetStatus(CGXDLMSVariant value) {
+void CGXDLMSDemandRegister::SetStatus(CGXDLMSVariant value)
+{
     m_Status = value;
 }
 
-CGXDateTime &CGXDLMSDemandRegister::GetCaptureTime() {
+CGXDateTime& CGXDLMSDemandRegister::GetCaptureTime()
+{
     return m_CaptureTime;
 }
-
-void CGXDLMSDemandRegister::SetCaptureTime(CGXDateTime value) {
+void CGXDLMSDemandRegister::SetCaptureTime(CGXDateTime value)
+{
     m_CaptureTime = value;
 }
 
-CGXDateTime &CGXDLMSDemandRegister::GetStartTimeCurrent() {
+CGXDateTime& CGXDLMSDemandRegister::GetStartTimeCurrent()
+{
     return m_StartTimeCurrent;
 }
-
-void CGXDLMSDemandRegister::SetStartTimeCurrent(CGXDateTime &value) {
+void CGXDLMSDemandRegister::SetStartTimeCurrent(CGXDateTime& value)
+{
     m_StartTimeCurrent = value;
 }
 
-unsigned long CGXDLMSDemandRegister::GetPeriod() {
+unsigned long CGXDLMSDemandRegister::GetPeriod()
+{
     return m_Period;
 }
 
-void CGXDLMSDemandRegister::SetPeriod(unsigned long value) {
+void CGXDLMSDemandRegister::SetPeriod(unsigned long value)
+{
     m_Period = value;
 }
 
-int CGXDLMSDemandRegister::GetNumberOfPeriods() {
+int CGXDLMSDemandRegister::GetNumberOfPeriods()
+{
     return m_NumberOfPeriods;
 }
 
-void CGXDLMSDemandRegister::SetNumberOfPeriods(int value) {
+void CGXDLMSDemandRegister::SetNumberOfPeriods(int value)
+{
     m_NumberOfPeriods = value;
 }
 
-int CGXDLMSDemandRegister::Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSDemandRegister::Reset(CGXDLMSClient* client,
+    std::vector<CGXByteBuffer>& reply)
+{
     CGXDLMSVariant data((char)0);
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSDemandRegister::NextPeriod(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply) {
+int CGXDLMSDemandRegister::NextPeriod(CGXDLMSClient* client,
+    std::vector<CGXByteBuffer>& reply)
+{
     CGXDLMSVariant data((char)0);
     return client->Method(this, 2, data, reply);
 }
 
-void CGXDLMSDemandRegister::GetValues(std::vector<std::string> &values) {
+void CGXDLMSDemandRegister::GetValues(std::vector<std::string>& values)
+{
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -161,9 +188,12 @@ void CGXDLMSDemandRegister::GetValues(std::vector<std::string> &values) {
     std::string str = "Scaler: ";
     //if there is no fractal part.
     double s = GetScaler();
-    if (s - (long)s == 0) {
+    if (s - (long)s == 0)
+    {
         str += CGXDLMSVariant((long)s).ToString();
-    } else {
+    }
+    else
+    {
         str += CGXDLMSVariant(s).ToString();
     }
     str += " Unit: ";
@@ -176,161 +206,205 @@ void CGXDLMSDemandRegister::GetValues(std::vector<std::string> &values) {
     values.push_back(CGXDLMSVariant(m_NumberOfPeriods).ToString());
 }
 
-void CGXDLMSDemandRegister::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+void CGXDLMSDemandRegister::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
+{
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
+    {
         attributes.push_back(1);
     }
     //ScalerUnit
-    if (all || !IsRead(4)) {
+    if (all || !IsRead(4))
+    {
         attributes.push_back(4);
     }
     //CurrentAverageValue
-    if (all || CanRead(2)) {
+    if (all || CanRead(2))
+    {
         attributes.push_back(2);
     }
     //LastAverageValue
-    if (all || CanRead(3)) {
+    if (all || CanRead(3))
+    {
         attributes.push_back(3);
     }
     //Status
-    if (all || CanRead(5)) {
+    if (all || CanRead(5))
+    {
         attributes.push_back(5);
     }
     //CaptureTime
-    if (all || CanRead(6)) {
+    if (all || CanRead(6))
+    {
         attributes.push_back(6);
     }
     //StartTimeCurrent
-    if (all || CanRead(7)) {
+    if (all || CanRead(7))
+    {
         attributes.push_back(7);
     }
     //Period
-    if (all || CanRead(8)) {
+    if (all || CanRead(8))
+    {
         attributes.push_back(8);
     }
     //NumberOfPeriods
-    if (all || CanRead(9)) {
+    if (all || CanRead(9))
+    {
         attributes.push_back(9);
     }
 }
 
-int CGXDLMSDemandRegister::GetAttributeCount() {
+int CGXDLMSDemandRegister::GetAttributeCount()
+{
     return 9;
 }
 
-int CGXDLMSDemandRegister::GetMethodCount() {
+int CGXDLMSDemandRegister::GetMethodCount()
+{
     return 2;
 }
 
-int CGXDLMSDemandRegister::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    if (e.GetIndex() == 1) {
+int CGXDLMSDemandRegister::Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
+    if (e.GetIndex() == 1)
+    {
         m_CurrentAverageValue.Clear();
         m_LastAverageValue.Clear();
         m_CaptureTime = CGXDateTime(CGXDateTime::Now());
         m_StartTimeCurrent = CGXDateTime(CGXDateTime::Now());
-    } else if (e.GetIndex() == 2) {
+    }
+    else if (e.GetIndex() == 2)
+    {
         m_LastAverageValue = m_CurrentAverageValue;
         m_CurrentAverageValue.Clear();
         m_CaptureTime = CGXDateTime(CGXDateTime::Now());
         m_StartTimeCurrent = CGXDateTime(CGXDateTime::Now());
-    } else {
+    }
+    else
+    {
         e.SetError(DLMS_ERROR_CODE_READ_WRITE_DENIED);
     }
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDLMSDemandRegister::GetDataType(int index, DLMS_DATA_TYPE &type) {
-    if (index == 1) {
+int CGXDLMSDemandRegister::GetDataType(int index, DLMS_DATA_TYPE& type)
+{
+    if (index == 1)
+    {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 2) {
+    if (index == 2)
+    {
         return CGXDLMSObject::GetDataType(index, type);
     }
-    if (index == 3) {
+    if (index == 3)
+    {
         return CGXDLMSObject::GetDataType(index, type);
     }
-    if (index == 4) {
+    if (index == 4)
+    {
         type = DLMS_DATA_TYPE_STRUCTURE;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 5) {
+    if (index == 5)
+    {
         type = m_Status.vt;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 6) {
+    if (index == 6)
+    {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 7) {
+    if (index == 7)
+    {
         type = DLMS_DATA_TYPE_OCTET_STRING;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 8) {
+    if (index == 8)
+    {
         type = DLMS_DATA_TYPE_UINT32;
         return DLMS_ERROR_CODE_OK;
     }
-    if (index == 9) {
+    if (index == 9)
+    {
         type = DLMS_DATA_TYPE_UINT16;
         return DLMS_ERROR_CODE_OK;
     }
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSDemandRegister::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSDemandRegister::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
     int ret;
     CGXDLMSVariant tmp;
-    if (e.GetIndex() == 1) {
-        if ((ret = GetLogicalName(this, tmp)) != 0) {
+    if (e.GetIndex() == 1)
+    {
+        if ((ret = GetLogicalName(this, tmp)) != 0)
+        {
             return ret;
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 2) {
+    if (e.GetIndex() == 2)
+    {
         tmp = m_CurrentAverageValue;
-        if (m_Scaler != 0) {
+        if (m_Scaler != 0)
+        {
             DLMS_DATA_TYPE dt;
-            if ((ret = CGXDLMSObject::GetDataType(2, dt)) != 0) {
+            if ((ret = CGXDLMSObject::GetDataType(2, dt)) != 0)
+            {
                 return ret;
             }
-            if (dt == DLMS_DATA_TYPE_NONE) {
+            if (dt == DLMS_DATA_TYPE_NONE)
+            {
                 dt = m_CurrentAverageValue.vt;
             }
-            if ((ret = tmp.ChangeType(DLMS_DATA_TYPE_FLOAT64)) != 0) {
+            if ((ret = tmp.ChangeType(DLMS_DATA_TYPE_FLOAT64)) != 0)
+            {
                 return ret;
             }
             tmp = m_CurrentAverageValue.dblVal / GetScaler();
-            if ((ret = tmp.ChangeType(dt)) != 0) {
+            if ((ret = tmp.ChangeType(dt)) != 0)
+            {
                 return ret;
             }
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 3) {
+    if (e.GetIndex() == 3)
+    {
         tmp = m_LastAverageValue;
-        if (m_Scaler != 0) {
+        if (m_Scaler != 0)
+        {
             DLMS_DATA_TYPE dt;
-            if ((ret = CGXDLMSObject::GetDataType(2, dt)) != 0) {
+            if ((ret = CGXDLMSObject::GetDataType(2, dt)) != 0)
+            {
                 return ret;
             }
-            if (dt == DLMS_DATA_TYPE_NONE) {
+            if (dt == DLMS_DATA_TYPE_NONE)
+            {
                 dt = m_LastAverageValue.vt;
             }
-            if ((ret = tmp.ChangeType(DLMS_DATA_TYPE_FLOAT64)) != 0) {
+            if ((ret = tmp.ChangeType(DLMS_DATA_TYPE_FLOAT64)) != 0)
+            {
                 return ret;
             }
             tmp = m_LastAverageValue.dblVal / GetScaler();
-            if ((ret = tmp.ChangeType(dt)) != 0) {
+            if ((ret = tmp.ChangeType(dt)) != 0)
+            {
                 return ret;
             }
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 4) {
+    if (e.GetIndex() == 4)
+    {
         e.GetValue().Clear();
         e.SetByteArray(true);
         CGXByteBuffer buff;
@@ -343,64 +417,95 @@ int CGXDLMSDemandRegister::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
         e.SetValue(buff);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 5) {
+    if (e.GetIndex() == 5)
+    {
         e.SetValue(m_Status);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 6) {
+    if (e.GetIndex() == 6)
+    {
         e.SetValue(m_CaptureTime);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 7) {
+    if (e.GetIndex() == 7)
+    {
         e.SetValue(m_StartTimeCurrent);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 8) {
+    if (e.GetIndex() == 8)
+    {
         e.SetValue(m_Period);
         return DLMS_ERROR_CODE_OK;
     }
-    if (e.GetIndex() == 9) {
+    if (e.GetIndex() == 9)
+    {
         e.SetValue(m_NumberOfPeriods);
         return DLMS_ERROR_CODE_OK;
     }
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSDemandRegister::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    if (e.GetIndex() == 1) {
+int CGXDLMSDemandRegister::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
+    if (e.GetIndex() == 1)
+    {
         return SetLogicalName(this, e.GetValue());
-    } else if (e.GetIndex() == 2) {
-        if (m_Scaler != 0 && e.GetValue().IsNumber()) {
+    }
+    else if (e.GetIndex() == 2)
+    {
+        if (m_Scaler != 0 && e.GetValue().IsNumber())
+        {
             m_CurrentAverageValue = e.GetValue().ToDouble() * GetScaler();
-        } else {
+        }
+        else
+        {
             m_CurrentAverageValue = e.GetValue();
         }
-    } else if (e.GetIndex() == 3) {
-        if (m_Scaler != 0 && e.GetValue().IsNumber()) {
+    }
+    else if (e.GetIndex() == 3)
+    {
+        if (m_Scaler != 0 && e.GetValue().IsNumber())
+        {
             m_LastAverageValue = e.GetValue().ToDouble() * GetScaler();
-        } else {
+        }
+        else
+        {
             m_LastAverageValue = e.GetValue();
         }
-    } else if (e.GetIndex() == 4 && e.GetValue().vt == DLMS_DATA_TYPE_STRUCTURE) {
+    }
+    else if (e.GetIndex() == 4 && e.GetValue().vt == DLMS_DATA_TYPE_STRUCTURE)
+    {
         m_Scaler = e.GetValue().Arr[0].ToInteger();
         m_Unit = e.GetValue().Arr[1].ToInteger();
-    } else if (e.GetIndex() == 5) {
+    }
+    else if (e.GetIndex() == 5)
+    {
         m_Status = e.GetValue();
-    } else if (e.GetIndex() == 6) {
+    }
+    else if (e.GetIndex() == 6)
+    {
         CGXDLMSVariant tmp;
         CGXDLMSClient::ChangeType(e.GetValue(), DLMS_DATA_TYPE_DATETIME, tmp);
         SetCaptureTime(tmp.dateTime);
-    } else if (e.GetIndex() == 7) {
+    }
+    else if (e.GetIndex() == 7)
+    {
         CGXDLMSVariant tmp;
         CGXDLMSClient::ChangeType(e.GetValue(), DLMS_DATA_TYPE_DATETIME, tmp);
         SetStartTimeCurrent(tmp.dateTime);
-    } else if (e.GetIndex() == 8) {
+    }
+    else if (e.GetIndex() == 8)
+    {
         SetPeriod(e.GetValue().ulVal);
-    } else if (e.GetIndex() == 9) {
+    }
+    else if (e.GetIndex() == 9)
+    {
         SetNumberOfPeriods(e.GetValue().ToInteger());
-    } else {
+    }
+    else
+    {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
-#endif  //DLMS_IGNORE_DEMAND_REGISTER
+#endif //DLMS_IGNORE_DEMAND_REGISTER

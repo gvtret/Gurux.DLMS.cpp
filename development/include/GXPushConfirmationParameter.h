@@ -42,7 +42,8 @@
 /**
     Push confirmation parameters.
 */
-class CGXPushConfirmationParameter {
+class CGXPushConfirmationParameter
+{
 private:
     /**
     * Confirmation start date. Fields of date-time not specified are not used.
@@ -58,7 +59,8 @@ public:
      * Returns Confirmation start date. Fields of date-time not specified are
      *         not used.
      */
-    CGXDateTime &GetStartDate() {
+    CGXDateTime& GetStartDate()
+    {
         return m_StartDate;
     }
 
@@ -66,25 +68,29 @@ public:
      * value: Confirmation start date.
      Fields of date-time not specified are not used.
      */
-    void SetStartDate(CGXDateTime &value) {
+    void SetStartDate(CGXDateTime& value)
+    {
         m_StartDate = value;
     }
 
     /**
      * Returns Confirmation time interval in seconds. Disabled, if zero.
      */
-    uint32_t GetInterval() {
+    uint32_t GetInterval()
+    {
         return m_Interval;
     }
 
     /**
      * value: Confirmation time interval in seconds. Disabled, if zero.
      */
-    void SetInterval(uint32_t value) {
+    void SetInterval(uint32_t value)
+    {
         m_Interval = value;
     }
 
-    std::string ToString() {
+    std::string ToString()
+    {
         std::string str;
         str += m_StartDate.ToString();
         str += ", ";
@@ -92,5 +98,5 @@ public:
         return str;
     }
 };
-#endif  //DLMS_IGNORE_PUSH_SETUP
-#endif  //GXPUSHCONFIRMATIONPARAMETER_H
+#endif //DLMS_IGNORE_PUSH_SETUP
+#endif //GXPUSHCONFIRMATIONPARAMETER_H

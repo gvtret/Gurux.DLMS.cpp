@@ -35,35 +35,41 @@
 #include "../include/GXDLMSModemInitialisation.h"
 #include <sstream>
 
-CGXDLMSModemInitialisation::CGXDLMSModemInitialisation() {
+CGXDLMSModemInitialisation::CGXDLMSModemInitialisation()
+{
     m_Delay = 0;
 }
 
-std::string CGXDLMSModemInitialisation::GetRequest() {
+std::string CGXDLMSModemInitialisation::GetRequest()
+{
     return m_Request;
 }
-
-void CGXDLMSModemInitialisation::SetRequest(std::string value) {
+void CGXDLMSModemInitialisation::SetRequest(std::string value)
+{
     m_Request = value;
 }
 
-std::string CGXDLMSModemInitialisation::GetResponse() {
+std::string CGXDLMSModemInitialisation::GetResponse()
+{
     return m_Response;
 }
-
-void CGXDLMSModemInitialisation::SetResponse(std::string value) {
+void CGXDLMSModemInitialisation::SetResponse(std::string value)
+{
     m_Response = value;
 }
 
-int CGXDLMSModemInitialisation::GetDelay() {
+int CGXDLMSModemInitialisation::GetDelay()
+{
     return m_Delay;
 }
 
-void CGXDLMSModemInitialisation::SetDelay(int value) {
+void CGXDLMSModemInitialisation::SetDelay(int value)
+{
     m_Delay = value;
 }
 
-std::string CGXDLMSModemInitialisation::ToString() {
+std::string CGXDLMSModemInitialisation::ToString()
+{
     std::stringstream sb;
     sb << m_Request.c_str();
     sb << " ";

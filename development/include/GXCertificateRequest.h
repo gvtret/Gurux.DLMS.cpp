@@ -44,7 +44,8 @@ class CGXPkcs10;
 /// <summary>
 /// Certificate request.
 /// </summary>
-class CGXCertificateRequest {
+class CGXCertificateRequest
+{
 private:
     friend class CGXPkcs10;
     /**
@@ -58,13 +59,14 @@ private:
     /**
      * Certificate Signing Request.
      */
-    CGXPkcs10 *m_Certificate;
+    CGXPkcs10* m_Certificate;
 
 public:
     /**
     * Constructor.
-    */
-    CGXCertificateRequest() {
+    */    
+    CGXCertificateRequest()
+    {
         m_Certificate = NULL;
         m_CertificateType = DLMS_CERTIFICATE_TYPE_DIGITAL_SIGNATURE;
         m_ExtendedKeyUsage = DLMS_EXTENDED_KEY_USAGE_NONE;
@@ -76,7 +78,10 @@ public:
      * certificateType: Certificate type.
      * certificate: PKCS 10 certificate.
      */
-    CGXCertificateRequest(DLMS_CERTIFICATE_TYPE certificateType, CGXPkcs10 *certificate) {
+    CGXCertificateRequest(
+        DLMS_CERTIFICATE_TYPE certificateType,
+        CGXPkcs10* certificate)
+    {
         m_Certificate = NULL;
         m_ExtendedKeyUsage = DLMS_EXTENDED_KEY_USAGE_NONE;
         m_Certificate = certificate;
@@ -86,14 +91,16 @@ public:
     /**
      * Returns Certificate type.
      */
-    DLMS_CERTIFICATE_TYPE GetCertificateType() {
+    DLMS_CERTIFICATE_TYPE GetCertificateType() 
+    {
         return m_CertificateType;
     }
 
     /**
      * value: Certificate type.
      */
-    void SetCertificateType(DLMS_CERTIFICATE_TYPE value) {
+    void SetCertificateType(DLMS_CERTIFICATE_TYPE value)
+    {
         m_CertificateType = value;
     }
 
@@ -101,7 +108,8 @@ public:
      *
      * @return Indicates the purpose for which the certified public key is used.
      */
-    DLMS_EXTENDED_KEY_USAGE GetExtendedKeyUsage() {
+    DLMS_EXTENDED_KEY_USAGE GetExtendedKeyUsage()
+    {
         return m_ExtendedKeyUsage;
     }
 
@@ -109,7 +117,8 @@ public:
      * value: Indicates the purpose for which 
      *        the certified public key is used.
      */
-    void SetExtendedKeyUsage(DLMS_EXTENDED_KEY_USAGE value) {
+    void SetExtendedKeyUsage(DLMS_EXTENDED_KEY_USAGE value)
+    {
         m_ExtendedKeyUsage = value;
     }
 
@@ -117,16 +126,18 @@ public:
      *
      * @return Certificate Signing Request.
      */
-    CGXPkcs10 *GetCertificate() {
+    CGXPkcs10* GetCertificate()
+    {
         return m_Certificate;
     }
 
     /**
      * value: Certificate Signing Request.
      */
-    void SetCertificate(CGXPkcs10 *value) {
+    void SetCertificate(CGXPkcs10* value)
+    {
         m_Certificate = value;
     }
 };
 
-#endif  //GXCERTIFICATEREQUEST_H
+#endif //GXCERTIFICATEREQUEST_H

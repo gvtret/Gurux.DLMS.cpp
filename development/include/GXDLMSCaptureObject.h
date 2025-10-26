@@ -35,7 +35,8 @@
 #ifndef GXDLMSCAPTUREOBJECT_H
 #define GXDLMSCAPTUREOBJECT_H
 
-class CGXDLMSCaptureObject {
+class CGXDLMSCaptureObject
+{
 private:
     int m_AttributeIndex;
     int m_DataIndex;
@@ -62,4 +63,4 @@ public:
     int GetDataIndex();
     void SetDataIndex(int value);
 };
-#endif  //GXDLMSCAPTUREOBJECT_H
+#endif //GXDLMSCAPTUREOBJECT_H

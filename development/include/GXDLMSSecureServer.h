@@ -37,17 +37,17 @@
 
 #include "GXDLMSServer.h"
 
-class CGXDLMSSecureServer: public CGXDLMSServer {
+class CGXDLMSSecureServer : public CGXDLMSServer
+{
 private:
     CGXCipher m_Cipher;
-
 public:
     /////////////////////////////////////////////////////////////////////////////
     //Constructor
     /////////////////////////////////////////////////////////////////////////////
     CGXDLMSSecureServer(
-        bool UseLogicalNameReferencing = true, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC
-    );
+        bool UseLogicalNameReferencing = true,
+        DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC);
 
 #ifndef DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
     /**
@@ -58,7 +58,8 @@ public:
     * @param hdlc
     *            HDLC settings.
     */
-    CGXDLMSSecureServer(CGXDLMSAssociationLogicalName *ln, CGXDLMSIecHdlcSetup *hdlc);
+    CGXDLMSSecureServer(
+        CGXDLMSAssociationLogicalName* ln, CGXDLMSIecHdlcSetup* hdlc);
 
     /**
     * Constructor.
@@ -68,9 +69,10 @@ public:
     * @param wrapper
     *            WRAPPER settings.
     */
-    CGXDLMSSecureServer(CGXDLMSAssociationLogicalName *ln, CGXDLMSTcpUdpSetup *wrapper);
+    CGXDLMSSecureServer(
+        CGXDLMSAssociationLogicalName* ln, CGXDLMSTcpUdpSetup* wrapper);
 
-#endif  //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
+#endif //DLMS_IGNORE_ASSOCIATION_LOGICAL_NAME
 #ifndef DLMS_IGNORE_ASSOCIATION_SHORT_NAME
     /**
     * Constructor.
@@ -80,7 +82,8 @@ public:
     * @param hdlc
     *            HDLC settings.
     */
-    CGXDLMSSecureServer(CGXDLMSAssociationShortName *sn, CGXDLMSIecHdlcSetup *hdlc);
+    CGXDLMSSecureServer(
+        CGXDLMSAssociationShortName* sn, CGXDLMSIecHdlcSetup* hdlc);
 
     /**
     * Constructor.
@@ -90,9 +93,10 @@ public:
     * @param wrapper
     *            WRAPPER settings.
     */
-    CGXDLMSSecureServer(CGXDLMSAssociationShortName *sn, CGXDLMSTcpUdpSetup *wrapper);
+    CGXDLMSSecureServer(
+        CGXDLMSAssociationShortName* sn, CGXDLMSTcpUdpSetup* wrapper);
 
-#endif  //DLMS_IGNORE_ASSOCIATION_SHORT_NAME
+#endif //DLMS_IGNORE_ASSOCIATION_SHORT_NAME
     /////////////////////////////////////////////////////////////////////////////
     //Destructor.
     /////////////////////////////////////////////////////////////////////////////
@@ -101,17 +105,17 @@ public:
     /**
      * @return Ciphering settings.
      */
-    CGXCipher *GetCiphering();
+    CGXCipher* GetCiphering();
 
 
     /////////////////////////////////////////////////////////////////////////////
     // Returns Key Encrypting Key, also known as Master key.
     /////////////////////////////////////////////////////////////////////////////
-    CGXByteBuffer &GetKek();
+    CGXByteBuffer& GetKek();
 
     /////////////////////////////////////////////////////////////////////////////
     // value: Key Encrypting Key, also known as Master key.
     /////////////////////////////////////////////////////////////////////////////
-    int SetKek(CGXByteBuffer &value);
+    int SetKek(CGXByteBuffer& value);
 };
-#endif  //GXDLMSSECURESERVER_H
+#endif //GXDLMSSECURESERVER_H

@@ -44,7 +44,8 @@
 /**
 This class is used to count repetition delay for the next push message.
 */
-class CGXRepetitionDelay {
+class CGXRepetitionDelay
+{
 private:
     /**
     * The minimum delay until a next push attempt is started in seconds.
@@ -66,7 +67,8 @@ public:
      * Returns The minimum delay until a next push attempt is started in
      *         seconds.
      */
-    uint16_t GetMin() {
+    uint16_t GetMin()
+    {
         return m_Min;
     }
 
@@ -75,14 +77,16 @@ public:
      *            The minimum delay until a next push attempt is started in
      *            seconds.
      */
-    void SetMin(uint16_t value) {
+    void SetMin(uint16_t value)
+    {
         m_Min = value;
     }
 
     /**
      * Returns Calculating the next delay.
      */
-    uint16_t GetExponent() {
+    uint16_t GetExponent()
+    {
         return m_Exponent;
     }
 
@@ -90,7 +94,8 @@ public:
      * value:
      *            Calculating the next delay.
      */
-    void SetExponent(uint16_t value) {
+    void SetExponent(uint16_t value)
+    {
         m_Exponent = value;
     }
 
@@ -98,7 +103,8 @@ public:
      * Returns The maximum delay until a next push attempt is started in
      *         seconds.
      */
-    int GetMax() {
+    int GetMax()
+    {
         return m_Max;
     }
 
@@ -107,9 +113,10 @@ public:
      *            The maximum delay until a next push attempt is started in
      *            seconds.
      */
-    void SetMax(uint16_t value) {
+    void SetMax(uint16_t value)
+    {
         m_Max = value;
     }
 };
-#endif  //DLMS_IGNORE_PUSH_SETUP
-#endif  //GXREPETITIONDELAY_H
+#endif //DLMS_IGNORE_PUSH_SETUP
+#endif //GXREPETITIONDELAY_H

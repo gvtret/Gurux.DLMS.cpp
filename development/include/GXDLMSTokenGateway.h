@@ -45,7 +45,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSTokenGateway
 */
-class CGXDLMSTokenGateway: public CGXDLMSObject {
+class CGXDLMSTokenGateway : public CGXDLMSObject
+{
     // Token.
     //  Online help:<br/>
     //  http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSTokenGateway
@@ -75,7 +76,6 @@ class CGXDLMSTokenGateway: public CGXDLMSObject {
     //  Online help:<br/>
     //  http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSTokenGateway
     std::string m_DataValue;
-
 public:
     //Constructor.
     CGXDLMSTokenGateway();
@@ -92,7 +92,8 @@ public:
    *
    * @return Token.
    */
-    CGXByteBuffer &GetToken() {
+    CGXByteBuffer& GetToken()
+    {
         return m_Token;
     }
 
@@ -103,7 +104,8 @@ public:
      * @param value
      *            Token.
      */
-    void SetToken(CGXByteBuffer &value) {
+    void SetToken(CGXByteBuffer& value)
+    {
         m_Token = value;
     }
 
@@ -113,7 +115,8 @@ public:
      *
      * @return Time.
      */
-    CGXDateTime &GetTime() {
+    CGXDateTime& GetTime()
+    {
         return m_Time;
     }
 
@@ -124,7 +127,8 @@ public:
      * @param value
      *            Time.
      */
-    void SetTime(CGXDateTime &value) {
+    void SetTime(CGXDateTime& value)
+    {
         m_Time = value;
     }
 
@@ -134,7 +138,8 @@ public:
      *
      * @return Descriptions.
      */
-    std::vector<std::string> &GetDescriptions() {
+    std::vector<std::string>& GetDescriptions()
+    {
         return m_Descriptions;
     }
 
@@ -145,7 +150,8 @@ public:
      * @param value
      *            Descriptions.
      */
-    void setDescriptions(std::vector<std::string> &value) {
+    void setDescriptions(std::vector<std::string>& value)
+    {
         m_Descriptions = value;
     }
 
@@ -155,7 +161,8 @@ public:
      *
      * @return Token Delivery method.
      */
-    DLMS_TOKEN_DELIVERY GetDeliveryMethod() {
+    DLMS_TOKEN_DELIVERY GetDeliveryMethod()
+    {
         return m_DeliveryMethod;
     }
 
@@ -166,7 +173,8 @@ public:
      * @param value
      *            Token Delivery method.
      */
-    void SetDeliveryMethod(DLMS_TOKEN_DELIVERY value) {
+    void SetDeliveryMethod(DLMS_TOKEN_DELIVERY value)
+    {
         m_DeliveryMethod = value;
     }
 
@@ -176,7 +184,8 @@ public:
      *
      * @return Token status code.
      */
-    DLMS_TOKEN_STATUS_CODE GetStatusCode() {
+    DLMS_TOKEN_STATUS_CODE GetStatusCode()
+    {
         return m_Status;
     }
 
@@ -187,7 +196,8 @@ public:
      * @param value
      *            Token status code.
      */
-    void SetStatusCode(DLMS_TOKEN_STATUS_CODE value) {
+    void SetStatusCode(DLMS_TOKEN_STATUS_CODE value)
+    {
         m_Status = value;
     }
 
@@ -197,7 +207,8 @@ public:
      *
      * @return Token data value.
      */
-    std::string GetDataValue() {
+    std::string GetDataValue()
+    {
         return m_DataValue;
     }
 
@@ -208,7 +219,8 @@ public:
      * @param value
      *            Token data value.
      */
-    void SetDataValue(std::string &value) {
+    void SetDataValue(std::string& value)
+    {
         m_DataValue = value;
     }
 
@@ -219,7 +231,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -229,15 +241,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_TOKEN_GATEWAY
-#endif  //GXTOKEN_GATEWAY_H
+#endif //DLMS_IGNORE_TOKEN_GATEWAY
+#endif //GXTOKEN_GATEWAY_H

@@ -35,10 +35,10 @@
 #ifndef GX_XML_WRITER_SETTINGS
 #define GX_XML_WRITER_SETTINGS
 
-class CGXXmlWriterSettings {
+class CGXXmlWriterSettings
+{
     bool m_Values;
     bool m_SkipDefaults;
-
 public:
     //Constructor
     CGXXmlWriterSettings();
@@ -56,4 +56,4 @@ public:
     void SetSkipDefaults(bool value);
 };
 
-#endif  //GX_XML_WRITER_SETTINGS
+#endif //GX_XML_WRITER_SETTINGS

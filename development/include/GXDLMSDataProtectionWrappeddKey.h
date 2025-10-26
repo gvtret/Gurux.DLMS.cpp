@@ -46,12 +46,13 @@ typedef enum {
      * Master key.
      */
     DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE_MASTER_KEY
-} DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE;
+}DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE;
 
 /**
     Data protection wrapped key.
 */
-class CGXDLMSDataProtectionWrappeddKey {
+class CGXDLMSDataProtectionWrappeddKey
+{
 private:
     /**
     * Data protectionKey type.
@@ -62,19 +63,20 @@ private:
      * Key ciphered data.
      */
     CGXByteBuffer m_Key;
-
 public:
     /**
      * Constructor.
      */
-    CGXDLMSDataProtectionWrappeddKey() {
+    CGXDLMSDataProtectionWrappeddKey()
+    {
         m_KeyType = DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE_MASTER_KEY;
     }
 
     /**
      * @return Data protectionKey type.
      */
-    DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE GetKeyType() {
+    DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE GetKeyType()
+    {
         return m_KeyType;
     }
 
@@ -82,14 +84,16 @@ public:
      * @param value
      *            Data protectionKey type.
      */
-    void SetKeyType(DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE value) {
+    void SetKeyType(DLMS_DATA_PROTECTION_WRAPPED_KEY_TYPE value)
+    {
         m_KeyType = value;
     }
 
     /**
      * @return Key ciphered data.
      */
-    CGXByteBuffer &GetKey() {
+    CGXByteBuffer& GetKey()
+    {
         return m_Key;
     }
 
@@ -97,11 +101,13 @@ public:
      * @param value
      *            Key ciphered data.
      */
-    void SetKey(CGXByteBuffer &value) {
+    void SetKey(CGXByteBuffer& value)
+    {
         m_Key = value;
     }
 
-    std::string ToString() {
+    std::string ToString()
+    {
         std::string str;
         str = std::to_string(m_KeyType);
         str += ", ";
@@ -109,5 +115,5 @@ public:
         return str;
     }
 };
-#endif  //DLMS_IGNORE_PUSH_SETUP
-#endif  //GXDLMSDATAPROTECTIONWRAPPEDDKEY_H
+#endif //DLMS_IGNORE_PUSH_SETUP
+#endif //GXDLMSDATAPROTECTIONWRAPPEDDKEY_H

@@ -36,15 +36,15 @@
 
 #ifndef DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS
 //Constructor.
-CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters()
-    : CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters("0.0.28.3.0.255", 0) {
+CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters() :
+    CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters("0.0.28.3.0.255", 0)
+{
 }
 
 //SN Constructor.
-CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(
-    std::string ln, unsigned short sn
-)
-    : CGXDLMSObject(DLMS_OBJECT_TYPE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS, ln, sn) {
+CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(std::string ln, unsigned short sn) :
+    CGXDLMSObject(DLMS_OBJECT_TYPE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS, ln, sn)
+{
     m_LnId = 0;
     m_LsId = 0;
     m_SId = 0;
@@ -60,125 +60,158 @@ CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctional
 }
 
 //LN Constructor.
-CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(std::string ln)
-    : CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(ln, 0) {
+CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(std::string ln) :
+    CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters(ln, 0)
+{
+
 }
 
-unsigned short CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetLnId() {
+unsigned short CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetLnId()
+{
     return m_LnId;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetLnId(short value) {
+
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetLnId(short value)
+{
     m_LnId = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetLsId() {
+
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetLsId()
+{
     return m_LsId;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetLsId(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetLsId(unsigned char value)
+{
     m_LsId = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetSId() {
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetSId()
+{
     return m_SId;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetSId(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetSId(unsigned char value)
+{
     m_SId = value;
 }
 
-CGXByteBuffer &CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetSna() {
+CGXByteBuffer& CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetSna()
+{
     return m_Sna;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetSna(CGXByteBuffer &value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetSna(CGXByteBuffer& value)
+{
     m_Sna = value;
 }
 
-DLMS_MAC_STATE CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetState() {
+DLMS_MAC_STATE CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetState()
+{
     return m_State;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetState(DLMS_MAC_STATE value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetState(DLMS_MAC_STATE value)
+{
     m_State = value;
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetScpLength() {
+int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetScpLength()
+{
     return m_ScpLength;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetScpLength(int value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetScpLength(int value)
+{
     m_ScpLength = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetNodeHierarchyLevel() {
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetNodeHierarchyLevel()
+{
     return m_NodeHierarchyLevel;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetNodeHierarchyLevel(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetNodeHierarchyLevel(unsigned char value)
+{
     m_NodeHierarchyLevel = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconSlotCount() {
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconSlotCount()
+{
     return m_BeaconSlotCount;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconSlotCount(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconSlotCount(unsigned char value)
+{
     m_BeaconSlotCount = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconRxSlot() {
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconRxSlot()
+{
     return m_BeaconRxSlot;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconRxSlot(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconRxSlot(unsigned char value)
+{
     m_BeaconRxSlot = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconTxSlot() {
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconTxSlot()
+{
     return m_BeaconTxSlot;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconTxSlot(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconTxSlot(unsigned char value)
+{
     m_BeaconTxSlot = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconRxFrequency() {
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconRxFrequency()
+{
     return m_BeaconRxFrequency;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconRxFrequency(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconRxFrequency(unsigned char value)
+{
     m_BeaconRxFrequency = value;
 }
 
-unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconTxFrequency() {
+unsigned char CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetBeaconTxFrequency()
+{
     return m_BeaconTxFrequency;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconTxFrequency(unsigned char value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetBeaconTxFrequency(unsigned char value)
+{
     m_BeaconTxFrequency = value;
 }
 
-DLMS_MAC_CAPABILITIES CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetCapabilities() {
+DLMS_MAC_CAPABILITIES CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetCapabilities()
+{
     return m_Capabilities;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetCapabilities(DLMS_MAC_CAPABILITIES value) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetCapabilities(DLMS_MAC_CAPABILITIES value)
+{
     m_Capabilities = value;
 }
 
 // Returns amount of attributes.
-int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetAttributeCount() {
+int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetAttributeCount()
+{
     return 14;
 }
 
 // Returns amount of methods.
-int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetMethodCount() {
+int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetMethodCount()
+{
     return 0;
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetValues(std::vector<std::string> &values) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetValues(std::vector<std::string>& values)
+{
     values.clear();
     std::string ln;
     GetLogicalName(ln);
@@ -199,9 +232,11 @@ void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetValues(std::vector<std::st
     values.push_back(CGXDLMSVariant(m_Capabilities).ToString());
 }
 
-void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetAttributeIndexToRead(bool all, std::vector<int> &attributes) {
+void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetAttributeIndexToRead(bool all, std::vector<int>& attributes)
+{
     //LN is static and read only once.
-    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN)) {
+    if (all || CGXDLMSObject::IsLogicalNameEmpty(m_LN))
+    {
         attributes.push_back(1);
     }
     // LnId
@@ -258,124 +293,186 @@ void CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetAttributeIndexToRead(bool 
     }
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetDataType(int index, DLMS_DATA_TYPE &type) {
+int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetDataType(int index, DLMS_DATA_TYPE& type)
+{
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
 
     switch (index) {
-        case 1:
-            type = DLMS_DATA_TYPE_OCTET_STRING;
-            break;
-        case 2:
-            type = DLMS_DATA_TYPE_INT16;
-            break;
-        case 3:
-        case 4:
-            type = DLMS_DATA_TYPE_UINT8;
-            break;
-        case 5:
-            type = DLMS_DATA_TYPE_OCTET_STRING;
-            break;
-        case 6:
-            type = DLMS_DATA_TYPE_ENUM;
-            break;
-        case 7:
-            type = DLMS_DATA_TYPE_INT16;
-            break;
-        case 8:
-        case 9:
-        case 10:
-        case 11:
-        case 12:
-        case 13:
-            type = DLMS_DATA_TYPE_UINT8;
-            break;
-        case 14:
-            type = DLMS_DATA_TYPE_UINT16;
-            break;
-        default:
-            ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
+    case 1:
+        type = DLMS_DATA_TYPE_OCTET_STRING;
+        break;
+    case 2:
+        type = DLMS_DATA_TYPE_INT16;
+        break;
+    case 3:
+    case 4:
+        type = DLMS_DATA_TYPE_UINT8;
+        break;
+    case 5:
+        type = DLMS_DATA_TYPE_OCTET_STRING;
+        break;
+    case 6:
+        type = DLMS_DATA_TYPE_ENUM;
+        break;
+    case 7:
+        type = DLMS_DATA_TYPE_INT16;
+        break;
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
+        type = DLMS_DATA_TYPE_UINT8;
+        break;
+    case 14:
+        type = DLMS_DATA_TYPE_UINT16;
+        break;
+    default:
+        ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return ret;
 }
 
 // Returns value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
-    if (e.GetIndex() == 1) {
+    if (e.GetIndex() == 1)
+    {
         int ret;
         CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0) {
+        if ((ret = GetLogicalName(this, tmp)) != 0)
+        {
             return ret;
         }
         e.SetValue(tmp);
-    } else if (e.GetIndex() == 2) {
+    }
+    else if (e.GetIndex() == 2)
+    {
         e.SetValue(m_LnId);
-    } else if (e.GetIndex() == 3) {
+    }
+    else if (e.GetIndex() == 3)
+    {
         e.SetValue(m_LsId);
-    } else if (e.GetIndex() == 4) {
+    }
+    else if (e.GetIndex() == 4)
+    {
         e.SetValue(m_SId);
-    } else if (e.GetIndex() == 5) {
+    }
+    else if (e.GetIndex() == 5)
+    {
         e.SetValue(m_Sna);
-    } else if (e.GetIndex() == 6) {
+    }
+    else if (e.GetIndex() == 6)
+    {
         e.SetValue(m_State);
-    } else if (e.GetIndex() == 7) {
+    }
+    else if (e.GetIndex() == 7)
+    {
         e.SetValue(m_ScpLength);
-    } else if (e.GetIndex() == 8) {
+    }
+    else if (e.GetIndex() == 8)
+    {
         e.SetValue(m_NodeHierarchyLevel);
-    } else if (e.GetIndex() == 9) {
+    }
+    else if (e.GetIndex() == 9)
+    {
         e.SetValue(m_BeaconSlotCount);
-    } else if (e.GetIndex() == 10) {
+    }
+    else if (e.GetIndex() == 10)
+    {
         e.SetValue(m_BeaconRxSlot);
-    } else if (e.GetIndex() == 11) {
+    }
+    else if (e.GetIndex() == 11)
+    {
         e.SetValue(m_BeaconTxSlot);
-    } else if (e.GetIndex() == 12) {
+    }
+    else if (e.GetIndex() == 12)
+    {
         e.SetValue(m_BeaconRxFrequency);
-    } else if (e.GetIndex() == 13) {
+    }
+    else if (e.GetIndex() == 13)
+    {
         e.SetValue(m_BeaconTxFrequency);
-    } else if (e.GetIndex() == 14) {
+    }
+    else if (e.GetIndex() == 14)
+    {
         e.SetValue(m_Capabilities);
-    } else {
+    }
+    else
+    {
         ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return ret;
 }
 
 // Set value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacFunctionalParameters::SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e)
+{
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
-    if (e.GetIndex() == 1) {
+    if (e.GetIndex() == 1)
+    {
         return SetLogicalName(this, e.GetValue());
-    } else if (e.GetIndex() == 2) {
+    }
+    else if (e.GetIndex() == 2)
+    {
         m_LnId = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 3) {
+    }
+    else if (e.GetIndex() == 3)
+    {
         m_LsId = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 4) {
+    }
+    else if (e.GetIndex() == 4)
+    {
         m_SId = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 5) {
+    }
+    else if (e.GetIndex() == 5)
+    {
         m_Sna.Clear();
         m_Sna.Set(e.GetValue().byteArr, e.GetValue().GetSize());
-    } else if (e.GetIndex() == 6) {
+    }
+    else if (e.GetIndex() == 6)
+    {
         m_State = (DLMS_MAC_STATE)e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 7) {
+    }
+    else if (e.GetIndex() == 7)
+    {
         m_ScpLength = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 8) {
+    }
+    else if (e.GetIndex() == 8)
+    {
         m_NodeHierarchyLevel = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 9) {
+    }
+    else if (e.GetIndex() == 9)
+    {
         m_BeaconSlotCount = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 10) {
+    }
+    else if (e.GetIndex() == 10)
+    {
         m_BeaconRxSlot = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 11) {
+    }
+    else if (e.GetIndex() == 11)
+    {
         m_BeaconTxSlot = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 12) {
+    }
+    else if (e.GetIndex() == 12)
+    {
         m_BeaconRxFrequency = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 13) {
+    }
+    else if (e.GetIndex() == 13)
+    {
         m_BeaconTxFrequency = e.GetValue().ToInteger();
-    } else if (e.GetIndex() == 14) {
+    }
+    else if (e.GetIndex() == 14)
+    {
         m_Capabilities = (DLMS_MAC_CAPABILITIES)e.GetValue().ToInteger();
-    } else {
+    }
+    else
+    {
         ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return ret;
 }
 
-#endif  //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS
+#endif //DLMS_IGNORE_PRIME_NB_OFDM_PLC_MAC_FUNCTIONAL_PARAMETERS

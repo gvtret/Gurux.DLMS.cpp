@@ -52,7 +52,8 @@
 
 #include "GXHelpers.h"
 
-class CGXPkcs8 {
+class CGXPkcs8
+{
 private:
     /**
     * Loaded PKCS #8 certificate request as a raw data.
@@ -84,8 +85,7 @@ private:
     std::string m_Description;
 
 private:
-    int Init(CGXByteBuffer &data);
-
+    int Init(CGXByteBuffer& data);
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
@@ -99,8 +99,10 @@ public:
      systemTitle: System title.
      Returns File path.
     */
-    static int
-    GetFilePath(ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, CGXByteBuffer &systemTitle, std::string &path);
+    static int GetFilePath(ECC scheme,
+        DLMS_CERTIFICATE_TYPE certificateType,
+        CGXByteBuffer& systemTitle, 
+        std::string& path);
 
     /**
      Description is extra metadata that is saved to PEM file.
@@ -110,7 +112,7 @@ public:
     /**
      Description is extra metadata that is saved to PEM file.
     */
-    void SetDescription(std::string &value);
+    void SetDescription(std::string& value);
 
     /**
      Private key version.
@@ -125,12 +127,12 @@ public:
     /**
      Private key.
     */
-    CGXPrivateKey &GetPrivateKey();
+    CGXPrivateKey& GetPrivateKey();
 
     /**
      Private key.
     */
-    void SetPrivateKey(CGXPrivateKey &value);
+    void SetPrivateKey(CGXPrivateKey& value);
 
     /**
      Returns default file path.
@@ -139,50 +141,61 @@ public:
      certificateType Certificate type.
      Returns
     */
-    int GetFilePath(ECC scheme, DLMS_CERTIFICATE_TYPE certificateType, std::string &path, CGXByteBuffer &systemTitle);
+    int GetFilePath(ECC scheme,
+        DLMS_CERTIFICATE_TYPE certificateType,
+        std::string& path,
+        CGXByteBuffer& systemTitle);  
 
-    int GetEncoded(CGXByteBuffer &encoded);
+    int GetEncoded(CGXByteBuffer& encoded);
 
     /**
      Constructor.
 
      key Private key.
     */
-    CGXPkcs8(CGXPrivateKey &key);
+    CGXPkcs8(CGXPrivateKey& key);
 
     /**
      Constructor.
      pair Private key pair.
     */
-    CGXPkcs8(std::pair<CGXPublicKey, CGXPrivateKey> &pair);
+    CGXPkcs8(std::pair<CGXPublicKey, CGXPrivateKey>& pair);
 
     /**
      Create PKCS #8 from PEM string.
 
      data PEM string.
     */
-    static int FromPem(std::string data, CGXPkcs8 &cert);
+    static int FromPem(
+        std::string data,
+        CGXPkcs8& cert);
     /**
      Create PKCS 8 from hex string.
 
      data Hex string.
      Returns PKCS 8
     */
-    static int FromHexString(std::string &data, CGXPkcs8 &cert);
+    static int FromHexString(
+        std::string& data,
+        CGXPkcs8& cert);
 
     /**
     * Create Pkcs8 from byte array.
     *
     *data: Byte array.
     */
-    static int FromByteArray(CGXByteBuffer &data, CGXPkcs8 &cert);
+    static int FromByteArray(CGXByteBuffer& data,
+        CGXPkcs8& cert);
 
     /**
     * Create Pkcs8 from byte array.
     *
     *data: Byte array.
     */
-    static int FromByteArray(const unsigned char *data, uint16_t length, CGXPkcs8 &cert);
+    static int FromByteArray(
+        const unsigned char* data,
+        uint16_t length,
+        CGXPkcs8& cert);
 
     /**
      Create PKCS #8 from DER Base64 encoded string.
@@ -190,7 +203,8 @@ public:
      der Base64 DER string.
      Returns
     */
-    static int FromDer(std::string &der, CGXPkcs8 &cert);
+    static int FromDer(std::string& der,
+        CGXPkcs8& cert);
 
     std::string ToString();
 
@@ -201,7 +215,9 @@ public:
      value: Created GXPkcs8 object.
      Returns error code.
      */
-    static int Load(std::string &path, CGXPkcs8 &value);
+    static int Load(
+        std::string& path, 
+        CGXPkcs8& value);
 
     /**
      Save private key to PEM file.
@@ -209,25 +225,25 @@ public:
      path: File path.
      Returns error code.
      */
-    int Save(std::string &path);
-#endif  //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
+    int Save(std::string& path);
+#endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
     /**
      Private key in PEM format.
 
      Returns Private key as in PEM string.
     */
-    int ToPem(std::string &pem);
+    int ToPem(std::string& pem);
 
     /**
      Private key in DER format.
 
      Returns Private key as in DER string.
     */
-    int ToDer(std::string &value);
+    int ToDer(std::string& value);
 
     //Is the content of the objects equal.
-    bool Equals(CGXPkcs8 &cert);
+    bool Equals(CGXPkcs8& cert);
 };
 
-#endif  //CGXPKCS8_H
+#endif //CGXPKCS8_H

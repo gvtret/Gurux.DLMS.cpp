@@ -38,7 +38,8 @@
 #include <string>
 #include "enums.h"
 
-class CGXDLMSObjectDefinition {
+class CGXDLMSObjectDefinition
+{
 private:
     DLMS_OBJECT_TYPE m_ObjectType;
     std::string m_LogicalName;
@@ -62,4 +63,4 @@ public:
 
     std::string ToString();
 };
-#endif  //GXDLMSOBJECTDEFINITION_H
+#endif //GXDLMSOBJECTDEFINITION_H

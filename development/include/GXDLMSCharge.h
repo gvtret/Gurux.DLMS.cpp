@@ -44,7 +44,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
 */
-class CGXDLMSCharge: public CGXDLMSObject {
+class CGXDLMSCharge : public CGXDLMSObject
+{
     long m_TotalAmountPaid;
     DLMS_CHARGE_TYPE m_ChargeType;
     unsigned char m_Priority;
@@ -58,9 +59,8 @@ class CGXDLMSCharge: public CGXDLMSObject {
     long m_TotalAmountRemaining;
     unsigned short m_Proportion;
 
-    static int GetUnitCharge(CGXUnitCharge &charge, CGXByteBuffer &bb);
-    static int SetUnitCharge(CGXDLMSSettings &settings, CGXUnitCharge &charge, CGXDLMSValueEventArg &e);
-
+    static int GetUnitCharge(CGXUnitCharge& charge, CGXByteBuffer& bb);
+    static int SetUnitCharge(CGXDLMSSettings& settings, CGXUnitCharge& charge, CGXDLMSValueEventArg& e);
 public:
     //Constructor.
     CGXDLMSCharge();
@@ -77,7 +77,8 @@ public:
     *
     * @return Total amount paid.
     */
-    long GetTotalAmountPaid() {
+    long GetTotalAmountPaid()
+    {
         return m_TotalAmountPaid;
     }
 
@@ -88,7 +89,8 @@ public:
      * @param value
      *            Total amount paid.
      */
-    void SetTotalAmountPaid(long value) {
+    void SetTotalAmountPaid(long value)
+    {
         m_TotalAmountPaid = value;
     }
 
@@ -98,7 +100,8 @@ public:
      *
      * @return Charge type.
      */
-    DLMS_CHARGE_TYPE GetChargeType() {
+    DLMS_CHARGE_TYPE GetChargeType()
+    {
         return m_ChargeType;
     }
 
@@ -109,7 +112,8 @@ public:
      * @param value
      *            Charge type.
      */
-    void SetChargeType(DLMS_CHARGE_TYPE value) {
+    void SetChargeType(DLMS_CHARGE_TYPE value)
+    {
         m_ChargeType = value;
     }
 
@@ -119,7 +123,8 @@ public:
      *
      * @return Priority
      */
-    unsigned char GetPriority() {
+    unsigned char GetPriority()
+    {
         return m_Priority;
     }
 
@@ -130,7 +135,8 @@ public:
      * @param value
      *            Priority
      */
-    void SetPriority(unsigned char value) {
+    void SetPriority(unsigned char  value)
+    {
         m_Priority = value;
     }
 
@@ -140,7 +146,8 @@ public:
      *
      * @return Unit charge active.
      */
-    CGXUnitCharge &GetUnitChargeActive() {
+    CGXUnitCharge& GetUnitChargeActive()
+    {
         return m_UnitChargeActive;
     }
 
@@ -150,7 +157,8 @@ public:
      *
      * @return Unit charge passive.
      */
-    CGXUnitCharge &GetUnitChargePassive() {
+    CGXUnitCharge& GetUnitChargePassive()
+    {
         return m_UnitChargePassive;
     }
 
@@ -160,7 +168,8 @@ public:
      *
      * @return Unit charge activation time.
      */
-    CGXDateTime &GetUnitChargeActivationTime() {
+    CGXDateTime& GetUnitChargeActivationTime()
+    {
         return m_UnitChargeActivationTime;
     }
 
@@ -171,7 +180,8 @@ public:
      * @param value
      *            Unit charge activation time.
      */
-    void SetUnitChargeActivationTime(CGXDateTime &value) {
+    void SetUnitChargeActivationTime(CGXDateTime& value)
+    {
         m_UnitChargeActivationTime = value;
     }
 
@@ -181,7 +191,8 @@ public:
      *
      * @return Period.
      */
-    unsigned long GetPeriod() {
+    unsigned long GetPeriod()
+    {
         return m_Period;
     }
 
@@ -192,7 +203,8 @@ public:
      * @param value
      *            Period.
      */
-    void SetPeriod(unsigned long value) {
+    void SetPeriod(unsigned long value)
+    {
         m_Period = value;
     }
 
@@ -202,7 +214,8 @@ public:
      *
      * @return Charge configuration.
      */
-    DLMS_CHARGE_CONFIGURATION GetChargeConfiguration() {
+    DLMS_CHARGE_CONFIGURATION GetChargeConfiguration()
+    {
         return m_ChargeConfiguration;
     }
 
@@ -213,7 +226,8 @@ public:
      * @param value
      *            Charge configuration.
      */
-    void SetChargeConfiguration(DLMS_CHARGE_CONFIGURATION value) {
+    void SetChargeConfiguration(DLMS_CHARGE_CONFIGURATION value)
+    {
         m_ChargeConfiguration = value;
     }
 
@@ -223,7 +237,8 @@ public:
      *
      * @return Last collection time.
      */
-    CGXDateTime &GetLastCollectionTime() {
+    CGXDateTime& GetLastCollectionTime()
+    {
         return m_LastCollectionTime;
     }
 
@@ -234,7 +249,8 @@ public:
      * @param value
      *            Last collection time.
      */
-    void SetLastCollectionTime(CGXDateTime &value) {
+    void SetLastCollectionTime(CGXDateTime& value)
+    {
         m_LastCollectionTime = value;
     }
 
@@ -244,7 +260,8 @@ public:
      *
      * @return Last collection amount.
      */
-    long GetLastCollectionAmount() {
+    long GetLastCollectionAmount()
+    {
         return m_LastCollectionAmount;
     }
 
@@ -255,7 +272,8 @@ public:
      * @param value
      *            Last collection amount.
      */
-    void SetLastCollectionAmount(long value) {
+    void SetLastCollectionAmount(long value)
+    {
         m_LastCollectionAmount = value;
     }
 
@@ -265,7 +283,8 @@ public:
      *
      * @return Total amount remaining
      */
-    long GetTotalAmountRemaining() {
+    long GetTotalAmountRemaining()
+    {
         return m_TotalAmountRemaining;
     }
 
@@ -276,7 +295,8 @@ public:
      * @param value
      *            Total amount remaining
      */
-    void SetTotalAmountRemaining(long value) {
+    void SetTotalAmountRemaining(long value)
+    {
         m_TotalAmountRemaining = value;
     }
 
@@ -286,7 +306,8 @@ public:
      *
      * @return Proportion
      */
-    unsigned short GetProportion() {
+    unsigned short GetProportion()
+    {
         return m_Proportion;
     }
 
@@ -297,7 +318,8 @@ public:
      * @param value
      *            Proportion
      */
-    void SetProportion(unsigned short value) {
+    void SetProportion(unsigned short value)
+    {
         m_Proportion = value;
     }
 
@@ -308,7 +330,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -318,16 +340,16 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
-    int GetUIDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetUIDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_CHARGE
-#endif  //GXCHARGE_H
+#endif //DLMS_IGNORE_CHARGE
+#endif //GXCHARGE_H

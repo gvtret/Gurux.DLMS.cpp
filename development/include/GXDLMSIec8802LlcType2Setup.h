@@ -43,7 +43,8 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSIec8802LlcType2Setup
 */
-class CGXDLMSIec8802LlcType2Setup: public CGXDLMSObject {
+class CGXDLMSIec8802LlcType2Setup : public CGXDLMSObject
+{
     /**
      * Transmit Window Size K.
      */
@@ -76,7 +77,6 @@ class CGXDLMSIec8802LlcType2Setup: public CGXDLMSObject {
      * Busy state timer.
      */
     uint16_t m_BusyStateTimer;
-
 public:
     //Constructor.
     CGXDLMSIec8802LlcType2Setup();
@@ -142,7 +142,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -152,15 +152,15 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
-#endif  //DLMS_IGNORE_IEC_8802_LLC_TYPE2_SETUP
-#endif  //GXDLMSIEC8802LLCTYPE2SETUP_H
+#endif //DLMS_IGNORE_IEC_8802_LLC_TYPE2_SETUP
+#endif //GXDLMSIEC8802LLCTYPE2SETUP_H

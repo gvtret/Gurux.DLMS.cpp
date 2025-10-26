@@ -38,36 +38,42 @@
 #include <string>
 #include "GXAsn1Base.h"
 
-class CGXAsn1Ia5String: public CGXAsn1Base {
+class CGXAsn1Ia5String : public CGXAsn1Base
+{
 private:
     std::string m_Ia5String;
-
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Ia5String() {
+    CGXAsn1Ia5String()
+    {
+
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     // value: IA5 string.
     /////////////////////////////////////////////////////////////////////////////
-    CGXAsn1Ia5String(std::string &value) {
+    CGXAsn1Ia5String(std::string& value)
+    {
         m_Ia5String = value;
     }
 
-    std::string &GetValue() {
+    std::string& GetValue()
+    {
         return m_Ia5String;
     }
 
-    void SetValue(std::string &value) {
+    void SetValue(std::string& value)
+    {
         m_Ia5String = value;
     }
 
-    std::string ToString() {
+    std::string ToString()
+    {
         return m_Ia5String;
     }
 };
 
-#endif  //GXASN1IA5STRING_H
+#endif //GXASN1IA5STRING_H
