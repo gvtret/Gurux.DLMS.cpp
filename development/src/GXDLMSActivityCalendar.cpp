@@ -569,7 +569,7 @@ void AddDayProfileTable(std::vector<CGXDLMSDayProfile *> &items, std::vector<CGX
 }
 
 // Set value of given attribute.
-int CGXDLMSActivityCalendar::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSActivityCalendar::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

@@ -71,7 +71,7 @@ int CGXDLMSLlcSscsSetup::Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer>
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSLlcSscsSetup::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSLlcSscsSetup::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_ServiceNodeAddress = m_BaseNodeAddress = 0;
     } else {
@@ -132,10 +132,9 @@ int CGXDLMSLlcSscsSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSLlcSscsSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
-    DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
+int CGXDLMSLlcSscsSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
+    int ret = DLMS_ERROR_CODE_OK;
     if (e.GetIndex() == 1) {
-        int ret;
         CGXDLMSVariant tmp;
         if ((ret = GetLogicalName(this, tmp)) != 0) {
             return ret;
@@ -152,7 +151,7 @@ int CGXDLMSLlcSscsSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventAr
 }
 
 // Set value of given attribute.
-int CGXDLMSLlcSscsSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSLlcSscsSetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());

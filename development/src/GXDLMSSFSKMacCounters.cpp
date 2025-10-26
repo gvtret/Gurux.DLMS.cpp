@@ -320,7 +320,7 @@ int CGXDLMSSFSKMacCounters::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
 }
 
 // Set value of given attribute.
-int CGXDLMSSFSKMacCounters::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSFSKMacCounters::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1:

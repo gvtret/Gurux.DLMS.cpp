@@ -208,7 +208,7 @@ int CGXDLMSIECLocalPortSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSIECLocalPortSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIECLocalPortSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
@@ -254,7 +254,7 @@ int CGXDLMSIECLocalPortSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEv
 }
 
 // Set value of given attribute.
-int CGXDLMSIECLocalPortSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIECLocalPortSetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

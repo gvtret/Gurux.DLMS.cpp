@@ -99,7 +99,7 @@ int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::Reset(CGXDLMSClient *client, std
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_CrcIncorrectCount = m_CrcFailedCount = m_TxDropCount = m_RxDropCount = 0;
     } else {
@@ -162,7 +162,7 @@ int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::GetDataType(int index, DLMS_DATA
 }
 
 // Returns value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
     if (e.GetIndex() == 1) {
         int ret;
@@ -186,7 +186,7 @@ int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::GetValue(CGXDLMSSettings &settin
 }
 
 // Set value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcPhysicalLayerCounters::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());

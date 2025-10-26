@@ -572,7 +572,6 @@ int CGXDLMSAssociationLogicalName::Invoke(CGXDLMSSettings &settings, CGXDLMSValu
 int CGXDLMSAssociationLogicalName::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
     int ret;
     if (e.GetIndex() == 1) {
-        int ret;
         CGXDLMSVariant tmp;
         if ((ret = GetLogicalName(this, tmp)) != 0) {
             return ret;

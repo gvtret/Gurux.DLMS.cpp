@@ -193,7 +193,7 @@ int CGXDLMSNtpSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSNtpSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSNtpSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1: {
@@ -241,7 +241,7 @@ int CGXDLMSNtpSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
 }
 
 // Set value of given attribute.
-int CGXDLMSNtpSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSNtpSetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1:
@@ -314,7 +314,7 @@ int CGXDLMSNtpSetup::DeleteAuthenticationKey(CGXDLMSClient *client, uint32_t id,
     return client->Method(this, 3, data, DLMS_DATA_TYPE_ARRAY, reply);
 }
 
-int CGXDLMSNtpSetup::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSNtpSetup::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         //Server must handle this. Do nothing...
     } else if (e.GetIndex() == 2) {

@@ -1790,7 +1790,7 @@ int CGXAPDU::GenerateAARE(
         body.SetUInt8(BER_TYPE_OCTET_STRING);
         GXHelpers::SetObjectCount(len, body);
         body.Set(settings.GetServerPublicKeyCertificate().m_RawData.GetData(), len);
-    } else if (settings.GetUserID() != -1) {
+    } else if (settings.GetUserID() != 0xFF) {
         body.SetUInt8(BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | PDU_TYPE_CALLING_AE_QUALIFIER);
         //LEN
         body.SetUInt8(3);

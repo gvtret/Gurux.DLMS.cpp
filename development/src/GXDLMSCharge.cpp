@@ -236,7 +236,7 @@ int CGXDLMSCharge::GetUnitCharge(CGXUnitCharge &charge, CGXByteBuffer &bb) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSCharge::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSCharge::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret;
     CGXDLMSVariant tmp;
     CGXByteBuffer bb;
@@ -296,7 +296,7 @@ int CGXDLMSCharge::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) 
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDLMSCharge::SetUnitCharge(CGXDLMSSettings &settings, CGXUnitCharge &charge, CGXDLMSValueEventArg &e) {
+int CGXDLMSCharge::SetUnitCharge(CGXDLMSSettings &/* settings */, CGXUnitCharge &charge, CGXDLMSValueEventArg &e) {
     std::vector<CGXDLMSVariant> &tmp = e.GetValue().Arr;
     charge.GetChargePerUnitScaling().SetCommodityScale(tmp[0].Arr[0].ToInteger());
     charge.GetChargePerUnitScaling().SetPriceScale(tmp[0].Arr[1].ToInteger());

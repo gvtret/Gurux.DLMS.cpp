@@ -268,7 +268,7 @@ int CGXDLMSAutoAnswer::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg 
 /*
  * Set value of given attribute.
  */
-int CGXDLMSAutoAnswer::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSAutoAnswer::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     }

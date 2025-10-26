@@ -716,15 +716,11 @@ int CGXCommunication::InitializeOpticalHead()
 }
 
 //Open serial port.
-int CGXCommunication::Open(const char* settings, int maxBaudrate)
+int CGXCommunication::Open(const char* settings, int /* maxBaudrate */)
 {
     Close();
-    int ret, len, pos;
-#if defined(_WIN32) || defined(_WIN64)
-    unsigned char parity;
-#else //Linux
+    int ret;
     int parity;
-#endif
     unsigned char stopBits, dataBits = 8;
     std::string port;
     port = settings;
@@ -740,55 +736,31 @@ int CGXCommunication::Open(const char* settings, int maxBaudrate)
             printf("Serial port settings format is:COM1:9800:8None1.\n");
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
-#if defined(_WIN32) || defined(_WIN64)
-        baudRate = atoi(tmp[1].c_str());
-#else //Linux
         if ((ret = GetLinuxBaudRate(atoi(tmp[1].c_str()), baudRate)) != 0)
         {
             return ret;
         }
-#endif        
         dataBits = atoi(tmp[2].substr(0, 1).c_str());
         tmp2 = tmp[2].substr(1, tmp[2].size() - 2);
         if (tmp2.compare("None") == 0)
         {
-#if defined(_WIN32) || defined(_WIN64)
-            parity = NOPARITY;
-#else //Linux
             parity = 0;
-#endif
         }
         else if (tmp2.compare("Odd") == 0)
         {
-#if defined(_WIN32) || defined(_WIN64)
-            parity = ODDPARITY;
-#else //Linux
             parity = PARENB | PARODD;
-#endif
         }
         else if (tmp2.compare("Even") == 0)
         {
-#if defined(_WIN32) || defined(_WIN64)
-            parity = EVENPARITY;
-#else //Linux
             parity = PARENB | PARENB;
-#endif
         }
         else if (tmp2.compare("Mark") == 0)
         {
-#if defined(_WIN32) || defined(_WIN64)
-            parity = MARKPARITY;
-#else //Linux
             parity = PARENB | PARODD | CMSPAR;
-#endif
         }
         else if (tmp2.compare("Space") == 0)
         {
-#if defined(_WIN32) || defined(_WIN64)
-            parity = SPACEPARITY;
-#else //Linux
             parity = PARENB | CMSPAR;
-#endif
         }
         else
         {
@@ -801,70 +773,21 @@ int CGXCommunication::Open(const char* settings, int maxBaudrate)
     {
         if (m_Parser->GetInterfaceType() == DLMS_INTERFACE_TYPE_HDLC_WITH_MODE_E)
         {
-#if defined(_WIN32) || defined(_WIN64)
-            baudRate = 300;
-            parity = EVENPARITY;
-            stopBits = ONESTOPBIT;
-            dataBits = 7;
-#else
             baudRate = B300;
             parity = 2;
             stopBits = 0;
             dataBits = 8;
-#endif
         }
         else
         {
-#if defined(_WIN32) || defined(_WIN64)
-            baudRate = 9600;
-            parity = NOPARITY;
-            stopBits = ONESTOPBIT;
-#else
             baudRate = B9600;
             parity = 0;
             stopBits = 0;
-#endif
             dataBits = 8;
         }
     }
     //In Linux serial port name might be very long.
     char buff[50];
-#if defined(_WIN32) || defined(_WIN64)
-    DCB dcb = { 0 };
-    unsigned long sendSize = 0;
-#if _MSC_VER > 1000
-    sprintf_s(buff, 50, "\\\\.\\%s", port.c_str());
-#else
-    sprintf(buff, "\\\\.\\%s", port.c_str());
-#endif
-    //Open serial port for read / write. Port can't share.
-    m_hComPort = CreateFileA(buff,
-        GENERIC_READ | GENERIC_WRITE, 0, NULL,
-        OPEN_EXISTING, FILE_FLAG_OVERLAPPED, NULL);
-    if (m_hComPort == INVALID_HANDLE_VALUE)
-    {
-        ret = WSAGetLastError();
-        printf("Failed to open serial port: \"%s\"\n", port.c_str());
-        return DLMS_ERROR_TYPE_COMMUNICATION_ERROR | ret;
-    }
-    dcb.DCBlength = sizeof(DCB);
-    if ((ret = GXGetCommState(m_hComPort, &dcb)) != 0)
-    {
-        return DLMS_ERROR_TYPE_COMMUNICATION_ERROR | ret;
-    }
-    dcb.fBinary = 1;
-    dcb.fOutX = dcb.fInX = 0;
-    //Abort all reads and writes on Error.
-    dcb.fAbortOnError = 1;
-    dcb.BaudRate = baudRate;
-    dcb.ByteSize = dataBits;
-    dcb.StopBits = stopBits;
-    dcb.Parity = parity;
-    if ((ret = GXSetCommState(m_hComPort, &dcb)) != 0)
-    {
-        return ret;
-    }
-#else //#if defined(__LINUX__)
     struct termios options;
     // read/write | not controlling term | don't wait for DCD line signal.
     m_hComPort = open(port.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -924,7 +847,6 @@ int CGXCommunication::Open(const char* settings, int maxBaudrate)
             return DLMS_ERROR_TYPE_COMMUNICATION_ERROR | ret;
         }
     }
-#endif
     return InitializeOpticalHead();
 }
 

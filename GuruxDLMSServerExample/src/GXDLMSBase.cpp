@@ -751,9 +751,9 @@ int CGXDLMSBase::Init(int port, GX_TRACE_LEVEL trace)
 }
 
 CGXDLMSObject* CGXDLMSBase::FindObject(
-    DLMS_OBJECT_TYPE objectType,
-    int sn,
-    std::string& ln)
+    DLMS_OBJECT_TYPE /* objectType */,
+    int /* sn */,
+    std::string& /* ln */)
 {
     return NULL;
 }
@@ -954,10 +954,6 @@ void CGXDLMSBase::PreRead(std::vector<CGXDLMSValueEventArg*>& args)
                         if ((*it)->GetRowEndIndex() > cnt)
                         {
                             (*it)->SetRowEndIndex(cnt);
-                            if ((*it)->GetRowEndIndex() < 0)
-                            {
-                                (*it)->SetRowEndIndex(0);
-                            }
                         }
                     }
                 }
@@ -1032,7 +1028,7 @@ void CGXDLMSBase::PreRead(std::vector<CGXDLMSValueEventArg*>& args)
     }
 }
 
-void CGXDLMSBase::PostRead(std::vector<CGXDLMSValueEventArg*>& args)
+void CGXDLMSBase::PostRead(std::vector<CGXDLMSValueEventArg*>& /* args */)
 {
 }
 
@@ -1056,7 +1052,7 @@ void CGXDLMSBase::PreWrite(std::vector<CGXDLMSValueEventArg*>& args)
 /////////////////////////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////////////////////////
-void CGXDLMSBase::PostWrite(std::vector<CGXDLMSValueEventArg*>& args)
+void CGXDLMSBase::PostWrite(std::vector<CGXDLMSValueEventArg*>& /* args */)
 {
 }
 
@@ -1354,7 +1350,6 @@ void Capture(CGXDLMSProfileGeneric* pg)
 
 void HandleProfileGenericActions(CGXDLMSValueEventArg* it)
 {
-    CGXDLMSProfileGeneric* pg = (CGXDLMSProfileGeneric*)it->GetTarget();
     if (it->GetIndex() == 1)
     {
         FILE* f;

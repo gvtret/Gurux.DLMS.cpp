@@ -73,7 +73,7 @@ const uint32_t sha256_k[64] = {0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0
         *((str) + 0) = (unsigned char)((x) >> 56); \
     }
 
-void CGXDLMSSha256::Transform(uint32_t *h, const unsigned char *message, uint32_t messageLength) {
+void CGXDLMSSha256::Transform(uint32_t *h, const unsigned char *message, uint32_t /* messageLength */) {
     uint32_t w[64];
     uint32_t wv[8];
     uint32_t t1, t2;

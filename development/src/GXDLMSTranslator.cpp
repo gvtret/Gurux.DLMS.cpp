@@ -179,7 +179,7 @@ void CGXDLMSTranslator::GetCiphering(CGXDLMSSettings &settings, bool force) {
     }
 }
 
-int CGXDLMSTranslator::PduToXml(CGXByteBuffer &value, bool omitDeclaration, bool omitNameSpace, std::string &output) {
+int CGXDLMSTranslator::PduToXml(CGXByteBuffer &value, bool omitDeclaration, bool /* omitNameSpace */, std::string &output) {
     CGXDLMSTranslatorStructure xml(m_OutputType, m_OmitXmlNameSpace, m_Hex, m_ShowStringAsHex, m_Comments, m_Tags);
     return PduToXml(&xml, value, omitDeclaration, m_OmitXmlNameSpace, true, output);
 }

@@ -140,7 +140,7 @@ int CGXDLMSExtendedRegister::GetDataType(int index, DLMS_DATA_TYPE &type) {
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSExtendedRegister::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSExtendedRegister::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_Value.Clear();
         m_CaptureTime = CGXDateTime(CGXDateTime::Now());

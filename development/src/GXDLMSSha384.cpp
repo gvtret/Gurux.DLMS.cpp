@@ -80,7 +80,7 @@ const uint64_t sha384_k[] = {
             ((uint64_t) * ((str) + 1) << 48) | ((uint64_t) * ((str) + 0) << 56); \
     }
 
-void CGXDLMSSha384::Transform(uint64_t *h, const unsigned char *message, unsigned int messageLength) {
+void CGXDLMSSha384::Transform(uint64_t *h, const unsigned char *message, unsigned int /* messageLength */) {
     uint64_t w[80];
     uint64_t wv[8];
     uint64_t t1, t2;

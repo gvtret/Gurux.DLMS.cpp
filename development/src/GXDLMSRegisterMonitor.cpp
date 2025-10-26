@@ -242,7 +242,7 @@ int CGXDLMSRegisterMonitor::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
 /*
  * Set value of given attribute.
  */
-int CGXDLMSRegisterMonitor::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSRegisterMonitor::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     }

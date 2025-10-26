@@ -129,7 +129,7 @@ int CGXDLMSSchedule::RemoveEntry(unsigned short index) {
 }
 
 // Create a new entry.
-int CreateEntry(CGXDLMSSettings &settings, std::vector<CGXDLMSVariant> &arr, CGXDLMSScheduleEntry *&item) {
+int CreateEntry(CGXDLMSSettings &/* settings */, std::vector<CGXDLMSVariant> &arr, CGXDLMSScheduleEntry *&item) {
     int ret;
     CGXDLMSVariant tmp;
     CGXTime t;

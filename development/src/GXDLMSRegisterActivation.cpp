@@ -221,7 +221,7 @@ int CGXDLMSRegisterActivation::GetValue(CGXDLMSSettings &settings, CGXDLMSValueE
 }
 
 // Set value of given attribute.
-int CGXDLMSRegisterActivation::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSRegisterActivation::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

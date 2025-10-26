@@ -176,7 +176,7 @@ int CGXDLMSSpecialDaysTable::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEve
 }
 
 // Set value of given attribute.
-int CGXDLMSSpecialDaysTable::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSpecialDaysTable::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;

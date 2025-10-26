@@ -227,7 +227,7 @@ int CGXDLMSModemConfiguration::GetValue(CGXDLMSSettings &settings, CGXDLMSValueE
 }
 
 // Set value of given attribute.
-int CGXDLMSModemConfiguration::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSModemConfiguration::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

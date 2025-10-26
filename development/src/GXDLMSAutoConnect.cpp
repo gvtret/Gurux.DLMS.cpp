@@ -236,15 +236,15 @@ int CGXDLMSAutoConnect::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
         //Add count
         GXHelpers::SetObjectCount(cnt, data);
         if (cnt != 0) {
-            CGXDLMSVariant s, e;
+            CGXDLMSVariant first, second;
             for (std::vector<std::pair<CGXDateTime, CGXDateTime>>::iterator it = m_CallingWindow.begin();
                  it != m_CallingWindow.end(); ++it) {
                 data.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
                 data.SetUInt8(2);  //Count
-                s = it->first;
-                e = it->second;
-                if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, s)) != 0 ||  //start_time
-                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, e)) != 0)    //end_time
+                first = it->first;
+                second = it->second;
+                if ((ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, first)) != 0 ||  //start_time
+                    (ret = GXHelpers::SetData(&settings, data, DLMS_DATA_TYPE_OCTET_STRING, second)) != 0)    //end_time
                 {
                     return ret;
                 }
@@ -276,7 +276,7 @@ int CGXDLMSAutoConnect::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
 }
 
 // Set value of given attribute.
-int CGXDLMSAutoConnect::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSAutoConnect::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

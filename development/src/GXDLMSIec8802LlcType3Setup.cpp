@@ -165,7 +165,7 @@ int CGXDLMSIec8802LlcType3Setup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSIec8802LlcType3Setup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIec8802LlcType3Setup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     switch (e.GetIndex()) {
         case 1: {
@@ -197,7 +197,7 @@ int CGXDLMSIec8802LlcType3Setup::GetValue(CGXDLMSSettings &settings, CGXDLMSValu
 }
 
 // Set value of given attribute.
-int CGXDLMSIec8802LlcType3Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIec8802LlcType3Setup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1:

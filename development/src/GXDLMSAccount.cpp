@@ -279,11 +279,11 @@ int CGXDLMSAccount::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e)
     int ret;
     switch (e.GetIndex()) {
         case 1: {
-            CGXDLMSVariant tmp;
-            if ((ret = GetLogicalName(this, tmp)) != 0) {
+            CGXDLMSVariant logical_name;
+            if ((ret = GetLogicalName(this, logical_name)) != 0) {
                 return ret;
             }
-            e.SetValue(tmp);
+            e.SetValue(logical_name);
         } break;
         case 2:
             bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
@@ -442,7 +442,7 @@ int CGXDLMSAccount::Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &rep
     return client->Method(this, 3, data, reply);
 }
 
-int CGXDLMSAccount::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSAccount::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_AccountStatus = DLMS_ACCOUNT_STATUS_ACTIVE;
     } else if (e.GetIndex() == 2) {

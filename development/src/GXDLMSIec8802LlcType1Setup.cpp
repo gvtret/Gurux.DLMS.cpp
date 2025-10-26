@@ -52,7 +52,7 @@ uint16_t CGXDLMSIec8802LlcType1Setup::GetMaximumOctetsUiPdu() {
     return m_MaximumOctetsUiPdu;
 }
 
-void CGXDLMSIec8802LlcType1Setup::SetMaximumOctetsUiPdu(uint16_t value) {
+void CGXDLMSIec8802LlcType1Setup::SetMaximumOctetsUiPdu(uint16_t /* value */) {
     m_MaximumOctetsUiPdu = 128;
 }
 
@@ -97,7 +97,7 @@ int CGXDLMSIec8802LlcType1Setup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSIec8802LlcType1Setup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIec8802LlcType1Setup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     if (e.GetIndex() == 1) {
         CGXDLMSVariant tmp;
@@ -113,7 +113,7 @@ int CGXDLMSIec8802LlcType1Setup::GetValue(CGXDLMSSettings &settings, CGXDLMSValu
 }
 
 // Set value of given attribute.
-int CGXDLMSIec8802LlcType1Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIec8802LlcType1Setup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

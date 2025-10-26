@@ -391,7 +391,7 @@ int CGXDLMSSFSKPhyMacSetUp::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEven
 }
 
 // Set value of given attribute.
-int CGXDLMSSFSKPhyMacSetUp::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSFSKPhyMacSetUp::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1:

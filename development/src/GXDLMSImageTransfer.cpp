@@ -283,7 +283,7 @@ void CGXDLMSImageTransfer::GetAttributeIndexToRead(bool all, std::vector<int> &a
     }
 }
 
-int CGXDLMSImageTransfer::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSImageTransfer::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     //Image transfer initiate
     if (e.GetIndex() == 1) {
         m_ImageFirstNotTransferredBlockNumber = 0;
@@ -434,7 +434,7 @@ int CGXDLMSImageTransfer::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
 }
 
 // Set value of given attribute.
-int CGXDLMSImageTransfer::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSImageTransfer::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

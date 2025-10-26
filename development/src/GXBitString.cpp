@@ -47,7 +47,7 @@ std::string &CGXBitString::ToString() {
     return m_Value;
 }
 
-int CGXBitString::ToInteger(int &value, unsigned char maxSize) {
+int CGXBitString::ToInteger(int &value, unsigned char /* maxSize */) {
     value = 0;
     int pos = 0;
     for (std::string::iterator it = m_Value.begin(); it != m_Value.end(); ++it) {

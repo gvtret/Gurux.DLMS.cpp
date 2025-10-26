@@ -118,7 +118,7 @@ int CGXDLMSRegister::Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &re
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSRegister::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSRegister::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_Value.Clear();
     } else {
@@ -176,7 +176,7 @@ int CGXDLMSRegister::GetDataType(int index, DLMS_DATA_TYPE &type) {
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSRegister::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSRegister::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret;
     CGXDLMSVariant tmp;
     if (e.GetIndex() == 1) {
@@ -222,7 +222,7 @@ int CGXDLMSRegister::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSRegister::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSRegister::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

@@ -190,7 +190,7 @@ int CGXDLMSScriptTable::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg
 }
 
 // Set value of given attribute.
-int CGXDLMSScriptTable::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSScriptTable::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

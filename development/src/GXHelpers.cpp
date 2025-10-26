@@ -698,7 +698,7 @@ int GetInt8(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
 *            Data info.
 * Returns  parsed BCD value.
 */
-int GetBcd(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
+int GetBcd(CGXByteBuffer &buff, CGXDataInfo &info, bool /* knownType */, CGXDLMSVariant &value) {
     unsigned char ch;
     // If there is not enough data available.
     if (buff.GetUInt8(&ch) != 0) {
@@ -1261,7 +1261,7 @@ static int GetBool(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value
 
 int GXHelpers::GetCompactArrayItem(
     CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt, std::vector<CGXDLMSVariant> &list,
-    int len
+    int /* len */
 ) {
     int ret;
     CGXDLMSVariant tmp;

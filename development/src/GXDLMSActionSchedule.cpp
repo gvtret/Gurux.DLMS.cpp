@@ -213,7 +213,7 @@ int CGXDLMSActionSchedule::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
 }
 
 // Set value of given attribute.
-int CGXDLMSActionSchedule::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSActionSchedule::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {
