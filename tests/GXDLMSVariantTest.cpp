@@ -1,4 +1,5 @@
 #include <climits>
+#include <cstdint>
 #include <gtest/gtest.h>
 
 #include "GXBytebuffer.h"
@@ -25,4 +26,29 @@ TEST(CGXDLMSVariantTest, WideStringToUtf8Conversion) {
     ASSERT_EQ(expected.size(), buffer.GetSize());
     std::string bytes(reinterpret_cast<const char*>(buffer.GetData()), buffer.GetSize());
     EXPECT_EQ(expected, bytes);
+}
+
+TEST(CGXDLMSVariantTest, Int8SerializationPreservesBitPattern) {
+    const char original = static_cast<char>(-1);
+    CGXDLMSVariant variant(original);
+
+    CGXByteBuffer buffer;
+    ASSERT_EQ(0, variant.GetBytes(buffer));
+    ASSERT_EQ(1u, buffer.GetSize());
+
+    const uint8_t expected = static_cast<uint8_t>(original);
+    ASSERT_NE(nullptr, buffer.GetData());
+    EXPECT_EQ(expected, buffer.GetData()[0]);
+}
+
+TEST(CGXDLMSVariantTest, UInt8SerializationPreservesBitPattern) {
+    const unsigned char original = static_cast<unsigned char>(0xFE);
+    CGXDLMSVariant variant(original);
+
+    CGXByteBuffer buffer;
+    ASSERT_EQ(0, variant.GetBytes(buffer));
+    ASSERT_EQ(1u, buffer.GetSize());
+
+    ASSERT_NE(nullptr, buffer.GetData());
+    EXPECT_EQ(original, buffer.GetData()[0]);
 }
