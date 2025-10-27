@@ -17,7 +17,7 @@ TEST(CGXAPDUTest, GenerateAarqWithoutCipherDoesNotCrash) {
     EXPECT_TRUE(ret == 0 || ret == DLMS_ERROR_CODE_INVALID_PARAMETER);
 }
 
-TEST(CGXAPDUTest, GenerateApplicationContextNameRejectsLongProtocolVersion) {
+TEST(CGXAPDUTest, GenerateApplicationContextNameRejectsNineBitProtocolVersion) {
     CGXDLMSSettings settings(false);
     settings.SetProtocolVersion("111111111");
 
