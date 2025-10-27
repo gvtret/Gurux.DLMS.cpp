@@ -358,6 +358,7 @@ int CGXDLMSCharge::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) 
                 m_ChargeConfiguration = (DLMS_CHARGE_CONFIGURATION)e.GetValue().ToInteger();
                 break;
             }
+            /* fall through */
         case 10:
             if (e.GetValue().vt == DLMS_DATA_TYPE_OCTET_STRING) {
                 e.GetValue().GetBytes(bb);

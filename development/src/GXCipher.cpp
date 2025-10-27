@@ -447,7 +447,6 @@ int CGXCipher::Encrypt(
     unsigned char J0[16] = {0};
     unsigned char S[16] = {0};
     CGXByteBuffer nonse;
-    CGXByteBuffer aad;
     if (systemTitle.GetSize() != 8) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
