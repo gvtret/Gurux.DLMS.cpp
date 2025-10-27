@@ -92,7 +92,8 @@ int CGXAPDU::GenerateApplicationContextName(CGXDLMSSettings &settings, CGXByteBu
         }
         data.SetUInt8(BER_TYPE_CONTEXT | PDU_TYPE_PROTOCOL_VERSION);
         data.SetUInt8(2);
-        data.SetUInt8((unsigned char)(8 - protocolVersionLength));
+        const int padding = static_cast<int>(8) - static_cast<int>(protocolVersionLength);
+        data.SetUInt8(static_cast<unsigned char>(padding));
         CGXDLMSVariant tmp = settings.GetProtocolVersion();
         GXHelpers::SetBitString(data, tmp, false);
     }
