@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <cstdint>
+#include <vector>
 #include <gtest/gtest.h>
 
 #define private public
@@ -22,10 +24,16 @@ TEST(CGXAPDUTest, GenerateApplicationContextNameRejectsNineBitProtocolVersion) {
     settings.SetProtocolVersion("111111111");
 
     CGXByteBuffer data;
+    data.SetUInt8(0xAA);
+    const std::vector<uint8_t> originalBuffer(data.GetData(), data.GetData() + data.GetSize());
+
     int ret = CGXAPDU::GenerateApplicationContextName(settings, data, nullptr);
 
     EXPECT_EQ(DLMS_ERROR_CODE_INVALID_PARAMETER, ret);
-    EXPECT_EQ(0u, data.GetSize());
+    ASSERT_EQ(originalBuffer.size(), data.GetSize());
+    const uint8_t *actual = data.GetData();
+    ASSERT_NE(nullptr, actual);
+    EXPECT_TRUE(std::equal(originalBuffer.begin(), originalBuffer.end(), actual));
 }
 
 // Verify that GenerateAARE encodes lengths larger than 255 bytes correctly.
