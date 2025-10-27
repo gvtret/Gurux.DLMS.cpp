@@ -183,8 +183,8 @@ int CGXBigInteger::FromByteBuffer(CGXByteBuffer &value) {
     unsigned short ival;
     Clear();
     Capacity((uint16_t)(value.GetSize() / 4));
-    for (uint32_t pos = value.GetSize() - 4; pos > -1; pos = pos - 4) {
-        ret = value.GetUInt32(pos, &tmp);
+    for (int pos = static_cast<int>(value.GetSize()) - 4; pos >= 0; pos -= 4) {
+        ret = value.GetUInt32(static_cast<uint32_t>(pos), &tmp);
         if (ret != 0) {
             break;
         }
