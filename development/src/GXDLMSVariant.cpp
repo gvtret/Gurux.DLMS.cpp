@@ -162,7 +162,7 @@ int CGXDLMSVariant::Convert(CGXDLMSVariant *item, DLMS_DATA_TYPE type) {
 #if _MSC_VER > 1000
             sprintf_s(buff, 250, "%llu", tmp.ullVal);
 #else
-            sprintf(buff, "%I64u", tmp.llVal);
+            sprintf(buff, "%I64u", tmp.ullVal);
 #endif
 #else
             sprintf(buff, "%llu", tmp.ullVal);
