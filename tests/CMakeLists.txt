@@ -31,6 +31,19 @@ set(TEST_SOURCES
     GXDateTimeTest.cpp
     GXDateTest.cpp
     GXTimeTest.cpp
+    GXBigIntegerTest.cpp
+    GXDLMSClientTest.cpp
+    GXDLMSConverterTest.cpp
+    GXDLMSSecuritySetupTest.cpp
+    GXDLMSSettingsTest.cpp
+    GXDLMSSha1Test.cpp
+    GXDLMSShaTest.cpp
+    GXDLMSSpecialDaysTableTest.cpp
+    GXDLMSTcpUdpSetupTest.cpp
+    GXDLMSTokenGatewayTest.cpp
+    GXDLMSValueEventArgTest.cpp
+    GXDLMSWeekProfileTest.cpp
+    GXXmlWriterTest.cpp
 )
 
 # Create test executable
