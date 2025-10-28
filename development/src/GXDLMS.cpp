@@ -135,7 +135,7 @@ int CGXDLMS::ReceiverReady(
     return ReceiverReady(settings, data, cipher, reply);
 }
 
-int CGXDLMS::ReceiverReady(CGXDLMSSettings &settings, CGXReplyData &data, CGXCipher *cipher, CGXByteBuffer &reply) {
+int CGXDLMS::ReceiverReady(CGXDLMSSettings &settings, CGXReplyData &data, CGXCipher */* cipher */, CGXByteBuffer &reply) {
     int ret;
     reply.Clear();
     if (data.GetMoreData() == DLMS_DATA_REQUEST_TYPES_NONE) {

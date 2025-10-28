@@ -263,7 +263,7 @@ int CreateAction(std::vector<CGXDLMSVariant> &it, CGXDLMSActionItem &item) {
 }
 
 // Set value of given attribute.
-int CGXDLMSArbitrator::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSArbitrator::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     switch (e.GetIndex()) {
         case 1:

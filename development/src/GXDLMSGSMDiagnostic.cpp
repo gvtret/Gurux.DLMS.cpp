@@ -294,7 +294,7 @@ int CGXDLMSGSMDiagnostic::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
 }
 
 // Set value of given attribute.
-int CGXDLMSGSMDiagnostic::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSGSMDiagnostic::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret;
     switch (e.GetIndex()) {
         case 1:

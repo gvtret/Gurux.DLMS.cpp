@@ -493,7 +493,7 @@ int CGXDLMSSNCommandHandler::HandleRead(
 
 int CGXDLMSSNCommandHandler::HandleReadBlockNumberAccess(
     CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
-    CGXDLMSTranslatorStructure *xml
+    CGXDLMSTranslatorStructure */* xml */
 ) {
     unsigned short blockNumber;
     int ret;
@@ -654,7 +654,7 @@ int CGXDLMSSNCommandHandler::HandleReadDataBlockAccess(
 }
 
 int CGXDLMSSNCommandHandler::ReturnSNError(
-    CGXDLMSSettings &settings, CGXDLMSServer *server, DLMS_COMMAND cmd, DLMS_ERROR_CODE error, CGXByteBuffer *replyData
+    CGXDLMSSettings &settings, CGXDLMSServer */* server */, DLMS_COMMAND cmd, DLMS_ERROR_CODE error, CGXByteBuffer *replyData
 ) {
     int ret;
     CGXByteBuffer bb;

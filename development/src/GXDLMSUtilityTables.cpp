@@ -126,7 +126,7 @@ int CGXDLMSUtilityTables::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSUtilityTables::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSUtilityTables::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     switch (e.GetIndex()) {
         case 1: {
             int ret;
@@ -152,7 +152,7 @@ int CGXDLMSUtilityTables::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
 }
 
 // Set value of given attribute.
-int CGXDLMSUtilityTables::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSUtilityTables::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1:

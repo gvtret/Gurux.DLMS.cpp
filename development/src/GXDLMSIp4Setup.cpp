@@ -409,7 +409,7 @@ int CGXDLMSIp4Setup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
 }
 
 // Set value of given attribute.
-int CGXDLMSIp4Setup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIp4Setup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

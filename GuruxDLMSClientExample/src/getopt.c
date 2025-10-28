@@ -51,4 +51,7 @@ int getopt(int argc, _TCHAR *const argv[], const char *optstring)
     }
     return opt;
 }
+#else
+//This is added to avoid pedantic warnings.
+extern int ISO_C_forbids_an_empty_translation_unit;
 #endif

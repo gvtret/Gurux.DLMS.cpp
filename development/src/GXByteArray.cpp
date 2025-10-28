@@ -222,12 +222,12 @@ int CGXByteArray::SetFloat(float value) {
     tmp.value = value;
     if (m_Capacity == 0 || m_Size + 4 > m_Capacity) {
         m_Capacity += VECTOR_CAPACITY;
-        unsigned char *tmp = (unsigned char *)realloc(m_Data, m_Capacity);
+        unsigned char *new_data = (unsigned char *)realloc(m_Data, m_Capacity);
         //If not enought memory available.
-        if (tmp == NULL) {
+        if (new_data == NULL) {
             return DLMS_ERROR_CODE_OUTOFMEMORY;
         }
-        m_Data = tmp;
+        m_Data = new_data;
     }
     m_Data[m_Size] = tmp.b[3];
     m_Data[m_Size + 1] = tmp.b[2];
@@ -247,12 +247,12 @@ int CGXByteArray::SetDouble(double value) {
     tmp.value = value;
     if (m_Capacity == 0 || m_Size + 8 > m_Capacity) {
         m_Capacity += VECTOR_CAPACITY;
-        unsigned char *tmp = (unsigned char *)realloc(m_Data, m_Capacity);
+        unsigned char *new_data = (unsigned char *)realloc(m_Data, m_Capacity);
         //If not enought memory available.
-        if (tmp == NULL) {
+        if (new_data == NULL) {
             return DLMS_ERROR_CODE_OUTOFMEMORY;
         }
-        m_Data = tmp;
+        m_Data = new_data;
     }
     m_Data[m_Size] = tmp.b[7];
     m_Data[m_Size + 1] = tmp.b[6];

@@ -148,7 +148,7 @@ int CGXDLMSSFSKMacSynchronizationTimeouts::GetDataType(int index, DLMS_DATA_TYPE
 }
 
 // Returns value of given attribute.
-int CGXDLMSSFSKMacSynchronizationTimeouts::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSFSKMacSynchronizationTimeouts::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     switch (e.GetIndex()) {
         case 1: {
@@ -176,7 +176,7 @@ int CGXDLMSSFSKMacSynchronizationTimeouts::GetValue(CGXDLMSSettings &settings, C
 }
 
 // Set value of given attribute.
-int CGXDLMSSFSKMacSynchronizationTimeouts::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSFSKMacSynchronizationTimeouts::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     switch (e.GetIndex()) {
         case 1:

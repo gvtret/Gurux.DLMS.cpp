@@ -343,7 +343,7 @@ int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, std::
     return IntegerToHex(value, desimals, false, result);
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, bool forceHex, std::string &result) {
+int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, bool /* forceHex */, std::string &result) {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
         std::string f = "%." + GXHelpers::IntToString(desimals);
         f.append("X");
@@ -370,7 +370,7 @@ int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, bool f
     return 0;
 }
 
-int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, bool forceHex, std::string &result) {
+int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, bool /* forceHex */, std::string &result) {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
         std::string f = "%." + GXHelpers::IntToString(desimals);
         f.append("X");

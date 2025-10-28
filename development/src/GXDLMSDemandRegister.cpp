@@ -223,7 +223,7 @@ int CGXDLMSDemandRegister::GetMethodCount() {
     return 2;
 }
 
-int CGXDLMSDemandRegister::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSDemandRegister::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_CurrentAverageValue.Clear();
         m_LastAverageValue.Clear();
@@ -278,7 +278,7 @@ int CGXDLMSDemandRegister::GetDataType(int index, DLMS_DATA_TYPE &type) {
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSDemandRegister::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSDemandRegister::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret;
     CGXDLMSVariant tmp;
     if (e.GetIndex() == 1) {
@@ -366,7 +366,7 @@ int CGXDLMSDemandRegister::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSDemandRegister::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSDemandRegister::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

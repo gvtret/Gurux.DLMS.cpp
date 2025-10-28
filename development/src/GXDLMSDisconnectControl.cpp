@@ -153,7 +153,7 @@ int CGXDLMSDisconnectControl::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSDisconnectControl::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSDisconnectControl::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
@@ -179,7 +179,7 @@ int CGXDLMSDisconnectControl::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEv
 }
 
 // Set value of given attribute.
-int CGXDLMSDisconnectControl::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSDisconnectControl::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

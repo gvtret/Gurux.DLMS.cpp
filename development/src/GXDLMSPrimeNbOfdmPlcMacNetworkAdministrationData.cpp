@@ -186,7 +186,7 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::Reset(CGXDLMSClient *clie
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_MulticastEntries.clear();
         m_SwitchTable.clear();
@@ -249,7 +249,7 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetDataType(int index, DL
 }
 
 int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetMulticastEntries(
-    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+    CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e
 ) {
     int ret = 0;
     CGXByteBuffer bb;
@@ -271,7 +271,7 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetMulticastEntries(
 }
 
 int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetSwitchTable(
-    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+    CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e
 ) {
     int ret = 0;
     CGXByteBuffer bb;
@@ -289,7 +289,7 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetSwitchTable(
 }
 
 int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetDirectTable(
-    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+    CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e
 ) {
     int ret = 0;
     CGXByteBuffer bb;
@@ -314,7 +314,7 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetDirectTable(
 }
 
 int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::GetAvailableSwitches(
-    CGXDLMSSettings &settings, CGXDLMSValueEventArg &e
+    CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e
 ) {
     int ret = 0;
     CGXByteBuffer bb;
@@ -504,7 +504,7 @@ int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::SetCommunications(std::ve
 }
 
 // Set value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacNetworkAdministrationData::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret;
     switch (e.GetIndex()) {
         case 1:

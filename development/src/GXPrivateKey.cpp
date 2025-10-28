@@ -107,14 +107,14 @@ int CGXPrivateKey::UpdatePublicKey(CGXAsn1Sequence *seq, CGXPrivateKey &key) {
     if (CGXAsn1Variant *tmp = dynamic_cast<CGXAsn1Variant *>(seq->GetValues()->at(1))) {
         key.m_RawValue.Clear();
         key.m_RawValue.Set(tmp->GetValue().byteArr, tmp->GetValue().size);
-        if (CGXAsn1Variant *tmp = dynamic_cast<CGXAsn1Variant *>(seq->GetValues()->at(3))) {
+        if (CGXAsn1Variant *tmp2 = dynamic_cast<CGXAsn1Variant *>(seq->GetValues()->at(3))) {
             CGXByteBuffer bb;
-            bb.Set(tmp->GetValue().byteArr, tmp->GetValue().size);
+            bb.Set(tmp2->GetValue().byteArr, tmp2->GetValue().size);
             ret = CGXPublicKey::FromRawBytes(bb, key.m_PublicKey);
-        } else if (CGXAsn1BitString *tmp = dynamic_cast<CGXAsn1BitString *>(seq->GetValues()->at(3))) {
-            ret = CGXPublicKey::FromRawBytes(tmp->GetValue(), key.m_PublicKey);
-        } else if (CGXAsn1Context *tmp = dynamic_cast<CGXAsn1Context *>(seq->GetValues()->at(3))) {
-            if (CGXAsn1BitString *bs = dynamic_cast<CGXAsn1BitString *>(tmp->GetValues()->at(0))) {
+        } else if (CGXAsn1BitString *tmp3 = dynamic_cast<CGXAsn1BitString *>(seq->GetValues()->at(3))) {
+            ret = CGXPublicKey::FromRawBytes(tmp3->GetValue(), key.m_PublicKey);
+        } else if (CGXAsn1Context *tmp4 = dynamic_cast<CGXAsn1Context *>(seq->GetValues()->at(3))) {
+            if (CGXAsn1BitString *bs = dynamic_cast<CGXAsn1BitString *>(tmp4->GetValues()->at(0))) {
                 ret = CGXPublicKey::FromRawBytes(bs->GetValue(), key.m_PublicKey);
             }
         }

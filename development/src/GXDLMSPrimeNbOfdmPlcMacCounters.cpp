@@ -105,7 +105,7 @@ int CGXDLMSPrimeNbOfdmPlcMacCounters::Reset(CGXDLMSClient *client, std::vector<C
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSPrimeNbOfdmPlcMacCounters::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacCounters::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_TxDataPktCount = m_RxDataPktCount = m_TxCtrlPktCount = m_RxCtrlPktCount = m_CsmaFailCount =
             m_CsmaChBusyCount = 0;
@@ -192,7 +192,7 @@ int CGXDLMSPrimeNbOfdmPlcMacCounters::GetDataType(int index, DLMS_DATA_TYPE &typ
 }
 
 // Returns value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcMacCounters::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacCounters::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1: {
@@ -228,7 +228,7 @@ int CGXDLMSPrimeNbOfdmPlcMacCounters::GetValue(CGXDLMSSettings &settings, CGXDLM
 }
 
 // Set value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcMacCounters::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacCounters::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1:

@@ -77,9 +77,9 @@ GetArray(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, int 
     }
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     if (info.GetXml() != NULL) {
-        std::string tmp;
-        info.GetXml()->IntegerToHex((uint32_t)info.GetCount(), 2, tmp);
-        info.GetXml()->AppendStartTag(DATA_TYPE_OFFSET | info.GetType(), "Qty", tmp);
+        std::string tmpStr;
+        info.GetXml()->IntegerToHex((uint32_t)info.GetCount(), 2, tmpStr);
+        info.GetXml()->AppendStartTag(DATA_TYPE_OFFSET | info.GetType(), "Qty", tmpStr);
     }
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
     int size = buff.GetSize() - buff.GetPosition();
@@ -258,7 +258,7 @@ int GetDate(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
 */
 int GetDateTime(CGXDLMSSettings *settings, CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
     DATETIME_SKIPS skip = DATETIME_SKIPS_NONE;
-    struct tm tm = {0};
+    struct tm tm = {};
     unsigned short year;
     short deviation;
     int ret, ms, status;
@@ -699,6 +699,7 @@ int GetInt8(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value) {
 * Returns  parsed BCD value.
 */
 int GetBcd(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
+    UNUSED(knownType);
     unsigned char ch;
     // If there is not enough data available.
     if (buff.GetUInt8(&ch) != 0) {
@@ -955,6 +956,7 @@ std::string GXHelpers::BytesToHex(const unsigned char *pBytes, int count, char a
 * Returns  parsed UTF string value.
 */
 int GetUtfString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
+    UNUSED(knownType);
     int ret;
     uint32_t len = 0;
     char *tmp;
@@ -997,6 +999,7 @@ int GetUtfString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMS
     * Returns  parsed octet string value.
     */
 int GetOctetString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
+    UNUSED(knownType);
     int ret;
     uint32_t len = 0;
     if (knownType) {
@@ -1076,6 +1079,7 @@ int GetOctetString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDL
     * Returns  parsed string value.
     */
 int GetString(CGXByteBuffer &buff, CGXDataInfo &info, bool knownType, CGXDLMSVariant &value) {
+    UNUSED(knownType);
     int ret;
     uint32_t len = 0;
     char *tmp;
@@ -1261,7 +1265,7 @@ static int GetBool(CGXByteBuffer &buff, CGXDataInfo &info, CGXDLMSVariant &value
 
 int GXHelpers::GetCompactArrayItem(
     CGXDLMSSettings *settings, CGXByteBuffer &buff, std::vector<CGXDLMSVariant> &dt, std::vector<CGXDLMSVariant> &list,
-    int len
+    int /* len */
 ) {
     int ret;
     CGXDLMSVariant tmp;
@@ -1288,29 +1292,28 @@ int GXHelpers::GetCompactArrayItem(
     CGXDataInfo tmp;
     tmp.SetType(dt);
     unsigned long start = buff.GetPosition();
-    CGXDLMSVariant value;
     if (dt == DLMS_DATA_TYPE_STRING) {
         while (buff.GetPosition() - start < (unsigned long)len) {
-            value.Clear();
+            CGXDLMSVariant itemValue;
             tmp.Clear();
             tmp.SetType(dt);
-            if ((ret = GetString(buff, tmp, false, value)) != 0) {
+            if ((ret = GetString(buff, tmp, false, itemValue)) != 0) {
                 return ret;
             }
-            list.push_back(value);
+            list.push_back(itemValue);
             if (!tmp.IsComplete()) {
                 break;
             }
         }
     } else if (dt == DLMS_DATA_TYPE_OCTET_STRING) {
         while (buff.GetPosition() - start < (unsigned long)len) {
-            value.Clear();
+            CGXDLMSVariant itemValue;
             tmp.Clear();
             tmp.SetType(dt);
-            if ((ret = GetOctetString(buff, tmp, false, value)) != 0) {
+            if ((ret = GetOctetString(buff, tmp, false, itemValue)) != 0) {
                 return ret;
             }
-            list.push_back(value);
+            list.push_back(itemValue);
             if (!tmp.IsComplete()) {
                 break;
             }
@@ -1319,11 +1322,11 @@ int GXHelpers::GetCompactArrayItem(
         while (buff.GetPosition() - start < (unsigned long)len) {
             tmp.Clear();
             tmp.SetType(dt);
-            CGXDLMSVariant value;
-            if ((ret = GetData(settings, buff, tmp, value)) != 0) {
+            CGXDLMSVariant itemValue;
+            if ((ret = GetData(settings, buff, tmp, itemValue)) != 0) {
                 return ret;
             }
-            list.push_back(value);
+            list.push_back(itemValue);
             if (!tmp.IsComplete()) {
                 break;
             }
@@ -1972,9 +1975,9 @@ int GXHelpers::SetLogicalName(const char *name, unsigned char ln[6]) {
     int ret;
     int v1, v2, v3, v4, v5, v6;
 #if _MSC_VER > 1000
-    ret = sscanf_s(name, "%u.%u.%u.%u.%u.%u", &v1, &v2, &v3, &v4, &v5, &v6);
+    ret = sscanf_s(name, "%d.%d.%d.%d.%d.%d", &v1, &v2, &v3, &v4, &v5, &v6);
 #else
-    ret = sscanf(name, "%u.%u.%u.%u.%u.%u", &v1, &v2, &v3, &v4, &v5, &v6);
+    ret = sscanf(name, "%d.%d.%d.%d.%d.%d", &v1, &v2, &v3, &v4, &v5, &v6);
 #endif
     if (ret != 6) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;

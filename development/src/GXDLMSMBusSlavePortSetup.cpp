@@ -157,7 +157,7 @@ int CGXDLMSMBusSlavePortSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSMBusSlavePortSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSMBusSlavePortSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
@@ -180,7 +180,7 @@ int CGXDLMSMBusSlavePortSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueE
 }
 
 // Set value of given attribute.
-int CGXDLMSMBusSlavePortSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSMBusSlavePortSetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

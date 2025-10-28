@@ -335,8 +335,7 @@ int CGXDLMSClient::ParseSNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveO
     if (pObj != NULL) {
         pObj->SetShortName(sn);
         pObj->SetVersion(version);
-        int cnt = ln.GetSize();
-        assert(cnt == 6);
+        assert(ln.GetSize() == 6);
         CGXDLMSObject::SetLogicalName(pObj, ln);
         std::string ln2;
         pObj->GetLogicalName(ln2);
@@ -350,7 +349,7 @@ int CGXDLMSClient::ParseSNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveO
 }
 
 // SN referencing
-int CGXDLMSClient::ParseSNObjects(CGXByteBuffer &buff, bool onlyKnownObjects, bool ignoreInactiveObjects) {
+int CGXDLMSClient::ParseSNObjects(CGXByteBuffer &buff, bool /* onlyKnownObjects */, bool ignoreInactiveObjects) {
     int ret;
     CGXDataInfo info;
     //Get array tag.
@@ -417,7 +416,6 @@ int CGXDLMSClient::ParseLNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveO
                 return DLMS_ERROR_CODE_INVALID_PARAMETER;
             }
             pObj->SetVersion(version);
-            int cnt;
             // attribute_access_descriptor Start
             if (value.Arr[3].Arr[0].vt != DLMS_DATA_TYPE_ARRAY) {
                 delete pObj;
@@ -472,15 +470,14 @@ int CGXDLMSClient::ParseLNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveO
                 }
             }
             // method_access_item End
-            cnt = ln.GetSize();
-            assert(cnt == 6);
+            assert(ln.GetSize() == 6);
             m_Settings.GetObjects().push_back(pObj);
         }
     }
     return 0;
 }
 
-int CGXDLMSClient::ParseLNObjects(CGXByteBuffer &buff, bool onlyKnownObjects, bool ignoreInactiveObjects) {
+int CGXDLMSClient::ParseLNObjects(CGXByteBuffer &buff, bool /* onlyKnownObjects */, bool ignoreInactiveObjects) {
     int ret;
     uint32_t cnt;
     unsigned char ch;
@@ -539,7 +536,7 @@ int CGXDLMSClient::ParseObjects(std::vector<CGXDLMSVariant> &objects, bool onlyK
 }
 
 int CGXDLMSClient::ParseObjects(
-    std::vector<CGXDLMSVariant> &objects, bool onlyKnownObjects, bool ignoreInactiveObjects
+    std::vector<CGXDLMSVariant> &objects, bool /* onlyKnownObjects */, bool ignoreInactiveObjects
 ) {
     int ret;
     m_Settings.GetObjects().Free();
@@ -1151,8 +1148,8 @@ int CGXDLMSClient::WriteList(
         for (std::vector<std::pair<CGXDLMSObject *, unsigned char>>::iterator it = list.begin(); it != list.end();
              ++it) {
             CGXDLMSValueEventArg e(it->first, it->second);
-            int ret = it->first->GetValue(m_Settings, e);
-            if (ret != 0) {
+            int res = it->first->GetValue(m_Settings, e);
+            if (res != 0) {
                 break;
             }
             CGXDLMSVariant value = e.GetValue();
@@ -1160,10 +1157,10 @@ int CGXDLMSClient::WriteList(
                 bb.Set(value.byteArr, value.GetSize());
             } else {
                 DLMS_DATA_TYPE type = DLMS_DATA_TYPE_NONE;
-                if ((ret = it->first->GetDataType(it->second, type)) != 0) {
+                if ((res = it->first->GetDataType(it->second, type)) != 0) {
                     break;
                 }
-                if ((ret = GXHelpers::SetData(&m_Settings, bb, type, value)) != 0) {
+                if ((res = GXHelpers::SetData(&m_Settings, bb, type, value)) != 0) {
                     break;
                 }
             }
@@ -1188,8 +1185,8 @@ int CGXDLMSClient::WriteList(
         for (std::vector<std::pair<CGXDLMSObject *, unsigned char>>::iterator it = list.begin(); it != list.end();
              ++it) {
             CGXDLMSValueEventArg e(it->first, it->second);
-            int ret = it->first->GetValue(m_Settings, e);
-            if (ret != 0) {
+            int res = it->first->GetValue(m_Settings, e);
+            if (res != 0) {
                 break;
             }
             CGXDLMSVariant value = e.GetValue();
@@ -1197,10 +1194,10 @@ int CGXDLMSClient::WriteList(
                 bb.Set(value.byteArr, value.GetSize());
             } else {
                 DLMS_DATA_TYPE type = DLMS_DATA_TYPE_NONE;
-                if ((ret = it->first->GetDataType(it->second, type)) != 0) {
+                if ((res = it->first->GetDataType(it->second, type)) != 0) {
                     break;
                 }
-                if ((ret = GXHelpers::SetData(&m_Settings, bb, type, value)) != 0) {
+                if ((res = GXHelpers::SetData(&m_Settings, bb, type, value)) != 0) {
                     break;
                 }
             }
@@ -1246,7 +1243,6 @@ int CGXDLMSClient::Write(CGXDLMSObject *pObject, int index, std::vector<CGXByteB
     if (ret == 0) {
         CGXDLMSVariant name = pObject->GetName();
         CGXDLMSVariant value = e.GetValue();
-        int ret;
         m_Settings.ResetBlockIndex();
         CGXByteBuffer bb, data;
         if (e.IsByteArray()) {
@@ -1603,7 +1599,7 @@ int CGXDLMSClient::ReadRowsByEntry(CGXDLMSProfileGeneric *pg, int index, int cou
 
 int CGXDLMSClient::ReadRowsByEntry(
     CGXDLMSProfileGeneric *pg, int index, int count,
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
+    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &/* columns */, std::vector<CGXByteBuffer> &reply
 ) {
     CGXByteBuffer buff(19);
     if (pg == NULL) {
@@ -1726,7 +1722,7 @@ int CGXDLMSClient::ReadRowsByRange(
 
 int CGXDLMSClient::ReadRowsByRange(
     CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end,
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
+    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &/* columns */, std::vector<CGXByteBuffer> &reply
 ) {
     return ReadRowsByRange(pg, start, end, reply);
 }

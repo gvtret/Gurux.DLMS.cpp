@@ -681,8 +681,8 @@ int CGXDLMSLNCommandHandler::HanleSetRequestWithDataBlock(
 }
 
 int CGXDLMSLNCommandHandler::HanleSetRequestWithList(
-    CGXDLMSSettings &settings, unsigned char invoke, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSLNParameters &p,
-    CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand
+    CGXDLMSSettings &settings, unsigned char /* invoke */, CGXDLMSServer *server, CGXByteBuffer &data, CGXDLMSLNParameters &p,
+    CGXDLMSTranslatorStructure *xml, unsigned char /* cipheredCommand */
 ) {
     std::string str;
     int ret;
@@ -1001,7 +1001,7 @@ int CGXDLMSLNCommandHandler::MethodRequestNormal(
 
 int CGXDLMSLNCommandHandler::MethodRequestNextBlock(
     CGXDLMSSettings &settings, uint8_t invokeId, CGXDLMSServer *server, CGXByteBuffer &data,
-    CGXDLMSConnectionEventArgs *connectionInfo, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
+    CGXDLMSConnectionEventArgs */* connectionInfo */, CGXByteBuffer *replyData, CGXDLMSTranslatorStructure *xml,
     bool streaming, unsigned char cipheredCommand
 ) {
     int ret = 0;

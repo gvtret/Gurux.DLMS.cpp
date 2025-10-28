@@ -141,7 +141,7 @@ int CGXDLMSSFSKActiveInitiator::GetValue(CGXDLMSSettings &settings, CGXDLMSValue
 }
 
 // Set value of given attribute.
-int CGXDLMSSFSKActiveInitiator::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSFSKActiveInitiator::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     switch (e.GetIndex()) {
         case 1:

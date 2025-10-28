@@ -161,7 +161,7 @@ int CGXDLMSIecTwistedPairSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSIecTwistedPairSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIecTwistedPairSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     switch (e.GetIndex()) {
         case 1: {
@@ -210,7 +210,7 @@ int CGXDLMSIecTwistedPairSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValue
 }
 
 // Set value of given attribute.
-int CGXDLMSIecTwistedPairSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSIecTwistedPairSetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1:

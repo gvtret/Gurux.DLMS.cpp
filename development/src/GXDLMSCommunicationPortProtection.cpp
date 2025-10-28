@@ -154,9 +154,9 @@ void CGXDLMSCommunicationPortProtection::GetValues(std::vector<std::string> &val
     if (m_Port == NULL) {
         values.push_back("");
     } else {
-        std::string ln;
-        m_Port->GetLogicalName(ln);
-        values.push_back(ln);
+        std::string logical_name;
+        m_Port->GetLogicalName(logical_name);
+        values.push_back(logical_name);
     }
     values.push_back(std::to_string(m_ProtectionStatus));
     values.push_back(std::to_string(m_FailedAttempts));
@@ -245,7 +245,7 @@ int CGXDLMSCommunicationPortProtection::GetDataType(int index, DLMS_DATA_TYPE &t
 }
 
 // Returns value of given attribute.
-int CGXDLMSCommunicationPortProtection::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSCommunicationPortProtection::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     switch (e.GetIndex()) {
         case 1: {

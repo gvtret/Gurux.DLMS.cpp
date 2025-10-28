@@ -496,7 +496,7 @@ int CGXDLMSServer::HandleAarqRequest(CGXByteBuffer &data, CGXDLMSConnectionEvent
  *
  * @return Returns returned UA packet.
  */
-int CGXDLMSServer::HandleSnrmRequest(CGXDLMSSettings &settings, CGXByteBuffer &data, CGXByteBuffer &reply) {
+int CGXDLMSServer::HandleSnrmRequest(CGXDLMSSettings &/* settings */, CGXByteBuffer &data, CGXByteBuffer &reply) {
     int ret;
     Reset(true);
     if ((ret = CGXDLMS::ParseSnrmUaResponse(data, &m_Settings.GetHdlcSettings())) != 0) {
@@ -679,7 +679,7 @@ unsigned short CGXDLMSServer::GetRowsToPdu(CGXDLMSProfileGeneric *pg) {
 * @param connectionInfo
 *            Connection info.
 */
-int CGXDLMSServer::HandleReleaseRequest(CGXByteBuffer &data) {
+int CGXDLMSServer::HandleReleaseRequest(CGXByteBuffer &/* data */) {
     if (CGXDLMS::UseHdlc(m_Settings.GetInterfaceType())) {
         m_ReplyData.Set(LLC_REPLY_BYTES, 3);
     }

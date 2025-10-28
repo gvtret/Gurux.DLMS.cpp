@@ -91,7 +91,7 @@ int CGXDLMSCredit::InvokeCredit(CGXDLMSClient *client, DLMS_CREDIT_STATUS value,
     return client->Method(this, 3, data, reply);
 }
 
-int CGXDLMSCredit::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSCredit::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         m_CurrentCreditAmount += e.GetValue().ToInteger();
     } else if (e.GetIndex() == 2) {
@@ -196,7 +196,7 @@ int CGXDLMSCredit::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSCredit::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSCredit::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret;
     CGXDLMSVariant tmp;
     switch (e.GetIndex()) {

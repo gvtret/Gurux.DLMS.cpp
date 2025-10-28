@@ -129,7 +129,7 @@ int CGXDLMSSFSKReportingSystemList::GetValue(CGXDLMSSettings &settings, CGXDLMSV
 }
 
 // Set value of given attribute.
-int CGXDLMSSFSKReportingSystemList::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSFSKReportingSystemList::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     int ret = 0;
     if (e.GetIndex() == 1) {
         ret = SetLogicalName(this, e.GetValue());

@@ -316,7 +316,7 @@ int CGXXmlWriter::WriteElementString(const char *name, unsigned int value) {
     return 0;
 }
 
-int CGXXmlWriter::WriteElementString(const char *name, double value, double defaultValue) {
+int CGXXmlWriter::WriteElementString(const char *name, double value, double /* defaultValue */) {
     if (!m_SkipDefaults || value != 0) {
         char buff[30];
         int ret = snprintf(buff, 30, "%lf", value);
@@ -395,12 +395,12 @@ int CGXXmlWriter::WriteEndDocument() {
     return 0;
 }
 
-int CGXXmlWriter::WriteAttributeString(const char *name, const char *value) {
+int CGXXmlWriter::WriteAttributeString(const char */* name */, const char */* value */) {
     return 0;
     //writer->WriteAttributeString(name, value);
 }
 
-int CGXXmlWriter::WriteAttributeString(const char *name, const int value) {
+int CGXXmlWriter::WriteAttributeString(const char */* name */, const int /* value */) {
     return 0;
     //writer->WriteAttributeString(name, value);
 }
@@ -434,7 +434,6 @@ int CGXXmlWriter::WriteElementObject(
     const char *name, CGXDLMSVariant &value, DLMS_DATA_TYPE dt, DLMS_DATA_TYPE uiType
 ) {
     int ret;
-    std::string str;
     AppendSpaces();
     m_Elements.push_back(name);
     if (dt == DLMS_DATA_TYPE_NONE) {
@@ -1413,7 +1412,7 @@ int SaveMBusClient(CGXXmlWriter *writer, CGXDLMSMBusClient *obj) {
 #endif  //DLMS_IGNORE_MBUS_CLIENT
 
 #ifndef DLMS_IGNORE_COMPACT_DATA
-int SaveCompactData(CGXXmlWriter *writer, CGXDLMSCompactData *obj) {
+int SaveCompactData(CGXXmlWriter */* writer */, CGXDLMSCompactData */* obj */) {
     return 0;
 }
 #endif  //DLMS_IGNORE_COMPACT_DATA
@@ -2093,7 +2092,7 @@ int SaveCredit(CGXXmlWriter *writer, CGXDLMSCredit *obj) {
 #endif  //DLMS_IGNORE_CREDIT
 
 #ifndef DLMS_IGNORE_CHARGE
-int SaveUnitChargeActive(CGXXmlWriter *writer, const char *name, CGXUnitCharge &charge) {
+int SaveUnitChargeActive(CGXXmlWriter */* writer */, const char */* name */, CGXUnitCharge &/* charge */) {
     return 0;
 }
 

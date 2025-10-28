@@ -188,7 +188,7 @@ int CGXDLMSPrimeNbOfdmPlcMacSetup::GetDataType(int index, DLMS_DATA_TYPE &type) 
 }
 
 // Returns value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcMacSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
     if (e.GetIndex() == 1) {
         int ret;
@@ -218,7 +218,7 @@ int CGXDLMSPrimeNbOfdmPlcMacSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSVa
 }
 
 // Set value of given attribute.
-int CGXDLMSPrimeNbOfdmPlcMacSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSPrimeNbOfdmPlcMacSetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());

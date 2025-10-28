@@ -598,7 +598,7 @@ int CGXDLMSProfileGeneric::GetDataType(int index, DLMS_DATA_TYPE &type) {
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-int CGXDLMSProfileGeneric::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSProfileGeneric::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         // Reset.
         Reset();

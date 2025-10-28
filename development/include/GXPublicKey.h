@@ -61,6 +61,9 @@ public:
     /*Constructor.*/
     CGXPublicKey();
 
+    /*Copy constructor.*/
+    CGXPublicKey(const CGXPublicKey& value);
+
     CGXPublicKey &operator=(const CGXPublicKey &value);
 
     /**

@@ -112,7 +112,7 @@ int CGXDLMSSapAssignment::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSSapAssignment::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSapAssignment::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
@@ -156,7 +156,7 @@ int CGXDLMSSapAssignment::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventA
 /*
  * Set value of given attribute.
  */
-int CGXDLMSSapAssignment::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSapAssignment::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     }
@@ -203,7 +203,7 @@ int CGXDLMSSapAssignment::RemoveSap(CGXDLMSClient *client, std::string &name, st
     return client->Method(this, 1, data, reply);
 }
 
-int CGXDLMSSapAssignment::Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSSapAssignment::Invoke(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         uint16_t id = e.GetParameters().Arr[0].ToInteger();
         std::string str;

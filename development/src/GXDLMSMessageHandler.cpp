@@ -169,7 +169,7 @@ int CGXDLMSMessageHandler::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSMessageHandler::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSMessageHandler::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
@@ -195,7 +195,7 @@ int CGXDLMSMessageHandler::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
 }
 
 // Set value of given attribute.
-int CGXDLMSMessageHandler::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSMessageHandler::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

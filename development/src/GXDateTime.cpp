@@ -223,7 +223,8 @@ CGXDateTime::CGXDateTime(
 
 void CGXDateTime::GetSystemDateTimeFormat(std::string &value) {
     char buff[50];
-    struct tm order = {0};
+    struct tm order;
+    memset(&order, 0, sizeof(order));
     order.tm_year = 0;
     order.tm_mday = 1;
     order.tm_mon = 0;  //Month is zero based.
@@ -235,7 +236,8 @@ void CGXDateTime::GetSystemDateTimeFormat(std::string &value) {
 int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator) {
     int ret = 0, value, lastPos = 0, pos;
     char buff[11];
-    struct tm order = {0};
+    struct tm order;
+    memset(&order, 0, sizeof(order));
     order.tm_year = 0;
     order.tm_mday = 1;
     order.tm_mon = 1;  //Month is zero based.
@@ -275,7 +277,8 @@ int CGXDateTime::GetTimeFormat2(char &separator, char &use24HourClock) {
     int ret = 0, pos;
     char buff[15];
     char pm[15];
-    struct tm order = {0};
+    struct tm order;
+    memset(&order, 0, sizeof(order));
     order.tm_hour = 13;
     order.tm_min = 0;
     order.tm_sec = 0;

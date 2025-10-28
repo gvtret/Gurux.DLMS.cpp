@@ -38,6 +38,7 @@
 #include "../include/GXDLMSConverter.h"
 
 #include <cstring>
+#include <limits>
 
 /**
  * Retrieves the string that indicates the level of authentication, if any.
@@ -86,13 +87,19 @@ int CGXAPDU::GenerateApplicationContextName(CGXDLMSSettings &settings, CGXByteBu
     CGXCipher *activeCipher = cipher != NULL ? cipher : settingsCipher;
     //ProtocolVersion
     if (settings.GetProtocolVersion() != NULL) {
-        size_t protocolVersionLength = strlen(settings.GetProtocolVersion());
+        const char *protocolVersion = settings.GetProtocolVersion();
+        size_t rawProtocolVersionLength = strlen(protocolVersion);
+        if (rawProtocolVersionLength > static_cast<size_t>(std::numeric_limits<int>::max())) {
+            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+        }
+        const int protocolVersionLength = static_cast<int>(rawProtocolVersionLength);
         if (protocolVersionLength > 8) {
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
         data.SetUInt8(BER_TYPE_CONTEXT | PDU_TYPE_PROTOCOL_VERSION);
         data.SetUInt8(2);
-        data.SetUInt8((unsigned char)(8 - protocolVersionLength));
+        const int padding = 8 - protocolVersionLength;
+        data.SetUInt8(static_cast<unsigned char>(padding));
         CGXDLMSVariant tmp = settings.GetProtocolVersion();
         GXHelpers::SetBitString(data, tmp, false);
     }
@@ -1790,7 +1797,7 @@ int CGXAPDU::GenerateAARE(
         body.SetUInt8(BER_TYPE_OCTET_STRING);
         GXHelpers::SetObjectCount(len, body);
         body.Set(settings.GetServerPublicKeyCertificate().m_RawData.GetData(), len);
-    } else if (settings.GetUserID() != -1) {
+    } else if (settings.GetUserID() != 0xFF) {
         body.SetUInt8(BER_TYPE_CONTEXT | BER_TYPE_CONSTRUCTED | PDU_TYPE_CALLING_AE_QUALIFIER);
         //LEN
         body.SetUInt8(3);

@@ -704,8 +704,8 @@ void CGXStandardObisCodeCollection::Find(unsigned char *pObisCode, int IC, std::
     //If invalid OBIS code.
     if (list.size() == 0) {
         CGXStandardObisCode *obj = new CGXStandardObisCode();
-        std::string desc = "Invalid";
-        obj->SetDescription(desc);
+        std::string desc2 = "Invalid";
+        obj->SetDescription(desc2);
 #if _MSC_VER > 1000
         sprintf_s(buff, 6, "%d", IC);
 #else

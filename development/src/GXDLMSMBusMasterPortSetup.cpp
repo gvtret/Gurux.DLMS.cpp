@@ -103,7 +103,7 @@ int CGXDLMSMBusMasterPortSetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSMBusMasterPortSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSMBusMasterPortSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
@@ -121,7 +121,7 @@ int CGXDLMSMBusMasterPortSetup::GetValue(CGXDLMSSettings &settings, CGXDLMSValue
 }
 
 // Set value of given attribute.
-int CGXDLMSMBusMasterPortSetup::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e) {
+int CGXDLMSMBusMasterPortSetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
     } else if (e.GetIndex() == 2) {

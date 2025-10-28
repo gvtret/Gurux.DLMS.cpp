@@ -38,6 +38,14 @@ CGXPublicKey::CGXPublicKey() {
     m_Scheme = ECC_P256;
 }
 
+CGXPublicKey::CGXPublicKey(const CGXPublicKey& value)
+{
+    m_Scheme = value.m_Scheme;
+    m_RawValue = value.m_RawValue;
+    m_SystemTitle = value.m_SystemTitle;
+}
+
+
 CGXPublicKey &CGXPublicKey::operator=(const CGXPublicKey &value) {
     m_Scheme = value.m_Scheme;
     m_RawValue = value.m_RawValue;
