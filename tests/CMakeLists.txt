@@ -28,6 +28,9 @@ set(TEST_SOURCES
     GXAPDUTest.cpp
     GXDLMSVariantTest.cpp
     GXCipherTest.cpp
+    GXDateTimeTest.cpp
+    GXDateTest.cpp
+    GXTimeTest.cpp
 )
 
 # Create test executable
