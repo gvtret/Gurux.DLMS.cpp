@@ -40,6 +40,9 @@
 #include "GXByteArray.h"
 #include "GXAsn1Base.h"
 
+/**
+ * Represents an ASN.1 BIT STRING, a data structure that holds a sequence of bits.
+*/
 class CGXAsn1BitString: public CGXAsn1Base {
 private:
     /**

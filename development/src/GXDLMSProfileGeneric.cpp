@@ -323,6 +323,9 @@ int CGXDLMSProfileGeneric::GetProfileGenericData(
     return GetData(settings, e, items, columns, reply);
 }
 
+/**
+ Constructor.
+*/
 CGXDLMSProfileGeneric::CGXDLMSProfileGeneric(): CGXDLMSProfileGeneric("", 0) {
 }
 
@@ -337,6 +340,11 @@ CGXDLMSProfileGeneric::CGXDLMSProfileGeneric(std::string ln, unsigned short sn)
     m_SortMethod = DLMS_SORT_METHOD_FIFO;
 }
 
+/**
+ Constructor.
+
+ @param ln Logical Name of the object.
+*/
 CGXDLMSProfileGeneric::CGXDLMSProfileGeneric(std::string ln): CGXDLMSProfileGeneric(ln, 0) {
 }
 
@@ -348,6 +356,9 @@ std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &CGXDLMSProfileG
     return m_CaptureObjects;
 }
 
+/**
+ How often values are captured.
+*/
 int CGXDLMSProfileGeneric::GetCapturePeriod() {
     return m_CapturePeriod;
 }
@@ -356,6 +367,9 @@ void CGXDLMSProfileGeneric::SetCapturePeriod(int value) {
     m_CapturePeriod = value;
 }
 
+/**
+ How columns are sorted.
+*/
 GX_SORT_METHOD CGXDLMSProfileGeneric::GetSortMethod() {
     return m_SortMethod;
 }

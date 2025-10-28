@@ -163,12 +163,12 @@ public:
     virtual ~CGXDLMSProfileGeneric();
 
     /**
-     Data of profile generic.
+     * @return Data of profile generic.
     */
     std::vector<std::vector<CGXDLMSVariant>> &GetBuffer();
 
     /**
-     Captured Objects.
+     * @return Captured Objects.
     */
     std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &GetCaptureObjects();
 
@@ -218,9 +218,13 @@ public:
     */
     void Reset();
 
-    /*
+    /**
     * Copies the values of the objects to capture into the buffer by reading
     * capture objects.
+    *
+    * @param server
+    *            DLMS server.
+    * @return Result code.
     */
     int Capture(CGXDLMSServer *server);
 
