@@ -540,14 +540,14 @@ int CGXDLMSSecuritySetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValue
                     delete value;
                     return ret;
                 }
-                if (CGXAsn1Integer *tmp = dynamic_cast<CGXAsn1Integer *>(value)) {
-                    tmp->GetValue().Reverse(0, tmp->GetValue().GetSize());
-                    CGXBigInteger bi = tmp->ToBigInteger();
+                if (CGXAsn1Integer *asn1Int = dynamic_cast<CGXAsn1Integer *>(value)) {
+                    asn1Int->GetValue().Reverse(0, asn1Int->GetValue().GetSize());
+                    CGXBigInteger bi = asn1Int->ToBigInteger();
                     info->SetSerialNumber(bi);
                     delete value;
-                } else if (CGXAsn1Variant *tmp = dynamic_cast<CGXAsn1Variant *>(value)) {
+                } else if (CGXAsn1Variant *asn1Var = dynamic_cast<CGXAsn1Variant *>(value)) {
                     bb.Clear();
-                    bb.Set(tmp->GetValue().byteArr, tmp->GetValue().size);
+                    bb.Set(asn1Var->GetValue().byteArr, asn1Var->GetValue().size);
                     CGXBigInteger bi(bb);
                     info->SetSerialNumber(bi);
                     delete value;

@@ -196,13 +196,15 @@ int CGXDLMSPrimeNbOfdmPlcMacCounters::GetValue(CGXDLMSSettings &/* settings */, 
     int ret = DLMS_ERROR_CODE_OK;
     switch (e.GetIndex()) {
         case 1: {
-            int ret;
+            int result;
             CGXDLMSVariant tmp;
-            if ((ret = GetLogicalName(this, tmp)) != 0) {
-                return ret;
+            if ((result = GetLogicalName(this, tmp)) != 0) {
+                return result;
             }
             e.SetValue(tmp);
+            // fallthrough
         }
+        // fallthrough
         case 2:
             e.SetValue(m_TxDataPktCount);
             break;

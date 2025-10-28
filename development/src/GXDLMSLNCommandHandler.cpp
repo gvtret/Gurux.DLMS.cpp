@@ -119,13 +119,13 @@ int CGXDLMSLNCommandHandler::GetRequestNormal(
     if (xml != NULL) {
         AppendAttributeDescriptor(xml, (int)ci, ln, attributeIndex);
         if (selection != 0) {
-            std::string tmp;
-            xml->IntegerToHex((int32_t)selector, 2, tmp);
+            std::string tmpStr;
+            xml->IntegerToHex((int32_t)selector, 2, tmpStr);
             CGXDataInfo info;
             CGXDLMSVariant value;
             info.SetXml(xml);
             xml->AppendStartTag(DLMS_TRANSLATOR_TAGS_ACCESS_SELECTION);
-            xml->AppendLine(DLMS_TRANSLATOR_TAGS_ACCESS_SELECTOR, "", tmp);
+            xml->AppendLine(DLMS_TRANSLATOR_TAGS_ACCESS_SELECTOR, "", tmpStr);
             xml->AppendStartTag(DLMS_TRANSLATOR_TAGS_ACCESS_PARAMETERS);
             if ((ret = GXHelpers::GetData(&settings, data, info, value)) != 0) {
                 return ret;
@@ -529,16 +529,16 @@ int CGXDLMSLNCommandHandler::HandleSetRequestNormal(
     if (xml != NULL) {
         AppendAttributeDescriptor(xml, (int)ci, ln, index);
         xml->AppendStartTag(DLMS_TRANSLATOR_TAGS_VALUE);
-        CGXDLMSVariant value;
+        CGXDLMSVariant xmlValue;
         CGXDataInfo di;
         di.SetXml(xml);
-        if ((ret = GXHelpers::GetData(&settings, data, di, value)) != 0) {
+        if ((ret = GXHelpers::GetData(&settings, data, di, xmlValue)) != 0) {
             return ret;
         }
         if (!di.IsComplete()) {
-            value = data.ToHexString(data.GetPosition(), data.Available(), false);
-        } else if (value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
-            value = GXHelpers::BytesToHex(value.byteArr, value.GetSize(), false);
+            xmlValue = data.ToHexString(data.GetPosition(), data.Available(), false);
+        } else if (xmlValue.vt == DLMS_DATA_TYPE_OCTET_STRING) {
+            xmlValue = GXHelpers::BytesToHex(xmlValue.byteArr, xmlValue.GetSize(), false);
         }
         xml->AppendEndTag(DLMS_TRANSLATOR_TAGS_VALUE);
         return 0;
@@ -580,10 +580,10 @@ int CGXDLMSLNCommandHandler::HandleSetRequestNormal(
                     return ret;
                 }
                 if (dt != DLMS_DATA_TYPE_NONE && dt != DLMS_DATA_TYPE_OCTET_STRING) {
-                    CGXByteBuffer tmp;
-                    tmp.Set(value.byteArr, value.GetSize());
+                    CGXByteBuffer tmpBuff;
+                    tmpBuff.Set(value.byteArr, value.GetSize());
                     value.Clear();
-                    if ((ret = CGXDLMSClient::ChangeType(tmp, dt, value)) != 0) {
+                    if ((ret = CGXDLMSClient::ChangeType(tmpBuff, dt, value)) != 0) {
                         return ret;
                     }
                 }

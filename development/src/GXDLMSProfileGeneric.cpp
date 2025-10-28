@@ -704,14 +704,14 @@ int CGXDLMSProfileGeneric::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
         }
         if (e.GetValue().vt != DLMS_DATA_TYPE_NONE) {
             std::vector<DLMS_DATA_TYPE> types;
-            DLMS_DATA_TYPE type;
+            DLMS_DATA_TYPE dataType;
             for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it =
                      m_CaptureObjects.begin();
                  it != m_CaptureObjects.end(); ++it) {
-                if ((ret = (*it).first->GetUIDataType((*it).second->GetAttributeIndex(), type)) != 0) {
+                if ((ret = (*it).first->GetUIDataType((*it).second->GetAttributeIndex(), dataType)) != 0) {
                     return ret;
                 }
-                types.push_back(type);
+                types.push_back(dataType);
             }
 
             CGXDateTime lastDate;
@@ -725,13 +725,13 @@ int CGXDLMSProfileGeneric::SetValue(CGXDLMSSettings &settings, CGXDLMSValueEvent
                 for (unsigned int pos = 0; pos < (*row).Arr.size(); ++pos) {
                     std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *> item = m_CaptureObjects[pos];
                     if (row->Arr[pos].vt == DLMS_DATA_TYPE_OCTET_STRING) {
-                        DLMS_DATA_TYPE type = types.at(pos);
-                        if (type != DLMS_DATA_TYPE_NONE) {
-                            if ((ret = CGXDLMSClient::ChangeType(row->Arr[pos], type, data)) != 0) {
+                        DLMS_DATA_TYPE currentType = types.at(pos);
+                        if (currentType != DLMS_DATA_TYPE_NONE) {
+                            if ((ret = CGXDLMSClient::ChangeType(row->Arr[pos], currentType, data)) != 0) {
                                 return ret;
                             }
                             row->Arr[pos] = data;
-                            if (type == DLMS_DATA_TYPE_DATETIME) {
+                            if (currentType == DLMS_DATA_TYPE_DATETIME) {
                                 lastDate = data.dateTime;
                             }
                         }

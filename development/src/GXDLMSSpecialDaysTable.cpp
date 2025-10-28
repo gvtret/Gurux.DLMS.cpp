@@ -107,8 +107,8 @@ void CGXDLMSSpecialDaysTable::GetValues(std::vector<std::string> &values) {
             sb << ", ";
         }
         empty = false;
-        std::string str = (*it)->ToString();
-        sb.write(str.c_str(), str.size());
+        std::string entryStr = (*it)->ToString();
+        sb.write(entryStr.c_str(), entryStr.size());
     }
     sb << ']';
     values.push_back(sb.str());

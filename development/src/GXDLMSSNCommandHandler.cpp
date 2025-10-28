@@ -205,6 +205,7 @@ int CGXDLMSSNCommandHandler::HandleWriteRequest(
                 if (xml == NULL) {
                     return ret;
                 }
+                // fallthrough
             default:
                 // Device reports a HW error.
                 results.SetUInt8(DLMS_ERROR_CODE_HARDWARE_FAULT);

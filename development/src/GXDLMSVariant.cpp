@@ -428,9 +428,9 @@ CGXDLMSVariant::CGXDLMSVariant(CGXDLMSVariant *value) {
             Arr.push_back(*it);
         }
     } else {
-        int size = value->GetSize();
-        if (size > 0) {
-            memcpy(&bVal, &value->bVal, size);
+        int valueSize = value->GetSize();
+        if (valueSize > 0) {
+            memcpy(&bVal, &value->bVal, valueSize);
         } else {
             assert(0);
         }
@@ -799,12 +799,12 @@ bool CGXDLMSVariant::Equals(CGXDLMSVariant &item) {
     if (vt == DLMS_DATA_TYPE_STRING) {
         return strVal == item.strVal;
     }
-    int size = GetSize();
-    if (size == -1 || size != item.GetSize()) {
+    int ownSize = GetSize();
+    if (ownSize == -1 || ownSize != item.GetSize()) {
         return false;
     }
-    if (size != 0) {
-        return memcmp(&this->bVal, &item.bVal, size) == 0;
+    if (ownSize != 0) {
+        return memcmp(&this->bVal, &item.bVal, ownSize) == 0;
     }
     return true;
 }
