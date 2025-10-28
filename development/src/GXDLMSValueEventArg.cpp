@@ -86,17 +86,22 @@ void CGXDLMSValueEventArg::SetParameters(CGXDLMSVariant &value) {
 
 void CGXDLMSValueEventArg::Init(CGXDLMSServer *server, CGXDLMSObject *target, int index, int selector) {
     m_Server = server;
-    m_Settings = &server->GetSettings();
+    if (server != NULL)
+    {
+        m_Settings = &server->GetSettings();
+    }
     m_Handled = false;
     SetTarget(target);
     SetIndex(index);
     m_Selector = selector;
     m_Error = DLMS_ERROR_CODE_OK;
+    m_Action = false;
     m_ByteArray = false;
     m_SkipMaxPduSize = false;
     m_RowToPdu = 0;
     m_RowBeginIndex = 0;
     m_RowEndIndex = 0;
+    m_InvokeId = 0;
 }
 
 CGXDLMSValueEventArg::CGXDLMSValueEventArg(CGXDLMSServer *server, CGXDLMSObject *target, int index) {

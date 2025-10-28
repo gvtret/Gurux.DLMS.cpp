@@ -42,6 +42,8 @@ CGXDLMSTokenGateway::CGXDLMSTokenGateway(): CGXDLMSTokenGateway("", 0) {
 //SN Constructor.
 CGXDLMSTokenGateway::CGXDLMSTokenGateway(std::string ln, unsigned short sn)
     : CGXDLMSObject(DLMS_OBJECT_TYPE_TOKEN_GATEWAY, ln, sn) {
+    m_DeliveryMethod = DLMS_TOKEN_DELIVERY_REMOTE;
+    m_Status = DLMS_TOKEN_STATUS_CODE_TOKEN_FORMAT_FAILURE;
 }
 
 //LN Constructor.

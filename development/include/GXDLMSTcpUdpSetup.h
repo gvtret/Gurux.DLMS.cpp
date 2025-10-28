@@ -38,6 +38,8 @@
 #include "GXIgnore.h"
 #ifndef DLMS_IGNORE_TCP_UDP_SETUP
 
+#include "GXDLMSObject.h"
+
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSTcpUdpSetup
