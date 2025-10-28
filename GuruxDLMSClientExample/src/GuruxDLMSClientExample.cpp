@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
         char* authenticationKey = NULL;
         char* blockCipherKey = NULL;
         char* dedicatedKey = NULL;
-        uint16_t macDestinationAddress;
+        uint16_t macDestinationAddress __attribute__((unused));
         unsigned char gbtWindowSize = 1;
         unsigned char windowSize = 1;
         uint16_t maxInfo = 128;

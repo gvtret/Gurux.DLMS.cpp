@@ -35,6 +35,8 @@
 #ifndef GXHELPERS_H
 #define GXHELPERS_H
 
+#define UNUSED(x) (void)x
+
 #include "errorcodes.h"
 #include "GXDLMSVariant.h"
 #include "GXDataInfo.h"

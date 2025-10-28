@@ -104,7 +104,8 @@ void ListenerThread(void* pVoid)
 {
     CGXByteBuffer reply;
     CGXDLMSBase* server = (CGXDLMSBase*)pVoid;
-    sockaddr_in add = { 0 };
+    sockaddr_in add;
+    memset(&add, 0, sizeof(add));
     int ret;
     char tmp[10];
     CGXByteBuffer bb;
@@ -266,7 +267,8 @@ int CGXDLMSBase::StartServer(int port)
         //setsockopt.
         return -1;
     }
-    sockaddr_in add = { 0 };
+    sockaddr_in add;
+    memset(&add, 0, sizeof(add));
     add.sin_port = htons(port);
     add.sin_addr.s_addr = htonl(INADDR_ANY);
 #if defined(_WIN32) || defined(_WIN64)//Windows includes
@@ -348,9 +350,9 @@ CGXDLMSData* AddLogicalDeviceName(CGXDLMSObjectCollection& items, unsigned long 
 {
     char buff[17];
 #if defined(_WIN32) || defined(_WIN64)//Windows
-    sprintf_s(buff, "GRX%.13d", sn);
+    sprintf_s(buff, "GRX%.13lu", sn);
 #else
-    sprintf(buff, "GRX%.13d", sn);
+    sprintf(buff, "GRX%.13lu", sn);
 #endif
     CGXDLMSVariant id;
     id.Add((const char*)buff, 16);
@@ -379,9 +381,9 @@ void AddElectricityID1(CGXDLMSObjectCollection& items, unsigned long sn)
 {
     char buff[17];
 #if defined(_WIN32) || defined(_WIN64)//Windows
-    sprintf_s(buff, "GRX%.13d", sn);
+    sprintf_s(buff, "GRX%.13lu", sn);
 #else
-    sprintf(buff, "GRX%.13d", sn);
+    sprintf(buff, "GRX%.13lu", sn);
 #endif
     CGXDLMSVariant id;
     id.Add((const char*)buff, 16);
@@ -795,7 +797,7 @@ void GetProfileGenericDataByEntry(CGXDLMSProfileGeneric* p, long index, long cou
                 }
                 else if (len == 7)
                 {
-                    if (p->GetBuffer().size() == count)
+                    if ((long int)p->GetBuffer().size() == count)
                     {
                         break;
                     }
@@ -805,7 +807,7 @@ void GetProfileGenericDataByEntry(CGXDLMSProfileGeneric* p, long index, long cou
                     row.push_back(value);
                     p->GetBuffer().push_back(row);
                 }
-                if (p->GetBuffer().size() == count)
+                if ((long int)p->GetBuffer().size() == count)
                 {
                     break;
                 }

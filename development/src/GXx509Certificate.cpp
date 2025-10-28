@@ -164,17 +164,17 @@ int CGXx509Certificate::UpdateSerialNumber(CGXAsn1Sequence *reqInfo) {
     if (CGXAsn1Integer *value = dynamic_cast<CGXAsn1Integer *>(reqInfo->GetValues()->at(1))) {
         m_SerialNumber = CGXBigInteger(value->GetValue());
     } else {
-        if (CGXAsn1Variant *value = dynamic_cast<CGXAsn1Variant *>(reqInfo->GetValues()->at(1))) {
-            if (value->GetValue().vt == DLMS_DATA_TYPE_OCTET_STRING) {
-                int size = value->GetValue().GetSize();
+        if (CGXAsn1Variant *variant = dynamic_cast<CGXAsn1Variant *>(reqInfo->GetValues()->at(1))) {
+            if (variant->GetValue().vt == DLMS_DATA_TYPE_OCTET_STRING) {
+                int size = variant->GetValue().GetSize();
                 if (size < 0) {
                     return DLMS_ERROR_CODE_INVALID_PARAMETER;
                 }
                 CGXByteBuffer bb;
-                bb.Set(value->GetValue().byteArr, size);
+                bb.Set(variant->GetValue().byteArr, size);
                 m_SerialNumber = CGXBigInteger(bb);
             } else {
-                m_SerialNumber = CGXBigInteger(value->GetValue().ToInteger());
+                m_SerialNumber = CGXBigInteger(variant->GetValue().ToInteger());
             }
         } else {
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
@@ -224,8 +224,8 @@ int CGXx509Certificate::UpdateValidity(CGXAsn1Sequence *reqInfo) {
             if (CGXAsn1Time *tm = dynamic_cast<CGXAsn1Time *>(tmp->GetValues()->at(1))) {
                 m_ValidTo = tm->GetValue().GetValue();
             }
-            if (CGXAsn1Sequence *tmp = dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(5))) {
-                ret = CGXAsn1Converter::GetSubject(tmp, m_Subject);
+            if (CGXAsn1Sequence *subjectSeq = dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(5))) {
+                ret = CGXAsn1Converter::GetSubject(subjectSeq, m_Subject);
             } else {
                 ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
             }
@@ -256,9 +256,9 @@ int CGXx509Certificate::UpdateKeyUsage(CGXAsn1Sequence *s, CGXAsn1Base *value) {
         m_KeyUsage = (DLMS_KEY_USAGE)tmp->ToInteger();
     } else if (dynamic_cast<CGXAsn1Variant *>(value)) {
         value = s->GetValues()->at(2);
-        if (CGXAsn1BitString *tmp = dynamic_cast<CGXAsn1BitString *>(value)) {
+        if (CGXAsn1BitString *bitString = dynamic_cast<CGXAsn1BitString *>(value)) {
             // critical is optional. BOOLEAN DEFAULT FALSE,
-            m_KeyUsage = (DLMS_KEY_USAGE)tmp->ToInteger();
+            m_KeyUsage = (DLMS_KEY_USAGE)bitString->ToInteger();
         } else {
             ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
@@ -316,16 +316,16 @@ int CGXx509Certificate::UpdateAuthorityKeyIdentifier(CGXAsn1Base *value) {
                 switch (a->GetIndex()) {
                     case 0:
                         // Authority Key Identifier.
-                        if (CGXAsn1Variant *value = dynamic_cast<CGXAsn1Variant *>(a->GetValues()->at(0))) {
-                            m_AuthorityKeyIdentifier.Set(value->GetValue().byteArr, value->GetValue().size);
+                        if (CGXAsn1Variant *variant = dynamic_cast<CGXAsn1Variant *>(a->GetValues()->at(0))) {
+                            m_AuthorityKeyIdentifier.Set(variant->GetValue().byteArr, variant->GetValue().size);
                         }
                         break;
                     case 1: {
                         std::string sb;
                         if (CGXAsn1Context *a2 = dynamic_cast<CGXAsn1Context *>(a->GetValues()->at(0))) {
-                            if (CGXAsn1Sequence *value = dynamic_cast<CGXAsn1Sequence *>(a2->GetValues()->at(0))) {
-                                for (std::vector<CGXAsn1Base *>::iterator kp = value->GetValues()->begin();
-                                     kp != value->GetValues()->end(); ++kp) {
+                            if (CGXAsn1Sequence *seq = dynamic_cast<CGXAsn1Sequence *>(a2->GetValues()->at(0))) {
+                                for (std::vector<CGXAsn1Base *>::iterator kp = seq->GetValues()->begin();
+                                     kp != seq->GetValues()->end(); ++kp) {
                                     if (CGXAsn1Set *it2 = dynamic_cast<CGXAsn1Set *>(*kp)) {
                                         DLMS_X509_NAME name =
                                             CGXDLMSConverter::ValueOfx509Name(it2->GetKey()->ToString().c_str());
@@ -345,8 +345,8 @@ int CGXx509Certificate::UpdateAuthorityKeyIdentifier(CGXAsn1Base *value) {
                     } break;
                     case 2:
                         // Authority cert serial number.
-                        if (CGXAsn1Variant *value = dynamic_cast<CGXAsn1Variant *>(a->GetValues()->at(0))) {
-                            m_AuthorityCertificationSerialNumber.Set(value->GetValue().byteArr, value->GetValue().size);
+                        if (CGXAsn1Variant *variant = dynamic_cast<CGXAsn1Variant *>(a->GetValues()->at(0))) {
+                            m_AuthorityCertificationSerialNumber.Set(variant->GetValue().byteArr, variant->GetValue().size);
                         }
                         break;
                     default:
@@ -363,7 +363,6 @@ int CGXx509Certificate::UpdateAuthorityKeyIdentifier(CGXAsn1Base *value) {
 
 int CGXx509Certificate::UpdateStandardExtensions(CGXAsn1Sequence *reqInfo, bool &basicConstraintsExists) {
     int ret = 0;
-    CGXAsn1Base *value = NULL;
     if (dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(4))) {
         // Get Standard Extensions.
         if (reqInfo->GetValues()->size() > 7) {
@@ -372,29 +371,29 @@ int CGXx509Certificate::UpdateStandardExtensions(CGXAsn1Sequence *reqInfo, bool 
                     DLMS_X509_CERTIFICATE_TYPE t;
                     for (std::vector<CGXAsn1Base *>::iterator tmp = s->GetValues()->begin();
                          tmp != s->GetValues()->end(); ++tmp) {
-                        if (CGXAsn1Sequence *s = dynamic_cast<CGXAsn1Sequence *>(*tmp)) {
+                        if (CGXAsn1Sequence *innerS = dynamic_cast<CGXAsn1Sequence *>(*tmp)) {
                             if (CGXAsn1ObjectIdentifier *id =
-                                    dynamic_cast<CGXAsn1ObjectIdentifier *>(s->GetValues()->at(0))) {
+                                    dynamic_cast<CGXAsn1ObjectIdentifier *>(innerS->GetValues()->at(0))) {
                                 t = CGXDLMSConverter::ValueOfSourceDiagnosticX509CertificateType(
                                     id->GetObjectIdentifier().c_str()
                                 );
-                                value = s->GetValues()->at(1);
+                                CGXAsn1Base* extensionValue = innerS->GetValues()->at(1);
                                 switch (t) {
                                     case DLMS_X509_CERTIFICATE_TYPE_SUBJECT_KEY_IDENTIFIER:
-                                        ret = UpdateSubjectKeyIdentifier(value);
+                                        ret = UpdateSubjectKeyIdentifier(extensionValue);
                                         break;
                                     case DLMS_X509_CERTIFICATE_TYPE_AUTHORITY_KEY_IDENTIFIER: {
-                                        ret = UpdateAuthorityKeyIdentifier(value);
+                                        ret = UpdateAuthorityKeyIdentifier(extensionValue);
                                     } break;
                                     case DLMS_X509_CERTIFICATE_TYPE_KEY_USAGE:
-                                        ret = UpdateKeyUsage(s, value);
+                                        ret = UpdateKeyUsage(innerS, extensionValue);
                                         break;
                                     case DLMS_X509_CERTIFICATE_TYPE_EXTENDED_KEY_USAGE:
-                                        ret = UpdateExtendedKeyUsage(value);
+                                        ret = UpdateExtendedKeyUsage(extensionValue);
                                         break;
                                     case DLMS_X509_CERTIFICATE_TYPE_BASIC_CONSTRAINTS:
                                         basicConstraintsExists = true;
-                                        ret = UpdateBasicConstraints(value);
+                                        ret = UpdateBasicConstraints(extensionValue);
                                         break;
                                     default:
                                         printf("Unknown extensions: %s\r", id->ToString().c_str());
@@ -435,8 +434,8 @@ int CGXx509Certificate::Init(CGXByteBuffer &data) {
                 printf("Wrong number of elements in sequence.");
                 ret = DLMS_ERROR_CODE_INVALID_DATA_FORMAT;
             } else if (CGXAsn1Sequence *reqInfo = dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(0))) {
-                if (CGXAsn1Context *tmp = dynamic_cast<CGXAsn1Context *>(reqInfo->GetValues()->at(0))) {
-                    if ((ret = UpdateVersion(tmp)) != 0 || (ret = UpdateSerialNumber(reqInfo)) != 0 ||
+                if (CGXAsn1Context *context = dynamic_cast<CGXAsn1Context *>(reqInfo->GetValues()->at(0))) {
+                    if ((ret = UpdateVersion(context)) != 0 || (ret = UpdateSerialNumber(reqInfo)) != 0 ||
                         (ret = UpdateSignatureAlgorithm(reqInfo)) != 0 || (ret = UpdateIssuer(reqInfo)) != 0 ||
                         (ret = UpdateValidity(reqInfo)) != 0 ||
                         (ret = UpdateStandardExtensions(reqInfo, basicConstraintsExists)) != 0) {

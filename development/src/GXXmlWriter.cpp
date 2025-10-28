@@ -434,7 +434,6 @@ int CGXXmlWriter::WriteElementObject(
     const char *name, CGXDLMSVariant &value, DLMS_DATA_TYPE dt, DLMS_DATA_TYPE uiType
 ) {
     int ret;
-    std::string str;
     AppendSpaces();
     m_Elements.push_back(name);
     if (dt == DLMS_DATA_TYPE_NONE) {

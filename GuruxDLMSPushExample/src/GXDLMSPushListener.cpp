@@ -69,7 +69,8 @@ void ListenerThread(void* pVoid)
     CGXDLMSClient cl(true, -1, -1, DLMS_AUTHENTICATION_NONE, NULL, DLMS_INTERFACE_TYPE_WRAPPER);
     CGXDLMSPushListener* server = (CGXDLMSPushListener*)pVoid;
 
-    sockaddr_in add = { 0 };
+    sockaddr_in add;
+    memset(&add, 0, sizeof(add));
     int ret;
     char tmp[10];
     CGXByteBuffer bb;
@@ -197,7 +198,7 @@ void ListenerThread(void* pVoid)
                         std::string xml;
                         CGXDLMSTranslator t(DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML);
                         t.DataToXml(notify.GetData(), xml);
-                        printf(xml.c_str());                       
+                        printf("%s", xml.c_str());
                         printf("Server address: %d Client Address: %d\r\n", notify.GetServerAddress(), notify.GetClientAddress());
                         notify.Clear();
                         bb.SetSize(0);
@@ -252,7 +253,8 @@ int CGXDLMSPushListener::StartServer(int port)
         //setsockopt.
         return -1;
     }
-    sockaddr_in add = { 0 };
+    sockaddr_in add;
+    memset(&add, 0, sizeof(add));
     add.sin_port = htons(port);
     add.sin_addr.s_addr = htonl(INADDR_ANY);
 #if defined(_WIN32) || defined(_WIN64)//Windows includes

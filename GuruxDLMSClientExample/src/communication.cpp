@@ -59,8 +59,7 @@ void CGXCommunication::WriteValue(GX_TRACE_LEVEL trace, std::string line)
 
 
 CGXCommunication::CGXCommunication(CGXDLMSSecureClient* pParser, uint16_t wt, GX_TRACE_LEVEL trace, char* invocationCounter) :
-    m_WaitTime(wt), m_Parser(pParser),
-    m_socket(-1), m_Trace(trace), m_InvocationCounter(invocationCounter)
+    m_Parser(pParser), m_WaitTime(wt), m_Trace(trace), m_socket(-1), m_InvocationCounter(invocationCounter)
 {
 #if defined(_WIN32) || defined(_WIN64)//Windows includes
     ZeroMemory(&m_osReader, sizeof(OVERLAPPED));
@@ -721,7 +720,7 @@ int CGXCommunication::Open(const char* settings, int /* maxBaudrate */)
     Close();
     int ret;
     int parity;
-    unsigned char stopBits, dataBits = 8;
+    unsigned char stopBits __attribute__((unused)), dataBits __attribute__((unused)) = 8;
     std::string port;
     port = settings;
     std::vector< std::string > tmp = GXHelpers::Split(port, ':');
@@ -787,7 +786,6 @@ int CGXCommunication::Open(const char* settings, int /* maxBaudrate */)
         }
     }
     //In Linux serial port name might be very long.
-    char buff[50];
     struct termios options;
     // read/write | not controlling term | don't wait for DCD line signal.
     m_hComPort = open(port.c_str(), O_RDWR | O_NOCTTY | O_NONBLOCK);
@@ -1066,7 +1064,7 @@ int CGXCommunication::ReadData(CGXByteBuffer& reply, std::string& str)
     if (m_hComPort != INVALID_HANDLE_VALUE)
     {
         unsigned short pos = (unsigned short)reply.GetSize();
-        if (ret = Read(0x7E, reply) != 0)
+        if ((ret = Read(0x7E, reply)) != 0)
         {
             str += reply.ToHexString(pos, reply.GetSize() - pos, true);
             printf("Read failed.\n%s", str.c_str());
@@ -1149,7 +1147,7 @@ int CGXCommunication::ReadDLMSPacket(CGXByteBuffer& data, CGXReplyData& reply)
                 //Show received push message as XML.
                 std::string xml;
                 CGXDLMSTranslator t(DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML);
-                if ((ret = t.DataToXml(notify.GetData(), xml)) != 0)
+                if (t.DataToXml(notify.GetData(), xml) != 0)
                 {
                     printf("ERROR! DataToXml failed.");
                 }
@@ -1161,7 +1159,7 @@ int CGXCommunication::ReadDLMSPacket(CGXByteBuffer& data, CGXReplyData& reply)
             }
             continue;
         }
-        if ((ret = ReadData(bb, tmp)) != 0)
+        if (ReadData(bb, tmp) != 0)
         {
             if (ret != DLMS_ERROR_CODE_RECEIVE_FAILED || pos == 3)
             {
@@ -2114,7 +2112,7 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
             return ret;
         }
         //Validate subject.
-        if (pkc10ServerAgreement.GetSubject().find(subject) == -1)
+        if (pkc10ServerAgreement.GetSubject().find(subject) == std::string::npos)
         {
             CGXAsn1Converter::HexSystemTitleFromSubject(pkc10ServerAgreement.GetSubject(), str);
             printf("Server system title '%s' is not the same as in the generated certificate request '%s'.",
@@ -2168,12 +2166,12 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         {
             DLMS_CERTIFICATE_ENTITY entity;
             CGXByteBuffer st;
-            if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(ss.GetServerSystemTitle())) != -1)
+            if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(ss.GetServerSystemTitle())) != std::string::npos)
             {
                 st = ss.GetServerSystemTitle();
                 entity = DLMS_CERTIFICATE_ENTITY_SERVER;
             }
-            else if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(clientST)) != -1)
+            else if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(clientST)) != std::string::npos)
             {
                 st = clientST;
                 entity = DLMS_CERTIFICATE_ENTITY_CLIENT;

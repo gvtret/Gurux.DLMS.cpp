@@ -100,30 +100,30 @@ int CGXPkcs10::Init(CGXByteBuffer &data) {
                 ret = DLMS_ERROR_CODE_INVALID_DATA_FORMAT;
             }
             if (CGXAsn1Sequence *reqInfo = dynamic_cast<CGXAsn1Sequence *>(seq->GetValues()->at(0))) {
-                if (CGXAsn1Variant *tmp = dynamic_cast<CGXAsn1Variant *>(reqInfo->GetValues()->at(0))) {
-                    m_Version = (DLMS_CERTIFICATE_VERSION)tmp->GetValue().cVal;
-                    if (CGXAsn1Sequence *tmp = dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(1))) {
-                        ret = CGXAsn1Converter::GetSubject(tmp, m_Subject);
+                if (CGXAsn1Variant *versionVariant = dynamic_cast<CGXAsn1Variant *>(reqInfo->GetValues()->at(0))) {
+                    m_Version = (DLMS_CERTIFICATE_VERSION)versionVariant->GetValue().cVal;
+                    if (CGXAsn1Sequence *subjectSeq = dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(1))) {
+                        ret = CGXAsn1Converter::GetSubject(subjectSeq, m_Subject);
                     }
                     if (CGXAsn1Sequence *subjectPKInfo = dynamic_cast<CGXAsn1Sequence *>(reqInfo->GetValues()->at(2))) {
                         if (reqInfo->GetValues()->size() > 3) {
                             //PkcsObjectIdentifier
-                            if (CGXAsn1Context *tmp = dynamic_cast<CGXAsn1Context *>(reqInfo->GetValues()->at(3))) {
-                                for (std::vector<CGXAsn1Base *>::iterator item = tmp->GetValues()->begin();
-                                     item != tmp->GetValues()->end(); ++item) {
-                                    if (CGXAsn1Sequence *it = dynamic_cast<CGXAsn1Sequence *>(*item)) {
+                            if (CGXAsn1Context *context = dynamic_cast<CGXAsn1Context *>(reqInfo->GetValues()->at(3))) {
+                                for (std::vector<CGXAsn1Base *>::iterator item = context->GetValues()->begin();
+                                     item != context->GetValues()->end(); ++item) {
+                                    if (CGXAsn1Sequence *innerIt = dynamic_cast<CGXAsn1Sequence *>(*item)) {
                                         std::vector<CGXAsn1Base *> values;
-                                        if (CGXAsn1Set *it2 = dynamic_cast<CGXAsn1Set *>(it->GetValues()->at(1))) {
+                                        if (CGXAsn1Set *it2 = dynamic_cast<CGXAsn1Set *>(innerIt->GetValues()->at(1))) {
                                             values.push_back(it2->GetKey());
                                         } else {
                                             ret = DLMS_ERROR_CODE_INVALID_DATA_FORMAT;
                                         }
-                                        CGXAsn1Base *tmp = it->GetValues()->at(0);
-                                        DLMS_PKCS_OBJECT_IDENTIFIER tmp2 =
-                                            CGXDLMSConverter::ValueOfPKCSObjectIdentifier(tmp->ToString().c_str());
+                                        CGXAsn1Base *oid = innerIt->GetValues()->at(0);
+                                        DLMS_PKCS_OBJECT_IDENTIFIER oidValue =
+                                            CGXDLMSConverter::ValueOfPKCSObjectIdentifier(oid->ToString().c_str());
                                         m_Attributes.push_back(
                                             std::pair<DLMS_PKCS_OBJECT_IDENTIFIER, std::vector<CGXAsn1Base *>>(
-                                                tmp2, values
+                                                oidValue, values
                                             )
                                         );
                                     } else {
@@ -162,12 +162,12 @@ int CGXPkcs10::Init(CGXByteBuffer &data) {
                                         if (CGXAsn1BitString *signature =
                                                 dynamic_cast<CGXAsn1BitString *>(seq->GetValues()->at(2))) {
                                             //Get raw data.
-                                            CGXDLMSVariant value;
+                                            CGXDLMSVariant variantValue;
                                             uint32_t count;
                                             CGXByteBuffer tmp2;
                                             data.SetPosition(0);
                                             ret = tmp2.Set(data.GetData(), data.Available());
-                                            ret = CGXAsn1Converter::GetNext(tmp2, value);
+                                            ret = CGXAsn1Converter::GetNext(tmp2, variantValue);
                                             tmp2.SetSize(tmp2.GetPosition());
                                             tmp2.SetPosition(1);
                                             ret = GXHelpers::GetObjectCount(tmp2, count);
@@ -418,16 +418,16 @@ int CGXPkcs10::Sign(CGXPrivateKey &key, DLMS_HASH_ALGORITHM hashAlgorithm) {
             ret = e.Sign(data, signature);
             if (ret == 0) {
                 int size = hashAlgorithm == DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA ? 32 : 48;
-                CGXAsn1Sequence s;
+                CGXAsn1Sequence signatureSequence;
                 ret = signature.SubArray(0, size, bb);
                 if (ret == 0) {
-                    s.GetValues()->push_back(new CGXAsn1Integer(bb));
+                    signatureSequence.GetValues()->push_back(new CGXAsn1Integer(bb));
                     bb.Clear();
                     ret = signature.SubArray(size, size, bb);
                     if (ret == 0) {
-                        s.GetValues()->push_back(new CGXAsn1Integer(bb));
+                        signatureSequence.GetValues()->push_back(new CGXAsn1Integer(bb));
                         bb.Clear();
-                        ret = CGXAsn1Converter::ToByteArray(&s, bb);
+                        ret = CGXAsn1Converter::ToByteArray(&signatureSequence, bb);
                         m_Signature = bb;
                     }
                 }
