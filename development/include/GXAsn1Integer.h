@@ -41,7 +41,7 @@
 #include "GXAsn1Base.h"
 
 /**
- ASN1 bit string.
+ * ASN.1 Integer.
 */
 class CGXAsn1Integer: public CGXAsn1Base {
 private:
@@ -70,7 +70,7 @@ public:
 
     /**
      Constructor
-     @param data Integer.
+     @param value Integer.
     */
     CGXAsn1Integer(CGXByteBuffer &value) {
         m_Value = value;

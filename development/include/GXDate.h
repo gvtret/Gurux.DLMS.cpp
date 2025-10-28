@@ -61,12 +61,9 @@ public:
     /**
     * Constructor.
     *
-    * @param forvalue
+    * @param value
     *            Date value.
     */
-    /// <summary>
-    /// Constructor.
-    /// </summary>
     CGXDate(CGXDateTime &value): CGXDateTime(value.GetValue()) {
         SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
                                  DATETIME_SKIPS_MS));

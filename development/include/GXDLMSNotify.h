@@ -45,6 +45,9 @@
 #include "GXDLMSClient.h"
 #include "GXDLMSObjectFactory.h"
 
+/**
+ * DLMS notify service.
+*/
 class CGXDLMSNotify {
 private:
 protected:
@@ -193,6 +196,8 @@ public:
      *            Date time. Set to NULL or Date(0) if not used
      * @param data
      *            Notification body.
+     * @param reply
+     *            Generated messages.
      * @return Generated data notification message(s).
      */
     int GenerateDataNotificationMessages(struct tm *date, CGXByteBuffer &data, std::vector<CGXByteBuffer> &reply);
@@ -204,6 +209,8 @@ public:
      *            Date time. Set To Min or Max if not added.
      * @param objects
      *            List of objects and attribute indexes to notify.
+     * @param reply
+     *            Generated messages.
      * @return Generated data notification message(s).
      */
     int GenerateDataNotificationMessages(
@@ -219,6 +226,8 @@ public:
      *            Date time. Set to NULL or Date(0) if not used.
      * @param push
      *            Target Push object.
+     * @param reply
+     *            Generated messages.
      * @return Generated data notification message(s).
      */
     int GeneratePushSetupMessages(struct tm *date, CGXDLMSPushSetup *push, std::vector<CGXByteBuffer> &reply);
@@ -230,6 +239,8 @@ public:
     *
     * @param data
     *            Received value.
+    * @param items
+    *            Parsed objects.
     * @return Array of objects and called indexes.
     */
     int ParsePush(std::vector<CGXDLMSVariant> &data, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &items);

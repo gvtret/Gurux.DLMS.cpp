@@ -139,17 +139,6 @@ int CGXSecure::DecryptAesKeyWrapping(CGXByteBuffer &data, CGXByteBuffer &kek, CG
     return 0;
 }
 
-/**
-    * Chipher text.
-    *
-    * @param auth
-    *            Authentication level.
-    * @param data
-    *            Text to chipher.
-    * @param secret
-    *            Secret.
-    * @return Chiphered text.
-    */
 int CGXSecure::Secure(
     CGXDLMSSettings &settings, CGXCipher *cipher, unsigned long ic, CGXByteBuffer &data, CGXByteBuffer &secret,
     CGXByteBuffer &reply

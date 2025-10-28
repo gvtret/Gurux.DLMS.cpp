@@ -43,6 +43,9 @@
 
 class CGXDLMSSettings;
 
+/**
+ * DLMS helper methods.
+*/
 class GXHelpers {
     /*
     * Convert char hex value to byte value.
@@ -182,7 +185,6 @@ public:
      *            Hex std::string.
      * @param buffer
      *            byte array.
-     * @return Occurred error.
      */
     static void HexToBytes(std::string &value, CGXByteBuffer &buffer);
 

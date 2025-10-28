@@ -42,6 +42,12 @@
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSSapAssignment
+
+ This IC allows assigning a logical name to a SAP. This offers the possibility of designing a
+ flexible addressing scheme. With this object, it is possible to build a list of (SAP, logical
+ name) pairs.
+
+NOTE! This is an obsolete class.
 */
 class CGXDLMSSapAssignment: public CGXDLMSObject {
     std::map<int, std::string> m_SapAssignmentList;
@@ -62,6 +68,7 @@ public:
 
     /**
      Constructor.
+     @param ln Logical Name of the object.
      @param sn Short Name of the object.
     */
     CGXDLMSSapAssignment(std::string ln, unsigned short sn);

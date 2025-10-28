@@ -39,6 +39,9 @@
 #include "../include/GXBytebuffer.h"
 #include "../include/GXDLMSSettings.h"
 
+/**
+ * Secure channel.
+*/
 class CGXSecure {
 public:
     /**
@@ -46,6 +49,8 @@ public:
     *
     * @param authentication
     *            Used authentication.
+    * @param challenge
+    *            Generated challenge.
     * @return Generated challenge.
     */
     static int GenerateChallenge(DLMS_AUTHENTICATION authentication, CGXByteBuffer &challenge);
@@ -53,12 +58,18 @@ public:
     /**
     * Chipher text.
     *
-    * @param auth
-    *            Authentication level.
+    * @param settings
+    *            DLMS settings.
+    * @param cipher
+    *            Cipher.
+    * @param ic
+    *            Invocation counter.
     * @param data
     *            Text to chipher.
     * @param secret
     *            Secret.
+    * @param reply
+    *            Ciphered text.
     * @return Chiphered text.
     */
     static int Secure(

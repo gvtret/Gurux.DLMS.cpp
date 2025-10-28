@@ -41,6 +41,9 @@
 #include "GXDLMSValueEventArg.h"
 #include "GXDLMSValueEventCollection.h"
 
+/**
+ * Long transaction.
+*/
 class CGXDLMSLongTransaction {
 private:
     /**
@@ -76,7 +79,6 @@ public:
     /**
  * Constructor.
  *
- * @param targets
  * @param command
  * @param data
  */

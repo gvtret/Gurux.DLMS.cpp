@@ -41,6 +41,9 @@
 #include "GXDLMSValueEventCollection.h"
 #include "GXSNInfo.h"
 
+/**
+ * Handle SN commands.
+*/
 class CGXDLMSSNCommandHandler {
     /**
 * Find Short Name object.
@@ -105,8 +108,18 @@ public:
     /**
     * Handle write request.
     *
-    * @param reply
+    * @param settings
+    *            DLMS settings.
+    * @param server
+    *            DLMS server.
+    * @param data
     *            Received data from the client.
+    * @param replyData
+    *            Reply data.
+    * @param xml
+    *            XML translator.
+    * @param cipheredCommand
+    *            Ciphered command.
     * @return Reply.
     */
     static int HandleWriteRequest(

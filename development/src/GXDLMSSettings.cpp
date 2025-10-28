@@ -437,7 +437,7 @@ unsigned short CGXDLMSSettings::GetCount() {
 }
 
 /**
- * @param count
+ * @param value
  *            Long data count.
  */
 void CGXDLMSSettings::SetCount(unsigned short value) {
@@ -452,7 +452,7 @@ unsigned short CGXDLMSSettings::GetIndex() {
 }
 
 /**
- * @param index
+ * @param value
  *            Long data index
  */
 void CGXDLMSSettings::SetIndex(unsigned short value) {

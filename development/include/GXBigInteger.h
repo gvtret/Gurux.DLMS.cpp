@@ -38,6 +38,9 @@
 #include "GXBytebuffer.h"
 #include "GXByteArray.h"
 
+/**
+ * Big integer.
+*/
 class CGXBigInteger {
 private:
     friend class CGXPrivateKey;
@@ -106,7 +109,8 @@ public:
     /**
      Constructor value.
 
-     @param value Byte array Data in MSB format.
+     @param values Byte array Data in MSB format.
+     @param count Number of values.
     */
     CGXBigInteger(const unsigned char *values, uint16_t count);
 

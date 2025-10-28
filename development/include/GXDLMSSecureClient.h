@@ -37,6 +37,9 @@
 
 #include "GXDLMSClient.h"
 
+/**
+ * DLMS client with ciphering.
+*/
 class CGXDLMSSecureClient: public CGXDLMSClient {
 private:
     CGXCipher m_Cipher;
@@ -70,6 +73,8 @@ public:
     *            Key Encrypting Key, also known as Master key.
     * @param data
     *            Data to encrypt.
+    * @param reply
+    *            Encrypted data.
     * @return Encrypt data.
     */
     static int Encrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply);
@@ -81,6 +86,8 @@ public:
     *            Key Encrypting Key, also known as Master key.
     * @param data
     *            Data to decrypt.
+    * @param reply
+    *            Decrypted data.
     * @return Decrypted data.
     */
     static int Decrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply);

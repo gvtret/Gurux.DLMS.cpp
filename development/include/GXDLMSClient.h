@@ -41,6 +41,9 @@
 #include "GXDateTime.h"
 #include "GXDLMSAccessItem.h"
 
+/**
+ * DLMS client.
+*/
 class CGXDLMSClient {
 protected:
     friend class CGXDLMSSchedule;
@@ -513,6 +516,8 @@ public:
     *
     * @param list
     *            DLMS objects to read.
+    * @param reply
+    *            Generated messages.
     * @return Read request as byte array.
     */
     int ReadList(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXByteBuffer> &reply);
@@ -522,6 +527,8 @@ public:
     *
     * @param list
     *            DLMS objects to read.
+    * @param reply
+    *            Generated messages.
     * @return Write request as byte array.
     */
     int WriteList(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXByteBuffer> &reply);
@@ -535,7 +542,7 @@ public:
     *            Object type.
     * @param index
     *            Attribute index where data is write.
-    * @param value
+    * @param data
     *            Data to Write.
     * @param reply
     *             Generated write message(s).
@@ -555,7 +562,7 @@ public:
    *            Object type.
    * @param index
    *            Attribute index where data is write.
-   * @param value
+   * @param data
    *            Data to Write.
    * @param parameters
    *            Selective access parameters.
@@ -577,7 +584,7 @@ public:
   *            Object type.
   * @param index
   *            Attribute index where data is write.
-  * @param value
+  * @param data
   *            Data to Write.
   * @param parameters
   *            Selective access parameters.
@@ -598,7 +605,7 @@ public:
     *            Object type.
     * @param index
     *            Attribute index where data is write.
-    * @param value
+    * @param data
     *            Data to Write.
     * @param parameters
     *            Selective access parameters.
@@ -668,8 +675,8 @@ public:
     *            Method index.
     * @param data
     *            Method data.
-    * @param type
-    *            Data type.
+    * @param reply
+    *            Generated messages.
     * @return DLMS action message.
     */
     int Method(CGXDLMSObject *item, int index, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply);
@@ -684,8 +691,10 @@ public:
     *            Method index.
     * @param data
     *            Method data.
-    * @param type
+    * @param dataType
     *            Data type.
+    * @param reply
+    *            Generated messages.
     * @return DLMS action message.
     */
     int Method(
@@ -701,10 +710,10 @@ public:
    *            Object type.
    * @param methodIndex
    *            Method index.
-   * @param value
+   * @param data
    *            Method data.
-   * @param dataType
-   *            Data type.
+   * @param reply
+   *            Generated messages.
    * @return DLMS action message.
    */
     int Method(
@@ -721,10 +730,12 @@ public:
     *            Object type.
     * @param methodIndex
     *            Method index.
-    * @param value
+    * @param data
     *            Method data.
     * @param dataType
     *            Data type.
+    * @param reply
+    *            Generated messages.
     * @return DLMS action message.
     */
     int Method(
@@ -741,8 +752,10 @@ public:
    *            Object type.
    * @param methodIndex
    *            Method index.
-   * @param value
+   * @param data
    *            Method data.
+   * @param reply
+   *            Generated messages.
    * @return DLMS action message.
    */
     int Method(
@@ -759,6 +772,8 @@ public:
     *            Zero bases start index.
     * @param count
     *            Rows count to read.
+    * @param reply
+    *            Generated messages.
     * @return Read message as byte array.
     */
     int ReadRowsByEntry(CGXDLMSProfileGeneric *pg, int index, int count, std::vector<CGXByteBuffer> &reply);
@@ -773,6 +788,10 @@ public:
     *            Zero bases start index.
     * @param count
     *            Rows count to read.
+    * @param columns
+    *            Columns to read.
+    * @param reply
+    *            Generated messages.
     * @return Read message as byte array.
     */
     int ReadRowsByEntry(
@@ -785,12 +804,14 @@ public:
     * Read rows by range. Use this method to read Profile Generic table between
     * dates.
     *
-    * @param pg
+    * @param pObject
     *            Profile generic object to read.
     * @param start
     *            Start time.
     * @param end
     *            End time.
+    * @param reply
+    *            Generated messages.
     * @return Generated read message.
     */
     int ReadRowsByRange(
@@ -807,6 +828,8 @@ public:
      *            Start time.
      * @param end
      *            End time.
+     * @param reply
+     *            Generated messages.
      * @return Generated read message.
      */
     int ReadRowsByRange(CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end, std::vector<CGXByteBuffer> &reply);
@@ -821,6 +844,10 @@ public:
     *            Start time.
     * @param end
     *            End time.
+    * @param columns
+    *            Columns to read.
+    * @param reply
+    *            Generated messages.
     * @return Generated read message.
     */
     int ReadRowsByRange(
