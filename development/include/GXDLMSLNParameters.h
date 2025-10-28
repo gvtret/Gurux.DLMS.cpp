@@ -115,6 +115,8 @@ public:
      *
      * @param settings
      *            DLMS settings.
+     * @param invokeId
+     *            Invoke ID.
      * @param command
      *            Command.
      * @param commandType
@@ -123,6 +125,10 @@ public:
      *            Attribute descriptor.
      * @param data
      *            Data.
+     * @param status
+     *            Status.
+     * @param cipheredCommand
+     *            Ciphered command.
      */
     CGXDLMSLNParameters(
         CGXDLMSSettings *settings, unsigned long invokeId, DLMS_COMMAND command, int commandType,

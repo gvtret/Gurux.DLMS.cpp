@@ -1420,36 +1420,10 @@ int CGXDLMSClient::Write(
     return ret;
 }
 
-/**
-    * Generate Method (Action) request.
-    *
-    * @param item
-    *            Method object short name or Logical Name.
-    * @param index
-    *            Method index.
-    * @param data
-    *            Method data.
-    * @param type
-    *            Data type.
-    * @return DLMS action message.
-    */
 int CGXDLMSClient::Method(CGXDLMSObject *item, int index, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply) {
     return Method(item, index, data, data.vt, reply);
 }
 
-/**
-    * Generate Method (Action) request.
-    *
-    * @param item
-    *            Method object short name or Logical Name.
-    * @param index
-    *            Method index.
-    * @param data
-    *            Method data.
-    * @param type
-    *            Data type.
-    * @return DLMS action message.
-    */
 int CGXDLMSClient::Method(
     CGXDLMSObject *item, int index, CGXDLMSVariant &data, DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply
 ) {

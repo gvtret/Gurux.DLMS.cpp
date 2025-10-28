@@ -53,6 +53,9 @@
 #include "GXAsn1Helpers.h"
 #include "GXAsn1Time.h"
 
+/**
+* ASN.1 Converter.
+*/
 class CGXAsn1Converter {
 private:
     friend class CGXPkcs8;
@@ -103,6 +106,7 @@ public:
     /**
      Convert ASN1 objects to byte array.
      @param objects ASN.1 objects->
+     @param value ASN.1 objects as byte array.
      Returns  ASN.1 objects as byte array.
      */
     static int ToByteArray(CGXAsn1Base *objects, CGXByteBuffer &value);
@@ -119,6 +123,7 @@ public:
      Get system title from the subject.
 
      @param subject Subject.
+     @param value System title.
      Returns System title.
      */
     static int SystemTitleFromSubject(std::string &subject, CGXByteBuffer &value);
@@ -127,6 +132,7 @@ public:
      Get system title in hex string from the subject.
 
      @param subject Subject.
+     @param value System title.
      Returns System title.
      */
     static int HexSystemTitleFromSubject(std::string &subject, std::string &value);

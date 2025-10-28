@@ -45,6 +45,8 @@
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSImageTransfer
+
+Provides the services for initiating, transferring, verifying and activating an Image.
 */
 class CGXDLMSImageTransfer: public CGXDLMSObject {
     unsigned long m_ImageBlockSize;
@@ -75,7 +77,7 @@ public:
 
     /**
      * Provides information about the transfer status of each
-     * ImageBlock. Each bit in the bit-std::string provides information about
+     * ImageBlock. Each bit in the bit-string provides information about
      * one individual ImageBlock.
     */
     std::string &GetImageTransferredBlocksStatus();

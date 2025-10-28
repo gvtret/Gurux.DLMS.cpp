@@ -1086,13 +1086,6 @@ int CGXDLMSLNCommandHandler::MethodRequestNextBlock(
     return ret;
 }
 
-/**
- * Handle action request.
- *
- * @param reply
- *            Received data from the client.
- * @return Reply.
- */
 int CGXDLMSLNCommandHandler::HandleMethodRequest(
     CGXDLMSSettings &settings, CGXDLMSServer *server, CGXByteBuffer &data, CGXByteBuffer *replyData,
     CGXDLMSConnectionEventArgs *connectionInfo, CGXDLMSTranslatorStructure *xml, unsigned char cipheredCommand

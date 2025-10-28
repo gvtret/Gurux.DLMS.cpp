@@ -40,6 +40,9 @@
 #include "enums.h"
 #include "GXBytebuffer.h"
 
+/**
+ * Byte array.
+*/
 class CGXByteArray {
     friend class CGXCipher;
     friend class CGXByteBuffer;
@@ -138,8 +141,10 @@ public:
      * Compares, whether two given arrays are similar starting from current
      * position.
      *
-     * @param arr
+     * @param buff
      *            Array to compare.
+     * @param length
+     *            Length of the array to compare.
      * @return True, if arrays are similar. False, if the arrays differ.
      */
     bool Compare(unsigned char *buff, unsigned long length);
@@ -170,6 +175,8 @@ public:
     /**
         * Returns data as byte array.
         *
+        * @param index Starting index.
+        * @param count Number of bytes.
         * @param bb Byte buffer as a byte array.
         */
     int SubArray(unsigned long index, int count, CGXByteArray &bb);
@@ -177,6 +184,8 @@ public:
     /**
     * Returns data as byte array.
     *
+    * @param index Starting index.
+    * @param count Number of bytes.
     * @param bb Byte buffer as a byte array.
     */
     int SubArray(unsigned long index, int count, CGXByteBuffer &bb);

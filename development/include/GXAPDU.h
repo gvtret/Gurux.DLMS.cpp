@@ -51,6 +51,15 @@
 // a client. Also unsolicited (received without a request) messages are
 // available.
 /////////////////////////////////////////////////////////////////////////////
+/**
+ * The services to access the attributes and methods of COSEM objects are
+ * determined on DLMS/COSEM Application layer. The services are carried by
+ * Application Protocol Data Units (APDUs).
+ *
+ * In DLMS/COSEM the meter is primarily a server, and the controlling system is
+ * a client. Also unsolicited (received without a request) messages are
+ * available.
+ */
 class CGXAPDU {
     friend class CGXDLMSTranslator;
 
@@ -114,6 +123,8 @@ public:
     * @param settings
     *            DLMS settings.
     * @param cipher
+    * @param encryptedData
+    *            Encrypted data.
     * @param data
     *            Generated user information.
     */

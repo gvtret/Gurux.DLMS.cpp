@@ -195,7 +195,6 @@ int SetConformanceToArray(unsigned int value, CGXByteBuffer &data) {
  *
  * @param settings
  *            DLMS settings.
- * @param cipher
  * @param data
  */
 int GetInitiateRequest(CGXDLMSSettings &settings, CGXCipher *, CGXByteBuffer &data) {
@@ -812,6 +811,8 @@ int CGXAPDU::ParseUserInformation(
  *            DLMS settings.
  * @param buff
  *            Received data.
+ * @param xml
+ *            XML translator.
  */
 int ParseApplicationContextName(
     CGXDLMSSettings &settings, CGXByteBuffer &buff

@@ -46,6 +46,9 @@ class CGXDLMSNotify;
 class CGXDLMSSettings;
 class CGXDLMSAssociationLogicalName;
 
+/**
+ * Value event arguments.
+*/
 class CGXDLMSValueEventArg {
     friend class CGXDLMSClient;
     friend class CGXDLMSServer;
@@ -253,7 +256,7 @@ public:
     DLMS_ERROR_CODE GetError();
 
     /**
-     * @param error
+     * @param value
      *            Occurred error.
      */
     void SetError(DLMS_ERROR_CODE value);

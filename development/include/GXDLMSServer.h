@@ -52,6 +52,9 @@
 class CGXDLMSProfileGeneric;
 class CGXServerReply;
 
+/**
+ * DLMS server.
+*/
 class CGXDLMSServer {
     friend class CGXDLMSProfileGeneric;
     friend class CGXDLMSValueEventArg;
@@ -524,7 +527,7 @@ public:
      * is defined by the device manufacturer. If the referencing is wrong, the
      * SNMR message will fail.
      *
-     * @see #getMaxReceivePDUSize
+     * @see #GetMaxReceivePDUSize
      * @return Is logical name referencing used.
      */
     bool GetUseLogicalNameReferencing();
@@ -550,6 +553,9 @@ public:
      *
      * @param data
      *            Received data from the client.
+     * @param reply
+     *            Response to the request. Response is NULL if request packet is
+     *         not complete.
      * @return Response to the request. Response is NULL if request packet is
      *         not complete.
      */
@@ -558,8 +564,13 @@ public:
     /**
     * Handles client request.
     *
+    * @param connectionInfo
+    *            Connection information.
     * @param data
     *            Received data from the client.
+    * @param reply
+    *            Response to the request. Response is NULL if request packet is
+    *         not complete.
     * @return Response to the request. Response is NULL if request packet is
     *         not complete.
     */
@@ -570,6 +581,11 @@ public:
      *
      * @param data
      *            Received data from the client.
+     * @param size
+     *            Size of the received data.
+     * @param reply
+     *            Response to the request. Response is NULL if request packet is
+     *         not complete.
      * @return Response to the request. Response is NULL if request packet is
      *         not complete.
      */
@@ -578,8 +594,15 @@ public:
     /**
      * Handles client request.
      *
+     * @param connectionInfo
+     *            Connection info.
      * @param data
      *            Received data from the client.
+     * @param size
+     *            Size of the received data.
+     * @param reply
+     *            Response to the request. Response is NULL if request packet is
+     *         not complete.
      * @return Response to the request. Response is NULL if request packet is
      *         not complete.
      */

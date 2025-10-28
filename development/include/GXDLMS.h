@@ -46,6 +46,9 @@
 #include "GXDLMSLNParameters.h"
 #include "GXDLMSSNParameters.h"
 
+/**
+ * DLMS/COSEM library.
+*/
 class CGXDLMS {
 private:
     friend class CGXDLMSClient;
@@ -200,8 +203,12 @@ public:
      *
      * @param settings
      *            DLMS settings.
+     * @param command
+     *            DLMS command.
      * @param data
      *            Wrapped data.
+     * @param reply
+     *            Wrapper frames.
      * @return Wrapper frames.
     */
     static int
@@ -298,6 +305,8 @@ public:
      *
      * @param buff
      *            byte array.
+     * @param address
+     *            HDLC address.
      * @return HDLC address.
      */
     static int GetHDLCAddress(CGXByteBuffer &buff, unsigned long &address);
@@ -313,6 +322,10 @@ public:
      *            Received data.
      * @param index
      *            Position.
+     * @param source
+     *            Source address.
+     * @param target
+     *            Target address.
      * @return True, if client and server address match.
      */
     static int CheckHdlcAddress(

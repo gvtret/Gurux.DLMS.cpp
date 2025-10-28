@@ -445,7 +445,7 @@ public:
     unsigned short GetCount();
 
     /**
-     * @param count
+     * @param value
      *            Long data count.
      */
     void SetCount(unsigned short value);
@@ -456,7 +456,7 @@ public:
     unsigned short GetIndex();
 
     /**
-     * @param index
+     * @param value
      *            Long data index
      */
     void SetIndex(unsigned short value);

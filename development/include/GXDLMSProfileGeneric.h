@@ -76,6 +76,16 @@ class CGXDLMSServer;
 /**
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSProfileGeneric
+
+ This class is used to model the periodical logging of monitoring results.
+ The Profile generic class is configurable by the various attributes and can
+ be used flexibly for various purposes, for example:
+<ul>
+ <li>traditional load profile,</li>
+ <li>recording billing period values of various energy types and demand,</li>
+ <li>recording events,</li>
+ <li>recording alarms.</li>
+</ul>
 */
 class CGXDLMSProfileGeneric: public CGXDLMSObject {
 private:
@@ -123,6 +133,8 @@ public:
     *            Is read by entry or range.
     * @param parameters
     *            Received parameters where columns information is found.
+    * @param columns
+    *            Selected columns.
     * @return Selected columns.
     */
     int GetSelectedColumns(

@@ -89,6 +89,8 @@ public:
      *            DLMS settings.
      * @param command
      *            Command.
+     * @param count
+     *            Item count.
      * @param commandType
      *            command type.
      * @param attributeDescriptor

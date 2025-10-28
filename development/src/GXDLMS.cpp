@@ -184,15 +184,6 @@ int CGXDLMS::ReceiverReady(CGXDLMSSettings &settings, CGXReplyData &data, CGXCip
     return ret;
 }
 
-/**
-     * Split DLMS PDU to wrapper frames.
-     *
-     * @param settings
-     *            DLMS settings.
-     * @param data
-     *            Wrapped data.
-     * @return Wrapper frames.
-*/
 int CGXDLMS::GetWrapperFrame(
     CGXDLMSSettings &settings, DLMS_COMMAND command, CGXByteBuffer &data, CGXByteBuffer &reply
 ) {
@@ -605,6 +596,8 @@ void AddLLCBytes(CGXDLMSSettings *settings, CGXByteBuffer &data) {
      *            LN parameters.
      * @param reply
      *            Generated reply.
+     * @param ciphering
+     *            Is ciphering used.
      */
 void MultipleBlocks(CGXDLMSLNParameters &p, CGXByteBuffer &reply, unsigned char ciphering) {
     // Check is all data fit to one message if data is given.

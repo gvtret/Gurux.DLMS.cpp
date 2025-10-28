@@ -187,7 +187,6 @@ public:
     /// <summary>
     /// Get ded tags.
     /// </summary>
-    /// <param name="type"></param>
     /// <param name="list"></param>
     static void GetDedTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_COMMAND_DED_INITIATE_REQUEST] = "ded_InitiateRequest";
@@ -204,7 +203,6 @@ public:
     /// <summary>
     /// Get translator tags.
     /// </summary>
-    /// <param name="type"></param>
     /// <param name="list"></param>
     static void GetTranslatorTags(DLMS_TRANSLATOR_OUTPUT_TYPE /*type*/, std::map<unsigned long, std::string> &list) {
         list[DLMS_TRANSLATOR_TAGS_WRAPPER] = "Wrapper";

@@ -40,6 +40,9 @@
 #include "GXDLMSSettings.h"
 #include "GXDLMSConnectionEventArgs.h"
 
+/**
+ * Handle LN commands.
+*/
 class CGXDLMSLNCommandHandler {
     /**
  * Handle get request normal command.
@@ -82,8 +85,15 @@ public:
     /**
     * Handle get request next data block command.
     *
+    * @param settings DLMS settings.
+    * @param invokeID Invoke ID.
+    * @param server Server.
     * @param data
     *            Received data.
+    * @param replyData Reply data.
+    * @param xml XML translator.
+    * @param streaming Is streaming active.
+    * @param cipheredCommand Ciphered command.
     */
     static int GetRequestNextDataBlock(
         CGXDLMSSettings &settings, unsigned char invokeID, CGXDLMSServer *server, CGXByteBuffer &data,
@@ -125,8 +135,13 @@ public:
     /**
   * Handle action request.
   *
-  * @param reply
-  *            Received data from the client.
+  * @param settings DLMS settings.
+  * @param server Server.
+  * @param data Received data from the client.
+  * @param replyData Reply data.
+  * @param connectionInfo Connection information.
+  * @param xml XML translator.
+  * @param cipheredCommand Ciphered command.
   * @return Reply.
   */
     static int HandleMethodRequest(
