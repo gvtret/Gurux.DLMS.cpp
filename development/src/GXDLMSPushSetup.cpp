@@ -129,16 +129,16 @@ void CGXDLMSPushSetup::GetValues(std::vector<std::string> &values) {
     sb.str(std::string());
     sb << '[';
     empty = true;
-    std::vector<std::pair<CGXDateTime, CGXDateTime>>::iterator it;
-    for (it = m_CommunicationWindow.begin(); it != m_CommunicationWindow.end(); ++it) {
+    std::vector<std::pair<CGXDateTime, CGXDateTime>>::iterator it1;
+    for (it1 = m_CommunicationWindow.begin(); it1 != m_CommunicationWindow.end(); ++it1) {
         if (!empty) {
             sb << ", ";
         }
         empty = false;
-        str = it->first.ToString();
+        str = it1->first.ToString();
         sb.write(str.c_str(), str.size());
         sb << " ";
-        str = it->second.ToString();
+        str = it1->second.ToString();
         sb.write(str.c_str(), str.size());
     }
     sb << ']';
@@ -167,24 +167,24 @@ void CGXDLMSPushSetup::GetValues(std::vector<std::string> &values) {
         sb.str(std::string());
         sb << '[';
         empty = true;
-        std::vector<CGXPushProtectionParameters>::iterator it;
-        for (it = m_PushProtectionParameters.begin(); it != m_PushProtectionParameters.end(); ++it) {
+        std::vector<CGXPushProtectionParameters>::iterator it2;
+        for (it2 = m_PushProtectionParameters.begin(); it2 != m_PushProtectionParameters.end(); ++it2) {
             if (!empty) {
                 sb << ", ";
             }
             empty = false;
             sb << "{";
-            sb << std::to_string(it->GetProtectionType());
+            sb << std::to_string(it2->GetProtectionType());
             sb << ", ";
-            sb << it->GetTransactionId().ToString();
+            sb << it2->GetTransactionId().ToString();
             sb << ", ";
-            sb << it->GetOriginatorSystemTitle().ToString();
+            sb << it2->GetOriginatorSystemTitle().ToString();
             sb << ", ";
-            sb << it->GetRecipientSystemTitle().ToString();
+            sb << it2->GetRecipientSystemTitle().ToString();
             sb << ", ";
-            sb << it->GetOtherInformation().ToString();
+            sb << it2->GetOtherInformation().ToString();
             sb << ", ";
-            str = it->GetKeyInfo().ToString();
+            str = it2->GetKeyInfo().ToString();
             sb << "}";
         }
         sb << ']';

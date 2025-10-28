@@ -400,9 +400,9 @@ int CGXDLMSTranslator::PduToXml(
                 }
                 xml->AppendLine(DLMS_TRANSLATOR_TAGS_REASON, "Value", str);
                 if (value.Available() != 0) {
-                    DLMS_ASSOCIATION_RESULT result;
-                    DLMS_SOURCE_DIAGNOSTIC diagnostic;
-                    ret = CGXAPDU::ParsePDU2(settings, settings.GetCipher(), value, result, diagnostic, xml);
+                    DLMS_ASSOCIATION_RESULT res;
+                    DLMS_SOURCE_DIAGNOSTIC diag;
+                    ret = CGXAPDU::ParsePDU2(settings, settings.GetCipher(), value, res, diag, xml);
                 }
             }
             xml->AppendEndTag(cmd);
@@ -432,9 +432,9 @@ int CGXDLMSTranslator::PduToXml(
                 }
                 xml->AppendLine(DLMS_TRANSLATOR_TAGS_REASON, "Value", str);
                 if (value.Available() != 0) {
-                    DLMS_ASSOCIATION_RESULT result;
-                    DLMS_SOURCE_DIAGNOSTIC diagnostic;
-                    ret = CGXAPDU::ParsePDU2(settings, settings.GetCipher(), value, result, diagnostic, xml);
+                    DLMS_ASSOCIATION_RESULT res;
+                    DLMS_SOURCE_DIAGNOSTIC diag;
+                    ret = CGXAPDU::ParsePDU2(settings, settings.GetCipher(), value, res, diag, xml);
                 }
             }
             xml->AppendEndTag(cmd);
@@ -494,11 +494,11 @@ int CGXDLMSTranslator::PduToXml(
                 return ret;
             }
             if (cnt != value.GetSize() - value.GetPosition()) {
-                std::string tmp = "Invalid length: ";
-                tmp.append(GXHelpers::IntToString(cnt));
-                tmp.append(". It should be: ");
-                tmp.append(GXHelpers::IntToString(value.Available()));
-                xml->AppendComment(tmp);
+                std::string tmpStr = "Invalid length: ";
+                tmpStr.append(GXHelpers::IntToString(cnt));
+                tmpStr.append(". It should be: ");
+                tmpStr.append(GXHelpers::IntToString(value.Available()));
+                xml->AppendComment(tmpStr);
             }
             str = value.ToHexString(value.GetPosition(), value.Available(), false);
             xml->AppendLine(cmd, "", str);

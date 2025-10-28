@@ -191,10 +191,10 @@ int CGXDLMSPrimeNbOfdmPlcMacSetup::GetDataType(int index, DLMS_DATA_TYPE &type) 
 int CGXDLMSPrimeNbOfdmPlcMacSetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
     DLMS_ERROR_CODE ret = DLMS_ERROR_CODE_OK;
     if (e.GetIndex() == 1) {
-        int ret;
+        int result;
         CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0) {
-            return ret;
+        if ((result = GetLogicalName(this, tmp)) != 0) {
+            return result;
         }
         e.SetValue(tmp);
     } else if (e.GetIndex() == 2) {

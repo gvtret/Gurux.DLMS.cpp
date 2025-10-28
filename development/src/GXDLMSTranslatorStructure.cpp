@@ -33,6 +33,7 @@
 //---------------------------------------------------------------------------
 
 #include <assert.h>
+#include <cinttypes>
 #include "../include/GXDLMSTranslatorStructure.h"
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
 #include "../include/GXHelpers.h"
@@ -361,9 +362,9 @@ int CGXDLMSTranslatorStructure::IntegerToHex(int32_t value, int desimals, bool /
         }
     } else {
 #if _MSC_VER > 1000
-        sprintf_s(tmp, 20, "%ld", value);
+        sprintf_s(tmp, 20, "%d", value);
 #else
-        sprintf(tmp, "%ld", value);
+        sprintf(tmp, "%d", value);
 #endif
     }
     result = tmp;
@@ -381,9 +382,9 @@ int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, int desimals, bool 
 #endif
     } else {
 #if _MSC_VER > 1000
-        sprintf_s(tmp, 20, "%lu", value);
+        sprintf_s(tmp, 20, "%u", value);
 #else
-        sprintf(tmp, "%lu", value);
+        sprintf(tmp, "%u", value);
 #endif
     }
     result = tmp;
@@ -395,13 +396,13 @@ int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, std::string &result
 #if _MSC_VER > 1000
         sprintf_s(tmp, 20, "%.8X", value);
 #else
-        sprintf(tmp, "%.8lX", value);
+        sprintf(tmp, "%.8X", value);
 #endif
     } else {
 #if _MSC_VER > 1000
-        sprintf_s(tmp, 20, "%lu", value);
+        sprintf_s(tmp, 20, "%u", value);
 #else
-        sprintf(tmp, "%lu", value);
+        sprintf(tmp, "%u", value);
 #endif
     }
     result = tmp;
@@ -411,20 +412,20 @@ int CGXDLMSTranslatorStructure::IntegerToHex(uint32_t value, std::string &result
 int CGXDLMSTranslatorStructure::IntegerToHex(int64_t value, std::string &result) {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
 #if _MSC_VER > 1000
-        sprintf_s(tmp, 20, "%.16llX", value);
+        sprintf_s(tmp, 20, "%.16" PRIX64, value);
 #else
-        sprintf(tmp, "%.16llX", value);
+        sprintf(tmp, "%.16" PRIX64, value);
 #endif
     } else {
 #if defined(_WIN32) || defined(_WIN64)  //Windows
 #if _MSC_VER > 1000
-        sprintf_s(tmp, 20, "%lld", value);
+        sprintf_s(tmp, 20, "%" PRId64, value);
 #else
-        sprintf(tmp, "%I64d", value);
+        sprintf(tmp, "%" PRId64, value);
 #endif
 
 #else
-        sprintf(tmp, "%lld", value);
+        sprintf(tmp, "%" PRId64, value);
 #endif
     }
     result = tmp;
@@ -434,15 +435,15 @@ int CGXDLMSTranslatorStructure::IntegerToHex(int64_t value, std::string &result)
 int CGXDLMSTranslatorStructure::IntegerToHex(uint64_t value, std::string &result) {
     if (m_ShowNumericsAsHex && m_OutputType == DLMS_TRANSLATOR_OUTPUT_TYPE_SIMPLE_XML) {
 #if _MSC_VER > 1000
-        sprintf_s(tmp, 20, "%.16I64X", value);
+        sprintf_s(tmp, 20, "%.16" PRIX64, value);
 #else
-        sprintf(tmp, "%.16llX", value);
+        sprintf(tmp, "%.16" PRIX64, value);
 #endif
     } else {
 #if _MSC_VER > 1000
-        sprintf_s(tmp, 20, "%I64u", value);
+        sprintf_s(tmp, 20, "%" PRIu64, value);
 #else
-        sprintf(tmp, "%llu", value);
+        sprintf(tmp, "%" PRIu64, value);
 #endif
     }
     result = tmp;
