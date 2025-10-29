@@ -40,6 +40,10 @@
 #include "GXPublicKey.h"
 #include "GXx509Certificate.h"
 
+/**
+ * Handles cryptographic operations for DLMS/COSEM communication, including
+ * encryption, decryption, and authentication.
+*/
 class CGXCipher {
 private:
     DLMS_SECURITY m_Security;

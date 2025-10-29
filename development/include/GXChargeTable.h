@@ -38,8 +38,7 @@
 #include <string>
 
 /**
- * Online help:<br>
- * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
+ * Represents a single entry in a charge table, defining the charge per unit.
  */
 class CGXChargeTable {
     std::string m_Index;
