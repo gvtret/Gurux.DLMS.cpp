@@ -39,10 +39,8 @@
 #include <string>
 
 /**
- * Used currency.<br>
- * Online help:<br>
- * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCurrency
- */
+ * Represents a currency, including its name, scale, and unit.
+*/
 class CGXCurrency {
     /**
     * Currency name.

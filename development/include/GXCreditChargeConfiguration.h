@@ -39,7 +39,8 @@
 #include <string>
 
 /**
-*
+ * Represents the configuration for credit and charge operations in a DLMS/COSEM
+ * account.
 */
 class CGXCreditChargeConfiguration {
     /**
