@@ -38,6 +38,9 @@
 #include <string>
 #include "GXAsn1Base.h"
 
+/**
+ * Represents an ASN.1 UTF8String, a string of UTF-8 characters.
+*/
 class CGXAsn1Utf8String: public CGXAsn1Base {
 private:
     std::string m_Value;
