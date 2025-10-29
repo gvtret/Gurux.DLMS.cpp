@@ -38,8 +38,7 @@
 #include <string>
 
 /**
-Online help:
-http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
+ * Represents the scaling factors for commodity and price in a charge object.
 */
 class CGXChargePerUnitScaling {
     signed char m_CommodityScale;

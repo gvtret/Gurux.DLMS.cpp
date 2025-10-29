@@ -41,7 +41,7 @@
 #include "GXBytebuffer.h"
 
 /**
- * Byte array.
+ * Represents a dynamic array of bytes.
 */
 class CGXByteArray {
     friend class CGXCipher;
