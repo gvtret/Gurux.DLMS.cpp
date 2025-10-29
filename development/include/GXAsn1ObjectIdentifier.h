@@ -40,6 +40,10 @@
 #include "GXBytebuffer.h"
 #include "GXDLMSConverter.h"
 
+/**
+ * Represents an ASN.1 Object Identifier (OID), a unique identifier for an
+ * object in a hierarchical structure.
+*/
 class CGXAsn1ObjectIdentifier: public CGXAsn1Base {
 private:
     std::string m_ObjectIdentifier;

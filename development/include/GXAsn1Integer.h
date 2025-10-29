@@ -41,7 +41,7 @@
 #include "GXAsn1Base.h"
 
 /**
- * ASN.1 Integer.
+ * Represents an ASN.1 INTEGER, a whole number of arbitrary size.
 */
 class CGXAsn1Integer: public CGXAsn1Base {
 private:
