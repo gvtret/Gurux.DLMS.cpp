@@ -37,6 +37,9 @@
 
 #include "GXDLMSAttribute.h"
 
+/**
+ * Represents a collection of DLMS/COSEM attributes.
+*/
 class CGXAttributeCollection: public std::vector<CGXDLMSAttribute> {
 public:
 };
