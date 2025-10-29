@@ -37,6 +37,10 @@
 #include <string>
 #include "enums.h"
 
+/**
+ * Represents a single action to be performed by a DLMS/COSEM device, such as
+ * executing a script.
+*/
 class CGXDLMSActionItem {
     friend class CGXDLMSActionSet;
     std::string m_LogicalName;

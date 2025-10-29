@@ -37,6 +37,10 @@
 
 #include "GXDLMSActionItem.h"
 
+/**
+ * Represents a set of actions to be performed, typically including an "up"
+ * action and a "down" action.
+*/
 class CGXDLMSActionSet {
     CGXDLMSActionItem m_ActionUp;
     CGXDLMSActionItem m_ActionDown;
