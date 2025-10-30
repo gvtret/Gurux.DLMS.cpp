@@ -440,17 +440,17 @@ int CGXPkcs10::Sign(CGXPrivateKey &key, DLMS_HASH_ALGORITHM hashAlgorithm) {
 int CGXPkcs10::CreateCertificateSigningRequest(
     std::pair<CGXPublicKey, CGXPrivateKey> &kp, std::string &subject, CGXPkcs10 &pkc10
 ) {
-    if (kp.first.m_RawValue.m_Size == 0) {
+    if (kp.first.m_RawValue.GetSize() == 0) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    if (kp.second.m_RawValue.m_Size == 0) {
+    if (kp.second.m_RawValue.GetSize() == 0) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     pkc10.m_Algorithm = DLMS_X9_OBJECT_IDENTIFIER_ID_EC_PUBLIC_KEY;
     pkc10.m_PublicKey = kp.first;
     pkc10.m_Subject = subject;
     DLMS_HASH_ALGORITHM algorithm;
-    if (kp.second.m_RawValue.m_Size < 70) {
+    if (kp.second.m_RawValue.GetSize() < 70) {
         algorithm = DLMS_HASH_ALGORITHM_SHA_256_WITH_ECDSA;
     } else {
         algorithm = DLMS_HASH_ALGORITHM_SHA_384_WITH_ECDSA;
@@ -611,7 +611,7 @@ int CGXPkcs10::GetCertificate(
                         break;
                     }
                     if (!certifications.at(pos).m_Certificate->m_PublicKey.m_RawValue.Compare(
-                            cert.m_PublicKey.m_RawValue.m_Data, cert.m_PublicKey.m_RawValue.m_Size
+                            cert.m_PublicKey.m_RawValue.GetData(), cert.m_PublicKey.m_RawValue.GetSize()
                         )) {
 #ifdef _DEBUG
                         printf("Create certificate signingRequest generated wrong public key.\r\n");

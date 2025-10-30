@@ -91,7 +91,7 @@ int CGXEcdsa::Sign(CGXByteBuffer &data, CGXByteBuffer &signature) {
     CGXByteBuffer tmp;
     if ((ret = GetRandomNumber(m_Curve.m_N, tmp)) == 0) {
         CGXBigInteger k(tmp);
-        CGXBigInteger pk(m_PrivateKey.m_RawValue.m_Data, (uint16_t)m_PrivateKey.m_RawValue.m_Size);
+        CGXBigInteger pk(m_PrivateKey.m_RawValue.GetData(), (uint16_t)m_PrivateKey.m_RawValue.GetSize());
         CGXEccPoint R;
         CGXShamirs::PointMulti(m_Curve, R, m_Curve.m_G, k);
         CGXBigInteger r(R.X);
@@ -121,7 +121,7 @@ int CGXEcdsa::GenerateSecret(CGXPublicKey &publicKey, CGXByteBuffer &secret) {
         printf("Private key scheme is different than key.");
         ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
     } else {
-        CGXBigInteger pk(m_PrivateKey.m_RawValue.m_Data, (uint16_t)m_PrivateKey.m_RawValue.m_Size);
+        CGXBigInteger pk(m_PrivateKey.m_RawValue.GetData(), (uint16_t)m_PrivateKey.m_RawValue.GetSize());
         CGXByteBuffer bb;
         CGXByteBuffer raw;
         publicKey.m_RawValue.ToByteBuffer(raw);
