@@ -37,6 +37,10 @@
 
 #include "GXDLMSVariant.h"
 
+/**
+ * Represents a DLMS/COSEM authentication context, which holds the
+ * authentication type, client ID, and password.
+*/
 class GXAuthentication {
     CGXDLMSVariant m_ClientID;
     DLMS_AUTHENTICATION m_Type;

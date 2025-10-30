@@ -39,6 +39,9 @@
 #include "GXAsn1Base.h"
 #include "GXDLMSVariant.h"
 
+/**
+ * Represents an ASN.1 SEQUENCE, an ordered collection of one or more types.
+*/
 class CGXAsn1Sequence: public CGXAsn1Base {
 private:
     std::vector<CGXAsn1Base *> m_Values;

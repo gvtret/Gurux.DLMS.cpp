@@ -38,6 +38,9 @@
 #include <string>
 #include "GXAsn1Base.h"
 
+/**
+ * Represents an ASN.1 IA5String, which is a string of ASCII characters.
+*/
 class CGXAsn1Ia5String: public CGXAsn1Base {
 private:
     std::string m_Ia5String;

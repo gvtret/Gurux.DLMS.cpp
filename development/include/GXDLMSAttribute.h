@@ -36,6 +36,9 @@
 
 #include "enums.h"
 
+/**
+ * Represents a single attribute of a DLMS/COSEM object.
+*/
 class CGXDLMSAttribute {
     DLMS_ACCESS_MODE m_Access;
     int m_Index;

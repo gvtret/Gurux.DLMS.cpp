@@ -39,8 +39,8 @@
 #include "enums.h"
 
 /**
-Online help:
-http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
+ * Represents a commodity in a charge object, identifying the type of energy
+ * or service being charged.
 */
 class CGXCommodity {
     DLMS_OBJECT_TYPE m_Type;

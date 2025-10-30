@@ -35,6 +35,9 @@
 #ifndef GXDLMSCAPTUREOBJECT_H
 #define GXDLMSCAPTUREOBJECT_H
 
+/**
+ * Represents a single object to be captured by a profile generic object.
+*/
 class CGXDLMSCaptureObject {
 private:
     int m_AttributeIndex;

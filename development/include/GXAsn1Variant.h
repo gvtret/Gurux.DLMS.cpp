@@ -39,7 +39,7 @@
 #include "GXAsn1Base.h"
 
 /**
- ASN1 variant.
+ * Represents an ASN.1 ANY type, which can hold any ASN.1 value.
 */
 class CGXAsn1Variant: public CGXAsn1Base {
 private:

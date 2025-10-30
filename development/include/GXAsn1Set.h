@@ -38,6 +38,9 @@
 #include <string>
 #include "GXAsn1Base.h"
 
+/**
+ * Represents an ASN.1 SET, an unordered collection of one or more types.
+*/
 class CGXAsn1Set: public CGXAsn1Base {
 private:
     CGXAsn1Base *m_Key;

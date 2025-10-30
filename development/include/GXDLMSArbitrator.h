@@ -41,8 +41,8 @@
 #include "GXDLMSActionItem.h"
 
 /**
-Online help:
-http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSArbitrator
+ * Represents a DLMS/COSEM arbitrator, which manages access to shared
+ * resources.
 */
 class CGXDLMSArbitrator: public CGXDLMSObject {
     /**

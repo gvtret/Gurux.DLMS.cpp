@@ -43,8 +43,8 @@
 #include "GXCurrency.h"
 
 /**
-Online help:
-http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
+ * Represents a DLMS/COSEM account object, which manages credit and charges for
+ * a prepayment meter.
 */
 class CGXDLMSAccount: public CGXDLMSObject {
     /**

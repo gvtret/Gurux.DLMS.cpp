@@ -39,6 +39,10 @@
 #include "GXAsn1Base.h"
 #include "GXDLMSVariant.h"
 
+/**
+ * Represents an ASN.1 context-specific tag, which is used to define
+ * application-specific data elements.
+*/
 class CGXAsn1Context: public CGXAsn1Base {
 private:
     /* Context index.*/

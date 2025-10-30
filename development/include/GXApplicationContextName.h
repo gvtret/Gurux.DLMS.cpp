@@ -38,6 +38,10 @@
 #include <string>
 #include "enums.h"
 
+/**
+ * Represents a DLMS/COSEM application context name, which identifies the
+ * application layer protocol and services being used.
+*/
 class CGXApplicationContextName {
 private:
     std::string m_LogicalName;

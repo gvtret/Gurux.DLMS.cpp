@@ -39,6 +39,9 @@
 #include "enums.h"
 #include "GXBigInteger.h"
 
+/**
+ * Represents information about a DLMS/COSEM certificate.
+*/
 class CGXDLMSCertificateInfo {
 private:
     friend class CGXDLMSSecuritySetup;

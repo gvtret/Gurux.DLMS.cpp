@@ -37,6 +37,9 @@
 
 #include <string>
 
+/**
+ * Represents a GSM adjacent cell, providing information about neighboring cells.
+*/
 class GXAdjacentCell {
 private:
     /**

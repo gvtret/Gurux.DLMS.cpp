@@ -38,7 +38,7 @@
 #include <string>
 
 /**
-* Date object. Time part is ignored.
+ * Represents a string of bits.
 */
 class CGXBitString {
 private:

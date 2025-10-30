@@ -38,6 +38,10 @@
 #include "enums.h"
 #include <string>
 
+/**
+ * Represents a DLMS/COSEM authentication mechanism name, which identifies the
+ * authentication mechanism being used.
+*/
 class CGXAuthenticationMechanismName {
 private:
     int m_JointIsoCtt;
