@@ -95,8 +95,8 @@ typedef enum {
 } DLMS_AUTO_CONNECT_MODE;
 
 /**
-Online help:
-http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAutoConnect
+ * Represents a DLMS/COSEM auto-connect object, which controls how a device
+ * initiates calls to other devices.
 */
 class CGXDLMSAutoConnect: public CGXDLMSObject {
     DLMS_AUTO_CONNECT_MODE m_Mode;
