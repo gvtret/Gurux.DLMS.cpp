@@ -90,3 +90,35 @@ TEST(CGXDateTimeTest, CompareTo)
     ASSERT_EQ(-1, dt1.CompareTo(dt3));
     ASSERT_EQ(1, dt1.CompareTo(dt4));
 }
+
+TEST(CGXDateTimeTest, CopyConstructor)
+{
+    CGXDateTime dt1(2023, 10, 27, 10, 30, 0, 0);
+    CGXDateTime dt2(dt1);
+    ASSERT_EQ(0, dt1.CompareTo(dt2));
+}
+
+TEST(CGXDateTimeTest, MoveConstructor)
+{
+    CGXDateTime dt1(2023, 10, 27, 10, 30, 0, 0);
+    CGXDateTime dt2(dt1);
+    CGXDateTime dt3(std::move(dt1));
+    ASSERT_EQ(0, dt2.CompareTo(dt3));
+}
+
+TEST(CGXDateTimeTest, CopyAssignment)
+{
+    CGXDateTime dt1(2023, 10, 27, 10, 30, 0, 0);
+    CGXDateTime dt2;
+    dt2 = dt1;
+    ASSERT_EQ(0, dt1.CompareTo(dt2));
+}
+
+TEST(CGXDateTimeTest, MoveAssignment)
+{
+    CGXDateTime dt1(2023, 10, 27, 10, 30, 0, 0);
+    CGXDateTime dt2(dt1);
+    CGXDateTime dt3;
+    dt3 = std::move(dt1);
+    ASSERT_EQ(0, dt2.CompareTo(dt3));
+}

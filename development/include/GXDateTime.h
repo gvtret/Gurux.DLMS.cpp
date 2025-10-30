@@ -97,27 +97,28 @@ typedef enum {
 class CGXDateTime {
     friend class CGXTime;
     friend class CGXDate;
-    short m_Deviation;
-    DATETIME_SKIPS m_Skip;
-    struct tm m_Value;
-    DATE_TIME_EXTRA_INFO m_Extra;
-    DLMS_CLOCK_STATUS m_Status;
+    short m_Deviation = 0;
+    DATETIME_SKIPS m_Skip = DATETIME_SKIPS_NONE;
+    struct tm m_Value {
+    };
+    DATE_TIME_EXTRA_INFO m_Extra = DATE_TIME_EXTRA_INFO_NONE;
+    DLMS_CLOCK_STATUS m_Status = DLMS_CLOCK_STATUS_OK;
 
     /////////////////////////////////////////////////////////////////////////
     // DLMS Standard says that Time zone is from normal time to UTC in minutes.
     // If meter is configured to use UTC time (UTC to normal time) set this to true.
-    bool m_UseUtc2NormalTime;
+    bool m_UseUtc2NormalTime = false;
 
     void Init(int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation);
     //Get date format.
-    int GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator);
+    int GetDateFormat2(GXDLMS_DATE_FORMAT& format, char& separator) const;
 
     //Get time format.
-    int GetTimeFormat2(char &separator, char &use24HourClock);
+    int GetTimeFormat2(char& separator, char& use24HourClock) const;
 
     int GetDateTimeFormat(
-        std::string &value, GXDLMS_DATE_FORMAT &format, char &dateSeparator, char &timeSeparator, char &use24HourClock
-    );
+        std::string& value, GXDLMS_DATE_FORMAT& format, char& dateSeparator, char& timeSeparator, char& use24HourClock
+    ) const;
 
 public:
     // Constructor.
@@ -128,10 +129,10 @@ public:
     CGXDateTime(const unsigned long long unixTime);
 
     // Constructor.
-    CGXDateTime(struct tm &value);
+    CGXDateTime(const struct tm& value);
 
     // Constructor.
-    CGXDateTime(struct tm *value);
+    CGXDateTime(const struct tm* value);
 
     // Constructor.
     CGXDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond);
@@ -139,37 +140,43 @@ public:
     // Constructor.
     CGXDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation);
 
+    CGXDateTime(const CGXDateTime& other) = default;
+    CGXDateTime(CGXDateTime&& other) noexcept = default;
+    CGXDateTime& operator=(const CGXDateTime& other) = default;
+    CGXDateTime& operator=(CGXDateTime&& other) noexcept = default;
+
     /////////////////////////////////////////////////////////////////////////
     //Get system date-time format.
-    static void GetSystemDateTimeFormat(std::string &value);
+    static void GetSystemDateTimeFormat(std::string& value);
 
     //Destructor.
     virtual ~CGXDateTime();
 
     // Get date time from string.
-    int FromString(const char *value);
+    int FromString(const char* value);
 
     /////////////////////////////////////////////////////////////////////////
     //Convert date time value to the format string using given pattern.
-    int ToFormatString(const char *pattern, std::string &value);
+    int ToFormatString(const char* pattern, std::string& value) const;
 
     /////////////////////////////////////////////////////////////////////////
     //Convert date time value to the format using system date-time format.
-    int ToFormatString(std::string &value);
+    int ToFormatString(std::string& value) const;
 
     /////////////////////////////////////////////////////////////////////////
     // Used date time value.
-    struct tm &GetValue();
-    void SetValue(const struct tm &value);
+    const struct tm& GetValue() const;
+    struct tm& GetValue();
+    void SetValue(const struct tm& value);
 
     /////////////////////////////////////////////////////////////////////////
     // Skip selected date time fields.
-    DATETIME_SKIPS GetSkip();
+    DATETIME_SKIPS GetSkip() const;
     void SetSkip(DATETIME_SKIPS value);
 
     /////////////////////////////////////////////////////////////////////////
     //Convert date time value to the string using system date-time format.
-    std::string ToString();
+    std::string ToString() const;
 
     /////////////////////////////////////////////////////////////////////////
     //Get currect time.
@@ -177,17 +184,17 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Date time extra information.
-    DATE_TIME_EXTRA_INFO GetExtra();
+    DATE_TIME_EXTRA_INFO GetExtra() const;
     void SetExtra(DATE_TIME_EXTRA_INFO value);
 
     /////////////////////////////////////////////////////////////////////////
     // Deviation.
-    int GetDeviation();
+    int GetDeviation() const;
     void SetDeviation(int value);
 
     /////////////////////////////////////////////////////////////////////////
     // Status of the clock.
-    DLMS_CLOCK_STATUS GetStatus();
+    DLMS_CLOCK_STATUS GetStatus() const;
     void SetStatus(DLMS_CLOCK_STATUS value);
 
     /////////////////////////////////////////////////////////////////////////
@@ -220,7 +227,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Compare current time to another time.
-    int CompareTo(CGXDateTime &antherDate);
+    int CompareTo(const CGXDateTime& antherDate) const;
 
     /////////////////////////////////////////////////////////////////////////
     // Get amount of days in given month.
@@ -232,11 +239,11 @@ public:
     // start:  Start date time.
     // to:  Compared time.
     // Returns difference in milliseconds.
-    static long GetDifference(struct tm &start, CGXDateTime &to);
+    static long GetDifference(const struct tm& start, const CGXDateTime& to);
 
     /////////////////////////////////////////////////////////////////////////
     //Convert value to local time.
-    int ToLocalTime(struct tm &localTime);
+    int ToLocalTime(struct tm& localTime) const;
 
     /////////////////////////////////////////////////////////////////////////
     //Get currect timezone.
@@ -248,14 +255,14 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     //Return datetime as unix time.
-    unsigned long ToUnixTime();
+    unsigned long ToUnixTime() const;
 
     /////////////////////////////////////////////////////////////////////////
     // DLMS Standard says that Time zone is from normal time to UTC in minutes.
     // If meter is configured to use UTC time (UTC to normal time) set this to true.
     // Read nore: https://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSClock#dstDeviation
     //
-    bool GetUseUtc2NormalTime();
+    bool GetUseUtc2NormalTime() const;
     void SetUseUtc2NormalTime(bool value);
 };
 #endif  //GXDATETIME_H
