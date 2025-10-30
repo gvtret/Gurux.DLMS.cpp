@@ -90,7 +90,7 @@ void CGXDLMSSettings::SetStoCChallenge(CGXByteBuffer &value) {
     m_StoCChallenge = value;
 }
 
-DLMS_AUTHENTICATION CGXDLMSSettings::GetAuthentication() {
+DLMS_AUTHENTICATION CGXDLMSSettings::GetAuthentication() const {
     return m_Authentication;
 }
 
@@ -106,7 +106,7 @@ void CGXDLMSSettings::SetPassword(CGXByteBuffer &value) {
     m_Password = value;
 }
 
-unsigned char CGXDLMSSettings::GetDlmsVersionNumber() {
+unsigned char CGXDLMSSettings::GetDlmsVersionNumber() const {
     return m_DlmsVersionNumber;
 }
 
@@ -220,19 +220,27 @@ void CGXDLMSSettings::IncreaseBlockIndex() {
     m_BlockIndex += 1;
 }
 
-bool CGXDLMSSettings::IsServer() {
+bool CGXDLMSSettings::IsServer() const {
     return m_Server;
+}
+
+const CGXDLMSLimits &CGXDLMSSettings::GetHdlcSettings() const {
+    return m_HdlcSettings;
 }
 
 CGXDLMSLimits &CGXDLMSSettings::GetHdlcSettings() {
     return m_HdlcSettings;
 }
 
+const CGXPlcSettings &CGXDLMSSettings::GetPlcSettings() const {
+    return m_PlcSettings;
+}
+
 CGXPlcSettings &CGXDLMSSettings::GetPlcSettings() {
     return m_PlcSettings;
 }
 
-DLMS_INTERFACE_TYPE CGXDLMSSettings::GetInterfaceType() {
+DLMS_INTERFACE_TYPE CGXDLMSSettings::GetInterfaceType() const {
     return m_InterfaceType;
 }
 
@@ -240,7 +248,7 @@ void CGXDLMSSettings::SetInterfaceType(DLMS_INTERFACE_TYPE value) {
     m_InterfaceType = value;
 }
 
-unsigned long CGXDLMSSettings::GetClientAddress() {
+unsigned long CGXDLMSSettings::GetClientAddress() const {
     return m_ClientAddress;
 }
 
@@ -248,7 +256,7 @@ void CGXDLMSSettings::SetClientAddress(unsigned long value) {
     m_ClientAddress = value;
 }
 
-unsigned long CGXDLMSSettings::GetPushClientAddress() {
+unsigned long CGXDLMSSettings::GetPushClientAddress() const {
     return m_PushClientAddress;
 }
 
@@ -256,7 +264,7 @@ void CGXDLMSSettings::SetPushClientAddress(unsigned long value) {
     m_PushClientAddress = value;
 }
 
-unsigned long CGXDLMSSettings::GetServerAddress() {
+unsigned long CGXDLMSSettings::GetServerAddress() const {
     return m_ServerAddress;
 }
 
@@ -266,7 +274,7 @@ void CGXDLMSSettings::SetServerAddress(unsigned long value) {
 }
 
 // DLMS version number.
-unsigned char CGXDLMSSettings::GetDLMSVersion() {
+unsigned char CGXDLMSSettings::GetDLMSVersion() const {
     return m_DlmsVersionNumber;
 }
 
@@ -276,7 +284,7 @@ void CGXDLMSSettings::SetDLMSVersion(unsigned char value) {
 }
 
 // Maximum PDU size.
-unsigned short CGXDLMSSettings::GetMaxPduSize() {
+unsigned short CGXDLMSSettings::GetMaxPduSize() const {
     return m_MaxReceivePDUSize;
 }
 
@@ -289,7 +297,7 @@ int CGXDLMSSettings::SetMaxReceivePDUSize(unsigned short value) {
 }
 
 // Maximum server PDU size.
-unsigned short CGXDLMSSettings::GetMaxServerPDUSize() {
+unsigned short CGXDLMSSettings::GetMaxServerPDUSize() const {
     return m_MaxServerPDUSize;
 }
 
@@ -301,7 +309,7 @@ int CGXDLMSSettings::SetMaxServerPDUSize(unsigned short value) {
     return 0;
 }
 
-bool CGXDLMSSettings::GetUseLogicalNameReferencing() {
+bool CGXDLMSSettings::GetUseLogicalNameReferencing() const {
     return m_UseLogicalNameReferencing;
 }
 
@@ -309,7 +317,7 @@ void CGXDLMSSettings::SetUseLogicalNameReferencing(bool value) {
     m_UseLogicalNameReferencing = value;
 }
 
-DLMS_PRIORITY CGXDLMSSettings::GetPriority() {
+DLMS_PRIORITY CGXDLMSSettings::GetPriority() const {
     return m_Priority;
 }
 
@@ -317,7 +325,7 @@ void CGXDLMSSettings::SetPriority(DLMS_PRIORITY value) {
     m_Priority = value;
 }
 
-DLMS_SERVICE_CLASS CGXDLMSSettings::GetServiceClass() {
+DLMS_SERVICE_CLASS CGXDLMSSettings::GetServiceClass() const {
     return m_ServiceClass;
 }
 
@@ -325,7 +333,7 @@ void CGXDLMSSettings::SetServiceClass(DLMS_SERVICE_CLASS value) {
     m_ServiceClass = value;
 }
 
-unsigned char CGXDLMSSettings::GetInvokeID() {
+unsigned char CGXDLMSSettings::GetInvokeID() const {
     return m_InvokeID;
 }
 
@@ -347,7 +355,7 @@ void CGXDLMSSettings::UpdateInvokeId(unsigned char value) {
     m_InvokeID = (unsigned char)(value & 0xF);
 }
 
-unsigned long CGXDLMSSettings::GetLongInvokeID() {
+unsigned long CGXDLMSSettings::GetLongInvokeID() const {
     return m_LongInvokeID;
 }
 
@@ -360,11 +368,15 @@ int CGXDLMSSettings::SetLongInvokeID(unsigned long value) {
     return 0;
 }
 
+const CGXDLMSObjectCollection &CGXDLMSSettings::GetObjects() const {
+    return m_Objects;
+}
+
 CGXDLMSObjectCollection &CGXDLMSSettings::GetObjects() {
     return m_Objects;
 }
 
-bool CGXDLMSSettings::GetUseCustomChallenge() {
+bool CGXDLMSSettings::GetUseCustomChallenge() const {
     return m_UseCustomChallenge;
 }
 
@@ -372,7 +384,7 @@ void CGXDLMSSettings::SetUseCustomChallenge(bool value) {
     m_UseCustomChallenge = value;
 }
 
-DLMS_CONNECTION_STATE CGXDLMSSettings::GetConnected() {
+DLMS_CONNECTION_STATE CGXDLMSSettings::GetConnected() const {
     return m_Connected;
 }
 
@@ -386,6 +398,10 @@ CGXCipher *CGXDLMSSettings::GetCipher() {
 
 void CGXDLMSSettings::SetCipher(CGXCipher *value) {
     m_Cipher = value;
+}
+
+const CGXByteBuffer &CGXDLMSSettings::GetSourceSystemTitle() const {
+    return m_SourceSystemTitle;
 }
 
 CGXByteBuffer &CGXDLMSSettings::GetSourceSystemTitle() {
@@ -459,7 +475,7 @@ void CGXDLMSSettings::SetIndex(unsigned short value) {
     m_Index = value;
 }
 
-DLMS_CONFORMANCE CGXDLMSSettings::GetNegotiatedConformance() {
+DLMS_CONFORMANCE CGXDLMSSettings::GetNegotiatedConformance() const {
     return m_NegotiatedConformance;
 }
 
@@ -467,7 +483,7 @@ void CGXDLMSSettings::SetNegotiatedConformance(DLMS_CONFORMANCE value) {
     m_NegotiatedConformance = value;
 }
 
-DLMS_CONFORMANCE CGXDLMSSettings::GetProposedConformance() {
+DLMS_CONFORMANCE CGXDLMSSettings::GetProposedConformance() const {
     return m_ProposedConformance;
 }
 
@@ -475,7 +491,7 @@ void CGXDLMSSettings::SetProposedConformance(DLMS_CONFORMANCE value) {
     m_ProposedConformance = value;
 }
 
-char *CGXDLMSSettings::GetProtocolVersion() {
+const char *CGXDLMSSettings::GetProtocolVersion() const {
     return m_ProtocolVersion;
 }
 
@@ -492,7 +508,7 @@ void CGXDLMSSettings::SetProtocolVersion(const char *value) {
     }
 }
 
-bool CGXDLMSSettings::GetUseUtc2NormalTime() {
+bool CGXDLMSSettings::GetUseUtc2NormalTime() const {
     return m_UseUtc2NormalTime;
 }
 
@@ -500,7 +516,7 @@ void CGXDLMSSettings::SetUseUtc2NormalTime(bool value) {
     m_UseUtc2NormalTime = value;
 }
 
-uint64_t CGXDLMSSettings::GetExpectedInvocationCounter() {
+uint64_t CGXDLMSSettings::GetExpectedInvocationCounter() const {
     return m_ExpectedInvocationCounter;
 }
 
@@ -508,7 +524,7 @@ void CGXDLMSSettings::SetExpectedInvocationCounter(uint64_t value) {
     m_ExpectedInvocationCounter = value;
 }
 
-unsigned char CGXDLMSSettings::GetExpectedSecurityPolicy() {
+unsigned char CGXDLMSSettings::GetExpectedSecurityPolicy() const {
     return m_ExpectedSecurityPolicy;
 }
 
@@ -520,11 +536,11 @@ void CGXDLMSSettings::SetExpectedSecuritySuite(unsigned char value) {
     m_ExpectedSecuritySuite = value;
 }
 
-unsigned char CGXDLMSSettings::GetExpectedSecuritySuite() {
+unsigned char CGXDLMSSettings::GetExpectedSecuritySuite() const {
     return m_ExpectedSecuritySuite;
 }
 
-DATETIME_SKIPS CGXDLMSSettings::GetDateTimeSkips() {
+DATETIME_SKIPS CGXDLMSSettings::GetDateTimeSkips() const {
     return m_DateTimeSkips;
 }
 
@@ -532,7 +548,7 @@ void CGXDLMSSettings::SetDateTimeSkips(DATETIME_SKIPS value) {
     m_DateTimeSkips = value;
 }
 
-unsigned char CGXDLMSSettings::GetUserID() {
+unsigned char CGXDLMSSettings::GetUserID() const {
     return m_UserId;
 }
 
@@ -540,7 +556,7 @@ void CGXDLMSSettings::SetUserID(unsigned char value) {
     m_UserId = value;
 }
 
-unsigned char CGXDLMSSettings::GetQualityOfService() {
+unsigned char CGXDLMSSettings::GetQualityOfService() const {
     return m_QualityOfService;
 }
 
@@ -548,7 +564,7 @@ void CGXDLMSSettings::SetQualityOfService(unsigned char value) {
     m_QualityOfService = value;
 }
 
-bool CGXDLMSSettings::GetAutoIncreaseInvokeID() {
+bool CGXDLMSSettings::GetAutoIncreaseInvokeID() const {
     return m_AutoIncreaseInvokeID;
 }
 
@@ -560,7 +576,7 @@ void CGXDLMSSettings::AddAllocateObject(CGXDLMSObject *pObj) {
     m_AllocatedObjects.push_back(pObj);
 }
 
-int CGXDLMSSettings::GetBlockNumberAck() {
+int CGXDLMSSettings::GetBlockNumberAck() const {
     return m_BlockNumberAck;
 }
 
@@ -568,7 +584,7 @@ void CGXDLMSSettings::SetBlockNumberAck(int value) {
     m_BlockNumberAck = value;
 }
 
-unsigned char CGXDLMSSettings::GetGbtWindowSize() {
+unsigned char CGXDLMSSettings::GetGbtWindowSize() const {
     return m_GbtWindowSize;
 }
 
@@ -576,7 +592,7 @@ void CGXDLMSSettings::SetGbtWindowSize(unsigned char value) {
     m_GbtWindowSize = value;
 }
 
-unsigned char CGXDLMSSettings::GetCommand() {
+unsigned char CGXDLMSSettings::GetCommand() const {
     return m_Command;
 }
 
@@ -584,7 +600,7 @@ void CGXDLMSSettings::SetCommand(unsigned char value) {
     m_Command = value;
 }
 
-unsigned char CGXDLMSSettings::GetCommandType() {
+unsigned char CGXDLMSSettings::GetCommandType() const {
     return m_CommandType;
 }
 
