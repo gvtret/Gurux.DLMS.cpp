@@ -253,7 +253,7 @@ public:
     unsigned char GetGbtWindowSize() const;
 
     //HDLC connection settings. GetLimits is obsolete. Use GetHdlcSettings instead.
-    CGXHdlcSettings &GetLimits();
+    CGXDLMSLimits &GetLimits();
 
     /////////////////////////////////////////////////////////////////////////////
     //HDLC connection settings.

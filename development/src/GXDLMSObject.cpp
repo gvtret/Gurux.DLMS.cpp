@@ -140,7 +140,7 @@ int CGXDLMSObject::GetDataType(int index, DLMS_DATA_TYPE &type) const {
     if (index < 1) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    for (auto& it : m_Attributes) {
+    for (const auto& it : m_Attributes) {
         if (it.GetIndex() == index) {
             type = it.GetDataType();
             return DLMS_ERROR_CODE_OK;
@@ -168,7 +168,7 @@ DLMS_ACCESS_MODE CGXDLMSObject::GetAccess(int index) const {
     if (index == 1) {
         return DLMS_ACCESS_MODE_READ;
     }
-    for (auto& it : m_Attributes) {
+    for (const auto& it : m_Attributes) {
         if (it.GetIndex() == index) {
             return it.GetAccess();
         }

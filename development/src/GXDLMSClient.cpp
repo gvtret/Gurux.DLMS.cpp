@@ -252,7 +252,7 @@ void CGXDLMSClient::SetAutoIncreaseInvokeID(bool value) {
     m_Settings.SetAutoIncreaseInvokeID(value);
 }
 
-CGXHdlcSettings &CGXDLMSClient::GetLimits() {
+CGXDLMSLimits &CGXDLMSClient::GetLimits() {
     return m_Settings.GetHdlcSettings();
 }
 
