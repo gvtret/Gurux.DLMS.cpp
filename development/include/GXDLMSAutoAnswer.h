@@ -58,8 +58,8 @@ enum AUTO_ANSWER_STATUS {
 };
 
 /**
-Online help:
-http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAutoAnswer
+ * Represents a DLMS/COSEM auto-answer object, which controls how a device
+ * responds to incoming calls.
 */
 class CGXDLMSAutoAnswer: public CGXDLMSObject {
     int m_NumberOfRingsInListeningWindow, m_NumberOfRingsOutListeningWindow;
