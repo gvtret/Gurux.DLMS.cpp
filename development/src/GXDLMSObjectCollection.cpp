@@ -154,7 +154,7 @@ int CGXDLMSObjectCollection::Save(const char *fileName, CGXXmlWriterSettings &se
                 }
             }
             // Add description if given.
-            std::string &d = (*it)->GetDescription();
+            const std::string &d = (*it)->GetDescription();
             if (!d.empty()) {
                 if ((ret = writer.WriteElementString("Description", d)) != 0) {
                     break;

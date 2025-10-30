@@ -36,19 +36,21 @@
 #include "../include/GXHelpers.h"
 
 //SN Constructor.
-CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln, unsigned short sn) {
-    Initialize(sn, type, 0, NULL);
+CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, const std::string &ln, unsigned short sn)
+{
+    Initialize(sn, type, 0, nullptr);
     GXHelpers::SetLogicalName(ln.c_str(), m_LN);
 }
 
 //LN Constructor.
-CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln) {
-    Initialize(0, type, 0, NULL);
+CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type, const std::string &ln)
+{
+    Initialize(0, type, 0, nullptr);
     GXHelpers::SetLogicalName(ln.c_str(), m_LN);
 }
 
 CGXDLMSObject::CGXDLMSObject() {
-    Initialize(0, DLMS_OBJECT_TYPE_NONE, 0, NULL);
+    Initialize(0, DLMS_OBJECT_TYPE_NONE, 0, nullptr);
 }
 
 CGXDLMSObject::CGXDLMSObject(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer &ln) {
@@ -56,7 +58,7 @@ CGXDLMSObject::CGXDLMSObject(short sn, unsigned short class_id, unsigned char ve
 }
 
 CGXDLMSObject::CGXDLMSObject(DLMS_OBJECT_TYPE type) {
-    Initialize(0, type, 0, NULL);
+    Initialize(0, type, 0, nullptr);
 }
 
 int CGXDLMSObject::GetLogicalName(CGXDLMSObject *target, CGXDLMSVariant &value) {
@@ -103,12 +105,12 @@ void CGXDLMSObject::Initialize(short sn, unsigned short class_id, unsigned char 
     m_Attributes.push_back(CGXDLMSAttribute(1, DLMS_DATA_TYPE_OCTET_STRING, DLMS_DATA_TYPE_OCTET_STRING));
 }
 
-CGXDLMSObject::~CGXDLMSObject(void) {
+CGXDLMSObject::~CGXDLMSObject() {
     m_Attributes.clear();
     m_MethodAttributes.clear();
 }
 
-CGXDLMSVariant CGXDLMSObject::GetName() {
+CGXDLMSVariant CGXDLMSObject::GetName() const {
     if (m_SN != 0) {
         return CGXDLMSVariant(m_SN);
     }
@@ -130,17 +132,17 @@ int CGXDLMSObject::SetName(CGXDLMSVariant &value) {
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-DLMS_OBJECT_TYPE CGXDLMSObject::GetObjectType() {
+DLMS_OBJECT_TYPE CGXDLMSObject::GetObjectType() const {
     return m_ObjectType;
 }
 
-int CGXDLMSObject::GetDataType(int index, DLMS_DATA_TYPE &type) {
+int CGXDLMSObject::GetDataType(int index, DLMS_DATA_TYPE &type) const {
     if (index < 1) {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    for (std::vector<CGXDLMSAttribute>::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
-        if ((*it).GetIndex() == index) {
-            type = (*it).GetDataType();
+    for (auto& it : m_Attributes) {
+        if (it.GetIndex() == index) {
+            type = it.GetDataType();
             return DLMS_ERROR_CODE_OK;
         }
     }
@@ -161,14 +163,14 @@ int CGXDLMSObject::SetDataType(int index, DLMS_DATA_TYPE type) {
     return DLMS_ERROR_CODE_OK;
 }
 
-DLMS_ACCESS_MODE CGXDLMSObject::GetAccess(int index) {
+DLMS_ACCESS_MODE CGXDLMSObject::GetAccess(int index) const {
     //LN is read only.
     if (index == 1) {
         return DLMS_ACCESS_MODE_READ;
     }
-    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
-        if ((*it).GetIndex() == index) {
-            return (*it).GetAccess();
+    for (auto& it : m_Attributes) {
+        if (it.GetIndex() == index) {
+            return it.GetAccess();
         }
     }
     return DLMS_ACCESS_MODE_READ_WRITE;
@@ -187,10 +189,10 @@ void CGXDLMSObject::SetAccess(int index, DLMS_ACCESS_MODE access) {
     m_Attributes.push_back(att);
 }
 
-DLMS_METHOD_ACCESS_MODE CGXDLMSObject::GetMethodAccess(int index) {
-    for (CGXAttributeCollection::iterator it = m_MethodAttributes.begin(); it != m_MethodAttributes.end(); ++it) {
-        if ((*it).GetIndex() == index) {
-            return (*it).GetMethodAccess();
+DLMS_METHOD_ACCESS_MODE CGXDLMSObject::GetMethodAccess(int index) const {
+    for (const auto& it : m_MethodAttributes) {
+        if (it.GetIndex() == index) {
+            return it.GetMethodAccess();
         }
     }
     return DLMS_METHOD_ACCESS_MODE_ACCESS;
@@ -208,10 +210,10 @@ void CGXDLMSObject::SetMethodAccess(int index, DLMS_METHOD_ACCESS_MODE access) {
     m_MethodAttributes.push_back(att);
 }
 
-int CGXDLMSObject::GetUIDataType(int index, DLMS_DATA_TYPE &type) {
-    for (CGXAttributeCollection::iterator it = m_Attributes.begin(); it != m_Attributes.end(); ++it) {
-        if (it->GetIndex() == index) {
-            type = it->GetUIDataType();
+int CGXDLMSObject::GetUIDataType(int index, DLMS_DATA_TYPE &type) const {
+    for (const auto& it : m_Attributes) {
+        if (it.GetIndex() == index) {
+            type = it.GetUIDataType();
             return DLMS_ERROR_CODE_OK;
         }
     }
@@ -230,7 +232,7 @@ void CGXDLMSObject::SetUIDataType(int index, DLMS_DATA_TYPE type) {
     m_Attributes.push_back(att);
 }
 
-unsigned short CGXDLMSObject::GetShortName() {
+unsigned short CGXDLMSObject::GetShortName() const {
     return m_SN;
 }
 
@@ -238,7 +240,7 @@ void CGXDLMSObject::SetShortName(unsigned short value) {
     m_SN = value;
 }
 
-void CGXDLMSObject::GetLogicalName(std::string &ln) {
+void CGXDLMSObject::GetLogicalName(std::string &ln) const {
     GXHelpers::GetLogicalName(m_LN, ln);
 }
 
@@ -246,12 +248,20 @@ void CGXDLMSObject::SetVersion(unsigned short value) {
     m_Version = value;
 }
 
-unsigned short CGXDLMSObject::GetVersion() {
+unsigned short CGXDLMSObject::GetVersion() const {
     return m_Version;
+}
+
+const CGXAttributeCollection &CGXDLMSObject::GetAttributes() const {
+    return m_Attributes;
 }
 
 CGXAttributeCollection &CGXDLMSObject::GetAttributes() {
     return m_Attributes;
+}
+
+const CGXAttributeCollection &CGXDLMSObject::GetMethodAttributes() const {
+    return m_MethodAttributes;
 }
 
 CGXAttributeCollection &CGXDLMSObject::GetMethodAttributes() {
@@ -259,12 +269,12 @@ CGXAttributeCollection &CGXDLMSObject::GetMethodAttributes() {
 }
 
 //Get Object's Logical Name.
-std::string &CGXDLMSObject::GetDescription() {
+const std::string &CGXDLMSObject::GetDescription() const {
     return m_Description;
 }
 
 //Set Object's Logical Name.
-void CGXDLMSObject::SetDescription(std::string &value) {
+void CGXDLMSObject::SetDescription(const std::string &value) {
     m_Description = value;
 }
 

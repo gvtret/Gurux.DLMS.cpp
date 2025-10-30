@@ -78,14 +78,14 @@ public:
     /// <summary>
     /// Attribute Index.
     /// </summary>
-    int GetIndex() {
+    int GetIndex() const {
         return m_Index;
     }
 
     /// <summary>
     /// Attribute data type.
     /// </summary>
-    DLMS_DATA_TYPE GetDataType() {
+    DLMS_DATA_TYPE GetDataType() const {
         return m_Type;
     }
 
@@ -96,7 +96,7 @@ public:
     /// <summary>
     /// Data type that user want's to see.
     /// </summary>
-    DLMS_DATA_TYPE GetUIDataType() {
+    DLMS_DATA_TYPE GetUIDataType() const {
         return m_UIType;
     }
 
@@ -104,7 +104,7 @@ public:
         m_UIType = type;
     }
 
-    DLMS_ACCESS_MODE GetAccess() {
+    DLMS_ACCESS_MODE GetAccess() const {
         return m_Access;
     }
 
@@ -112,7 +112,7 @@ public:
         m_Access = value;
     }
 
-    DLMS_METHOD_ACCESS_MODE GetMethodAccess() {
+    DLMS_METHOD_ACCESS_MODE GetMethodAccess() const {
         return m_MethodAccess;
     }
 
@@ -120,7 +120,7 @@ public:
         m_MethodAccess = value;
     }
 
-    bool GetStatic() {
+    bool GetStatic() const {
         return m_Static;
     }
 
@@ -144,14 +144,14 @@ public:
     /// <summary>
     /// Read order.
     /// </summary>
-    int GetOrder() {
+    int GetOrder() const {
         return m_Order;
     }
 
     /// <summary>
     /// Minimum version vhere this attribute is implemented.
     /// </summary>
-    int GetMinimumVersion() {
+    int GetMinimumVersion() const {
         return m_MinimumVersion;
     }
 };

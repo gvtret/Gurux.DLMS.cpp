@@ -108,6 +108,7 @@ public:
     */
     static int GetData(CGXDLMSSettings *settings, CGXByteBuffer &data, CGXDataInfo &info, CGXDLMSVariant &value);
 
+    static void GetLogicalName(const unsigned char *buff, std::string &ln);
     static void GetLogicalName(unsigned char *buff, std::string &ln);
 
     static void GetLogicalName(CGXByteBuffer &buff, std::string &ln);

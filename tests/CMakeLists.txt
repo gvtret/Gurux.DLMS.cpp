@@ -44,6 +44,7 @@ set(TEST_SOURCES
     GXDLMSValueEventArgTest.cpp
     GXDLMSWeekProfileTest.cpp
     GXXmlWriterTest.cpp
+    GXDLMSObjectTest.cpp
 )
 
 # Create test executable
