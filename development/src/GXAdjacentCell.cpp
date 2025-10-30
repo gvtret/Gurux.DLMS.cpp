@@ -34,7 +34,15 @@
 
 #include "../include/GXAdjacentCell.h"
 
-unsigned long GXAdjacentCell::GetCellId() {
+GXAdjacentCell::GXAdjacentCell() {
+}
+
+GXAdjacentCell::GXAdjacentCell(unsigned long cellId, unsigned char signalQuality) :
+    m_CellId(cellId),
+    m_SignalQuality(signalQuality) {
+}
+
+unsigned long GXAdjacentCell::GetCellId() const {
     return m_CellId;
 }
 
@@ -42,7 +50,7 @@ void GXAdjacentCell::SetCellId(unsigned long value) {
     m_CellId = value;
 }
 
-unsigned char GXAdjacentCell::GetSignalQuality() {
+unsigned char GXAdjacentCell::GetSignalQuality() const {
     return m_SignalQuality;
 }
 

@@ -24,6 +24,7 @@ include(GoogleTest)
 
 # Test source files
 set(TEST_SOURCES
+    test_GXAdjacentCell.cpp
     GXByteBufferTest.cpp
     GXAPDUTest.cpp
     GXDLMSVariantTest.cpp

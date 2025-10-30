@@ -35,44 +35,55 @@
 #ifndef GXADJACENTCELL_H
 #define GXADJACENTCELL_H
 
-#include <string>
-
 /**
  * Represents a GSM adjacent cell, providing information about neighboring cells.
 */
 class GXAdjacentCell {
 private:
     /**
-    * Four byte cell ID.
-    */
-    unsigned long m_CellId;
+     * Four byte cell ID.
+     */
+    unsigned long m_CellId = 0;
 
     /**
-    * Signal quality.
-    */
-    unsigned char m_SignalQuality;
+     * Signal quality.
+     */
+    unsigned char m_SignalQuality = 0;
 
 public:
     /**
-    * @return Four byte cell ID.
-    */
-    unsigned long GetCellId();
+     * Constructor.
+     */
+    GXAdjacentCell();
 
     /**
-    * @param value
-    *            Four byte cell ID.
-    */
+     * Constructor.
+     *
+     * @param cellId Four byte cell ID.
+     * @param signalQuality Signal quality.
+     */
+    GXAdjacentCell(unsigned long cellId, unsigned char signalQuality);
+
+    /**
+     * @return Four byte cell ID.
+     */
+    unsigned long GetCellId() const;
+
+    /**
+     * @param value
+     *            Four byte cell ID.
+     */
     void SetCellId(unsigned long value);
 
     /**
-    * @return Signal quality.
-    */
-    unsigned char GetSignalQuality();
+     * @return Signal quality.
+     */
+    unsigned char GetSignalQuality() const;
 
     /**
-    * @param value
-    *            Signal quality.
-    */
+     * @param value
+     *            Signal quality.
+     */
     void SetSignalQuality(unsigned char value);
 };
 #endif  //GXADJACENTCELL_H
