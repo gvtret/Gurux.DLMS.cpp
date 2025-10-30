@@ -40,22 +40,22 @@
 /**
 * Date object. Time part is ignored.
 */
-class CGXDate: public CGXDateTime {
+class CGXDate : public CGXDateTime {
 public:
     // Constructor.
-    CGXDate(): CGXDateTime() {
+    CGXDate() : CGXDateTime() {
         SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS
-        ));
+            ));
     };
 
     // Constructor.
-    CGXDate(struct tm value): CGXDateTime(value) {
+    CGXDate(const struct tm& value) : CGXDateTime(value) {
         SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS
-        ));
+            ));
     }
 
     // Constructor.
-    CGXDate(int year, int month, int day): CGXDateTime(year, month, day, -1, -1, -1, -1) {
+    CGXDate(int year, int month, int day) : CGXDateTime(year, month, day, -1, -1, -1, -1) {
     }
 
     /**
@@ -64,15 +64,27 @@ public:
     * @param value
     *            Date value.
     */
-    CGXDate(CGXDateTime &value): CGXDateTime(value.GetValue()) {
-        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
-                                 DATETIME_SKIPS_MS));
+    CGXDate(const CGXDateTime& value) : CGXDateTime(value.GetValue()) {
+        SetSkip((DATETIME_SKIPS)(value.GetSkip() | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
+            DATETIME_SKIPS_MS));
     }
 
-    CGXDate &operator=(const CGXDateTime &value) {
-        SetValue(value.m_Value);
-        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
-                                 DATETIME_SKIPS_MS));
+    CGXDate(const CGXDate& other) = default;
+    CGXDate(CGXDate&& other) noexcept = default;
+    CGXDate& operator=(const CGXDate& other) = default;
+    CGXDate& operator=(CGXDate&& other) noexcept = default;
+
+    CGXDate& operator=(const CGXDateTime& value) {
+        SetValue(value.GetValue());
+        SetSkip((DATETIME_SKIPS)(value.GetSkip() | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
+            DATETIME_SKIPS_MS));
+        return *this;
+    }
+
+    CGXDate& operator=(CGXDateTime&& value) noexcept {
+        SetValue(value.GetValue());
+        SetSkip((DATETIME_SKIPS)(value.GetSkip() | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE | DATETIME_SKIPS_SECOND |
+            DATETIME_SKIPS_MS));
         return *this;
     }
 };

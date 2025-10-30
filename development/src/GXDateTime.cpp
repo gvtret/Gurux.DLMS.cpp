@@ -610,8 +610,6 @@ int CGXDateTime::ToFormatString(const char* pattern, std::string& value) const {
         char dateSeparator = '/', timeSeparator = ':', use24HourClock = 0;
         if (pattern != NULL ||
             (ret = GetDateTimeFormat(format, df, dateSeparator, timeSeparator, use24HourClock)) == 0) {
-            Remove(const_cast<CGXDateTime*>(this), format, dateSeparator, timeSeparator);
-
             if ((m_Extra & DATE_TIME_EXTRA_INFO_DST_BEGIN) != 0) {
                 Replace(format, "%m", "BEGIN");
             }
