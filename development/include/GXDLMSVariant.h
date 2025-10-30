@@ -80,10 +80,12 @@ class CGXDLMSVariant: public dlmsVARIANT {
 
 public:
     void Clear();
+    void Clear(bool free);
     CGXDLMSVariant();
 
     //Copy constructor.
     CGXDLMSVariant(const CGXDLMSVariant &value);
+    CGXDLMSVariant(CGXDLMSVariant &&value) noexcept;
 
     CGXDLMSVariant(float value);
     CGXDLMSVariant(double value);
@@ -115,11 +117,12 @@ public:
 
 
     CGXDLMSVariant &operator=(const CGXDLMSVariant &value);
+    CGXDLMSVariant &operator=(CGXDLMSVariant &&value) noexcept;
 
-    CGXDLMSVariant &operator=(std::string value);
+    CGXDLMSVariant &operator=(const std::string &value);
     CGXDLMSVariant &operator=(const char *value);
-    CGXDLMSVariant &operator=(CGXByteBuffer &value);
-    CGXDLMSVariant &operator=(CGXByteArray &value);
+    CGXDLMSVariant &operator=(const CGXByteBuffer &value);
+    CGXDLMSVariant &operator=(const CGXByteArray &value);
     CGXDLMSVariant &operator=(float value);
     CGXDLMSVariant &operator=(double value);
     CGXDLMSVariant &operator=(unsigned long long value);
@@ -133,31 +136,31 @@ public:
     CGXDLMSVariant &operator=(unsigned short value);
     CGXDLMSVariant &operator=(unsigned int value);
     CGXDLMSVariant &operator=(unsigned long value);
-    CGXDLMSVariant &operator=(struct tm value);
-    CGXDLMSVariant &operator=(CGXDate &value);
-    CGXDLMSVariant &operator=(CGXTime &value);
-    CGXDLMSVariant &operator=(CGXDateTime &value);
+    CGXDLMSVariant &operator=(const struct tm &value);
+    CGXDLMSVariant &operator=(const CGXDate &value);
+    CGXDLMSVariant &operator=(const CGXTime &value);
+    CGXDLMSVariant &operator=(const CGXDateTime &value);
     void Add(const unsigned char *, int count);
     void Add(const char *, int count);
     void Add(std::string value);
-    bool Equals(CGXDLMSVariant &item);
+    bool Equals(const CGXDLMSVariant &item) const;
     int ChangeType(DLMS_DATA_TYPE newType);
     //Get size in bytes.
-    int GetSize();
+    int GetSize() const;
     //Get size in bytes.
     static int GetSize(DLMS_DATA_TYPE vt);
-    std::string ToString();
-    int ToInteger();
-    double ToDouble();
+    std::string ToString() const;
+    int ToInteger() const;
+    double ToDouble() const;
     /**
     * Add new object to the byte buffer.
     *
     * @param value
     *            Value to add.
     */
-    int GetBytes(CGXByteBuffer &value);
+    int GetBytes(CGXByteBuffer &value) const;
 
     //Returns true if value is number.
-    bool IsNumber();
+    bool IsNumber() const;
 };
 #endif  //GXDLMSVARIANT_H

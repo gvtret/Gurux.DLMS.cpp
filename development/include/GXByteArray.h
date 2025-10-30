@@ -130,6 +130,7 @@ public:
 
 	int GetUInt24(unsigned long index, unsigned int* value) const;
 
+	const unsigned char* GetData() const;
 	unsigned char* GetData();
 
 	void ToArray(unsigned char*& value, unsigned long& count) const;
