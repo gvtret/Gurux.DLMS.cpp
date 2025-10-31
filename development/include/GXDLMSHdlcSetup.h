@@ -43,15 +43,15 @@
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSIecHdlcSetup
 */
-class CGXDLMSIecHdlcSetup: public CGXDLMSObject {
-    int m_InactivityTimeout;
-    int m_DeviceAddress;
-    int m_MaximumInfoLengthTransmit;
-    DLMS_BAUD_RATE m_CommunicationSpeed;
-    int m_WindowSizeTransmit;
-    int m_WindowSizeReceive;
-    int m_InterCharachterTimeout;
-    int m_MaximumInfoLengthReceive;
+class CGXDLMSIecHdlcSetup : public CGXDLMSObject {
+    int m_InactivityTimeout = 120;
+    int m_DeviceAddress = 0;
+    int m_MaximumInfoLengthTransmit = 128;
+    DLMS_BAUD_RATE m_CommunicationSpeed = DLMS_BAUD_RATE_9600;
+    int m_WindowSizeTransmit = 1;
+    int m_WindowSizeReceive = 1;
+    int m_InterCharachterTimeout = 30;
+    int m_MaximumInfoLengthReceive = 128;
 
 public:
     //Constructor.
@@ -63,28 +63,35 @@ public:
     //LN Constructor.
     CGXDLMSIecHdlcSetup(std::string ln);
 
-    DLMS_BAUD_RATE GetCommunicationSpeed();
+    // Rule of Five.
+    ~CGXDLMSIecHdlcSetup() = default;
+    CGXDLMSIecHdlcSetup(const CGXDLMSIecHdlcSetup& other) = default;
+    CGXDLMSIecHdlcSetup& operator=(const CGXDLMSIecHdlcSetup& other) = default;
+    CGXDLMSIecHdlcSetup(CGXDLMSIecHdlcSetup&& other) = default;
+    CGXDLMSIecHdlcSetup& operator=(CGXDLMSIecHdlcSetup&& other) = default;
 
+    DLMS_BAUD_RATE GetCommunicationSpeed() const;
     void SetCommunicationSpeed(DLMS_BAUD_RATE value);
 
-    int GetWindowSizeTransmit();
+    int GetWindowSizeTransmit() const;
     void SetWindowSizeTransmit(int value);
 
-    int GetWindowSizeReceive();
+    int GetWindowSizeReceive() const;
     void SetWindowSizeReceive(int value);
-    int GetMaximumInfoLengthTransmit();
+
+    int GetMaximumInfoLengthTransmit() const;
     void SetMaximumInfoLengthTransmit(int value);
-    int GetMaximumInfoLengthReceive();
+
+    int GetMaximumInfoLengthReceive() const;
     void SetMaximumInfoLengthReceive(int value);
 
-    int GetInterCharachterTimeout();
+    int GetInterCharachterTimeout() const;
     void SetInterCharachterTimeout(int value);
 
-
-    int GetInactivityTimeout();
+    int GetInactivityTimeout() const;
     void SetInactivityTimeout(int value);
 
-    int GetDeviceAddress();
+    int GetDeviceAddress() const;
     void SetDeviceAddress(int value);
 
     // Returns amount of attributes.

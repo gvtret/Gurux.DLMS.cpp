@@ -37,18 +37,15 @@
 
 #ifndef DLMS_IGNORE_IEC_HDLC_SETUP
 //Constructor.
-CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(): CGXDLMSIecHdlcSetup("0.0.22.0.0.255", 0) {
+CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup() :
+    CGXDLMSIecHdlcSetup("0.0.22.0.0.255", 0)
+{
 }
 
 //SN Constructor.
-CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(std::string ln, unsigned short sn)
-    : CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_HDLC_SETUP, ln, sn) {
-    m_CommunicationSpeed = DLMS_BAUD_RATE_9600;
-    m_WindowSizeTransmit = m_WindowSizeReceive = 1;
-    m_MaximumInfoLengthTransmit = m_MaximumInfoLengthReceive = 128;
-    m_InactivityTimeout = 120;
-    m_DeviceAddress = 0;
-    m_InterCharachterTimeout = 30;
+CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(std::string ln, unsigned short sn) :
+    CGXDLMSObject(DLMS_OBJECT_TYPE_IEC_HDLC_SETUP, ln, sn)
+{
     m_Version = 1;
 }
 
@@ -56,67 +53,83 @@ CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(std::string ln, unsigned short sn)
 CGXDLMSIecHdlcSetup::CGXDLMSIecHdlcSetup(std::string ln): CGXDLMSIecHdlcSetup(ln, 0) {
 }
 
-DLMS_BAUD_RATE CGXDLMSIecHdlcSetup::GetCommunicationSpeed() {
+DLMS_BAUD_RATE CGXDLMSIecHdlcSetup::GetCommunicationSpeed() const
+{
     return m_CommunicationSpeed;
 }
 
-void CGXDLMSIecHdlcSetup::SetCommunicationSpeed(DLMS_BAUD_RATE value) {
+void CGXDLMSIecHdlcSetup::SetCommunicationSpeed(DLMS_BAUD_RATE value)
+{
     m_CommunicationSpeed = value;
 }
 
-int CGXDLMSIecHdlcSetup::GetWindowSizeTransmit() {
+int CGXDLMSIecHdlcSetup::GetWindowSizeTransmit() const
+{
     return m_WindowSizeTransmit;
 }
 
-void CGXDLMSIecHdlcSetup::SetWindowSizeTransmit(int value) {
+void CGXDLMSIecHdlcSetup::SetWindowSizeTransmit(int value)
+{
     m_WindowSizeTransmit = value;
 }
 
-int CGXDLMSIecHdlcSetup::GetWindowSizeReceive() {
+int CGXDLMSIecHdlcSetup::GetWindowSizeReceive() const
+{
     return m_WindowSizeReceive;
 }
 
-void CGXDLMSIecHdlcSetup::SetWindowSizeReceive(int value) {
+void CGXDLMSIecHdlcSetup::SetWindowSizeReceive(int value)
+{
     m_WindowSizeReceive = value;
 }
 
-int CGXDLMSIecHdlcSetup::GetMaximumInfoLengthTransmit() {
+int CGXDLMSIecHdlcSetup::GetMaximumInfoLengthTransmit() const
+{
     return m_MaximumInfoLengthTransmit;
 }
 
-void CGXDLMSIecHdlcSetup::SetMaximumInfoLengthTransmit(int value) {
+void CGXDLMSIecHdlcSetup::SetMaximumInfoLengthTransmit(int value)
+{
     m_MaximumInfoLengthTransmit = value;
 }
 
-int CGXDLMSIecHdlcSetup::GetMaximumInfoLengthReceive() {
+int CGXDLMSIecHdlcSetup::GetMaximumInfoLengthReceive() const
+{
     return m_MaximumInfoLengthReceive;
 }
 
-void CGXDLMSIecHdlcSetup::SetMaximumInfoLengthReceive(int value) {
+void CGXDLMSIecHdlcSetup::SetMaximumInfoLengthReceive(int value)
+{
     m_MaximumInfoLengthReceive = value;
 }
 
-int CGXDLMSIecHdlcSetup::GetInterCharachterTimeout() {
+int CGXDLMSIecHdlcSetup::GetInterCharachterTimeout() const
+{
     return m_InterCharachterTimeout;
 }
 
-void CGXDLMSIecHdlcSetup::SetInterCharachterTimeout(int value) {
+void CGXDLMSIecHdlcSetup::SetInterCharachterTimeout(int value)
+{
     m_InterCharachterTimeout = value;
 }
 
-int CGXDLMSIecHdlcSetup::GetInactivityTimeout() {
+int CGXDLMSIecHdlcSetup::GetInactivityTimeout() const
+{
     return m_InactivityTimeout;
 }
 
-void CGXDLMSIecHdlcSetup::SetInactivityTimeout(int value) {
+void CGXDLMSIecHdlcSetup::SetInactivityTimeout(int value)
+{
     m_InactivityTimeout = value;
 }
 
-int CGXDLMSIecHdlcSetup::GetDeviceAddress() {
+int CGXDLMSIecHdlcSetup::GetDeviceAddress() const
+{
     return m_DeviceAddress;
 }
 
-void CGXDLMSIecHdlcSetup::SetDeviceAddress(int value) {
+void CGXDLMSIecHdlcSetup::SetDeviceAddress(int value)
+{
     m_DeviceAddress = value;
 }
 

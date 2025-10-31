@@ -51,7 +51,7 @@ CGXDateTime::~CGXDateTime() {
 }
 
 //Get UTC offset in minutes.
-void GetUtcOffset(struct tm* timeptr, int& hours, int& minutes, int& deviation) {
+void GetUtcOffset(const struct tm* timeptr, int& hours, int& minutes, int& deviation) {
     short addH = 1, addMin = 0;
     time_t zero = 24 * 60 * 60L;
     struct tm tm;
@@ -131,7 +131,7 @@ CGXDateTime::CGXDateTime() {
 // Constructor.
 CGXDateTime::CGXDateTime(const struct tm& value) {
     int hours, minutes, deviation;
-    GetUtcOffset(const_cast<struct tm*>(&value), hours, minutes, deviation);
+    GetUtcOffset(&value, hours, minutes, deviation);
     m_Deviation = -(hours * 60 + minutes);
     m_Value = value;
     if (value.tm_isdst) {
@@ -165,7 +165,7 @@ CGXDateTime::CGXDateTime(const unsigned long long unixTime) {
 // Constructor.
 CGXDateTime::CGXDateTime(const struct tm* value) {
     int hours, minutes, deviation;
-    GetUtcOffset(const_cast<struct tm*>(value), hours, minutes, deviation);
+    GetUtcOffset(value, hours, minutes, deviation);
     m_Deviation = -(hours * 60 + minutes);
     m_Value = *value;
     if (value->tm_isdst) {
