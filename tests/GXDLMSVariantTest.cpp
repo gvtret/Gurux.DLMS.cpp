@@ -76,37 +76,3 @@ TEST(CGXDLMSVariantTest, EnumSerializationUsesStoredByte) {
     ASSERT_NE(nullptr, buffer.GetData());
     EXPECT_EQ(enumValue, buffer.GetData()[0]);
 }
-
-TEST(CGXDLMSVariantTest, CopyConstructor)
-{
-    CGXDLMSVariant obj1("test");
-    const CGXDLMSVariant obj2(obj1);
-    ASSERT_EQ(obj1.vt, obj2.vt);
-    ASSERT_EQ(obj1.strVal, obj2.strVal);
-}
-
-TEST(CGXDLMSVariantTest, MoveConstructor)
-{
-    CGXDLMSVariant obj1("test");
-    const CGXDLMSVariant obj2(std::move(obj1));
-    ASSERT_EQ(DLMS_DATA_TYPE_STRING, obj2.vt);
-    ASSERT_EQ("test", obj2.strVal);
-}
-
-TEST(CGXDLMSVariantTest, CopyAssignment)
-{
-    CGXDLMSVariant obj1("test");
-    CGXDLMSVariant obj2;
-    obj2 = obj1;
-    ASSERT_EQ(obj1.vt, obj2.vt);
-    ASSERT_EQ(obj1.strVal, obj2.strVal);
-}
-
-TEST(CGXDLMSVariantTest, MoveAssignment)
-{
-    CGXDLMSVariant obj1("test");
-    CGXDLMSVariant obj2;
-    obj2 = std::move(obj1);
-    ASSERT_EQ(DLMS_DATA_TYPE_STRING, obj2.vt);
-    ASSERT_EQ("test", obj2.strVal);
-}

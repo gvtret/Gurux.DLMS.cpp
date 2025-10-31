@@ -60,8 +60,6 @@ public:
     CGXByteBuffer &operator=(const CGXByteBuffer &value);
     CGXByteBuffer &operator=(CGXByteBuffer &&value) noexcept;  // Move assignment
 
-    bool operator==(const CGXByteBuffer& other) const;
-
     uint32_t Available() const;
     uint32_t GetSize() const;
     void SetSize(uint32_t value);

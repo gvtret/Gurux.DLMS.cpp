@@ -68,49 +68,43 @@ typedef enum {
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSSecuritySetup
 */
-class CGXDLMSSecuritySetup : public CGXDLMSObject {
-    DLMS_SECURITY_POLICY m_SecurityPolicy = DLMS_SECURITY_POLICY_NOTHING;
-    DLMS_SECURITY_SUITE m_SecuritySuite = DLMS_SECURITY_SUITE_V0;
+class CGXDLMSSecuritySetup: public CGXDLMSObject {
+    DLMS_SECURITY_POLICY m_SecurityPolicy;
+    DLMS_SECURITY_SUITE m_SecuritySuite;
     CGXByteBuffer m_ServerSystemTitle;
     CGXByteBuffer m_ClientSystemTitle;
-    std::vector<std::unique_ptr<CGXDLMSCertificateInfo>> m_Certificates;
+    std::vector<CGXDLMSCertificateInfo *> m_Certificates;
 
 public:
-    // Constructor.
+    //Constructor.
     CGXDLMSSecuritySetup();
 
-    // SN Constructor.
+    //SN Constructor.
     CGXDLMSSecuritySetup(std::string ln, unsigned short sn);
 
-    // LN Constructor.
+
+    //LN Constructor.
     CGXDLMSSecuritySetup(std::string ln);
 
-    // Rule of Five.
-    ~CGXDLMSSecuritySetup() = default;
-    CGXDLMSSecuritySetup(const CGXDLMSSecuritySetup& other);
-    CGXDLMSSecuritySetup& operator=(const CGXDLMSSecuritySetup& other);
-    CGXDLMSSecuritySetup(CGXDLMSSecuritySetup&& other) = default;
-    CGXDLMSSecuritySetup& operator=(CGXDLMSSecuritySetup&& other) = default;
+    //Used security policy.
+    DLMS_SECURITY_POLICY GetSecurityPolicy();
 
-    // Used security policy.
-    DLMS_SECURITY_POLICY GetSecurityPolicy() const;
-
-    // Used security policy.
+    //Used security policy.
     void SetSecurityPolicy(DLMS_SECURITY_POLICY value);
 
-    // Used security suite.
-    DLMS_SECURITY_SUITE GetSecuritySuite() const;
+    //Used security suite.
+    DLMS_SECURITY_SUITE GetSecuritySuite();
 
-    // Used security suite.
+    //Used security suite.
     void SetSecuritySuite(DLMS_SECURITY_SUITE value);
 
-    const CGXByteBuffer& GetClientSystemTitle() const;
+    CGXByteBuffer &GetClientSystemTitle();
 
-    void SetClientSystemTitle(const CGXByteBuffer& value);
+    void SetClientSystemTitle(CGXByteBuffer &value);
 
-    const CGXByteBuffer& GetServerSystemTitle() const;
+    CGXByteBuffer &GetServerSystemTitle();
 
-    void SetServerSystemTitle(const CGXByteBuffer& value);
+    void SetServerSystemTitle(CGXByteBuffer &value);
 
     // Returns amount of attributes.
     int GetAttributeCount();
@@ -144,7 +138,7 @@ public:
     /// Returns Generated action.
     /////////////////////////////////////////////////////////////////////////
     int ExportCertificateBySerial(
-        CGXDLMSClient *client, const CGXBigInteger &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply
+        CGXDLMSClient *client, CGXBigInteger &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply
     );
 
     /////////////////////////////////////////////////////////////////////////
@@ -201,7 +195,7 @@ public:
     int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     //Get certificates.
-    const std::vector<std::unique_ptr<CGXDLMSCertificateInfo>>& GetCertificates() const;
+    std::vector<CGXDLMSCertificateInfo *> &GetCertificates();
 
 
     // Activates and strengthens the security policy.

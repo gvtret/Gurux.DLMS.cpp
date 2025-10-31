@@ -42,53 +42,48 @@
 #include "../include/GXDLMSLNParameters.h"
 #include "../include/GXDLMSSNParameters.h"
 #include "../include/GXEcdsa.h"
-#include <cstring>
-
-CGXDLMSClient::CGXDLMSClient() :
-    CGXDLMSClient(true, 16, 1, DLMS_AUTHENTICATION_NONE, "", DLMS_INTERFACE_TYPE_HDLC)
-{
-}
 
 CGXDLMSClient::CGXDLMSClient(
     bool UseLogicalNameReferencing, int clientAddress, int serverAddress,
     //Authentication type.
     DLMS_AUTHENTICATION authentication,
     //Password if authentication is used.
-    const std::string& password, DLMS_INTERFACE_TYPE intefaceType
-) : m_Settings(false)
-{
+    const char *password, DLMS_INTERFACE_TYPE intefaceType
+)
+    : m_Settings(false) {
+    m_UseProtectedRelease = false;
+    m_IsAuthenticationRequired = false;
     m_Settings.SetUseLogicalNameReferencing(UseLogicalNameReferencing);
     m_Settings.SetClientAddress(clientAddress);
     m_Settings.SetServerAddress(serverAddress);
     m_Settings.SetInterfaceType(intefaceType);
     m_Settings.SetAuthentication(authentication);
-    m_Settings.GetPassword().AddString(password.c_str());
+    m_Settings.GetPassword().AddString(password);
     if (UseLogicalNameReferencing) {
-        SetProposedConformance(static_cast<DLMS_CONFORMANCE>(DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_ACTION |
-            DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_SET_OR_WRITE |
-            DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_GET_OR_READ |
-            DLMS_CONFORMANCE_SET | DLMS_CONFORMANCE_SELECTIVE_ACCESS |
-            DLMS_CONFORMANCE_ACTION | DLMS_CONFORMANCE_MULTIPLE_REFERENCES |
-            DLMS_CONFORMANCE_GET | DLMS_CONFORMANCE_ACCESS));
-    }
-    else {
-        SetProposedConformance(static_cast<DLMS_CONFORMANCE>(DLMS_CONFORMANCE_INFORMATION_REPORT | DLMS_CONFORMANCE_READ |
-            DLMS_CONFORMANCE_UN_CONFIRMED_WRITE | DLMS_CONFORMANCE_WRITE |
-            DLMS_CONFORMANCE_PARAMETERIZED_ACCESS |
-            DLMS_CONFORMANCE_MULTIPLE_REFERENCES));
+        SetProposedConformance((DLMS_CONFORMANCE)(DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_ACTION |
+                                                  DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_SET_OR_WRITE |
+                                                  DLMS_CONFORMANCE_BLOCK_TRANSFER_WITH_GET_OR_READ |
+                                                  DLMS_CONFORMANCE_SET | DLMS_CONFORMANCE_SELECTIVE_ACCESS |
+                                                  DLMS_CONFORMANCE_ACTION | DLMS_CONFORMANCE_MULTIPLE_REFERENCES |
+                                                  DLMS_CONFORMANCE_GET | DLMS_CONFORMANCE_ACCESS));
+    } else {
+        SetProposedConformance((DLMS_CONFORMANCE)(DLMS_CONFORMANCE_INFORMATION_REPORT | DLMS_CONFORMANCE_READ |
+                                                  DLMS_CONFORMANCE_UN_CONFIRMED_WRITE | DLMS_CONFORMANCE_WRITE |
+                                                  DLMS_CONFORMANCE_PARAMETERIZED_ACCESS |
+                                                  DLMS_CONFORMANCE_MULTIPLE_REFERENCES));
     }
     m_Settings.GetPlcSettings().Reset();
-    SetManufacturerId(nullptr);
+    SetManufacturerId(NULL);
 }
 
 CGXDLMSClient::~CGXDLMSClient() {
 }
 
-unsigned short CGXDLMSClient::GetMaxPduSize() const {
+unsigned short CGXDLMSClient::GetMaxPduSize() {
     return m_Settings.GetMaxPduSize();
 }
 
-bool CGXDLMSClient::GetUseUtc2NormalTime() const {
+bool CGXDLMSClient::GetUseUtc2NormalTime() {
     return m_Settings.GetUseUtc2NormalTime();
 }
 
@@ -96,7 +91,7 @@ void CGXDLMSClient::SetUseUtc2NormalTime(bool value) {
     m_Settings.SetUseUtc2NormalTime(value);
 }
 
-uint64_t CGXDLMSClient::GetExpectedInvocationCounter() const {
+uint64_t CGXDLMSClient::GetExpectedInvocationCounter() {
     return m_Settings.GetExpectedInvocationCounter();
 }
 
@@ -104,7 +99,7 @@ void CGXDLMSClient::SetExpectedInvocationCounter(uint64_t value) {
     m_Settings.SetExpectedInvocationCounter(value);
 }
 
-DATETIME_SKIPS CGXDLMSClient::GetDateTimeSkips() const {
+DATETIME_SKIPS CGXDLMSClient::GetDateTimeSkips() {
     return m_Settings.GetDateTimeSkips();
 }
 
@@ -112,7 +107,7 @@ void CGXDLMSClient::SetDateTimeSkips(DATETIME_SKIPS value) {
     m_Settings.SetDateTimeSkips(value);
 }
 
-unsigned char CGXDLMSClient::GetUserID() const {
+unsigned char CGXDLMSClient::GetUserID() {
     return m_Settings.GetUserID();
 }
 
@@ -120,7 +115,7 @@ void CGXDLMSClient::SetUserID(unsigned char value) {
     m_Settings.SetUserID(value);
 }
 
-unsigned char CGXDLMSClient::GetQualityOfService() const {
+unsigned char CGXDLMSClient::GetQualityOfService() {
     return m_Settings.GetQualityOfService();
 }
 
@@ -128,7 +123,7 @@ void CGXDLMSClient::SetQualityOfService(unsigned char value) {
     m_Settings.SetQualityOfService(value);
 }
 
-const CGXByteBuffer &CGXDLMSClient::GetSourceSystemTitle() const {
+CGXByteBuffer &CGXDLMSClient::GetSourceSystemTitle() {
     return m_Settings.GetSourceSystemTitle();
 }
 
@@ -136,7 +131,7 @@ int CGXDLMSClient::SetMaxReceivePDUSize(unsigned short value) {
     return m_Settings.SetMaxReceivePDUSize(value);
 }
 
-unsigned short CGXDLMSClient::GetMaxReceivePDUSize() const {
+unsigned short CGXDLMSClient::GetMaxReceivePDUSize() {
     return m_Settings.GetMaxPduSize();
 }
 
@@ -145,11 +140,11 @@ int CGXDLMSClient::SetGbtWindowSize(unsigned char value) {
     return 0;
 }
 
-unsigned char CGXDLMSClient::GetGbtWindowSize() const {
+unsigned char CGXDLMSClient::GetGbtWindowSize() {
     return m_Settings.GetGbtWindowSize();
 }
 
-DLMS_CONFORMANCE CGXDLMSClient::GetNegotiatedConformance() const {
+DLMS_CONFORMANCE CGXDLMSClient::GetNegotiatedConformance() {
     return (DLMS_CONFORMANCE)m_Settings.GetNegotiatedConformance();
 }
 
@@ -157,7 +152,7 @@ void CGXDLMSClient::SetNegotiatedConformance(DLMS_CONFORMANCE value) {
     m_Settings.SetNegotiatedConformance(value);
 }
 
-DLMS_CONFORMANCE CGXDLMSClient::GetProposedConformance() const {
+DLMS_CONFORMANCE CGXDLMSClient::GetProposedConformance() {
     return (DLMS_CONFORMANCE)m_Settings.GetProposedConformance();
 }
 
@@ -165,15 +160,15 @@ void CGXDLMSClient::SetProposedConformance(DLMS_CONFORMANCE value) {
     m_Settings.SetProposedConformance(value);
 }
 
-bool CGXDLMSClient::GetUseLogicalNameReferencing() const {
+bool CGXDLMSClient::GetUseLogicalNameReferencing() {
     return m_Settings.GetUseLogicalNameReferencing();
 }
 
-DLMS_INTERFACE_TYPE CGXDLMSClient::GetInterfaceType() const {
+DLMS_INTERFACE_TYPE CGXDLMSClient::GetInterfaceType() {
     return m_Settings.GetInterfaceType();
 }
 
-DLMS_PRIORITY CGXDLMSClient::GetPriority() const {
+DLMS_PRIORITY CGXDLMSClient::GetPriority() {
     return m_Settings.GetPriority();
 }
 
@@ -181,11 +176,11 @@ void CGXDLMSClient::SetPriority(DLMS_PRIORITY value) {
     m_Settings.SetPriority(value);
 }
 
-DLMS_SERVICE_CLASS CGXDLMSClient::GetServiceClass() const {
+DLMS_SERVICE_CLASS CGXDLMSClient::GetServiceClass() {
     return m_Settings.GetServiceClass();
 }
 
-DLMS_AUTHENTICATION CGXDLMSClient::GetAuthentication() const {
+DLMS_AUTHENTICATION CGXDLMSClient::GetAuthentication() {
     return m_Settings.GetAuthentication();
 }
 
@@ -193,7 +188,7 @@ void CGXDLMSClient::SetAuthentication(DLMS_AUTHENTICATION value) {
     m_Settings.SetAuthentication(value);
 }
 
-unsigned long CGXDLMSClient::GetClientAddress() const {
+unsigned long CGXDLMSClient::GetClientAddress() {
     return m_Settings.GetClientAddress();
 }
 
@@ -201,7 +196,7 @@ void CGXDLMSClient::SetClientAddress(unsigned long value) {
     m_Settings.SetClientAddress(value);
 }
 
-unsigned long CGXDLMSClient::GetServerAddress() const {
+unsigned long CGXDLMSClient::GetServerAddress() {
     return m_Settings.GetServerAddress();
 }
 
@@ -214,7 +209,7 @@ void CGXDLMSClient::SetServiceClass(DLMS_SERVICE_CLASS value) {
     m_Settings.SetServiceClass(value);
 }
 
-bool CGXDLMSClient::GetUseProtectedRelease() const {
+bool CGXDLMSClient::GetUseProtectedRelease() {
     return m_UseProtectedRelease;
 }
 
@@ -225,7 +220,7 @@ void CGXDLMSClient::SetUseProtectedRelease(bool value) {
 /**
    * @return Invoke ID.
    */
-unsigned char CGXDLMSClient::GetInvokeID() const {
+unsigned char CGXDLMSClient::GetInvokeID() {
     return m_Settings.GetInvokeID();
 }
 
@@ -240,7 +235,7 @@ void CGXDLMSClient::SetInvokeID(unsigned char value) {
 /**
  * @return Auto increase Invoke ID.
  */
-bool CGXDLMSClient::GetAutoIncreaseInvokeID() const {
+bool CGXDLMSClient::GetAutoIncreaseInvokeID() {
     return m_Settings.GetAutoIncreaseInvokeID();
 }
 
@@ -256,16 +251,8 @@ CGXDLMSLimits &CGXDLMSClient::GetLimits() {
     return m_Settings.GetHdlcSettings();
 }
 
-const CGXHdlcSettings &CGXDLMSClient::GetHdlcSettings() const {
-    return m_Settings.GetHdlcSettings();
-}
-
 CGXHdlcSettings &CGXDLMSClient::GetHdlcSettings() {
     return m_Settings.GetHdlcSettings();
-}
-
-const CGXPlcSettings &CGXDLMSClient::GetPlcSettings() const {
-    return m_Settings.GetPlcSettings();
 }
 
 CGXPlcSettings &CGXDLMSClient::GetPlcSettings() {
@@ -273,10 +260,6 @@ CGXPlcSettings &CGXDLMSClient::GetPlcSettings() {
 }
 
 // Collection of the objects.
-const CGXDLMSObjectCollection &CGXDLMSClient::GetObjects() const {
-    return m_Settings.GetObjects();
-}
-
 CGXDLMSObjectCollection &CGXDLMSClient::GetObjects() {
     return m_Settings.GetObjects();
 }
@@ -745,7 +728,7 @@ int CGXDLMSClient::ParseAAREResponse(CGXByteBuffer &reply) {
     return 0;
 }
 
-bool CGXDLMSClient::IsAuthenticationRequired() const {
+bool CGXDLMSClient::IsAuthenticationRequired() {
     return m_IsAuthenticationRequired;
 }
 
@@ -1635,8 +1618,8 @@ int CGXDLMSClient::ReadRowsByRange(
     unsigned char *pLn = LN;
     CGXByteBuffer buff(51);
     CGXDLMSVariant name = pg->GetName();
-    if (pg->GetCaptureObjects().size() != 0) {
-        std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *> kv = pg->GetCaptureObjects()[0];
+    if (!pg->GetCaptureObjects().empty()) {
+        const auto& kv = pg->GetCaptureObjects()[0];
         type = kv.first->GetObjectType();
         pLn = kv.first->m_LN;
         unsigned char UNIX_LN[] = {0, 0, 1, 1, 0, 255};
@@ -1747,7 +1730,7 @@ int CGXDLMSClient::GetServerAddress(
     return DLMS_ERROR_CODE_INVALID_PARAMETER;
 }
 
-const char *CGXDLMSClient::GetProtocolVersion() const {
+char *CGXDLMSClient::GetProtocolVersion() {
     return m_Settings.GetProtocolVersion();
 }
 
@@ -1908,15 +1891,15 @@ int CGXDLMSClient::ParseAccessResponse(std::vector<CGXDLMSAccessItem> &list, CGX
     return ret;
 }
 
-const char *CGXDLMSClient::GetManufacturerId() const {
+char *CGXDLMSClient::GetManufacturerId() {
     if (m_ManufacturerId[0] == 0) {
-        return nullptr;
+        return NULL;
     }
     return m_ManufacturerId;
 }
 
-void CGXDLMSClient::SetManufacturerId(const char value[3]) {
-    if (value == nullptr) {
+void CGXDLMSClient::SetManufacturerId(char value[3]) {
+    if (value == NULL) {
         memset(m_ManufacturerId, 0, sizeof(m_ManufacturerId));
     } else {
         memcpy(m_ManufacturerId, value, sizeof(m_ManufacturerId));

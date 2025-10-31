@@ -40,24 +40,24 @@
 /**
 * Time object. Date part is ignored.
 */
-class CGXTime : public CGXDateTime {
+class CGXTime: public CGXDateTime {
 public:
     // Constructor.
-    CGXTime() : CGXDateTime() {
+    CGXTime(): CGXDateTime() {
         SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
-            DATETIME_SKIPS_DAYOFWEEK));
+                                 DATETIME_SKIPS_DAYOFWEEK));
     }
 
     // Constructor.
-    CGXTime(const struct tm& value) : CGXDateTime(value) {
+    CGXTime(struct tm value): CGXDateTime(value) {
         SetSkip((DATETIME_SKIPS)(DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
-            DATETIME_SKIPS_DAYOFWEEK));
+                                 DATETIME_SKIPS_DAYOFWEEK));
     }
 
     // Constructor.
     CGXTime(int hour, int minute, int second, int millisecond)
         : CGXDateTime(-1, -1, -1, hour, minute, second, millisecond) {
-        SetSkip((DATETIME_SKIPS)(GetSkip() | DATETIME_SKIPS_DAYOFWEEK));
+        SetSkip((DATETIME_SKIPS)(m_Skip | DATETIME_SKIPS_DAYOFWEEK));
     }
 
     /**
@@ -66,30 +66,17 @@ public:
     * @param value
     *            Date value.
     */
-    CGXTime(const CGXDateTime& value) : CGXDateTime(value.GetValue()) {
-        SetSkip((DATETIME_SKIPS)(value.GetSkip() | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
-            DATETIME_SKIPS_DAYOFWEEK));
-        SetExtra(value.GetExtra());
+    CGXTime(CGXDateTime &value): CGXDateTime(value.GetValue()) {
+        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
+                                 DATETIME_SKIPS_DAYOFWEEK));
+        SetExtra(value.m_Extra);
     }
 
-    CGXTime(const CGXTime& other) = default;
-    CGXTime(CGXTime&& other) noexcept = default;
-    CGXTime& operator=(const CGXTime& other) = default;
-    CGXTime& operator=(CGXTime&& other) noexcept = default;
-
-    CGXTime& operator=(const CGXDateTime& value) {
-        SetValue(value.GetValue());
-        SetSkip((DATETIME_SKIPS)(value.GetSkip() | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
-            DATETIME_SKIPS_DAYOFWEEK));
-        SetExtra(value.GetExtra());
-        return *this;
-    }
-
-    CGXTime& operator=(CGXDateTime&& value) noexcept {
-        SetValue(value.GetValue());
-        SetSkip((DATETIME_SKIPS)(value.GetSkip() | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
-            DATETIME_SKIPS_DAYOFWEEK));
-        SetExtra(value.GetExtra());
+    CGXTime &operator=(const CGXDateTime &value) {
+        SetValue(value.m_Value);
+        SetSkip((DATETIME_SKIPS)(value.m_Skip | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY |
+                                 DATETIME_SKIPS_DAYOFWEEK));
+        SetExtra(value.m_Extra);
         return *this;
     }
 };

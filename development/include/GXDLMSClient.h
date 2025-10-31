@@ -48,34 +48,34 @@ class CGXDLMSClient {
 protected:
     friend class CGXDLMSSchedule;
     CGXDLMSSettings m_Settings;
-    char m_ManufacturerId[3]{};
+    char m_ManufacturerId[3];
 
 private:
     /// <summary>
     /// Initialize PDU size that is restored after the connection is closed.
     /// </summary>
-    uint16_t m_InitializePduSize = 0;
+    uint16_t m_InitializePduSize;
 
     /// <summary>
     /// Initialize Max HDLC transmission size that is restored after the connection is closed.
     /// </summary>
-    uint16_t m_InitializeMaxInfoTX = 0;
+    uint16_t m_InitializeMaxInfoTX;
 
     /// <summary>
     /// Initialize Max HDLC receive size that is restored after the connection is closed.
     /// </summary>
-    uint16_t m_InitializeMaxInfoRX = 0;
+    uint16_t m_InitializeMaxInfoRX;
 
     /// Initialize max HDLC window size in transmission that is restored after the connection is closed.
-    unsigned char m_InitializeWindowSizeTX = 0;
+    unsigned char m_InitializeWindowSizeTX;
 
     /// Initialize max HDLC window size in receive that is restored after the connection is closed.
-    unsigned char m_InitializeWindowSizeRX = 0;
+    unsigned char m_InitializeWindowSizeRX;
 
 
     // If protected release is used release is including a ciphered xDLMS Initiate request.
-    bool m_UseProtectedRelease = false;
-    bool m_IsAuthenticationRequired = false;
+    bool m_UseProtectedRelease;
+    bool m_IsAuthenticationRequired;
     // SN referencing
     int ParseSNObjects(CGXByteBuffer &buff, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
@@ -114,33 +114,27 @@ public:
     /////////////////////////////////////////////////////////////////////////////
     //Constructor
     /////////////////////////////////////////////////////////////////////////////
-    CGXDLMSClient();
     CGXDLMSClient(
-        bool UseLogicalNameReferencing, int ClientAddress, int ServerAddress,
+        bool UseLogicalNameReferencing = true, int ClientAddress = 16, int ServerAddress = 1,
         //Authentication type.
-        DLMS_AUTHENTICATION authentication,
+        DLMS_AUTHENTICATION authentication = DLMS_AUTHENTICATION_NONE,
         //Password if authentication is used.
-        const std::string& password, DLMS_INTERFACE_TYPE intefaceType
+        const char *password = NULL, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC
     );
-
-    CGXDLMSClient(const CGXDLMSClient& other) = default;
-    CGXDLMSClient(CGXDLMSClient&& other) noexcept = default;
-    CGXDLMSClient& operator=(const CGXDLMSClient& other) = default;
-    CGXDLMSClient& operator=(CGXDLMSClient&& other) noexcept = default;
 
     /////////////////////////////////////////////////////////////////////////////
     //Destructor.
     /////////////////////////////////////////////////////////////////////////////
     ~CGXDLMSClient();
 
-    bool GetUseLogicalNameReferencing() const;
+    bool GetUseLogicalNameReferencing();
 
-    DLMS_INTERFACE_TYPE GetInterfaceType() const;
+    DLMS_INTERFACE_TYPE GetInterfaceType();
 
     /**
      * @return Used Priority.
      */
-    DLMS_PRIORITY GetPriority() const;
+    DLMS_PRIORITY GetPriority();
 
     /**
      * @param value
@@ -151,7 +145,7 @@ public:
     /**
      * @return Used service class.
      */
-    DLMS_SERVICE_CLASS GetServiceClass() const;
+    DLMS_SERVICE_CLASS GetServiceClass();
 
     /**
      * @param value
@@ -163,7 +157,7 @@ public:
     /**
        * @return Invoke ID.
     */
-    unsigned char GetInvokeID() const;
+    unsigned char GetInvokeID();
 
     /**
      * @param value
@@ -174,7 +168,7 @@ public:
     /**
      * @return Auto increase Invoke ID.
      */
-    bool GetAutoIncreaseInvokeID() const;
+    bool GetAutoIncreaseInvokeID();
 
     /**
      * @param value
@@ -183,28 +177,28 @@ public:
     void SetAutoIncreaseInvokeID(bool value);
 
     // Gets used authentication.
-    DLMS_AUTHENTICATION GetAuthentication() const;
+    DLMS_AUTHENTICATION GetAuthentication();
 
     //Sets Used authentication.
     void SetAuthentication(DLMS_AUTHENTICATION value);
 
     // Gets client address.
-    unsigned long GetClientAddress() const;
+    unsigned long GetClientAddress();
 
     // Sets client address.
     void SetClientAddress(unsigned long value);
 
     // Server address.
-    unsigned long GetServerAddress() const;
+    unsigned long GetServerAddress();
 
     // Server address.
     void SetServerAddress(unsigned long value);
 
     // Maximum client PDU size.
-    unsigned short GetMaxPduSize() const;
+    unsigned short GetMaxPduSize();
 
     // If protected release is used release is including a ciphered xDLMS Initiate request.
-    bool GetUseProtectedRelease() const;
+    bool GetUseProtectedRelease();
 
     // If protected release is used release is including a ciphered xDLMS Initiate request.
     void SetUseProtectedRelease(bool value);
@@ -212,62 +206,59 @@ public:
     /////////////////////////////////////////////////////////////////////////////
     // Standard says that Time zone is from normal time to UTC in minutes.
     // If meter is configured to use UTC time (UTC to normal time) set this to true.
-    bool GetUseUtc2NormalTime() const;
+    bool GetUseUtc2NormalTime();
     void SetUseUtc2NormalTime(bool value);
 
     /////////////////////////////////////////////////////////////////////////
     // Expected Invocation(Frame) counter value.
     // Expected Invocation counter is not check if value is zero.
-    uint64_t GetExpectedInvocationCounter() const;
+    uint64_t GetExpectedInvocationCounter();
     void SetExpectedInvocationCounter(uint64_t value);
 
     /////////////////////////////////////////////////////////////////////////
     // Skip selected date time fields.
-    DATETIME_SKIPS GetDateTimeSkips() const;
+    DATETIME_SKIPS GetDateTimeSkips();
     void SetDateTimeSkips(DATETIME_SKIPS value);
 
     /////////////////////////////////////////////////////////////////////////////
     //User id is the identifier of the user.
-    unsigned char GetUserID() const;
+    unsigned char GetUserID();
     void SetUserID(unsigned char value);
 
     /////////////////////////////////////////////////////////////////////////////
     //Quality of service.
-    unsigned char GetQualityOfService() const;
+    unsigned char GetQualityOfService();
     void SetQualityOfService(unsigned char value);
 
     /////////////////////////////////////////////////////////////////////////////
     //  Source system title.
     // Meter returns system title when ciphered connection is made or GMAC authentication is used.
-    const CGXByteBuffer &GetSourceSystemTitle() const;
+    CGXByteBuffer &GetSourceSystemTitle();
 
 
     /////////////////////////////////////////////////////////////////////////////
     // Maximum client PDU size.
     int SetMaxReceivePDUSize(unsigned short value);
-    unsigned short GetMaxReceivePDUSize() const;
+    unsigned short GetMaxReceivePDUSize();
 
     /////////////////////////////////////////////////////////////////////////////
     // General Block transfer window size.
     int SetGbtWindowSize(unsigned char value);
-    unsigned char GetGbtWindowSize() const;
+    unsigned char GetGbtWindowSize();
 
     //HDLC connection settings. GetLimits is obsolete. Use GetHdlcSettings instead.
     CGXDLMSLimits &GetLimits();
 
     /////////////////////////////////////////////////////////////////////////////
     //HDLC connection settings.
-    const CGXHdlcSettings &GetHdlcSettings() const;
     CGXHdlcSettings &GetHdlcSettings();
 
     /////////////////////////////////////////////////////////////////////////////
     //PLC connection settings.
-    const CGXPlcSettings &GetPlcSettings() const;
     CGXPlcSettings &GetPlcSettings();
 
     /////////////////////////////////////////////////////////////////////////////
     // Collection of the objects.
-    const CGXDLMSObjectCollection &GetObjects() const;
     CGXDLMSObjectCollection &GetObjects();
 
     /////////////////////////////////////////////////////////////////////////////
@@ -316,7 +307,7 @@ public:
     /**
     * @return Is authentication Required.
     */
-    bool IsAuthenticationRequired() const;
+    bool IsAuthenticationRequired();
 
     /**
      * @return Get challenge request if HLS authentication is used.
@@ -870,7 +861,7 @@ public:
     *
     * @return Functionality.
     */
-    DLMS_CONFORMANCE GetNegotiatedConformance() const;
+    DLMS_CONFORMANCE GetNegotiatedConformance();
 
     /**
     * Negotiated functionality for the server. Client can set this if meter report error value.
@@ -884,7 +875,7 @@ public:
     * Proposed functionality for the server.
     * @return Proposed functionality.
     */
-    DLMS_CONFORMANCE GetProposedConformance() const;
+    DLMS_CONFORMANCE GetProposedConformance();
 
     /**
     * Proposed functionality for the server.
@@ -926,7 +917,7 @@ public:
     /**
     * @return Protocol version.
     */
-    const char *GetProtocolVersion() const;
+    char *GetProtocolVersion();
 
     /**
     * @param value
@@ -967,8 +958,8 @@ public:
     // Manufacturer ID.
     //
     // Manufacturer ID(FLAG ID) is used for manucaturer depending functionality.
-    const char *GetManufacturerId() const;
-    void SetManufacturerId(const char value[3]);
+    char *GetManufacturerId();
+    void SetManufacturerId(char value[3]);
 
     // Encrypt Landis+Gyr High level password.
     // password: User password.

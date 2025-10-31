@@ -32,7 +32,6 @@
 // Full text may be retrieved at http://www.gnu.org/licenses/gpl-2.0.txt
 //---------------------------------------------------------------------------
 
-#include <utility>
 #include "../include/GXDLMSConverter.h"
 #include "../include/errorcodes.h"
 #include "../include/OBiscodes.h"
@@ -42,56 +41,11 @@
 #include <windows.h>
 #endif  //(defined(_WIN32) || defined(_WIN64)) && !(defined(__MINGW32__) || defined(__MINGW64__))
 
-CGXDLMSConverter::CGXDLMSConverter()
-{
-}
-
 CGXDLMSConverter::~CGXDLMSConverter() {
-    for (auto* code : m_Codes) {
-        delete code;
+    for (std::vector<CGXStandardObisCode *>::iterator it = m_Codes.begin(); it != m_Codes.end(); ++it) {
+        delete *it;
     }
-}
-
-CGXDLMSConverter::CGXDLMSConverter(const CGXDLMSConverter& other)
-{
-    m_Codes.reserve(other.m_Codes.size());
-    for (const auto* code : other.m_Codes) {
-        m_Codes.push_back(new CGXStandardObisCode(*code));
-    }
-}
-
-CGXDLMSConverter::CGXDLMSConverter(CGXDLMSConverter&& other) noexcept :
-    m_Codes(std::move(other.m_Codes))
-{
-}
-
-CGXDLMSConverter& CGXDLMSConverter::operator=(const CGXDLMSConverter& other)
-{
-    if (this != &other)
-    {
-        for (auto* code : m_Codes) {
-            delete code;
-        }
-        m_Codes.clear();
-        m_Codes.reserve(other.m_Codes.size());
-        for (const auto* code : other.m_Codes) {
-            m_Codes.push_back(new CGXStandardObisCode(*code));
-        }
-    }
-    return *this;
-}
-
-CGXDLMSConverter& CGXDLMSConverter::operator=(CGXDLMSConverter&& other) noexcept
-{
-    if (this != &other)
-    {
-        for (auto* code : m_Codes) {
-            delete code;
-        }
-        m_Codes.clear();
-        m_Codes = std::move(other.m_Codes);
-    }
-    return *this;
+    m_Codes.clear();
 }
 
 const char *CGXDLMSConverter::GetErrorMessage(int error) {
@@ -1681,13 +1635,13 @@ void CGXDLMSConverter::GetDescription(
 
 void CGXDLMSConverter::UpdateOBISCodeInformation(CGXDLMSObjectCollection &objects) {
     UpdateObisCodes();
-    for (auto* objectIt : objects) {
+    for (std::vector<CGXDLMSObject *>::iterator objectIt = objects.begin(); objectIt != objects.end(); ++objectIt) {
         std::string ln;
-        objectIt->GetLogicalName(ln);
+        (*objectIt)->GetLogicalName(ln);
         std::vector<CGXStandardObisCode *> list;
-        m_Codes.Find(ln, objectIt->GetObjectType(), list);
+        m_Codes.Find(ln, (*objectIt)->GetObjectType(), list);
         CGXStandardObisCode *code = list.at(0);
-        objectIt->SetDescription(code->GetDescription());
+        (*objectIt)->SetDescription(code->GetDescription());
         //If std::string is used
         if (code->GetDataType().find("10") != std::string::npos) {
             code->SetUIDataType("10");
@@ -1716,7 +1670,7 @@ void CGXDLMSConverter::UpdateOBISCodeInformation(CGXDLMSObjectCollection &object
                  //Time expired since last end of billing period (Second billing period scheme)
                  CGXStandardObisCodeCollection::EqualsMask2("1.0-64.0.9.13.255", ln) ||
                  //Time of last reset (Second billing period scheme)
-                 CGXStandardObisCodeCollection::EqualsMask2("1.e-64.0.9.14.255", ln) ||
+                 CGXStandardObisCodeCollection::EqualsMask2("1.0-64.0.9.14.255", ln) ||
                  //Date of last reset (Second billing period scheme)
                  CGXStandardObisCodeCollection::EqualsMask2("1.0-64.0.9.15.255", ln))) {
                 code->SetUIDataType("25");
@@ -1735,7 +1689,7 @@ void CGXDLMSConverter::UpdateOBISCodeInformation(CGXDLMSObjectCollection &object
             }
         }
         //Unix time
-        else if (objectIt->GetObjectType() == DLMS_OBJECT_TYPE_DATA &&
+        else if ((*objectIt)->GetObjectType() == DLMS_OBJECT_TYPE_DATA &&
                  CGXStandardObisCodeCollection::EqualsMask2("0.0.1.1.0.255", ln)) {
             code->SetUIDataType("25");
         }
@@ -1748,12 +1702,12 @@ void CGXDLMSConverter::UpdateOBISCodeInformation(CGXDLMSObjectCollection &object
             sscanf(code->GetDataType().c_str(), "%d", &value);
 #endif
             DLMS_DATA_TYPE type = (DLMS_DATA_TYPE)value;
-            switch (objectIt->GetObjectType()) {
+            switch ((*objectIt)->GetObjectType()) {
                 case DLMS_OBJECT_TYPE_DATA:
                 case DLMS_OBJECT_TYPE_REGISTER:
                 case DLMS_OBJECT_TYPE_REGISTER_ACTIVATION:
                 case DLMS_OBJECT_TYPE_EXTENDED_REGISTER:
-                    objectIt->SetDataType(2, type);
+                    (*objectIt)->SetDataType(2, type);
                     break;
                 default:
                     break;
@@ -1767,19 +1721,19 @@ void CGXDLMSConverter::UpdateOBISCodeInformation(CGXDLMSObjectCollection &object
             sscanf(code->GetUIDataType().c_str(), "%d", &value);
 #endif
             DLMS_DATA_TYPE type = (DLMS_DATA_TYPE)value;
-            switch (objectIt->GetObjectType()) {
+            switch ((*objectIt)->GetObjectType()) {
                 case DLMS_OBJECT_TYPE_DATA:
                 case DLMS_OBJECT_TYPE_REGISTER:
                 case DLMS_OBJECT_TYPE_REGISTER_ACTIVATION:
                 case DLMS_OBJECT_TYPE_EXTENDED_REGISTER:
-                    objectIt->SetUIDataType(2, type);
+                    (*objectIt)->SetUIDataType(2, type);
                     break;
                 default:
                     break;
             }
         }
-        for (auto* codeIt : list) {
-            delete codeIt;
+        for (std::vector<CGXStandardObisCode *>::iterator codeIt = list.begin(); codeIt != list.end(); ++codeIt) {
+            delete *codeIt;
         }
         list.clear();
     }

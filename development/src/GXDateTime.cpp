@@ -51,7 +51,7 @@ CGXDateTime::~CGXDateTime() {
 }
 
 //Get UTC offset in minutes.
-void GetUtcOffset(const struct tm* timeptr, int& hours, int& minutes, int& deviation) {
+void GetUtcOffset(struct tm *timeptr, int &hours, int &minutes, int &deviation) {
     short addH = 1, addMin = 0;
     time_t zero = 24 * 60 * 60L;
     struct tm tm;
@@ -66,8 +66,7 @@ void GetUtcOffset(const struct tm* timeptr, int& hours, int& minutes, int& devia
     GetTimeZoneInformation(&tz);
     if (tz.DaylightBias % 60 == 0) {
         addH = (short)(-tz.DaylightBias / 60);
-    }
-    else {
+    } else {
         addH = (short)(-tz.DaylightBias / 60);
         addMin = (short)(-tz.DaylightBias % 60);
     }
@@ -92,7 +91,7 @@ void GetUtcOffset(const struct tm* timeptr, int& hours, int& minutes, int& devia
     }
 }
 
-static time_t GetUtcTime(struct tm* timeptr) {
+static time_t GetUtcTime(struct tm *timeptr) {
     /* gets the epoch time relative to the local time zone,
     and then adds the appropriate number of seconds to make it UTC */
     int hours, minutes, deviation;
@@ -124,20 +123,26 @@ CGXDateTime::CGXDateTime() {
 #endif
     GetUtcOffset(&dt, hours, minutes, deviation);
     m_Deviation = -(hours * 60 + minutes);
+    m_Skip = DATETIME_SKIPS_NONE;
     memset(&m_Value, 0, sizeof(m_Value));
     m_Value.tm_mday = 1;
+    m_Extra = DATE_TIME_EXTRA_INFO_NONE;
+    m_Status = DLMS_CLOCK_STATUS_OK;
+    m_UseUtc2NormalTime = false;
 }
 
 // Constructor.
-CGXDateTime::CGXDateTime(const struct tm& value) {
+CGXDateTime::CGXDateTime(struct tm &value) {
     int hours, minutes, deviation;
     GetUtcOffset(&value, hours, minutes, deviation);
     m_Deviation = -(hours * 60 + minutes);
     m_Value = value;
+    m_Skip = DATETIME_SKIPS_NONE;
+    m_Extra = DATE_TIME_EXTRA_INFO_NONE;
+    m_UseUtc2NormalTime = false;
     if (value.tm_isdst) {
         m_Status = DLMS_CLOCK_STATUS_DAYLIGHT_SAVE_ACTIVE;
-    }
-    else {
+    } else {
         m_Status = DLMS_CLOCK_STATUS_OK;
     }
 }
@@ -150,6 +155,10 @@ CGXDateTime::CGXDateTime(const unsigned long unixTime) {
 #else
     m_Value = *gmtime(&t);
 #endif
+    m_Skip = DATETIME_SKIPS_NONE;
+    m_Extra = DATE_TIME_EXTRA_INFO_NONE;
+    m_Status = DLMS_CLOCK_STATUS_OK;
+    m_UseUtc2NormalTime = false;
 }
 
 CGXDateTime::CGXDateTime(const unsigned long long unixTime) {
@@ -160,18 +169,24 @@ CGXDateTime::CGXDateTime(const unsigned long long unixTime) {
 #else
     m_Value = *gmtime(&t);
 #endif
+    m_Skip = DATETIME_SKIPS_NONE;
+    m_Extra = DATE_TIME_EXTRA_INFO_NONE;
+    m_Status = DLMS_CLOCK_STATUS_OK;
+    m_UseUtc2NormalTime = false;
 }
 
 // Constructor.
-CGXDateTime::CGXDateTime(const struct tm* value) {
+CGXDateTime::CGXDateTime(struct tm *value) {
     int hours, minutes, deviation;
     GetUtcOffset(value, hours, minutes, deviation);
     m_Deviation = -(hours * 60 + minutes);
     m_Value = *value;
+    m_Skip = DATETIME_SKIPS_NONE;
+    m_Extra = DATE_TIME_EXTRA_INFO_NONE;
+    m_UseUtc2NormalTime = false;
     if (value->tm_isdst) {
         m_Status = DLMS_CLOCK_STATUS_DAYLIGHT_SAVE_ACTIVE;
-    }
-    else {
+    } else {
         m_Status = DLMS_CLOCK_STATUS_OK;
     }
 }
@@ -194,8 +209,7 @@ CGXDateTime::CGXDateTime(int year, int month, int day, int hour, int minute, int
 #endif
         GetUtcOffset(&dt, hours, minutes, deviation);
         Init(year, month, day, hour, minute, second, millisecond, -(hours * 60 + minutes));
-    }
-    else {
+    } else {
         Init(year, month, day, hour, minute, second, millisecond, 0xFFFF);
     }
 }
@@ -207,7 +221,7 @@ CGXDateTime::CGXDateTime(
     Init(year, month, day, hour, minute, second, millisecond, devitation);
 }
 
-void CGXDateTime::GetSystemDateTimeFormat(std::string& value) {
+void CGXDateTime::GetSystemDateTimeFormat(std::string &value) {
     char buff[50];
     struct tm order;
     memset(&order, 0, sizeof(order));
@@ -219,7 +233,7 @@ void CGXDateTime::GetSystemDateTimeFormat(std::string& value) {
     value = buff;
 }
 
-int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT& format, char& separator) const {
+int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator) const {
     int ret = 0, value, lastPos = 0, pos;
     char buff[11];
     struct tm order;
@@ -232,8 +246,7 @@ int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT& format, char& separator) con
         for (pos = 0; pos != ret; ++pos) {
             //If numeric value
             if (buff[pos] >= '0' && buff[pos] <= '9') {
-            }
-            else  //If date time separator.
+            } else  //If date time separator.
             {
                 separator = buff[pos];
 #if _MSC_VER > 1000
@@ -245,8 +258,7 @@ int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT& format, char& separator) con
                     if (value == 1) {
                         format = lastPos == 0 ? GXDLMS_DATE_FORMAT_DMY : GXDLMS_DATE_FORMAT_YDM;
                         break;
-                    }
-                    else if (value == 2) {
+                    } else if (value == 2) {
                         format = lastPos == 0 ? GXDLMS_DATE_FORMAT_MDY : GXDLMS_DATE_FORMAT_YMD;
                         break;
                     }
@@ -255,14 +267,13 @@ int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT& format, char& separator) con
             }
         }
         ret = 0;
-    }
-    else {
+    } else {
         ret = DLMS_ERROR_CODE_INVALID_DATE_TIME;
     }
     return ret;
 }
 
-int CGXDateTime::GetTimeFormat2(char& separator, char& use24HourClock) const {
+int CGXDateTime::GetTimeFormat2(char &separator, char &use24HourClock) {
     int ret = 0, pos;
     char buff[15];
     char pm[15];
@@ -277,8 +288,7 @@ int CGXDateTime::GetTimeFormat2(char& separator, char& use24HourClock) const {
         for (pos = 0; pos != ret; ++pos) {
             //If numeric value
             if (buff[pos] >= '0' && buff[pos] <= '9') {
-            }
-            else  //If date time separator.
+            } else  //If date time separator.
             {
                 separator = buff[pos];
                 strftime(pm, 15, "%p", &order);
@@ -287,56 +297,54 @@ int CGXDateTime::GetTimeFormat2(char& separator, char& use24HourClock) const {
             }
         }
         ret = 0;
-    }
-    else {
+    } else {
         ret = DLMS_ERROR_CODE_INVALID_DATE_TIME;
     }
     return ret;
 }
 
 int CGXDateTime::GetDateTimeFormat(
-    std::string& value, GXDLMS_DATE_FORMAT& format, char& dateSeparator, char& timeSeparator, char& use24HourClock
-) const {
+    std::string &value, GXDLMS_DATE_FORMAT &format, char &dateSeparator, char &timeSeparator, char &use24HourClock
+) {
     int ret;
     if ((ret = GetDateFormat2(format, dateSeparator)) == 0 &&
         (ret = GetTimeFormat2(timeSeparator, use24HourClock)) == 0) {
         switch (format) {
-        case GXDLMS_DATE_FORMAT_DMY:
-            value.append("%d");
-            value += dateSeparator;
-            value.append("%m");
-            value += dateSeparator;
-            value.append("%Y");
-            break;
-        case GXDLMS_DATE_FORMAT_MDY:
-            value.append("%m");
-            value += dateSeparator;
-            value.append("%d");
-            value += dateSeparator;
-            value.append("%Y");
-            break;
-        case GXDLMS_DATE_FORMAT_YMD:
-            value.append("%Y");
-            value += dateSeparator;
-            value.append("%m");
-            value += dateSeparator;
-            value.append("%d");
-            break;
-        case GXDLMS_DATE_FORMAT_YDM:
-            value.append("%Y");
-            value += dateSeparator;
-            value.append("%d");
-            value += dateSeparator;
-            value.append("%m");
-            break;
-        default:
-            return DLMS_ERROR_CODE_INVALID_PARAMETER;
+            case GXDLMS_DATE_FORMAT_DMY:
+                value.append("%d");
+                value += dateSeparator;
+                value.append("%m");
+                value += dateSeparator;
+                value.append("%Y");
+                break;
+            case GXDLMS_DATE_FORMAT_MDY:
+                value.append("%m");
+                value += dateSeparator;
+                value.append("%d");
+                value += dateSeparator;
+                value.append("%Y");
+                break;
+            case GXDLMS_DATE_FORMAT_YMD:
+                value.append("%Y");
+                value += dateSeparator;
+                value.append("%m");
+                value += dateSeparator;
+                value.append("%d");
+                break;
+            case GXDLMS_DATE_FORMAT_YDM:
+                value.append("%Y");
+                value += dateSeparator;
+                value.append("%d");
+                value += dateSeparator;
+                value.append("%m");
+                break;
+            default:
+                return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
         value += ' ';
         if (use24HourClock) {
             value.append("%H");
-        }
-        else {
+        } else {
             value.append("%I");
         }
         value += timeSeparator;
@@ -351,7 +359,7 @@ int CGXDateTime::GetDateTimeFormat(
     return ret;
 }
 
-void Remove(std::string& value, const char* tag, const char sep) {
+void Remove(std::string &value, const char *tag, const char sep) {
     size_t pos;
     if (sep != 0) {
         char tmp[6];
@@ -365,8 +373,7 @@ void Remove(std::string& value, const char* tag, const char sep) {
         tmp[len + 1] = '\0';
         if ((pos = value.find(tmp)) != std::string::npos) {
             value.replace(pos, strlen(tmp), "");
-        }
-        else {
+        } else {
             strcpy(&tmp[1], tag);
             tmp[0] = sep;
             if ((pos = value.find(tmp)) != std::string::npos) {
@@ -379,7 +386,7 @@ void Remove(std::string& value, const char* tag, const char sep) {
     }
 }
 
-void Replace(std::string& value, const char* tag, const char* v) {
+void Replace(std::string &value, const char *tag, const char *v) {
     size_t pos;
     if ((pos = value.find(tag)) != std::string::npos) {
         value.replace(pos, strlen(tag), v);
@@ -388,19 +395,22 @@ void Replace(std::string& value, const char* tag, const char* v) {
     }
 }
 
-int Remove(const CGXDateTime* value, std::string& format, char dateSeparator, char timeSeparator) {
-    if (dynamic_cast<const CGXDate*>(value) != NULL) {
+int Remove(CGXDateTime *value, std::string &format, char dateSeparator, char timeSeparator) {
+    if (dynamic_cast<CGXDate *>(value) != NULL) {
         Remove(format, "%H", timeSeparator);
         Remove(format, "%I", timeSeparator);
         Remove(format, "%M", timeSeparator);
         Remove(format, "%S", timeSeparator);
         Remove(format, "%p", timeSeparator);
-    }
-    else if (dynamic_cast<const CGXTime*>(value) != NULL) {
+        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE |
+                                        DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
+    } else if (dynamic_cast<CGXTime *>(value) != NULL) {
         Remove(format, "%Y", dateSeparator);
         Remove(format, "%y", dateSeparator);
         Remove(format, "%m", dateSeparator);
         Remove(format, "%d", dateSeparator);
+        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH |
+                                        DATETIME_SKIPS_DAY | DATETIME_SKIPS_DAYOFWEEK));
     }
     // Trim spaces.
     format = GXHelpers::Trim(format);
@@ -411,7 +421,7 @@ static bool IsNumeric(char value) {
     return value >= '0' && value <= '9';
 }
 
-int CGXDateTime::FromString(const char* datetime) {
+int CGXDateTime::FromString(const char *datetime) {
     int ret;
     std::string value = datetime;
     std::string format;
@@ -458,7 +468,7 @@ int CGXDateTime::FromString(const char* datetime) {
                         c = format[lastFormatIndex + 1];
                         std::string val = "1";
                         while (lastFormatIndex + cnt + 1 < (int)format.size() && format[lastFormatIndex + cnt + 1] == c
-                            ) {
+                        ) {
                             val += "0";
                             ++cnt;
                         }
@@ -468,34 +478,26 @@ int CGXDateTime::FromString(const char* datetime) {
                         tmp = GXHelpers::Trim(tmp);
                         if (tmp == "Y") {
                             skip |= DATETIME_SKIPS_YEAR;
-                        }
-                        else if (tmp == "m") {
+                        } else if (tmp == "m") {
                             skip |= DATETIME_SKIPS_MONTH;
-                        }
-                        else if (tmp == "d") {
+                        } else if (tmp == "d") {
                             skip |= DATETIME_SKIPS_DAY;
-                        }
-                        else if (tmp == "H" || tmp == "I") {
+                        } else if (tmp == "H" || tmp == "I") {
                             skip |= DATETIME_SKIPS_HOUR;
                             if (format.find("%p") != std::string::npos) {
                                 Replace(format, "%p", "");
                             }
-                        }
-                        else if (tmp == "M") {
+                        } else if (tmp == "M") {
                             skip |= DATETIME_SKIPS_MINUTE;
-                        }
-                        else if (tmp == "p") {
+                        } else if (tmp == "p") {
                             skip |= DATETIME_SKIPS_HOUR;
                             Replace(format, "%p", "");
-                        }
-                        else if (tmp == "S") {
+                        } else if (tmp == "S") {
                             skip |= DATETIME_SKIPS_SECOND;
-                        }
-                        else if (tmp.size() != 0) {
+                        } else if (tmp.size() != 0) {
                             return DLMS_ERROR_CODE_INVALID_DATE_TIME;
                         }
-                    }
-                    else {
+                    } else {
                         lastFormatIndex = (int)format.find(c, lastFormatIndex + 1);
                         //Dot is used time separator in some countries.
                         if (lastFormatIndex == -1 && c == ':') {
@@ -516,7 +518,7 @@ int CGXDateTime::FromString(const char* datetime) {
         int a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
         char g[15];
         g[0] = 0;
-        if (dynamic_cast<CGXDate*>(this) != NULL) {
+        if (dynamic_cast<CGXDate *>(this) != NULL) {
 #if _MSC_VER > 1000
             ret = sscanf_s(v.c_str(), format.c_str(), &a, &b, &c);
 #else
@@ -524,12 +526,10 @@ int CGXDateTime::FromString(const char* datetime) {
 #endif
             if (ret != 3) {
                 ret = DLMS_ERROR_CODE_INVALID_DATE_TIME;
-            }
-            else {
+            } else {
                 ret = 0;
             }
-        }
-        else if (dynamic_cast<CGXTime*>(this) != NULL) {
+        } else if (dynamic_cast<CGXTime *>(this) != NULL) {
             ret = sscanf(v.c_str(), format.c_str(), &d, &e, &f, &g);
             if (ret != 4) {
                 if (ret == 3) {
@@ -538,16 +538,13 @@ int CGXDateTime::FromString(const char* datetime) {
                         g[0] = '\0';
                     }
                     ret = 0;
-                }
-                else {
+                } else {
                     ret = DLMS_ERROR_CODE_INVALID_DATE_TIME;
                 }
-            }
-            else {
+            } else {
                 ret = 0;
             }
-        }
-        else {
+        } else {
             ret = sscanf(v.c_str(), format.c_str(), &a, &b, &c, &d, &e, &f, &g);
             if (ret != 7) {
                 if (ret == 6) {
@@ -556,12 +553,10 @@ int CGXDateTime::FromString(const char* datetime) {
                         g[0] = '\0';
                     }
                     ret = 0;
-                }
-                else {
+                } else {
                     ret = DLMS_ERROR_CODE_INVALID_DATE_TIME;
                 }
-            }
-            else {
+            } else {
                 ret = 0;
             }
         }
@@ -570,20 +565,20 @@ int CGXDateTime::FromString(const char* datetime) {
                 d += 12;
             }
             switch (df) {
-            case GXDLMS_DATE_FORMAT_DMY:
-                Init(c, b, a, d, e, f, 0, 0);
-                break;
-            case GXDLMS_DATE_FORMAT_MDY:
-                Init(c, a, b, d, e, f, 0, 0);
-                break;
-            case GXDLMS_DATE_FORMAT_YMD:
-                Init(a, b, c, d, e, f, 0, 0);
-                break;
-            case GXDLMS_DATE_FORMAT_YDM:
-                Init(a, c, b, d, e, f, 0, 0);
-                break;
-            default:
-                ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
+                case GXDLMS_DATE_FORMAT_DMY:
+                    Init(c, b, a, d, e, f, 0, 0);
+                    break;
+                case GXDLMS_DATE_FORMAT_MDY:
+                    Init(c, a, b, d, e, f, 0, 0);
+                    break;
+                case GXDLMS_DATE_FORMAT_YMD:
+                    Init(a, b, c, d, e, f, 0, 0);
+                    break;
+                case GXDLMS_DATE_FORMAT_YDM:
+                    Init(a, c, b, d, e, f, 0, 0);
+                    break;
+                default:
+                    ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
             }
             if (ret == 0) {
                 m_Skip = (DATETIME_SKIPS)(m_Skip | skip | DATETIME_SKIPS_MS);
@@ -593,7 +588,7 @@ int CGXDateTime::FromString(const char* datetime) {
     return ret;
 }
 
-int CGXDateTime::ToFormatString(const char* pattern, std::string& value) const {
+int CGXDateTime::ToFormatString(const char *pattern, std::string &value) {
     int ret;
     char buff[30];
     value.clear();
@@ -606,16 +601,15 @@ int CGXDateTime::ToFormatString(const char* pattern, std::string& value) const {
         char dateSeparator = '/', timeSeparator = ':', use24HourClock = 0;
         if (pattern != NULL ||
             (ret = GetDateTimeFormat(format, df, dateSeparator, timeSeparator, use24HourClock)) == 0) {
+            Remove(this, format, dateSeparator, timeSeparator);
+
             if ((m_Extra & DATE_TIME_EXTRA_INFO_DST_BEGIN) != 0) {
                 Replace(format, "%m", "BEGIN");
-            }
-            else if ((m_Extra & DATE_TIME_EXTRA_INFO_DST_END) != 0) {
+            } else if ((m_Extra & DATE_TIME_EXTRA_INFO_DST_END) != 0) {
                 Replace(format, "%m", "END");
-            }
-            else if ((m_Extra & DATE_TIME_EXTRA_INFO_LAST_DAY) != 0) {
+            } else if ((m_Extra & DATE_TIME_EXTRA_INFO_LAST_DAY) != 0) {
                 Replace(format, "%d", "LASTDAY");
-            }
-            else if ((m_Extra & DATE_TIME_EXTRA_INFO_LAST_DAY2) != 0) {
+            } else if ((m_Extra & DATE_TIME_EXTRA_INFO_LAST_DAY2) != 0) {
                 Replace(format, "%d", "LASTDAY2");
             }
             if ((m_Skip & DATETIME_SKIPS_YEAR) != 0) {
@@ -643,26 +637,23 @@ int CGXDateTime::ToFormatString(const char* pattern, std::string& value) const {
             if (ret != 0) {
                 ret = 0;
                 value = buff;
-            }
-            else {
+            } else {
                 ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
             }
         }
-    }
-    else {
+    } else {
         ret = (int)strftime(buff, sizeof(buff), pattern, &m_Value);
         if (ret != 0) {
             ret = 0;
             value = buff;
-        }
-        else {
+        } else {
             ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
     }
     return ret;
 }
 
-int CGXDateTime::ToFormatString(std::string& value) const {
+int CGXDateTime::ToFormatString(std::string &value) {
     return ToFormatString(NULL, value);
 }
 
@@ -681,18 +672,15 @@ void CGXDateTime::Init(
     if (month < 1 || month == 0xFF) {
         skip |= DATETIME_SKIPS_MONTH;
         month = 0;
-    }
-    else {
+    } else {
         --month;
     }
     if (day < 1 || day == 0xFF) {
         skip |= DATETIME_SKIPS_DAY;
         day = 1;
-    }
-    else if (day == 0xFD) {
+    } else if (day == 0xFD) {
         day = DaysInMonth(year, month) - 1;
-    }
-    else if (day == 0xFE) {
+    } else if (day == 0xFE) {
         day = DaysInMonth(year, month);
     }
     if (hour == -1 || hour == 0xFF) {
@@ -724,18 +712,14 @@ void CGXDateTime::Init(
 }
 
 // Used date time value.
-const struct tm& CGXDateTime::GetValue() const {
-    return m_Value;
-}
-struct tm& CGXDateTime::GetValue() {
+struct tm &CGXDateTime::GetValue() {
     return m_Value;
 }
 
 unsigned char CGXDateTime::DaysInMonth(int year, short month) {
     if (month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11) {
         return 31;
-    }
-    else if (month == 3 || month == 5 || month == 8 || month == 10) {
+    } else if (month == 3 || month == 5 || month == 8 || month == 10) {
         return 30;
     }
     if (year % 4 == 0) {
@@ -750,12 +734,12 @@ unsigned char CGXDateTime::DaysInMonth(int year, short month) {
     return 28;
 }
 
-void CGXDateTime::SetValue(const struct tm& value) {
+void CGXDateTime::SetValue(const struct tm &value) {
     m_Value = value;
 }
 
 // Skip selected date time fields.
-DATETIME_SKIPS CGXDateTime::GetSkip() const {
+DATETIME_SKIPS CGXDateTime::GetSkip() {
     return m_Skip;
 }
 
@@ -763,7 +747,7 @@ void CGXDateTime::SetSkip(DATETIME_SKIPS value) {
     m_Skip = value;
 }
 
-DATE_TIME_EXTRA_INFO CGXDateTime::GetExtra() const {
+DATE_TIME_EXTRA_INFO CGXDateTime::GetExtra() {
     return m_Extra;
 }
 
@@ -771,7 +755,7 @@ void CGXDateTime::SetExtra(DATE_TIME_EXTRA_INFO value) {
     m_Extra = value;
 }
 
-int CGXDateTime::GetDeviation() const {
+int CGXDateTime::GetDeviation() {
     return m_Deviation;
 }
 
@@ -791,80 +775,80 @@ std::string CGXDateTime::ToString() const {
             (DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH | DATETIME_SKIPS_DAY)) {
             ret = GetDateFormat2(format, separator);
             switch (format) {
-            case GXDLMS_DATE_FORMAT_DMY: {
-                if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
-                    ba.AddIntAsString(m_Value.tm_mday);
-                }
-                if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                case GXDLMS_DATE_FORMAT_DMY: {
+                    if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
+                        ba.AddIntAsString(m_Value.tm_mday);
                     }
-                    ba.AddIntAsString(1 + m_Value.tm_mon);
-                }
-                if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                    if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(1 + m_Value.tm_mon);
                     }
-                    ba.AddIntAsString(1900 + m_Value.tm_year);
-                }
-            } break;
-            case GXDLMS_DATE_FORMAT_MDY: {
-                if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
-                    ba.AddIntAsString(1 + m_Value.tm_mon);
-                }
-                if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                    if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(1900 + m_Value.tm_year);
                     }
-                    ba.AddIntAsString(m_Value.tm_mday);
-                }
-                if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                } break;
+                case GXDLMS_DATE_FORMAT_MDY: {
+                    if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
+                        ba.AddIntAsString(1 + m_Value.tm_mon);
                     }
-                    ba.AddIntAsString(1900 + m_Value.tm_year);
-                }
-            } break;
-            case GXDLMS_DATE_FORMAT_YMD: {
-                if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
-                    ba.AddIntAsString(1900 + m_Value.tm_year);
-                }
-                if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                    if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(m_Value.tm_mday);
                     }
-                    ba.AddIntAsString(1 + m_Value.tm_mon);
-                }
-                if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                    if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(1900 + m_Value.tm_year);
                     }
-                    ba.AddIntAsString(m_Value.tm_mday);
-                }
-            } break;
-            case GXDLMS_DATE_FORMAT_YDM: {
-                if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
-                    ba.AddIntAsString(1900 + m_Value.tm_year);
-                }
-                if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                } break;
+                case GXDLMS_DATE_FORMAT_YMD: {
+                    if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
+                        ba.AddIntAsString(1900 + m_Value.tm_year);
                     }
-                    ba.AddIntAsString(m_Value.tm_mday);
-                }
-                if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
-                    if (ba.GetSize() != 0) {
-                        ba.SetUInt8(separator);
+                    if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(1 + m_Value.tm_mon);
                     }
-                    ba.AddIntAsString(1 + m_Value.tm_mon);
+                    if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(m_Value.tm_mday);
+                    }
+                } break;
+                case GXDLMS_DATE_FORMAT_YDM: {
+                    if (m_Value.tm_year != -1 && (m_Skip & DATETIME_SKIPS_YEAR) == 0) {
+                        ba.AddIntAsString(1900 + m_Value.tm_year);
+                    }
+                    if (m_Value.tm_mday != -1 && (m_Skip & DATETIME_SKIPS_DAY) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(m_Value.tm_mday);
+                    }
+                    if (m_Value.tm_mon != -1 && (m_Skip & DATETIME_SKIPS_MONTH) == 0) {
+                        if (ba.GetSize() != 0) {
+                            ba.SetUInt8(separator);
+                        }
+                        ba.AddIntAsString(1 + m_Value.tm_mon);
+                    }
+                } break;
+                default: {
+                    ret = (int)strftime(buff, 50, "%X", &m_Value);
+                    ba.SetUInt8(' ');
+                    ba.Set(buff, ret);
+                    return 0;
                 }
-            } break;
-            default: {
-                ret = (int)strftime(buff, 50, "%X", &m_Value);
-                ba.SetUInt8(' ');
-                ba.Set(buff, ret);
-                return 0;
-            }
             }
         }
 
@@ -929,7 +913,7 @@ CGXDateTime CGXDateTime::Now() {
 }
 
 // Status of the clock.
-DLMS_CLOCK_STATUS CGXDateTime::GetStatus() const {
+DLMS_CLOCK_STATUS CGXDateTime::GetStatus() {
     return m_Status;
 }
 
@@ -989,7 +973,7 @@ int CGXDateTime::AddSeconds(int seconds) {
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDateTime::CompareTo(const CGXDateTime& antherDate) const {
+int CGXDateTime::CompareTo(CGXDateTime &antherDate) {
     uint16_t year1 = (uint16_t)(1900 + m_Value.tm_year);
     unsigned char month1 = (unsigned char)(1 + m_Value.tm_mon);
     unsigned char day1 = (unsigned char)(m_Value.tm_mday);
@@ -1020,8 +1004,7 @@ int CGXDateTime::CompareTo(const CGXDateTime& antherDate) const {
     if (m_Deviation != (short)0x8000) {
         if (m_UseUtc2NormalTime) {
             val1 += (60 * m_Deviation);
-        }
-        else {
+        } else {
             val1 -= (60 * m_Deviation);
         }
     }
@@ -1041,8 +1024,7 @@ int CGXDateTime::CompareTo(const CGXDateTime& antherDate) const {
     if (antherDate.m_Deviation != (short)0x8000) {
         if (m_UseUtc2NormalTime) {
             val2 += (60 * antherDate.m_Deviation);
-        }
-        else {
+        } else {
             val2 -= (60 * antherDate.m_Deviation);
         }
     }
@@ -1055,12 +1037,10 @@ int CGXDateTime::CompareTo(const CGXDateTime& antherDate) const {
             if (month1 != month2) {
                 return month1 < month2 ? -1 : 1;
             }
-        }
-        else if (month1 != month2) {
+        } else if (month1 != month2) {
             return month1 < month2 ? -1 : 1;
         }
-    }
-    else if ((m_Skip & DATETIME_SKIPS_YEAR) == 0 && (antherDate.m_Skip & DATETIME_SKIPS_YEAR) == 0) {
+    } else if ((m_Skip & DATETIME_SKIPS_YEAR) == 0 && (antherDate.m_Skip & DATETIME_SKIPS_YEAR) == 0) {
         if (year1 != year2) {
             return year1 < year2 ? -1 : 1;
         }
@@ -1071,7 +1051,7 @@ int CGXDateTime::CompareTo(const CGXDateTime& antherDate) const {
     return 0;
 }
 
-int CGXDateTime::ToLocalTime(struct tm& localTime) const {
+int CGXDateTime::ToLocalTime(struct tm &localTime) {
     localTime = m_Value;
     if (m_Deviation != -32768)  //0x8000
     {
@@ -1091,14 +1071,13 @@ int CGXDateTime::ToLocalTime(struct tm& localTime) const {
     return 0;
 }
 
-long CGXDateTime::GetDifference(const struct tm& start, const CGXDateTime& to) {
+long CGXDateTime::GetDifference(struct tm &start, CGXDateTime &to) {
     long diff = 0;
     // Compare seconds.
     if ((to.GetSkip() & DATETIME_SKIPS_SECOND) == 0) {
         if (start.tm_sec < to.m_Value.tm_sec) {
             diff += (to.m_Value.tm_sec - start.tm_sec) * 1000L;
-        }
-        else {
+        } else {
             diff -= (start.tm_sec - to.m_Value.tm_sec) * 1000L;
         }
     }
@@ -1106,43 +1085,36 @@ long CGXDateTime::GetDifference(const struct tm& start, const CGXDateTime& to) {
     if ((to.GetSkip() & DATETIME_SKIPS_MINUTE) == 0) {
         if (start.tm_min < to.m_Value.tm_min) {
             diff += (to.m_Value.tm_min - start.tm_min) * 60000L;
-        }
-        else {
+        } else {
             diff -= (start.tm_min - to.m_Value.tm_min) * 60000L;
         }
-    }
-    else if (diff < 0) {
+    } else if (diff < 0) {
         diff = 60 * 60000 + diff;
     }
     // Compare hours.
     if ((to.GetSkip() & DATETIME_SKIPS_HOUR) == 0) {
         if (start.tm_hour < to.m_Value.tm_hour) {
             diff += (to.m_Value.tm_hour - start.tm_hour) * 60 * 60000L;
-        }
-        else {
+        } else {
             diff -= (start.tm_hour - to.m_Value.tm_hour) * 60 * 60000L;
         }
-    }
-    else if (diff < 0) {
+    } else if (diff < 0) {
         diff = 60 * 60000 + diff;
     }
     // Compare days.
     if ((to.GetSkip() & DATETIME_SKIPS_DAY) == 0) {
         if (start.tm_mday < to.m_Value.tm_mday) {
             diff += (to.m_Value.tm_mday - start.tm_mday) * 24 * 60 * 60000;
-        }
-        else if (start.tm_mday != to.m_Value.tm_mday) {
+        } else if (start.tm_mday != to.m_Value.tm_mday) {
             if ((to.GetSkip() & DATETIME_SKIPS_DAY) == 0) {
                 diff += (to.m_Value.tm_mday - start.tm_mday) * 24 * 60 * 60000L;
-            }
-            else {
+            } else {
                 diff = ((DaysInMonth(start.tm_year, start.tm_mon) - start.tm_mday + to.m_Value.tm_mday) * 24 * 60 *
-                    60000L) +
+                        60000L) +
                     diff;
             }
         }
-    }
-    else if (diff < 0) {
+    } else if (diff < 0) {
         diff = 24 * 60 * 60000 + diff;
     }
     // Compare months.
@@ -1151,22 +1123,19 @@ long CGXDateTime::GetDifference(const struct tm& start, const CGXDateTime& to) {
             for (int m = start.tm_mon; m != to.m_Value.tm_mon; ++m) {
                 diff += DaysInMonth(start.tm_year, m) * 24 * 60 * 60000L;
             }
-        }
-        else {
+        } else {
             for (int m = to.m_Value.tm_mon; m != start.tm_mon; ++m) {
                 diff += -DaysInMonth(start.tm_year, m) * 24 * 60 * 60000L;
             }
         }
-    }
-    else if (diff < 0) {
+    } else if (diff < 0) {
         diff = DaysInMonth(start.tm_year, start.tm_mon) * 24 * 60 * 60000L + diff;
     }
     return diff;
 }
 
-unsigned long CGXDateTime::ToUnixTime() const {
-    struct tm val = m_Value;
-    unsigned long value = (unsigned long)mktime(&val);
+unsigned long CGXDateTime::ToUnixTime() {
+    unsigned long value = (unsigned long)mktime(&m_Value);
     if (!m_UseUtc2NormalTime) {
         if (m_Deviation != (short)0x8000) {
             value -= m_Deviation;
@@ -1175,7 +1144,7 @@ unsigned long CGXDateTime::ToUnixTime() const {
     return value;
 }
 
-bool CGXDateTime::GetUseUtc2NormalTime() const {
+bool CGXDateTime::GetUseUtc2NormalTime() {
     return m_UseUtc2NormalTime;
 }
 

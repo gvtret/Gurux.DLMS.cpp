@@ -39,33 +39,32 @@
 #include "GXBytebuffer.h"
 #include "GXDLMSVariant.h"
 #include "GXDLMSTranslatorStructure.h"
-#include <memory>
 
 class CGXReplyData {
 private:
     /*
      * Is more data available.
      */
-    DLMS_DATA_REQUEST_TYPES m_MoreData = DLMS_DATA_REQUEST_TYPES_NONE;
+    DLMS_DATA_REQUEST_TYPES m_MoreData;
     /*
      * Received command.
      */
-    DLMS_COMMAND m_Command = DLMS_COMMAND_NONE;
+    DLMS_COMMAND m_Command;
 
     /*
     * Received command type.
     */
-    unsigned char m_CommandType = 0;
+    unsigned char m_CommandType;
 
     /*
      * Received data.
      */
     CGXByteBuffer m_Data;
-    CGXByteBuffer* m_pData = &m_Data;
+    CGXByteBuffer *m_pData;
     /*
      * Is frame complete.
      */
-    bool m_Complete = false;
+    bool m_Complete;
 
     /*
      * Read value.
@@ -75,102 +74,110 @@ private:
     /*
      * Expected count of element in the array.
      */
-    int m_TotalCount = 0;
+    int m_TotalCount;
 
     /*
      * Last read position. This is used in peek to solve how far data is read.
      */
-    unsigned long m_ReadPosition = 0;
+    unsigned long m_ReadPosition;
 
     /*
      * Packet Length.
      */
-    int m_PacketLength = 0;
+    int m_PacketLength;
 
     /*
      * Try Get value.
      */
-    bool m_Peek = false;
+    bool m_Peek;
 
-    DLMS_DATA_TYPE m_DataType = DLMS_DATA_TYPE_NONE;
+    DLMS_DATA_TYPE m_DataType;
 
     /*
      * Cipher index is position where data is decrypted.
      */
-    unsigned long m_CipherIndex = 0;
+    unsigned long m_CipherIndex;
 
     /*
      * Data notification date time.
      */
-    std::unique_ptr<struct tm> m_Time;
+    struct tm *m_Time;
 
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
-    CGXDLMSTranslatorStructure* m_pXml = nullptr;
+    CGXDLMSTranslatorStructure *m_pXml;
 #endif  //DLMS_IGNORE_XML_TRANSLATOR
 
     /*
     * Invoke ID.
     */
-    long m_InvokeId = 0;
+    long m_InvokeId;
 
     /*
      * GBT block number.
      */
-    int m_BlockNumber = 0;
+    int m_BlockNumber;
     /*
      * GBT block number ACK.
      */
-    int m_BlockNumberAck = 0;
+    int m_BlockNumberAck;
     /*
      * Is GBT streaming in use.
      */
-    bool m_Streaming = false;
+    bool m_Streaming;
     /*
      * GBT Window size. This is for internal use.
      */
-    unsigned char m_GbtWindowSize = 0;
+    unsigned char m_GbtWindowSize;
 
     /*
      * Client address of the notification message. Notification message sets
      * this.
      */
-    unsigned short m_ClientAddress = 0;
+    unsigned short m_ClientAddress;
 
     /*
      * Server address of the notification message. Notification message sets
      * this.
      */
-    int m_ServerAddress = 0;
+    int m_ServerAddress;
 
-    unsigned char m_CipheredCommand = 0;
+    unsigned char m_CipheredCommand;
 
 public:
+    /*
+     * Constructor.
+     *
+     * @param more
+     *            Is more data available.
+     * @param cmd
+     *            Received command.
+     * @param buff
+     *            Received data.
+     * @param forComplete
+     *            Is frame complete.
+     */
+    CGXReplyData(DLMS_DATA_REQUEST_TYPES more, DLMS_COMMAND cmd, CGXByteBuffer *buff, bool complete);
+
     /*
      * Constructor.
      */
     CGXReplyData();
 
-
-    CGXReplyData(const CGXReplyData& other);
-    CGXReplyData(CGXReplyData&& other) noexcept;
-    CGXReplyData& operator=(const CGXReplyData& other);
-    CGXReplyData& operator=(CGXReplyData&& other) noexcept;
-
-    DLMS_DATA_TYPE GetValueType() const;
+    DLMS_DATA_TYPE GetValueType();
 
     void SetValueType(DLMS_DATA_TYPE value);
 
-    const CGXDLMSVariant &GetValue() const;
+
     CGXDLMSVariant &GetValue();
 
 
-    void SetValue(const CGXDLMSVariant &value);
+    void SetValue(CGXDLMSVariant &value);
 
-    unsigned long GetReadPosition() const;
+    unsigned long GetReadPosition();
 
     void SetReadPosition(unsigned long value);
 
-    int GetPacketLength() const;
+    int GetPacketLength();
 
     void SetPacketLength(int value);
 
@@ -178,10 +185,10 @@ public:
 
     void SetCommandType(unsigned char value);
 
-    unsigned char GetCommandType() const;
+    unsigned char GetCommandType();
 
 
-    void SetData(const CGXByteBuffer &value);
+    void SetData(CGXByteBuffer &value);
 
     void SetComplete(bool value);
 
@@ -195,14 +202,14 @@ public:
     /*
      * @return Is more data available.
      */
-    bool IsMoreData() const;
+    bool IsMoreData();
 
     /*
      * Is more data available.
      *
      * @return Return None if more data is not available or Frame or Block type.
      */
-    DLMS_DATA_REQUEST_TYPES GetMoreData() const;
+    DLMS_DATA_REQUEST_TYPES GetMoreData();
 
     void SetMoreData(DLMS_DATA_REQUEST_TYPES value);
 
@@ -212,14 +219,13 @@ public:
      *
      * @return Received command.
      */
-    DLMS_COMMAND GetCommand() const;
+    DLMS_COMMAND GetCommand();
 
     /*
      * Get received data.
      *
      * @return Received data.
      */
-    const CGXByteBuffer &GetData() const;
     CGXByteBuffer &GetData();
 
     /*
@@ -227,7 +233,7 @@ public:
      *
      * @return Returns true if frame is complete or false if bytes is missing.
      */
-    bool IsComplete() const;
+    bool IsComplete();
 
     /*
      * Get total count of element in the array. If this method is used peek must
@@ -237,7 +243,7 @@ public:
      * @see peek
      * @see GetCount
      */
-    int GetTotalCount() const;
+    int GetTotalCount();
 
     /*
      * Get count of read elements. If this method is used peek must be Set true.
@@ -246,7 +252,7 @@ public:
      * @see peek
      * @see GetTotalCount
      */
-    int GetCount() const;
+    int GetCount();
 
     /*
      * Get is value try to peek.
@@ -255,7 +261,7 @@ public:
      * @see GetCount
      * @see GetTotalCount
      */
-    bool GetPeek() const;
+    bool GetPeek();
 
     /*
      * Set is value try to peek.
@@ -268,7 +274,7 @@ public:
     /*
      * @return Cipher index is position where data is decrypted.
      */
-    unsigned long GetCipherIndex() const;
+    unsigned long GetCipherIndex();
 
     /*
      * @param cipherIndex
@@ -279,20 +285,20 @@ public:
     /*
      * @return Data notification date time.
      */
-    struct tm *GetTime() const;
+    struct tm *GetTime();
 
 
     /*
      * @param time
      *            Data notification date time.
      */
-    void SetTime(const struct tm *value);
+    void SetTime(struct tm *value);
 
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
     /*
      * @return Data notification date time.
      */
-    CGXDLMSTranslatorStructure *GetXml() const;
+    CGXDLMSTranslatorStructure *GetXml();
 
 
     /*
@@ -305,7 +311,7 @@ public:
     /**
     * Invoke ID.
     */
-    long GetInvokeId() const;
+    long GetInvokeId();
 
     /**
      * Invoke ID.
@@ -315,7 +321,7 @@ public:
     /*
      * GBT block number.
      */
-    int GetBlockNumber() const;
+    int GetBlockNumber();
 
     /*
      * GBT block number.
@@ -325,7 +331,7 @@ public:
     /**
      * GBT block number ACK.
      */
-    int GetBlockNumberAck() const;
+    int GetBlockNumberAck();
 
     /**
      * @param value
@@ -336,7 +342,7 @@ public:
     /**
      * @return Is GBT streaming in use.
      */
-    bool GetStreaming() const;
+    bool GetStreaming();
 
     /**
      * Is GBT streaming in use.
@@ -346,7 +352,7 @@ public:
     /**
      * GBT Window size. This is for internal use.
      */
-    unsigned char GetGbtWindowSize() const;
+    unsigned char GetGbtWindowSize();
 
     /**
      * GBT Window size. This is for internal use.
@@ -356,13 +362,13 @@ public:
     /**
      * Is GBT streaming.
      */
-    bool IsStreaming() const;
+    bool IsStreaming();
 
     /**
      * Client address of the notification message. Notification message
      * sets this.
      */
-    unsigned short GetClientAddress() const;
+    unsigned short GetClientAddress();
 
     /**
      *            Client address of the notification message. Notification
@@ -374,7 +380,7 @@ public:
      * Server address of the notification message. Notification message
      *         sets this.
      */
-    int GetServerAddress() const;
+    int GetServerAddress();
 
     /*
      *            Server address of the notification message. Notification
@@ -385,7 +391,7 @@ public:
     /*
      * returns Received ciphered command.
      */
-    unsigned char GetCipheredCommand() const;
+    unsigned char GetCipheredCommand();
 
     /*
      * value: Received ciphered command.

@@ -59,13 +59,13 @@ class CGXDLMSObject: public IGXDLMSBase {
     CGXAttributeCollection m_MethodAttributes;
     void Initialize(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer *pLogicalName);
     std::string m_Description;
-    DLMS_OBJECT_TYPE m_ObjectType = DLMS_OBJECT_TYPE_NONE;
+    DLMS_OBJECT_TYPE m_ObjectType;
 
 protected:
-    unsigned short m_Version = 0;
+    unsigned short m_Version;
     std::map<int, time_t> m_ReadTimes;
-    unsigned short m_SN = 0;
-    unsigned char m_LN[6]{};
+    unsigned short m_SN;
+    unsigned char m_LN[6];
 
     /*
      * Is attribute read. This can be used with static attributes to make
@@ -83,33 +83,28 @@ public:
         return memcmp(pLN, EmptyLN, 6) == 0;
     }
 
-    CGXDLMSObject();
+    CGXDLMSObject(void);
     CGXDLMSObject(DLMS_OBJECT_TYPE type);
 
     //SN Constructor.
-    CGXDLMSObject(DLMS_OBJECT_TYPE type, const std::string &ln, unsigned short sn);
+    CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln, unsigned short sn);
 
     //LN Constructor.
-    CGXDLMSObject(DLMS_OBJECT_TYPE type, const std::string &ln);
+    CGXDLMSObject(DLMS_OBJECT_TYPE type, std::string &ln);
     CGXDLMSObject(short sn, unsigned short class_id, unsigned char version, CGXByteBuffer &ln);
 
-    CGXDLMSObject(const CGXDLMSObject& other) = default;
-    CGXDLMSObject(CGXDLMSObject&& other) noexcept = default;
-    CGXDLMSObject& operator=(const CGXDLMSObject& other) = default;
-    CGXDLMSObject& operator=(CGXDLMSObject&& other) noexcept = default;
-
-    virtual ~CGXDLMSObject();
+    virtual ~CGXDLMSObject(void);
 
     //Get Object's Logical or Short Name as a std::string.
-    CGXDLMSVariant GetName() const;
+    CGXDLMSVariant GetName();
 
     int SetName(CGXDLMSVariant &value);
 
     //Get Object's Interface class type.
-    DLMS_OBJECT_TYPE GetObjectType() const;
+    DLMS_OBJECT_TYPE GetObjectType();
 
     //Get Object's Short Name.
-    unsigned short GetShortName() const;
+    unsigned short GetShortName();
 
     //Set Object's Short Name.
     void SetShortName(unsigned short value);
@@ -118,29 +113,27 @@ public:
     void GetLogicalName(std::string &ln) const;
 
     void SetVersion(unsigned short value);
-    unsigned short GetVersion() const;
+    unsigned short GetVersion();
 
-    const CGXAttributeCollection &GetAttributes() const;
     CGXAttributeCollection &GetAttributes();
-    const CGXAttributeCollection &GetMethodAttributes() const;
     CGXAttributeCollection &GetMethodAttributes();
     virtual int SetDataType(int index, DLMS_DATA_TYPE type);
-    virtual int GetDataType(int index, DLMS_DATA_TYPE &type) const;
+    virtual int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-    virtual int GetUIDataType(int index, DLMS_DATA_TYPE &type) const;
+    virtual int GetUIDataType(int index, DLMS_DATA_TYPE &type);
     void SetUIDataType(int index, DLMS_DATA_TYPE type);
 
-    DLMS_ACCESS_MODE GetAccess(int index) const;
+    DLMS_ACCESS_MODE GetAccess(int index);
     void SetAccess(int index, DLMS_ACCESS_MODE access);
-    DLMS_METHOD_ACCESS_MODE GetMethodAccess(int index) const;
+    DLMS_METHOD_ACCESS_MODE GetMethodAccess(int index);
     void SetMethodAccess(int index, DLMS_METHOD_ACCESS_MODE access);
 
 
     //Get description of the object.
-    const std::string &GetDescription() const;
+    std::string &GetDescription();
 
     //Set description of the object.
-    void SetDescription(const std::string &value);
+    void SetDescription(std::string &value);
 
     //Get values as std::string.
     virtual void GetValues(std::vector<std::string> &/*values*/) {

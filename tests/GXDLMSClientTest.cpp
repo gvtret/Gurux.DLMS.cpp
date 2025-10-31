@@ -3,22 +3,12 @@
 
 TEST(CGXDLMSClientTest, DefaultConstructor)
 {
-    const CGXDLMSClient client;
+    CGXDLMSClient client;
     ASSERT_EQ(true, client.GetUseLogicalNameReferencing());
     ASSERT_EQ(16, client.GetClientAddress());
     ASSERT_EQ(1, client.GetServerAddress());
     ASSERT_EQ(DLMS_AUTHENTICATION_NONE, client.GetAuthentication());
     ASSERT_EQ(DLMS_INTERFACE_TYPE_HDLC, client.GetInterfaceType());
-}
-
-TEST(CGXDLMSClientTest, ParameterizedConstructor)
-{
-    const CGXDLMSClient client(false, 32, 2, DLMS_AUTHENTICATION_HIGH, "password", DLMS_INTERFACE_TYPE_WRAPPER);
-    ASSERT_FALSE(client.GetUseLogicalNameReferencing());
-    ASSERT_EQ(32, client.GetClientAddress());
-    ASSERT_EQ(2, client.GetServerAddress());
-    ASSERT_EQ(DLMS_AUTHENTICATION_HIGH, client.GetAuthentication());
-    ASSERT_EQ(DLMS_INTERFACE_TYPE_WRAPPER, client.GetInterfaceType());
 }
 
 TEST(CGXDLMSClientTest, PropertyGettersAndSetters)

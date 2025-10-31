@@ -381,44 +381,35 @@ int CGXDLMSVariant::Convert(CGXDLMSVariant *item, DLMS_DATA_TYPE type) {
     return DLMS_ERROR_CODE_OK;
 }
 
-void CGXDLMSVariant::Clear()
-{
-    Clear(true);
-}
-
-void CGXDLMSVariant::Clear(bool freeMemory) {
+void CGXDLMSVariant::Clear() {
     Arr.clear();
     strVal.clear();
-    if (freeMemory && vt == DLMS_DATA_TYPE_OCTET_STRING && byteArr != nullptr) {
+    if (vt == DLMS_DATA_TYPE_OCTET_STRING && byteArr != NULL) {
         if (size == 0) {
             assert(size != 0);
         }
         free(byteArr);
+        byteArr = NULL;
+        size = 0;
     }
     vt = DLMS_DATA_TYPE_NONE;
-    byteArr = nullptr;
+    this->byteArr = NULL;
     size = 0;
 }
 
 CGXDLMSVariant::CGXDLMSVariant() {
     vt = DLMS_DATA_TYPE_NONE;
     size = 0;
-    byteArr = nullptr;
-    Clear(true);
+    byteArr = NULL;
+    Clear();
 }
 
 CGXDLMSVariant::~CGXDLMSVariant() {
-    Clear(true);
+    Clear();
 }
-
-CGXDLMSVariant::CGXDLMSVariant(CGXDLMSVariant &&value) noexcept {
-    *((dlmsVARIANT*)this) = value;
-    value.Clear(false);
-}
-
 
 CGXDLMSVariant::CGXDLMSVariant(CGXDLMSVariant *value) {
-    byteArr = nullptr;
+    byteArr = NULL;
     vt = value->vt;
     if (vt == DLMS_DATA_TYPE_NONE) {
         return;
@@ -582,7 +573,7 @@ CGXDLMSVariant::CGXDLMSVariant(const CGXDLMSVariant &value) {
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXDLMSVariant &value) {
-    Clear(true);
+    Clear();
     //If Octect String, copy byte buffer.
     if (value.vt == DLMS_DATA_TYPE_OCTET_STRING) {
         vt = value.vt;
@@ -597,17 +588,8 @@ CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXDLMSVariant &value) {
     return *this;
 }
 
-CGXDLMSVariant &CGXDLMSVariant::operator=(CGXDLMSVariant &&value) noexcept
-{
-    Clear(true);
-    *((dlmsVARIANT*)this) = value;
-    value.Clear(false);
-    return *this;
-}
-
-
-CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXByteBuffer &value) {
-    Clear(true);
+CGXDLMSVariant &CGXDLMSVariant::operator=(CGXByteBuffer &value) {
+    Clear();
     vt = DLMS_DATA_TYPE_OCTET_STRING;
     size = (unsigned short)value.GetSize();
     if (size != 0) {
@@ -617,8 +599,8 @@ CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXByteBuffer &value) {
     return *this;
 }
 
-CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXByteArray &value) {
-    Clear(true);
+CGXDLMSVariant &CGXDLMSVariant::operator=(CGXByteArray &value) {
+    Clear();
     vt = DLMS_DATA_TYPE_OCTET_STRING;
     size = (unsigned short)value.GetSize();
     if (size != 0) {
@@ -635,7 +617,7 @@ CGXDLMSVariant::CGXDLMSVariant(const char *value) {
 
 CGXDLMSVariant::CGXDLMSVariant(unsigned char *pValue, int count, DLMS_DATA_TYPE type) {
     assert(count > -1);
-    byteArr = nullptr;
+    byteArr = NULL;
     size = count;
     if (size != 0) {
         byteArr = (unsigned char *)malloc(count);
@@ -644,134 +626,134 @@ CGXDLMSVariant::CGXDLMSVariant(unsigned char *pValue, int count, DLMS_DATA_TYPE 
     vt = type;
 }
 
-CGXDLMSVariant &CGXDLMSVariant::operator=(const std::string &value) {
-    Clear(true);
+CGXDLMSVariant &CGXDLMSVariant::operator=(std::string value) {
+    Clear();
     vt = DLMS_DATA_TYPE_STRING;
     strVal.append(value);
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(const char *value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_STRING;
     strVal.append(value);
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(float value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_FLOAT32;
     fltVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(double value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_FLOAT64;
     dblVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(unsigned long long value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_UINT64;
     ullVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(long long value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_INT64;
     llVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(const bool value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_BOOLEAN;
     boolVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(char value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_INT8;
     cVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(short value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_INT16;
     iVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(int value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_INT32;
     lVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(long value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_INT32;
     lVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(unsigned char value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_UINT8;
     bVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(unsigned short value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_UINT16;
     uiVal = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(unsigned long value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_UINT32;
     ulVal = value;
     return *this;
 }
 
-CGXDLMSVariant &CGXDLMSVariant::operator=(const struct tm &value) {
-    Clear(true);
+CGXDLMSVariant &CGXDLMSVariant::operator=(struct tm value) {
+    Clear();
     vt = DLMS_DATA_TYPE_DATETIME;
     dateTime.SetValue(value);
     return *this;
 }
 
-CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXDate &value) {
-    Clear(true);
+CGXDLMSVariant &CGXDLMSVariant::operator=(CGXDate &value) {
+    Clear();
     vt = DLMS_DATA_TYPE_DATE;
     dateTime = value;
     return *this;
 }
 
-CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXTime &value) {
-    Clear(true);
+CGXDLMSVariant &CGXDLMSVariant::operator=(CGXTime &value) {
+    Clear();
     vt = DLMS_DATA_TYPE_TIME;
     dateTime = value;
     return *this;
 }
 
-CGXDLMSVariant &CGXDLMSVariant::operator=(const CGXDateTime &value) {
-    Clear(true);
+CGXDLMSVariant &CGXDLMSVariant::operator=(CGXDateTime &value) {
+    Clear();
     vt = DLMS_DATA_TYPE_DATETIME;
     dateTime = value;
     return *this;
 }
 
 CGXDLMSVariant &CGXDLMSVariant::operator=(unsigned int value) {
-    Clear(true);
+    Clear();
     vt = DLMS_DATA_TYPE_UINT32;
     ulVal = value;
     return *this;
@@ -804,7 +786,7 @@ void CGXDLMSVariant::Add(std::string value) {
     }
 }
 
-bool CGXDLMSVariant::Equals(const CGXDLMSVariant &item) const {
+bool CGXDLMSVariant::Equals(CGXDLMSVariant &item) {
     if (vt != item.vt) {
         return false;
     }
@@ -833,7 +815,7 @@ int CGXDLMSVariant::ChangeType(DLMS_DATA_TYPE newType) {
     }
 
     if (newType == DLMS_DATA_TYPE_NONE) {
-        Clear(true);
+        Clear();
         return DLMS_ERROR_CODE_OK;
     }
     if (vt == DLMS_DATA_TYPE_ARRAY && newType == DLMS_DATA_TYPE_OCTET_STRING) {
@@ -1168,7 +1150,7 @@ std::string CGXDLMSVariant::ToString() const {
     return tmp.strVal;
 }
 
-int CGXDLMSVariant::ToInteger() const {
+int CGXDLMSVariant::ToInteger() {
     if (vt == DLMS_DATA_TYPE_NONE) {
         return 0;
     }
@@ -1241,7 +1223,7 @@ int CGXDLMSVariant::ToInteger() const {
     return 0;
 }
 
-double CGXDLMSVariant::ToDouble() const {
+double CGXDLMSVariant::ToDouble() {
     if (vt == DLMS_DATA_TYPE_NONE) {
         return 0;
     }
@@ -1293,7 +1275,7 @@ double CGXDLMSVariant::ToDouble() const {
     return 0;
 }
 
-int CGXDLMSVariant::GetBytes(CGXByteBuffer &value) const {
+int CGXDLMSVariant::GetBytes(CGXByteBuffer &value) {
     if (vt == DLMS_DATA_TYPE_OCTET_STRING) {
         value.Set(byteArr, size);
     } else if (vt == DLMS_DATA_TYPE_BOOLEAN) {
@@ -1331,7 +1313,7 @@ int CGXDLMSVariant::GetBytes(CGXByteBuffer &value) const {
     return 0;
 }
 
-bool CGXDLMSVariant::IsNumber() const {
+bool CGXDLMSVariant::IsNumber() {
     switch (vt) {
         case DLMS_DATA_TYPE_UINT8:
         case DLMS_DATA_TYPE_UINT16:

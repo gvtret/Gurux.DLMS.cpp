@@ -1733,41 +1733,41 @@ int CGXCommunication::GetProfileGenericColumns()
         //Update columns scalers.
         DLMS_OBJECT_TYPE ot;
         CGXDLMSObject* obj;
-        for (std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >::iterator it2 = pg->GetCaptureObjects().begin(); it2 != pg->GetCaptureObjects().end(); ++it2)
+        for (auto& it2 : pg->GetCaptureObjects())
         {
-            ot = it2->first->GetObjectType();
+            ot = it2.first->GetObjectType();
             if (ot == DLMS_OBJECT_TYPE_REGISTER ||
                 ot == DLMS_OBJECT_TYPE_EXTENDED_REGISTER ||
                 ot == DLMS_OBJECT_TYPE_DEMAND_REGISTER)
             {
-                it2->first->GetLogicalName(ln);
+                it2.first->GetLogicalName(ln);
                 obj = m_Parser->GetObjects().FindByLN(ot, ln);
                 if (obj != NULL)
                 {
                     if (ot == DLMS_OBJECT_TYPE_REGISTER || ot == DLMS_OBJECT_TYPE_EXTENDED_REGISTER)
                     {
-                        ((CGXDLMSRegister*)it2->first)->SetScaler(((CGXDLMSRegister*)obj)->GetScaler());
-                        ((CGXDLMSRegister*)it2->first)->SetUnit(((CGXDLMSRegister*)obj)->GetUnit());
+                        ((CGXDLMSRegister*)it2.first)->SetScaler(((CGXDLMSRegister*)obj)->GetScaler());
+                        ((CGXDLMSRegister*)it2.first)->SetUnit(((CGXDLMSRegister*)obj)->GetUnit());
                     }
                     else if (ot == DLMS_OBJECT_TYPE_DEMAND_REGISTER)
                     {
-                        ((CGXDLMSDemandRegister*)it2->first)->SetScaler(((CGXDLMSDemandRegister*)obj)->GetScaler());
-                        ((CGXDLMSDemandRegister*)it2->first)->SetUnit(((CGXDLMSDemandRegister*)obj)->GetUnit());
+                        ((CGXDLMSDemandRegister*)it2.first)->SetScaler(((CGXDLMSDemandRegister*)obj)->GetScaler());
+                        ((CGXDLMSDemandRegister*)it2.first)->SetUnit(((CGXDLMSDemandRegister*)obj)->GetUnit());
                     }
                 }
             }
         }
         WriteValue(m_Trace, "Profile Generic " + (*it)->GetName().ToString() + " Columns:\n");
         std::string str;
-        for (std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >::iterator it2 = pg->GetCaptureObjects().begin(); it2 != pg->GetCaptureObjects().end(); ++it2)
+        for (const auto& it2 : pg->GetCaptureObjects())
         {
             if (str.size() != 0)
             {
                 str.append(" | ");
             }
-            str.append((*it2).first->GetName().ToString());
+            str.append(it2.first->GetName().ToString());
             str.append(" ");
-            str.append((*it2).first->GetDescription());
+            str.append(it2.first->GetDescription());
         }
         str.append("\n");
         WriteValue(m_Trace, str);
@@ -1977,7 +1977,7 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         ret = Read(&ss, 4, str);
         //Read server system title.
         ret = Read(&ss, 5, str);
-        CGXByteBuffer clientST = ss.GetClientSystemTitle();
+        CGXByteBuffer& clientST = ss.GetClientSystemTitle();
         if (clientST.GetSize() != 8)
         {
             clientST = m_Parser->GetCiphering()->GetSystemTitle();
@@ -2079,16 +2079,14 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         {
             return ret;
         }
-        CGXByteBuffer tmp = ss.GetServerSystemTitle();
         subject = CGXAsn1Converter::SystemTitleToSubject(
-            tmp);
+            ss.GetServerSystemTitle());
         //Validate subject.
         if (pkc10ServerDigital.GetSubject().find(subject) == std::string::npos)
         {
             CGXAsn1Converter::HexSystemTitleFromSubject(pkc10ServerDigital.GetSubject(), str);
-            CGXByteBuffer tmp = ss.GetServerSystemTitle();
             printf("Server system title '%s' is not the same as in the generated certificate request '%s'.",
-                tmp.ToHexString().c_str(),
+                ss.GetServerSystemTitle().ToHexString().c_str(),
                 str.c_str());
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
@@ -2117,9 +2115,8 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         if (pkc10ServerAgreement.GetSubject().find(subject) == std::string::npos)
         {
             CGXAsn1Converter::HexSystemTitleFromSubject(pkc10ServerAgreement.GetSubject(), str);
-            CGXByteBuffer tmp = ss.GetServerSystemTitle();
             printf("Server system title '%s' is not the same as in the generated certificate request '%s'.",
-                tmp.ToHexString().c_str(),
+                ss.GetServerSystemTitle().ToHexString().c_str(),
                 str.c_str());
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
@@ -2169,10 +2166,9 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         {
             DLMS_CERTIFICATE_ENTITY entity;
             CGXByteBuffer st;
-            CGXByteBuffer tmp = ss.GetServerSystemTitle();
-            if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(tmp)) != std::string::npos)
+            if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(ss.GetServerSystemTitle())) != std::string::npos)
             {
-                st = tmp;
+                st = ss.GetServerSystemTitle();
                 entity = DLMS_CERTIFICATE_ENTITY_SERVER;
             }
             else if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(clientST)) != std::string::npos)
@@ -2306,14 +2302,14 @@ int CGXCommunication::ExportMeterCertificates(std::string& logicalName)
     //Export meter certificates and save them.
     CGXReplyData reply;
     std::string path;
-    for (const auto& it : ss.GetCertificates())
+    for (std::vector<CGXDLMSCertificateInfo*>::iterator it = ss.GetCertificates().begin();
+        it != ss.GetCertificates().end(); ++it)
     {
         reply.Clear();
         //Export certification and verify it.
-        CGXByteBuffer tmp = it->GetIssuerRaw();
         ret = ss.ExportCertificateBySerial(m_Parser,
-            it->GetSerialNumber(),
-            tmp, data);
+            (*it)->GetSerialNumber(),
+            (*it)->GetIssuerRaw(), data);
         if (ret != 0)
         {
             break;

@@ -1931,11 +1931,6 @@ static int SetUtfString(CGXByteBuffer &buff, CGXDLMSVariant &value) {
     return 0;
 }
 
-void GXHelpers::GetLogicalName(unsigned char *buff, std::string &ln)
-{
-    GXHelpers::GetLogicalName(const_cast<const unsigned char*>(buff), ln);
-}
-
 void GXHelpers::GetLogicalName(const unsigned char *buff, std::string &ln) {
     int dataSize;
     char tmp[25];

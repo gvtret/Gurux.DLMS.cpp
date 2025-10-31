@@ -337,11 +337,6 @@ int CGXByteArray::GetUInt128(unsigned long index, unsigned char* value) const
 	return ret;
 }
 
-const unsigned char* CGXByteArray::GetData() const
-{
-	return m_Data.data();
-}
-
 unsigned char* CGXByteArray::GetData()
 {
 	return m_Data.data();

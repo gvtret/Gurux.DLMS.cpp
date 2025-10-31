@@ -32,7 +32,6 @@
 // Full text may be retrieved at http://www.gnu.org/licenses/gpl-2.0.txt
 //---------------------------------------------------------------------------
 
-#include <memory>
 #include "../include/GXDLMSVariant.h"
 #include "../include/GXDLMSClient.h"
 #include "../include/GXDLMSSecuritySetup.h"
@@ -42,90 +41,50 @@
 #ifndef DLMS_IGNORE_SECURITY_SETUP
 
 //Constructor.
-CGXDLMSSecuritySetup::CGXDLMSSecuritySetup() :
-    CGXDLMSSecuritySetup("0.0.43.0.0.255", 0)
-{
+CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(): CGXDLMSSecuritySetup("0.0.43.0.0.255", 0) {
 }
 
 //SN Constructor.
-CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(std::string ln, unsigned short sn) :
-    CGXDLMSObject(DLMS_OBJECT_TYPE_SECURITY_SETUP, ln, sn)
-{
+CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(std::string ln, unsigned short sn)
+    : CGXDLMSObject(DLMS_OBJECT_TYPE_SECURITY_SETUP, ln, sn) {
     m_Version = 1;
-}
-
-CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(const CGXDLMSSecuritySetup& other) :
-    CGXDLMSObject(other),
-    m_SecurityPolicy(other.m_SecurityPolicy),
-    m_SecuritySuite(other.m_SecuritySuite),
-    m_ServerSystemTitle(other.m_ServerSystemTitle),
-    m_ClientSystemTitle(other.m_ClientSystemTitle)
-{
-    for (const auto& cert : other.m_Certificates)
-    {
-        m_Certificates.emplace_back(std::unique_ptr<CGXDLMSCertificateInfo>(new CGXDLMSCertificateInfo(*cert)));
-    }
-}
-
-CGXDLMSSecuritySetup& CGXDLMSSecuritySetup::operator=(const CGXDLMSSecuritySetup& other)
-{
-    if (this != &other)
-    {
-        CGXDLMSObject::operator=(other);
-        m_SecurityPolicy = other.m_SecurityPolicy;
-        m_SecuritySuite = other.m_SecuritySuite;
-        m_ServerSystemTitle = other.m_ServerSystemTitle;
-        m_ClientSystemTitle = other.m_ClientSystemTitle;
-        m_Certificates.clear();
-        for (const auto& cert : other.m_Certificates)
-        {
-            m_Certificates.emplace_back(std::unique_ptr<CGXDLMSCertificateInfo>(new CGXDLMSCertificateInfo(*cert)));
-        }
-    }
-    return *this;
+    m_SecurityPolicy = DLMS_SECURITY_POLICY_NOTHING;
+    m_SecuritySuite = DLMS_SECURITY_SUITE_V0;
 }
 
 //LN Constructor.
 CGXDLMSSecuritySetup::CGXDLMSSecuritySetup(std::string ln): CGXDLMSSecuritySetup(ln, 0) {
 }
 
-DLMS_SECURITY_POLICY CGXDLMSSecuritySetup::GetSecurityPolicy() const
-{
+DLMS_SECURITY_POLICY CGXDLMSSecuritySetup::GetSecurityPolicy() {
     return m_SecurityPolicy;
 }
 
-void CGXDLMSSecuritySetup::SetSecurityPolicy(DLMS_SECURITY_POLICY value)
-{
+void CGXDLMSSecuritySetup::SetSecurityPolicy(DLMS_SECURITY_POLICY value) {
     m_SecurityPolicy = value;
 }
 
-DLMS_SECURITY_SUITE CGXDLMSSecuritySetup::GetSecuritySuite() const
-{
+DLMS_SECURITY_SUITE CGXDLMSSecuritySetup::GetSecuritySuite() {
     return m_SecuritySuite;
 }
 
-void CGXDLMSSecuritySetup::SetSecuritySuite(DLMS_SECURITY_SUITE value)
-{
+void CGXDLMSSecuritySetup::SetSecuritySuite(DLMS_SECURITY_SUITE value) {
     m_SecuritySuite = value;
 }
 
-const CGXByteBuffer& CGXDLMSSecuritySetup::GetClientSystemTitle() const
-{
+CGXByteBuffer &CGXDLMSSecuritySetup::GetClientSystemTitle() {
     return m_ClientSystemTitle;
 }
 
-void CGXDLMSSecuritySetup::SetClientSystemTitle(const CGXByteBuffer& value)
-{
+void CGXDLMSSecuritySetup::SetClientSystemTitle(CGXByteBuffer &value) {
     m_ClientSystemTitle = value;
 }
 
-const CGXByteBuffer& CGXDLMSSecuritySetup::GetServerSystemTitle() const
-{
+CGXByteBuffer &CGXDLMSSecuritySetup::GetServerSystemTitle() {
     return m_ServerSystemTitle;
 }
 
-void CGXDLMSSecuritySetup::SetServerSystemTitle(const CGXByteBuffer& value)
-{
+void CGXDLMSSecuritySetup::SetServerSystemTitle(CGXByteBuffer &value) {
     m_ServerSystemTitle = value;
 }
 
@@ -268,7 +227,7 @@ int CGXDLMSSecuritySetup::ExportCertificateByEntity(
 }
 
 int CGXDLMSSecuritySetup::ExportCertificateBySerial(
-    CGXDLMSClient *client, const CGXBigInteger &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply
+    CGXDLMSClient *client, CGXBigInteger &serialNumber, CGXByteBuffer &issuer, std::vector<CGXByteBuffer> &reply
 ) {
     int ret;
     CGXDLMSVariant data;
@@ -417,42 +376,39 @@ int CGXDLMSSecuritySetup::ApplyKeys(CGXDLMSSettings &settings, CGXDLMSValueEvent
     return DLMS_ERROR_CODE_OK;
 }
 
-void CGXDLMSSecuritySetup::GetValues(std::vector<std::string>& values)
-{
+void CGXDLMSSecuritySetup::GetValues(std::vector<std::string> &values) {
     values.clear();
     std::string ln;
     GetLogicalName(ln);
     values.push_back(ln);
     values.push_back(CGXDLMSConverter::ToString(m_SecurityPolicy));
     values.push_back(CGXDLMSConverter::ToString(m_SecuritySuite));
-    values.push_back(m_ClientSystemTitle.ToHexString());
-    values.push_back(m_ServerSystemTitle.ToHexString());
-    if (GetVersion() > 0)
-    {
+    std::string str = m_ClientSystemTitle.ToHexString();
+    values.push_back(str);
+    str = m_ServerSystemTitle.ToHexString();
+    values.push_back(str);
+    if (GetVersion() > 0) {
         std::stringstream sb;
         bool empty = true;
-        for (const auto& it : m_Certificates)
-        {
-            if (empty)
-            {
+        for (std::vector<CGXDLMSCertificateInfo *>::iterator it = m_Certificates.begin(); it != m_Certificates.end();
+             ++it) {
+            if (empty) {
                 empty = false;
-            }
-            else
-            {
+            } else {
                 sb << ',';
             }
             sb << '[';
-            sb << static_cast<int>(it->GetEntity());
+            sb << (int)(*it)->GetEntity();
             sb << ' ';
-            sb << static_cast<int>(it->GetType());
+            sb << (int)(*it)->GetType();
             sb << ' ';
-            sb << it->GetSerialNumber().ToString();
+            sb << (*it)->GetSerialNumber().ToString();
             sb << ' ';
-            sb << it->GetIssuer();
+            sb << (*it)->GetIssuer();
             sb << ' ';
-            sb << it->GetSubject();
+            sb << (*it)->GetSubject();
             sb << ' ';
-            sb << it->GetSubjectAltName();
+            sb << (*it)->GetSubjectAltName();
             sb << ']';
         }
         values.push_back(sb.str());
@@ -508,140 +464,115 @@ int CGXDLMSSecuritySetup::GetDataType(int index, DLMS_DATA_TYPE &type) {
 }
 
 // Returns value of given attribute.
-int CGXDLMSSecuritySetup::GetValue(CGXDLMSSettings&, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() == 1)
-    {
+int CGXDLMSSecuritySetup::GetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
+    if (e.GetIndex() == 1) {
         int ret;
         CGXDLMSVariant tmp;
-        if ((ret = GetLogicalName(this, tmp)) != 0)
-        {
+        if ((ret = GetLogicalName(this, tmp)) != 0) {
             return ret;
         }
         e.SetValue(tmp);
         return DLMS_ERROR_CODE_OK;
-    }
-    if (e.GetIndex() == 2)
-    {
-        e.SetValue(m_SecurityPolicy);
-    }
-    else if (e.GetIndex() == 3)
-    {
-        e.SetValue(m_SecuritySuite);
-    }
-    else if (e.GetIndex() == 4)
-    {
+    } else if (e.GetIndex() == 2) {
+        CGXDLMSVariant tmp = m_SecurityPolicy;
+        e.SetValue(tmp);
+    } else if (e.GetIndex() == 3) {
+        CGXDLMSVariant tmp = m_SecuritySuite;
+        e.SetValue(tmp);
+    } else if (e.GetIndex() == 4) {
         e.GetValue().Add(m_ClientSystemTitle.GetData(), m_ClientSystemTitle.GetSize());
-    }
-    else if (e.GetIndex() == 5)
-    {
+    } else if (e.GetIndex() == 5) {
         e.GetValue().Add(m_ServerSystemTitle.GetData(), m_ServerSystemTitle.GetSize());
-    }
-    else if (e.GetIndex() == 6)
-    {
+    } else if (e.GetIndex() == 6) {
         CGXByteBuffer bb;
         bb.SetUInt8(DLMS_DATA_TYPE_ARRAY);
-        GXHelpers::SetObjectCount(static_cast<unsigned long>(m_Certificates.size()), bb);
-        for (const auto& it : m_Certificates)
-        {
+        GXHelpers::SetObjectCount((unsigned long)m_Certificates.size(), bb);
+        for (std::vector<CGXDLMSCertificateInfo *>::iterator it = m_Certificates.begin(); it != m_Certificates.end();
+             ++it) {
             bb.SetUInt8(DLMS_DATA_TYPE_STRUCTURE);
             GXHelpers::SetObjectCount(6, bb);
             bb.SetUInt8(DLMS_DATA_TYPE_ENUM);
-            bb.SetUInt8(it->GetEntity());
+            bb.SetUInt8((*it)->GetEntity());
             bb.SetUInt8(DLMS_DATA_TYPE_ENUM);
-            bb.SetUInt8(it->GetType());
-            it->GetSerialNumber().ToArray(bb);
-            bb.AddString(it->GetIssuer());
-            bb.AddString(it->GetSubject());
-            bb.AddString(it->GetSubjectAltName());
+            bb.SetUInt8((*it)->GetType());
+            (*it)->GetSerialNumber().ToArray(bb);
+            bb.AddString((*it)->GetIssuer());
+            bb.AddString((*it)->GetSubject());
+            bb.AddString((*it)->GetSubjectAltName());
         }
         e.SetValue(bb);
-    }
-    else
-    {
+    } else {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
 
 // Set value of given attribute.
-int CGXDLMSSecuritySetup::SetValue(CGXDLMSSettings&, CGXDLMSValueEventArg& e)
-{
-    if (e.GetIndex() == 1)
-    {
+int CGXDLMSSecuritySetup::SetValue(CGXDLMSSettings &/* settings */, CGXDLMSValueEventArg &e) {
+    if (e.GetIndex() == 1) {
         return SetLogicalName(this, e.GetValue());
-    }
-    if (e.GetIndex() == 2)
-    {
-        m_SecurityPolicy = static_cast<DLMS_SECURITY_POLICY>(e.GetValue().ToInteger());
-    }
-    else if (e.GetIndex() == 3)
-    {
-        m_SecuritySuite = static_cast<DLMS_SECURITY_SUITE>(e.GetValue().ToInteger());
-    }
-    else if (e.GetIndex() == 4)
-    {
+    } else if (e.GetIndex() == 2) {
+        m_SecurityPolicy = (DLMS_SECURITY_POLICY)e.GetValue().ToInteger();
+    } else if (e.GetIndex() == 3) {
+        m_SecuritySuite = (DLMS_SECURITY_SUITE)e.GetValue().ToInteger();
+    } else if (e.GetIndex() == 4) {
         m_ClientSystemTitle.Clear();
         m_ClientSystemTitle.Set(e.GetValue().byteArr, e.GetValue().size);
-    }
-    else if (e.GetIndex() == 5)
-    {
+    } else if (e.GetIndex() == 5) {
         m_ServerSystemTitle.Clear();
         m_ServerSystemTitle.Set(e.GetValue().byteArr, e.GetValue().size);
-    }
-    else if (e.GetIndex() == 6)
-    {
+    } else if (e.GetIndex() == 6) {
         m_Certificates.clear();
-        if (e.GetValue().vt != DLMS_DATA_TYPE_NONE)
-        {
+        if (e.GetValue().vt != DLMS_DATA_TYPE_NONE) {
+            int ret;
+            std::string tmp;
             CGXByteBuffer bb;
-            for (const auto& it : e.GetValue().Arr)
-            {
-                auto info = std::unique_ptr<CGXDLMSCertificateInfo>(new CGXDLMSCertificateInfo());
-                info->SetEntity(static_cast<DLMS_CERTIFICATE_ENTITY>(it.Arr[0].ToInteger()));
-                info->SetType(static_cast<DLMS_CERTIFICATE_TYPE>(it.Arr[1].ToInteger()));
+            for (std::vector<CGXDLMSVariant>::iterator it = e.GetValue().Arr.begin(); it != e.GetValue().Arr.end();
+                 ++it) {
+                CGXDLMSCertificateInfo *info = new CGXDLMSCertificateInfo();
+                info->SetEntity((DLMS_CERTIFICATE_ENTITY)it->Arr[0].ToInteger());
+                info->SetType((DLMS_CERTIFICATE_TYPE)it->Arr[1].ToInteger());
                 bb.Clear();
-                bb.Set(it.Arr[2].byteArr, it.Arr[2].size);
-                std::unique_ptr<CGXAsn1Base> value(new CGXAsn1Base());
-                int ret;
-                CGXAsn1Base* tmp = value.get();
-                if ((ret = CGXAsn1Converter::FromByteArray(bb, tmp)) != 0)
-                {
+                bb.Set(it->Arr[2].byteArr, it->Arr[2].size);
+                CGXAsn1Base *value = new CGXAsn1Base();
+                if ((ret = CGXAsn1Converter::FromByteArray(bb, value)) != 0) {
+                    delete info;
+                    delete value;
                     return ret;
                 }
-                if (auto* asn1Int = dynamic_cast<CGXAsn1Integer*>(value.get()))
-                {
+                if (CGXAsn1Integer *asn1Int = dynamic_cast<CGXAsn1Integer *>(value)) {
                     asn1Int->GetValue().Reverse(0, asn1Int->GetValue().GetSize());
-                    info->SetSerialNumber(asn1Int->ToBigInteger());
-                }
-                else if (auto* asn1Var = dynamic_cast<CGXAsn1Variant*>(value.get()))
-                {
+                    CGXBigInteger bi = asn1Int->ToBigInteger();
+                    info->SetSerialNumber(bi);
+                    delete value;
+                } else if (CGXAsn1Variant *asn1Var = dynamic_cast<CGXAsn1Variant *>(value)) {
                     bb.Clear();
                     bb.Set(asn1Var->GetValue().byteArr, asn1Var->GetValue().size);
                     CGXBigInteger bi(bb);
                     info->SetSerialNumber(bi);
+                    delete value;
+                } else {
+                    delete info;
+                    delete value;
+                    return ret;
                 }
-                else
-                {
-                    return DLMS_ERROR_CODE_INVALID_PARAMETER;
-                }
-                info->m_IssuerRaw.Set(it.Arr[3].byteArr, it.Arr[3].size);
-                info->SetIssuer(it.Arr[3].ToString());
-                info->SetSubject(it.Arr[4].ToString());
-                info->SetSubjectAltName(it.Arr[5].ToString());
-                m_Certificates.push_back(std::move(info));
+                tmp = it->Arr[3].ToString();
+                info->m_IssuerRaw.Set(it->Arr[3].byteArr, it->Arr[3].size);
+                info->SetIssuer(tmp);
+                tmp = it->Arr[4].ToString();
+                info->SetSubject(tmp);
+                tmp = it->Arr[5].ToString();
+                info->SetSubjectAltName(tmp);
+                m_Certificates.push_back(info);
             }
         }
-    }
-    else
-    {
+    } else {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
     return DLMS_ERROR_CODE_OK;
 }
 
-std::vector<std::unique_ptr<CGXDLMSCertificateInfo>> const& CGXDLMSSecuritySetup::GetCertificates() const
-{
+std::vector<CGXDLMSCertificateInfo *> &CGXDLMSSecuritySetup::GetCertificates() {
     return m_Certificates;
 }
 #endif  //DLMS_IGNORE_SECURITY_SETUP

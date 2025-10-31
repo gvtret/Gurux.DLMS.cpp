@@ -35,7 +35,6 @@ set(TEST_SOURCES
     GXDLMSClientTest.cpp
     GXDLMSConverterTest.cpp
     GXDLMSSecuritySetupTest.cpp
-    GXDLMSIecHdlcSetupTest.cpp
     GXDLMSSettingsTest.cpp
     GXDLMSSha1Test.cpp
     GXDLMSShaTest.cpp
@@ -45,8 +44,7 @@ set(TEST_SOURCES
     GXDLMSValueEventArgTest.cpp
     GXDLMSWeekProfileTest.cpp
     GXXmlWriterTest.cpp
-    GXDLMSObjectTest.cpp
-    GXReplyDataTest.cpp
+    GXDLMSProfileGenericTest.cpp
 )
 
 # Create test executable

@@ -55,47 +55,38 @@ void CGXDLMSCertificateInfo::SetType(DLMS_CERTIFICATE_TYPE value) {
     m_Type = value;
 }
 
-const CGXBigInteger& CGXDLMSCertificateInfo::GetSerialNumber() const
-{
+CGXBigInteger &CGXDLMSCertificateInfo::GetSerialNumber() {
     return m_SerialNumber;
 }
 
-void CGXDLMSCertificateInfo::SetSerialNumber(const CGXBigInteger& value)
-{
+void CGXDLMSCertificateInfo::SetSerialNumber(CGXBigInteger &value) {
     m_SerialNumber = value;
 }
 
-const std::string& CGXDLMSCertificateInfo::GetIssuer() const
-{
+std::string &CGXDLMSCertificateInfo::GetIssuer() {
     return m_Issuer;
 }
 
-void CGXDLMSCertificateInfo::SetIssuer(const std::string& value)
-{
+void CGXDLMSCertificateInfo::SetIssuer(std::string &value) {
     m_Issuer = value;
 }
 
-const CGXByteBuffer& CGXDLMSCertificateInfo::GetIssuerRaw() const
-{
+CGXByteBuffer &CGXDLMSCertificateInfo::GetIssuerRaw() {
     return m_IssuerRaw;
 }
 
-const std::string& CGXDLMSCertificateInfo::GetSubject() const
-{
+std::string &CGXDLMSCertificateInfo::GetSubject() {
     return m_Subject;
 }
 
-void CGXDLMSCertificateInfo::SetSubject(const std::string& value)
-{
+void CGXDLMSCertificateInfo::SetSubject(std::string &value) {
     m_Subject = value;
 }
 
-const std::string& CGXDLMSCertificateInfo::GetSubjectAltName() const
-{
+std::string &CGXDLMSCertificateInfo::GetSubjectAltName() {
     return m_SubjectAltName;
 }
 
-void CGXDLMSCertificateInfo::SetSubjectAltName(const std::string& value)
-{
+void CGXDLMSCertificateInfo::SetSubjectAltName(std::string &value) {
     m_SubjectAltName = value;
 }

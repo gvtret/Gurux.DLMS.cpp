@@ -232,11 +232,6 @@ class CGXDLMSSettings {
 public:
     // Constructor.
     CGXDLMSSettings(bool isServer);
-    CGXDLMSSettings(const CGXDLMSSettings& other) = default;
-    CGXDLMSSettings(CGXDLMSSettings&& other) noexcept = default;
-    CGXDLMSSettings& operator=(const CGXDLMSSettings& other) = default;
-    CGXDLMSSettings& operator=(CGXDLMSSettings&& other) noexcept = default;
-
 
     //Destructor.
     ~CGXDLMSSettings();
@@ -254,7 +249,7 @@ public:
     void SetStoCChallenge(CGXByteBuffer &value);
 
     // Gets used authentication.
-    DLMS_AUTHENTICATION GetAuthentication() const;
+    DLMS_AUTHENTICATION GetAuthentication();
 
     //Sets Used authentication.
     void SetAuthentication(DLMS_AUTHENTICATION value);
@@ -266,7 +261,7 @@ public:
     void SetPassword(CGXByteBuffer &value);
 
     // Used DLMS version number.
-    unsigned char GetDlmsVersionNumber() const;
+    unsigned char GetDlmsVersionNumber();
 
     // Used DLMS version number.
     void SetDlmsVersionNumber(unsigned char value);
@@ -298,78 +293,76 @@ public:
     void IncreaseBlockIndex();
 
     //Is acting as server or client.
-    bool IsServer() const;
+    bool IsServer();
 
     //HDLC connection settings.
-    const CGXDLMSLimits &GetHdlcSettings() const;
     CGXDLMSLimits &GetHdlcSettings();
 
     //PLC connection settings.
-    const CGXPlcSettings &GetPlcSettings() const;
     CGXPlcSettings &GetPlcSettings();
 
     // Used interface.
-    DLMS_INTERFACE_TYPE GetInterfaceType() const;
+    DLMS_INTERFACE_TYPE GetInterfaceType();
 
     // Used interface.
     void SetInterfaceType(DLMS_INTERFACE_TYPE value);
 
     // Gets client address.
-    unsigned long GetClientAddress() const;
+    unsigned long GetClientAddress();
 
     // Sets client address.
     void SetClientAddress(unsigned long value);
 
     // Gets push client address.
-    unsigned long GetPushClientAddress() const;
+    unsigned long GetPushClientAddress();
 
     // Sets push client address.
     void SetPushClientAddress(unsigned long value);
 
     // Server address.
-    unsigned long GetServerAddress() const;
+    unsigned long GetServerAddress();
 
     // Server address.
     void SetServerAddress(unsigned long value);
 
     // DLMS version number.
-    unsigned char GetDLMSVersion() const;
+    unsigned char GetDLMSVersion();
 
     // DLMS version number.
     void SetDLMSVersion(unsigned char value);
 
     // Maximum PDU size.
-    unsigned short GetMaxPduSize() const;
+    unsigned short GetMaxPduSize();
 
     // Maximum PDU size.
     int SetMaxReceivePDUSize(unsigned short value);
 
     // Maximum server PDU size.
-    unsigned short GetMaxServerPDUSize() const;
+    unsigned short GetMaxServerPDUSize();
 
     // Maximum server PDU size.
     int SetMaxServerPDUSize(unsigned short value);
 
     // Is Logical Name Referencing used.
-    bool GetUseLogicalNameReferencing() const;
+    bool GetUseLogicalNameReferencing();
 
     // Is Logical Name Referencing used.
     void SetUseLogicalNameReferencing(bool value);
 
     // Used priority.
-    DLMS_PRIORITY GetPriority() const;
+    DLMS_PRIORITY GetPriority();
 
     // Used priority.
     void SetPriority(DLMS_PRIORITY value);
 
     // Used service class.
-    DLMS_SERVICE_CLASS GetServiceClass() const;
+    DLMS_SERVICE_CLASS GetServiceClass();
 
     // Used service class.
     void SetServiceClass(DLMS_SERVICE_CLASS value);
 
     // Invoke ID.
-    unsigned char GetInvokeID() const;
+    unsigned char GetInvokeID();
 
     // Invoke ID.
     void SetInvokeID(unsigned char value);
@@ -381,7 +374,7 @@ public:
     /**
        * @return Invoke ID.
        */
-    unsigned long GetLongInvokeID() const;
+    unsigned long GetLongInvokeID();
 
     /**
      * @param value
@@ -390,17 +383,16 @@ public:
     int SetLongInvokeID(unsigned long value);
 
     // Collection of the objects.
-    const CGXDLMSObjectCollection &GetObjects() const;
     CGXDLMSObjectCollection &GetObjects();
 
     // Get Is custom challenges used.
-    bool GetUseCustomChallenge() const;
+    bool GetUseCustomChallenge();
 
     // Set is custom challenges used.
     void SetUseCustomChallenge(bool value);
 
     //Get is connection made for the server.
-    DLMS_CONNECTION_STATE GetConnected() const;
+    DLMS_CONNECTION_STATE GetConnected();
 
     //Set is connection made for the server.
     void SetConnected(DLMS_CONNECTION_STATE value);
@@ -418,7 +410,6 @@ public:
     /**
      * @return Source system title.
      */
-    const CGXByteBuffer &GetSourceSystemTitle() const;
     CGXByteBuffer &GetSourceSystemTitle();
 
     /**
@@ -474,7 +465,7 @@ public:
     * Server will tell what functionality is available. Client will know what functionality server offers.
     * @return Available functionality.
     */
-    DLMS_CONFORMANCE GetNegotiatedConformance() const;
+    DLMS_CONFORMANCE GetNegotiatedConformance();
 
     /**
     * Server will tell what functionality is available. Client will know what functionality server offers from this value.
@@ -488,7 +479,7 @@ public:
     * Client proposes this functionality. Server checks what it can offer from Conformance and updates it to proposed conformance.
     * @return Functionality.
     */
-    DLMS_CONFORMANCE GetProposedConformance() const;
+    DLMS_CONFORMANCE GetProposedConformance();
 
     /**
     * Client proposes this functionality. Server checks what it can offer from Conformance and updates it to proposed conformance.
@@ -500,25 +491,25 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Protocol version.
-    const char *GetProtocolVersion() const;
+    char *GetProtocolVersion();
     void SetProtocolVersion(const char *value);
 
     /////////////////////////////////////////////////////////////////////////
     // DLMS Standard says that Time zone is from normal time to UTC in minutes.
     // If meter is configured to use UTC time (UTC to normal time) set this to true.
-    bool GetUseUtc2NormalTime() const;
+    bool GetUseUtc2NormalTime();
     void SetUseUtc2NormalTime(bool value);
 
     /////////////////////////////////////////////////////////////////////////
     // Expected Invocation(Frame) counter value.
     // Expected Invocation counter is not check if value is zero.
-    uint64_t GetExpectedInvocationCounter() const;
+    uint64_t GetExpectedInvocationCounter();
     void SetExpectedInvocationCounter(uint64_t uint32_t);
 
     /////////////////////////////////////////////////////////////////////////
     // Expected security policy.
     // If Expected security policy is set client can't connect with other security policies.
-    unsigned char GetExpectedSecurityPolicy() const;
+    unsigned char GetExpectedSecurityPolicy();
     void SetExpectedSecurityPolicy(unsigned char value);
 
     /////////////////////////////////////////////////////////////////////////
@@ -526,27 +517,27 @@ public:
     // If Expected security suite is set client can't connect with other security suite.
     //Default value is -1.
     void SetExpectedSecuritySuite(unsigned char value);
-    unsigned char GetExpectedSecuritySuite() const;
+    unsigned char GetExpectedSecuritySuite();
 
     /////////////////////////////////////////////////////////////////////////
     // Skip selected date time fields.
-    DATETIME_SKIPS GetDateTimeSkips() const;
+    DATETIME_SKIPS GetDateTimeSkips();
     void SetDateTimeSkips(DATETIME_SKIPS value);
 
     // User ID.
-    unsigned char GetUserID() const;
+    unsigned char GetUserID();
 
     // User ID.
     void SetUserID(unsigned char value);
 
     // Quality of service.
-    unsigned char GetQualityOfService() const;
+    unsigned char GetQualityOfService();
 
     // Quality of service.
     void SetQualityOfService(unsigned char value);
 
     //Auto increase Invoke ID.
-    bool GetAutoIncreaseInvokeID() const;
+    bool GetAutoIncreaseInvokeID();
 
     //Auto increase Invoke ID.
     void SetAutoIncreaseInvokeID(bool value);
@@ -554,7 +545,7 @@ public:
     /*
     * Block number acknowledged in GBT.
     */
-    int GetBlockNumberAck() const;
+    int GetBlockNumberAck();
 
     /**
      * Block number acknowledged in GBT.
@@ -564,7 +555,7 @@ public:
     /*
     * GBT window size.
     */
-    unsigned char GetGbtWindowSize() const;
+    unsigned char GetGbtWindowSize();
 
     /*
      * GBT window size.
@@ -574,7 +565,7 @@ public:
     /**
      * the command
      */
-    unsigned char GetCommand() const;
+    unsigned char GetCommand();
 
     /**
      * the command to set
@@ -584,7 +575,7 @@ public:
     /**
      * Command Type
      */
-    unsigned char GetCommandType() const;
+    unsigned char GetCommandType();
 
     /**
      * Command Type
