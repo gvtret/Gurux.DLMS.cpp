@@ -106,46 +106,46 @@ public:
     /**
      * @return Certificate serial number.
      */
-    CGXBigInteger &GetSerialNumber();
+    const CGXBigInteger& GetSerialNumber() const;
 
     /**
      *  Certificate serial number.
      */
-    void SetSerialNumber(CGXBigInteger &value);
+    void SetSerialNumber(const CGXBigInteger& value);
 
     /**
      * Certificate issuer.
      */
-    std::string &GetIssuer();
+    const std::string& GetIssuer() const;
 
     /**
      * Certificate issuer.
      */
-    void SetIssuer(std::string &value);
+    void SetIssuer(const std::string& value);
 
     /**
     * Certificate issuer in ASN1 format.
     */
-    CGXByteBuffer &GetIssuerRaw();
+    const CGXByteBuffer& GetIssuerRaw() const;
 
     /**
      * Certificate subject.
      */
-    std::string &GetSubject();
+    const std::string& GetSubject() const;
 
     /**
      * Certificate subject.
      */
-    void SetSubject(std::string &value);
+    void SetSubject(const std::string& value);
 
     /**
      * Certificate subject alt name.
      */
-    std::string &GetSubjectAltName();
+    const std::string& GetSubjectAltName() const;
 
     /**
      * Certificate subject alt name.
      */
-    void SetSubjectAltName(std::string &value);
+    void SetSubjectAltName(const std::string& value);
 };
 #endif  //GXDLMSCERTIFICATEINFO_H

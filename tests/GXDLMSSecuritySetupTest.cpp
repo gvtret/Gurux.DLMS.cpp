@@ -1,6 +1,15 @@
 #include <gtest/gtest.h>
 #include "GXDLMSSecuritySetup.h"
 
+static void AssertEqual(const CGXDLMSSecuritySetup& expected, const CGXDLMSSecuritySetup& actual)
+{
+    ASSERT_EQ(expected.GetSecurityPolicy(), actual.GetSecurityPolicy());
+    ASSERT_EQ(expected.GetSecuritySuite(), actual.GetSecuritySuite());
+    ASSERT_EQ(expected.GetClientSystemTitle(), actual.GetClientSystemTitle());
+    ASSERT_EQ(expected.GetServerSystemTitle(), actual.GetServerSystemTitle());
+    ASSERT_EQ(expected.GetCertificates().size(), actual.GetCertificates().size());
+}
+
 TEST(CGXDLMSSecuritySetupTest, DefaultConstructor)
 {
     CGXDLMSSecuritySetup setup;

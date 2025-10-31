@@ -388,23 +388,19 @@ void Replace(std::string& value, const char* tag, const char* v) {
     }
 }
 
-int Remove(CGXDateTime* value, std::string& format, char dateSeparator, char timeSeparator) {
-    if (dynamic_cast<CGXDate*>(value) != NULL) {
+int Remove(const CGXDateTime* value, std::string& format, char dateSeparator, char timeSeparator) {
+    if (dynamic_cast<const CGXDate*>(value) != NULL) {
         Remove(format, "%H", timeSeparator);
         Remove(format, "%I", timeSeparator);
         Remove(format, "%M", timeSeparator);
         Remove(format, "%S", timeSeparator);
         Remove(format, "%p", timeSeparator);
-        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_HOUR | DATETIME_SKIPS_MINUTE |
-            DATETIME_SKIPS_SECOND | DATETIME_SKIPS_MS));
     }
-    else if (dynamic_cast<CGXTime*>(value) != NULL) {
+    else if (dynamic_cast<const CGXTime*>(value) != NULL) {
         Remove(format, "%Y", dateSeparator);
         Remove(format, "%y", dateSeparator);
         Remove(format, "%m", dateSeparator);
         Remove(format, "%d", dateSeparator);
-        value->SetSkip((DATETIME_SKIPS)(value->GetSkip() | DATETIME_SKIPS_YEAR | DATETIME_SKIPS_MONTH |
-            DATETIME_SKIPS_DAY | DATETIME_SKIPS_DAYOFWEEK));
     }
     // Trim spaces.
     format = GXHelpers::Trim(format);

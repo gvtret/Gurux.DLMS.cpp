@@ -36,3 +36,61 @@ TEST(CGXDLMSConverterTest, ValueOfObjectType)
     ASSERT_EQ(DLMS_OBJECT_TYPE_REGISTER, CGXDLMSConverter::ValueOfObjectType("GXDLMSRegister"));
     ASSERT_EQ(DLMS_OBJECT_TYPE_CLOCK, CGXDLMSConverter::ValueOfObjectType("GXDLMSClock"));
 }
+
+TEST(CGXDLMSConverterTest, DISABLED_CopyConstructor)
+{
+    CGXDLMSConverter converter1;
+    std::vector<std::string> descriptions;
+    std::string ln = "1.0.0.2.0.255";
+    converter1.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+
+    CGXDLMSConverter converter2(converter1);
+    descriptions.clear();
+    converter2.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+}
+
+TEST(CGXDLMSConverterTest, DISABLED_MoveConstructor)
+{
+    CGXDLMSConverter converter1;
+    std::vector<std::string> descriptions;
+    std::string ln = "1.0.0.2.0.255";
+    converter1.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+
+    CGXDLMSConverter converter2(std::move(converter1));
+    descriptions.clear();
+    converter2.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+}
+
+TEST(CGXDLMSConverterTest, DISABLED_CopyAssignment)
+{
+    CGXDLMSConverter converter1;
+    std::vector<std::string> descriptions;
+    std::string ln = "1.0.0.2.0.255";
+    converter1.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+
+    CGXDLMSConverter converter2;
+    converter2 = converter1;
+    descriptions.clear();
+    converter2.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+}
+
+TEST(CGXDLMSConverterTest, DISABLED_MoveAssignment)
+{
+    CGXDLMSConverter converter1;
+    std::vector<std::string> descriptions;
+    std::string ln = "1.0.0.2.0.255";
+    converter1.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+
+    CGXDLMSConverter converter2;
+    converter2 = std::move(converter1);
+    descriptions.clear();
+    converter2.GetDescription(ln, DLMS_OBJECT_TYPE_DATA, descriptions);
+    ASSERT_FALSE(descriptions.empty());
+}

@@ -150,14 +150,14 @@ public:
     /**
     Is value IsNegative.
     */
-    bool IsNegative();
+    bool IsNegative() const;
 
     /**
      Is value zero.
 
      @return True, if value is zero.
     */
-    bool IsZero();
+    bool IsZero() const;
 
     /**
      Is value even.
@@ -176,17 +176,17 @@ public:
     /**
      Convert value to byte array.
     */
-    int ToArray(CGXByteBuffer &data, bool removeLeadingZeroes);
+    int ToArray(CGXByteBuffer &data, bool removeLeadingZeroes) const;
 
     /**
      Convert value to byte array.
     */
-    int ToArray(CGXByteBuffer &data);
+    int ToArray(CGXByteBuffer &data) const;
 
     /*
      Convert value to byte array.
     */
-    int ToArray(uint32_t start, uint32_t size, CGXByteBuffer &data);
+    int ToArray(uint32_t start, uint32_t size, CGXByteBuffer &data) const;
 
     int AddRange(const uint32_t *values, uint16_t count);
 
@@ -230,7 +230,7 @@ public:
     */
     void Inv(CGXBigInteger &value);
 
-    std::string ToString();
+    std::string ToString() const;
 
     CGXBigInteger &operator=(const CGXBigInteger &value);
 

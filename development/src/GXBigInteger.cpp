@@ -271,11 +271,13 @@ void CGXBigInteger::SetCount(uint16_t value) {
     m_Count = value;
 }
 
-bool CGXBigInteger::IsNegative() {
+bool CGXBigInteger::IsNegative() const
+{
     return m_IsNegative;
 }
 
-bool CGXBigInteger::IsZero() {
+bool CGXBigInteger::IsZero() const
+{
     return m_Count == 0 || (m_Count == 1 && m_Data[0] == 0);
 }
 
@@ -287,16 +289,21 @@ bool CGXBigInteger::IsOne() {
     return m_Count == 1 && m_Data[0] == 1;
 }
 
-int CGXBigInteger::ToArray(CGXByteBuffer &data, bool removeLeadingZeroes) {
+int CGXBigInteger::ToArray(CGXByteBuffer& data, bool removeLeadingZeroes) const
+{
     int ret = 0;
     uint32_t pos;
     uint32_t value;
     uint32_t zeroIndex = -1;
-    for (pos = 0; pos != m_Count; ++pos) {
+    for (pos = 0; pos != m_Count; ++pos)
+    {
         value = m_Data[pos];
-        if (value == 0) {
+        if (value == 0)
+        {
             zeroIndex = pos;
-        } else {
+        }
+        else
+        {
             zeroIndex = 0xFFFFFFFF;
         }
         data.SetUInt8(value);
@@ -305,20 +312,24 @@ int CGXBigInteger::ToArray(CGXByteBuffer &data, bool removeLeadingZeroes) {
         data.SetUInt8(value >> 24);
     }
     //Remove leading zeroes.
-    if (removeLeadingZeroes && zeroIndex != 0xFFFFFFFF) {
+    if (removeLeadingZeroes && zeroIndex != 0xFFFFFFFF)
+    {
         data.SetSize(zeroIndex * 4);
     }
     data.Reverse(0, data.GetSize());
     return ret;
 }
 
-int CGXBigInteger::ToArray(CGXByteBuffer &data) {
+int CGXBigInteger::ToArray(CGXByteBuffer& data) const
+{
     return ToArray(data, true);
 }
 
-int CGXBigInteger::ToArray(uint32_t start, uint32_t size, CGXByteBuffer &data) {
+int CGXBigInteger::ToArray(uint32_t start, uint32_t size, CGXByteBuffer& data) const
+{
     uint32_t pos;
-    for (pos = start; pos != size; ++pos) {
+    for (pos = start; pos != size; ++pos)
+    {
         data.SetUInt32(m_Data[pos]);
     }
     return 0;
@@ -744,24 +755,32 @@ void CGXBigInteger::Inv(CGXBigInteger &value) {
     }
 }
 
-std::string CGXBigInteger::ToString() {
+std::string CGXBigInteger::ToString() const
+{
     std::string str;
-    if (IsZero()) {
+    if (IsZero())
+    {
         str = "0x00";
-    } else {
-        int pos;
-        uint32_t cnt = 0;
+    }
+    else
+    {
         CGXByteBuffer bb;
-        for (pos = (int)(m_Count - 1); pos != -1; --pos) {
+        for (int pos = static_cast<int>(m_Count - 1); pos != -1; --pos)
+        {
             bb.SetUInt32(m_Data[pos]);
         }
-        for (pos = 0; pos != (int)bb.GetSize(); ++pos) {
-            if (bb.GetData()[pos] != 0) {
+        uint32_t cnt = 0;
+        int pos = 0;
+        for (pos = 0; pos != static_cast<int>(bb.GetSize()); ++pos)
+        {
+            if (bb.GetData()[pos] != 0)
+            {
                 cnt = bb.GetSize() - pos;
                 break;
             }
         }
-        if (IsNegative()) {
+        if (IsNegative())
+        {
             str = "-";
         }
         str += "0x";

@@ -2292,36 +2292,39 @@ int SaveStatusMapping(CGXXmlWriter* writer, CGXDLMSStatusMapping* obj)
 */
 
 #ifndef DLMS_IGNORE_SECURITY_SETUP
-int SaveSecuritySetup(CGXXmlWriter *writer, CGXDLMSSecuritySetup *obj) {
+int SaveSecuritySetup(CGXXmlWriter* writer, CGXDLMSSecuritySetup* obj)
+{
     int ret;
     if ((ret = writer->WriteElementString("SecurityPolicy", obj->GetSecurityPolicy())) == 0 &&
         (ret = writer->WriteElementString("SecuritySuite", obj->GetSecuritySuite())) == 0 &&
         (ret = writer->WriteElementString("ClientSystemTitle", obj->GetClientSystemTitle().ToHexString())) == 0 &&
         (ret = writer->WriteElementString("ServerSystemTitle", obj->GetServerSystemTitle().ToHexString())) == 0 &&
-        (ret = writer->WriteStartElement("Certificates")) == 0) {
-        for (std::vector<CGXDLMSCertificateInfo *>::iterator it = obj->GetCertificates().begin();
-             it != obj->GetCertificates().end(); ++it) {
+        (ret = writer->WriteStartElement("Certificates")) == 0)
+    {
+        for (const auto& it : obj->GetCertificates())
+        {
             CGXByteBuffer sn;
-            (*it)->GetSerialNumber().ToArray(sn);
+            it->GetSerialNumber().ToArray(sn);
             if ((ret = writer->WriteStartElement("Item")) != 0 ||
-                (ret = writer->WriteElementString("Entity", (*it)->GetEntity())) != 0 ||
-                (ret = writer->WriteElementString("Type", (*it)->GetType())) != 0 ||
+                (ret = writer->WriteElementString("Entity", it->GetEntity())) != 0 ||
+                (ret = writer->WriteElementString("Type", it->GetType())) != 0 ||
                 (ret = writer->WriteElementString("SerialNumber", sn.ToHexString(false))) != 0 ||
-                (ret = writer->WriteElementString("Issuer", (*it)->GetIssuer())) != 0 ||
-                (ret = writer->WriteElementString("Subject", (*it)->GetSubject())) != 0 ||
-                (ret = writer->WriteElementString("SubjectAltName", (*it)->GetSubjectAltName())) != 0 ||
-                (ret = writer->WriteEndElement()) != 0) {
+                (ret = writer->WriteElementString("Issuer", it->GetIssuer())) != 0 ||
+                (ret = writer->WriteElementString("Subject", it->GetSubject())) != 0 ||
+                (ret = writer->WriteElementString("SubjectAltName", it->GetSubjectAltName())) != 0 ||
+                (ret = writer->WriteEndElement()) != 0)
+            {
                 break;
             }
         }
-        if (ret == 0) {
+        if (ret == 0)
+        {
             ret = writer->WriteEndElement();
         }
     }
     return ret;
 }
-
-#endif  //DLMS_IGNORE_SECURITY_SETUP
+#endif //DLMS_IGNORE_SECURITY_SETUP
 
 #ifndef DLMS_IGNORE_TCP_UDP_SETUP
 int SaveTcpUdpSetup(CGXXmlWriter *writer, CGXDLMSTcpUdpSetup *obj) {

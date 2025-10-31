@@ -1977,7 +1977,7 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         ret = Read(&ss, 4, str);
         //Read server system title.
         ret = Read(&ss, 5, str);
-        CGXByteBuffer& clientST = ss.GetClientSystemTitle();
+        CGXByteBuffer clientST = ss.GetClientSystemTitle();
         if (clientST.GetSize() != 8)
         {
             clientST = m_Parser->GetCiphering()->GetSystemTitle();
@@ -2079,14 +2079,16 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         {
             return ret;
         }
+        CGXByteBuffer tmp = ss.GetServerSystemTitle();
         subject = CGXAsn1Converter::SystemTitleToSubject(
-            ss.GetServerSystemTitle());
+            tmp);
         //Validate subject.
         if (pkc10ServerDigital.GetSubject().find(subject) == std::string::npos)
         {
             CGXAsn1Converter::HexSystemTitleFromSubject(pkc10ServerDigital.GetSubject(), str);
+            CGXByteBuffer tmp = ss.GetServerSystemTitle();
             printf("Server system title '%s' is not the same as in the generated certificate request '%s'.",
-                ss.GetServerSystemTitle().ToHexString().c_str(),
+                tmp.ToHexString().c_str(),
                 str.c_str());
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
@@ -2115,8 +2117,9 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         if (pkc10ServerAgreement.GetSubject().find(subject) == std::string::npos)
         {
             CGXAsn1Converter::HexSystemTitleFromSubject(pkc10ServerAgreement.GetSubject(), str);
+            CGXByteBuffer tmp = ss.GetServerSystemTitle();
             printf("Server system title '%s' is not the same as in the generated certificate request '%s'.",
-                ss.GetServerSystemTitle().ToHexString().c_str(),
+                tmp.ToHexString().c_str(),
                 str.c_str());
             return DLMS_ERROR_CODE_INVALID_PARAMETER;
         }
@@ -2166,9 +2169,10 @@ int CGXCommunication::GenerateCertificates(std::string& logicalName)
         {
             DLMS_CERTIFICATE_ENTITY entity;
             CGXByteBuffer st;
-            if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(ss.GetServerSystemTitle())) != std::string::npos)
+            CGXByteBuffer tmp = ss.GetServerSystemTitle();
+            if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(tmp)) != std::string::npos)
             {
-                st = ss.GetServerSystemTitle();
+                st = tmp;
                 entity = DLMS_CERTIFICATE_ENTITY_SERVER;
             }
             else if (it->GetSubject().find(CGXAsn1Converter::SystemTitleToSubject(clientST)) != std::string::npos)
@@ -2302,14 +2306,14 @@ int CGXCommunication::ExportMeterCertificates(std::string& logicalName)
     //Export meter certificates and save them.
     CGXReplyData reply;
     std::string path;
-    for (std::vector<CGXDLMSCertificateInfo*>::iterator it = ss.GetCertificates().begin();
-        it != ss.GetCertificates().end(); ++it)
+    for (const auto& it : ss.GetCertificates())
     {
         reply.Clear();
         //Export certification and verify it.
+        CGXByteBuffer tmp = it->GetIssuerRaw();
         ret = ss.ExportCertificateBySerial(m_Parser,
-            (*it)->GetSerialNumber(),
-            (*it)->GetIssuerRaw(), data);
+            it->GetSerialNumber(),
+            tmp, data);
         if (ret != 0)
         {
             break;

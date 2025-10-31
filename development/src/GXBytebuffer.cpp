@@ -57,6 +57,11 @@ CGXByteBuffer &CGXByteBuffer::operator=(const CGXByteBuffer &value) {
     return *this;
 }
 
+bool CGXByteBuffer::operator==(const CGXByteBuffer& other) const
+{
+    return m_Data == other.m_Data;
+}
+
 CGXByteBuffer &CGXByteBuffer::operator=(CGXByteBuffer &&value) noexcept {
     if (this != &value) {
         m_Data = std::move(value.m_Data);
