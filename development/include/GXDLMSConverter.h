@@ -45,7 +45,12 @@ class CGXDLMSConverter {
     void UpdateObisCodes();
 
 public:
+    CGXDLMSConverter();
     ~CGXDLMSConverter();
+    CGXDLMSConverter(const CGXDLMSConverter& other);
+    CGXDLMSConverter(CGXDLMSConverter&& other) noexcept;
+    CGXDLMSConverter& operator=(const CGXDLMSConverter& other);
+    CGXDLMSConverter& operator=(CGXDLMSConverter&& other) noexcept;
     //Get Unit as String.
     static const char *GetUnitAsString(int unit);
     //Get baudrate enum balue as std::string.

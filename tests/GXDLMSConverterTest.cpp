@@ -37,7 +37,7 @@ TEST(CGXDLMSConverterTest, ValueOfObjectType)
     ASSERT_EQ(DLMS_OBJECT_TYPE_CLOCK, CGXDLMSConverter::ValueOfObjectType("GXDLMSClock"));
 }
 
-TEST(CGXDLMSConverterTest, DISABLED_CopyConstructor)
+TEST(CGXDLMSConverterTest, CopyConstructor)
 {
     CGXDLMSConverter converter1;
     std::vector<std::string> descriptions;
@@ -51,7 +51,7 @@ TEST(CGXDLMSConverterTest, DISABLED_CopyConstructor)
     ASSERT_FALSE(descriptions.empty());
 }
 
-TEST(CGXDLMSConverterTest, DISABLED_MoveConstructor)
+TEST(CGXDLMSConverterTest, MoveConstructor)
 {
     CGXDLMSConverter converter1;
     std::vector<std::string> descriptions;
@@ -65,7 +65,7 @@ TEST(CGXDLMSConverterTest, DISABLED_MoveConstructor)
     ASSERT_FALSE(descriptions.empty());
 }
 
-TEST(CGXDLMSConverterTest, DISABLED_CopyAssignment)
+TEST(CGXDLMSConverterTest, CopyAssignment)
 {
     CGXDLMSConverter converter1;
     std::vector<std::string> descriptions;
@@ -80,7 +80,7 @@ TEST(CGXDLMSConverterTest, DISABLED_CopyAssignment)
     ASSERT_FALSE(descriptions.empty());
 }
 
-TEST(CGXDLMSConverterTest, DISABLED_MoveAssignment)
+TEST(CGXDLMSConverterTest, MoveAssignment)
 {
     CGXDLMSConverter converter1;
     std::vector<std::string> descriptions;
