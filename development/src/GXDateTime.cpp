@@ -233,7 +233,7 @@ void CGXDateTime::GetSystemDateTimeFormat(std::string &value) {
     value = buff;
 }
 
-int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator) {
+int CGXDateTime::GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator) const {
     int ret = 0, value, lastPos = 0, pos;
     char buff[11];
     struct tm order;
@@ -763,7 +763,7 @@ void CGXDateTime::SetDeviation(int value) {
     m_Deviation = value;
 }
 
-std::string CGXDateTime::ToString() {
+std::string CGXDateTime::ToString() const {
     char buff[50];
     int ret;
     if (m_Skip != DATETIME_SKIPS_NONE) {

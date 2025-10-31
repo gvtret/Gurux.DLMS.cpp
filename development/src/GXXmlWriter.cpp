@@ -1184,15 +1184,13 @@ int SaveProfileGeneric(CGXXmlWriter *writer, CGXDLMSProfileGeneric *obj) {
     if (ret == 0) {
         std::string str;
         if ((ret = writer->WriteStartElement("CaptureObjects")) == 0) {
-            for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it =
-                     obj->GetCaptureObjects().begin();
-                 it != obj->GetCaptureObjects().end(); ++it) {
-                it->first->GetLogicalName(str);
+            for (const auto& it : obj->GetCaptureObjects()) {
+                it.first->GetLogicalName(str);
                 if ((ret = writer->WriteStartElement("Item")) != 0 ||
-                    (ret = writer->WriteElementString("ObjectType", it->first->GetObjectType())) != 0 ||
+                    (ret = writer->WriteElementString("ObjectType", it.first->GetObjectType())) != 0 ||
                     (ret = writer->WriteElementString("LN", str)) != 0 ||
-                    (ret = writer->WriteElementString("Attribute", it->second->GetAttributeIndex())) != 0 ||
-                    (ret = writer->WriteElementString("Data", it->second->GetDataIndex())) != 0 ||
+                    (ret = writer->WriteElementString("Attribute", it.second->GetAttributeIndex())) != 0 ||
+                    (ret = writer->WriteElementString("Data", it.second->GetDataIndex())) != 0 ||
                     (ret = writer->WriteEndElement()) != 0) {
                     break;
                 }

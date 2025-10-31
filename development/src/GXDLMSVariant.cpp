@@ -1068,7 +1068,7 @@ int CGXDLMSVariant::ChangeType(DLMS_DATA_TYPE newType) {
 }
 
 //Get size in bytes.
-int CGXDLMSVariant::GetSize() {
+int CGXDLMSVariant::GetSize() const {
     if (this->vt == DLMS_DATA_TYPE_STRING || this->vt == DLMS_DATA_TYPE_BIT_STRING) {
         return (int)strVal.size();
     }
@@ -1138,11 +1138,11 @@ int CGXDLMSVariant::GetSize(DLMS_DATA_TYPE vt) {
     return nSize;
 }
 
-std::string CGXDLMSVariant::ToString() {
+std::string CGXDLMSVariant::ToString() const {
     if (vt == DLMS_DATA_TYPE_STRING_UTF8) {
         return strVal;
     }
-    CGXDLMSVariant tmp(this);
+    CGXDLMSVariant tmp(*this);
     tmp.ChangeType(DLMS_DATA_TYPE_STRING);
     if (tmp.strVal.length() == 0) {
         return "";

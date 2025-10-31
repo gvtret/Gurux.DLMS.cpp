@@ -647,11 +647,10 @@ unsigned short CGXDLMSServer::GetRowsToPdu(CGXDLMSProfileGeneric *pg) {
     DLMS_DATA_TYPE dt;
     int rowsize = 0;
     // Count how many rows we can fit to one PDU.
-    for (std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>>::iterator it = pg->GetCaptureObjects().begin();
-         it != pg->GetCaptureObjects().end(); ++it) {
-        it->first->GetDataType(it->second->GetAttributeIndex(), dt);
+    for (const auto& it : pg->GetCaptureObjects()) {
+        it.first->GetDataType(it.second->GetAttributeIndex(), dt);
         if (dt == DLMS_DATA_TYPE_OCTET_STRING) {
-            it->first->GetUIDataType(it->second->GetAttributeIndex(), dt);
+            it.first->GetUIDataType(it.second->GetAttributeIndex(), dt);
             if (dt == DLMS_DATA_TYPE_DATETIME) {
                 rowsize += GXHelpers::GetDataTypeSize(DLMS_DATA_TYPE_DATETIME);
             } else if (dt == DLMS_DATA_TYPE_DATE) {

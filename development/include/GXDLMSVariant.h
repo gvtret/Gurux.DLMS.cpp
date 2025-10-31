@@ -143,10 +143,10 @@ public:
     bool Equals(CGXDLMSVariant &item);
     int ChangeType(DLMS_DATA_TYPE newType);
     //Get size in bytes.
-    int GetSize();
+    int GetSize() const;
     //Get size in bytes.
     static int GetSize(DLMS_DATA_TYPE vt);
-    std::string ToString();
+    std::string ToString() const;
     int ToInteger();
     double ToDouble();
     /**

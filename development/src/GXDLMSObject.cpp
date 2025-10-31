@@ -238,7 +238,7 @@ void CGXDLMSObject::SetShortName(unsigned short value) {
     m_SN = value;
 }
 
-void CGXDLMSObject::GetLogicalName(std::string &ln) {
+void CGXDLMSObject::GetLogicalName(std::string &ln) const {
     GXHelpers::GetLogicalName(m_LN, ln);
 }
 

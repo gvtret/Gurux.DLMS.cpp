@@ -110,7 +110,7 @@ class CGXDateTime {
 
     void Init(int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation);
     //Get date format.
-    int GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator);
+    int GetDateFormat2(GXDLMS_DATE_FORMAT &format, char &separator) const;
 
     //Get time format.
     int GetTimeFormat2(char &separator, char &use24HourClock);
@@ -169,7 +169,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     //Convert date time value to the string using system date-time format.
-    std::string ToString();
+    std::string ToString() const;
 
     /////////////////////////////////////////////////////////////////////////
     //Get currect time.

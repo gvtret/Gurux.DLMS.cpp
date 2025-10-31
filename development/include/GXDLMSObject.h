@@ -110,7 +110,7 @@ public:
     void SetShortName(unsigned short value);
 
     //Get Object's Logical Name.
-    void GetLogicalName(std::string &ln);
+    void GetLogicalName(std::string &ln) const;
 
     void SetVersion(unsigned short value);
     unsigned short GetVersion();

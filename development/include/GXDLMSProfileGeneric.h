@@ -87,10 +87,23 @@ http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSProfileGeneric
  <li>recording alarms.</li>
 </ul>
 */
+#include <memory>
+
 class CGXDLMSProfileGeneric: public CGXDLMSObject {
+public:
+    CGXDLMSProfileGeneric();
+    CGXDLMSProfileGeneric(std::string ln, unsigned short sn);
+    CGXDLMSProfileGeneric(std::string ln);
+    virtual ~CGXDLMSProfileGeneric();
+
+    CGXDLMSProfileGeneric(const CGXDLMSProfileGeneric& other);
+    CGXDLMSProfileGeneric(CGXDLMSProfileGeneric&& other) noexcept;
+    CGXDLMSProfileGeneric& operator=(const CGXDLMSProfileGeneric& other);
+    CGXDLMSProfileGeneric& operator=(CGXDLMSProfileGeneric&& other) noexcept;
+
 private:
     std::vector<std::vector<CGXDLMSVariant>> m_Buffer;
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> m_CaptureObjects;
+    std::vector<std::pair<CGXDLMSObject*, std::unique_ptr<CGXDLMSCaptureObject>>> m_CaptureObjects;
     int m_CapturePeriod;
     GX_SORT_METHOD m_SortMethod;
     CGXDLMSObject *m_SortObject;
@@ -100,13 +113,13 @@ private:
     int m_SortObjectAttributeIndex;
     int m_SortObjectDataIndex;
 
-    int GetColumns(CGXByteBuffer &data);
+    int GetColumns(CGXByteBuffer &data) const;
     int GetData(
-        CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, std::vector<std::vector<CGXDLMSVariant>> &table,
-        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, CGXByteBuffer &data
-    );
+        CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, const std::vector<std::vector<CGXDLMSVariant>> &table,
+        std::vector<std::pair<CGXDLMSObject*, std::unique_ptr<CGXDLMSCaptureObject>>> &columns, CGXByteBuffer &data
+    ) const;
 
-    int GetProfileGenericData(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &reply);
+    int GetProfileGenericData(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &reply) const;
 
     /**
      * Get selected columns.
@@ -117,8 +130,8 @@ private:
      *            Selected columns.
      */
     int GetSelectedColumns(
-        std::vector<CGXDLMSVariant> &cols, std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns
-    );
+        std::vector<CGXDLMSVariant> &cols, std::vector<std::pair<CGXDLMSObject*, std::unique_ptr<CGXDLMSCaptureObject>>> &columns
+    ) const;
 
 public:
     /*
@@ -139,78 +152,60 @@ public:
     */
     int GetSelectedColumns(
         int selector, CGXDLMSVariant &parameters,
-        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns
-    );
-
-    /**
-     Constructor.
-    */
-    CGXDLMSProfileGeneric();
-
-    //SN Constructor.
-    CGXDLMSProfileGeneric(std::string ln, unsigned short sn);
-
-    /**
-     Constructor.
-
-     @param ln Logical Name of the object.
-    */
-    CGXDLMSProfileGeneric(std::string ln);
-
-    /**
-     Destructor.
-    */
-    virtual ~CGXDLMSProfileGeneric();
+        std::vector<std::pair<CGXDLMSObject*, std::unique_ptr<CGXDLMSCaptureObject>>> &columns
+    ) const;
 
     /**
      * @return Data of profile generic.
     */
+    const std::vector<std::vector<CGXDLMSVariant>> &GetBuffer() const;
     std::vector<std::vector<CGXDLMSVariant>> &GetBuffer();
 
     /**
      * @return Captured Objects.
     */
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &GetCaptureObjects();
+    const std::vector<std::pair<CGXDLMSObject*, std::unique_ptr<CGXDLMSCaptureObject>>> &GetCaptureObjects() const;
+    std::vector<std::pair<CGXDLMSObject*, std::unique_ptr<CGXDLMSCaptureObject>>> &GetCaptureObjects();
 
     /**
      How often values are captured.
     */
-    int GetCapturePeriod();
+    int GetCapturePeriod() const;
     void SetCapturePeriod(int value);
 
     /**
      How columns are sorted.
     */
-    GX_SORT_METHOD GetSortMethod();
+    GX_SORT_METHOD GetSortMethod() const;
     void SetSortMethod(GX_SORT_METHOD value);
 
     /**
      Column that is used for sorting.
     */
-    CGXDLMSObject *GetSortObject();
+    CGXDLMSObject *GetSortObject() const;
     void SetSortObject(CGXDLMSObject *value);
 
     /**
      Entries (rows) in Use.
     */
-    unsigned long GetEntriesInUse();
+    unsigned long GetEntriesInUse() const;
     void SetEntriesInUse(unsigned long value);
 
     /**
      Maximum Entries (rows) count.
     */
-    unsigned long GetProfileEntries();
+    unsigned long GetProfileEntries() const;
     void SetProfileEntries(unsigned long value);
     /**
     Attribute index of sort object.
     */
-    int GetSortObjectAttributeIndex();
+    int GetSortObjectAttributeIndex() const;
     void SetSortObjectAttributeIndex(int value);
 
     /**
      Data index of sort object.
     */
-    int GetSortObjectDataIndex();
+    int GetSortObjectDataIndex() const;
     void SetSortObjectDataIndex(int value);
 
     /**
@@ -229,7 +224,7 @@ public:
     int Capture(CGXDLMSServer *server);
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string> &values) const;
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.

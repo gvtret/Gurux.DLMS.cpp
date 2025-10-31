@@ -1733,41 +1733,41 @@ int CGXCommunication::GetProfileGenericColumns()
         //Update columns scalers.
         DLMS_OBJECT_TYPE ot;
         CGXDLMSObject* obj;
-        for (std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >::iterator it2 = pg->GetCaptureObjects().begin(); it2 != pg->GetCaptureObjects().end(); ++it2)
+        for (auto& it2 : pg->GetCaptureObjects())
         {
-            ot = it2->first->GetObjectType();
+            ot = it2.first->GetObjectType();
             if (ot == DLMS_OBJECT_TYPE_REGISTER ||
                 ot == DLMS_OBJECT_TYPE_EXTENDED_REGISTER ||
                 ot == DLMS_OBJECT_TYPE_DEMAND_REGISTER)
             {
-                it2->first->GetLogicalName(ln);
+                it2.first->GetLogicalName(ln);
                 obj = m_Parser->GetObjects().FindByLN(ot, ln);
                 if (obj != NULL)
                 {
                     if (ot == DLMS_OBJECT_TYPE_REGISTER || ot == DLMS_OBJECT_TYPE_EXTENDED_REGISTER)
                     {
-                        ((CGXDLMSRegister*)it2->first)->SetScaler(((CGXDLMSRegister*)obj)->GetScaler());
-                        ((CGXDLMSRegister*)it2->first)->SetUnit(((CGXDLMSRegister*)obj)->GetUnit());
+                        ((CGXDLMSRegister*)it2.first)->SetScaler(((CGXDLMSRegister*)obj)->GetScaler());
+                        ((CGXDLMSRegister*)it2.first)->SetUnit(((CGXDLMSRegister*)obj)->GetUnit());
                     }
                     else if (ot == DLMS_OBJECT_TYPE_DEMAND_REGISTER)
                     {
-                        ((CGXDLMSDemandRegister*)it2->first)->SetScaler(((CGXDLMSDemandRegister*)obj)->GetScaler());
-                        ((CGXDLMSDemandRegister*)it2->first)->SetUnit(((CGXDLMSDemandRegister*)obj)->GetUnit());
+                        ((CGXDLMSDemandRegister*)it2.first)->SetScaler(((CGXDLMSDemandRegister*)obj)->GetScaler());
+                        ((CGXDLMSDemandRegister*)it2.first)->SetUnit(((CGXDLMSDemandRegister*)obj)->GetUnit());
                     }
                 }
             }
         }
         WriteValue(m_Trace, "Profile Generic " + (*it)->GetName().ToString() + " Columns:\n");
         std::string str;
-        for (std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >::iterator it2 = pg->GetCaptureObjects().begin(); it2 != pg->GetCaptureObjects().end(); ++it2)
+        for (const auto& it2 : pg->GetCaptureObjects())
         {
             if (str.size() != 0)
             {
                 str.append(" | ");
             }
-            str.append((*it2).first->GetName().ToString());
+            str.append(it2.first->GetName().ToString());
             str.append(" ");
-            str.append((*it2).first->GetDescription());
+            str.append(it2.first->GetDescription());
         }
         str.append("\n");
         WriteValue(m_Trace, str);

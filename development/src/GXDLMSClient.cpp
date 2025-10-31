@@ -1618,8 +1618,8 @@ int CGXDLMSClient::ReadRowsByRange(
     unsigned char *pLn = LN;
     CGXByteBuffer buff(51);
     CGXDLMSVariant name = pg->GetName();
-    if (pg->GetCaptureObjects().size() != 0) {
-        std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *> kv = pg->GetCaptureObjects()[0];
+    if (!pg->GetCaptureObjects().empty()) {
+        const auto& kv = pg->GetCaptureObjects()[0];
         type = kv.first->GetObjectType();
         pLn = kv.first->m_LN;
         unsigned char UNIX_LN[] = {0, 0, 1, 1, 0, 255};

@@ -1931,7 +1931,7 @@ static int SetUtfString(CGXByteBuffer &buff, CGXDLMSVariant &value) {
     return 0;
 }
 
-void GXHelpers::GetLogicalName(unsigned char *buff, std::string &ln) {
+void GXHelpers::GetLogicalName(const unsigned char *buff, std::string &ln) {
     int dataSize;
     char tmp[25];
     //If Script Action target is not set it is NULL

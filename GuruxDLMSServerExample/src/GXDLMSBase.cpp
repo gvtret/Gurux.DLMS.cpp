@@ -640,11 +640,9 @@ int CGXDLMSBase::Init(int port, GX_TRACE_LEVEL trace)
     profileGeneric->SetSortObject(pClock);
     //Add colums.
     //Set saved attribute index.
-    CGXDLMSCaptureObject* capture = new CGXDLMSCaptureObject(2, 0);
-    profileGeneric->GetCaptureObjects().push_back(std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*>(pClock, capture));
+    profileGeneric->GetCaptureObjects().emplace_back(pClock, std::unique_ptr<CGXDLMSCaptureObject>(new CGXDLMSCaptureObject(2, 0)));
     //Set saved attribute index.
-    capture = new CGXDLMSCaptureObject(2, 0);
-    profileGeneric->GetCaptureObjects().push_back(std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*>(pRegister, capture));
+    profileGeneric->GetCaptureObjects().emplace_back(pRegister, std::unique_ptr<CGXDLMSCaptureObject>(new CGXDLMSCaptureObject(2, 0)));
     GetItems().push_back(profileGeneric);
 
     // Create 10 000 rows for profile generic file.
@@ -1310,8 +1308,7 @@ void Capture(CGXDLMSProfileGeneric* pg)
 #else
     f = fopen(DATAFILE, "a");
 #endif
-    for (std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject*> >::iterator it = pg->GetCaptureObjects().begin();
-        it != pg->GetCaptureObjects().end(); ++it)
+    for (auto& it : pg->GetCaptureObjects())
     {
         if (first)
         {
@@ -1320,9 +1317,9 @@ void Capture(CGXDLMSProfileGeneric* pg)
         else
         {
             fprintf(f, ";");
-                values.clear();
+            values.clear();
         }
-        if (it->first->GetObjectType() == DLMS_OBJECT_TYPE_CLOCK && it->second->GetAttributeIndex() == 2)
+        if (it.first->GetObjectType() == DLMS_OBJECT_TYPE_CLOCK && it.second->GetAttributeIndex() == 2)
         {
             value = CGXDateTime::Now().ToString();
         }
@@ -1330,8 +1327,8 @@ void Capture(CGXDLMSProfileGeneric* pg)
         {
             // TODO: Read value here example from the meter if it's not
             // updated automatically.
-            it->first->GetValues(values);
-            value = values.at(it->second->GetAttributeIndex() - 1);
+            it.first->GetValues(values);
+            value = values.at(it.second->GetAttributeIndex() - 1);
             if (value == "")
             {
                 char tmp[20];
@@ -1345,10 +1342,10 @@ void Capture(CGXDLMSProfileGeneric* pg)
             }
         }
         fprintf(f, "%s", value.c_str());
-            }
+    }
     fprintf(f, "\n");
     fclose(f);
-        }
+}
 
 void HandleProfileGenericActions(CGXDLMSValueEventArg* it)
 {
