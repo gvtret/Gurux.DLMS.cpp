@@ -41,6 +41,7 @@
 #include "GXDLMSPushObject.h"
 #include "GXDLMSCaptureObject.h"
 #include "GXRepetitionDelay.h"
+#include "enums.h"
 #include "GXPushProtectionParameters.h"
 #include "GXPushConfirmationParameter.h"
 
@@ -66,32 +67,33 @@ typedef enum {
 Online help:
 http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSPushSetup
 */
-class CGXDLMSPushSetup: public CGXDLMSObject {
+class CGXDLMSPushSetup : public CGXDLMSObject {
 private:
-    DLMS_SERVICE_TYPE m_Service;
+    DLMS_SERVICE_TYPE m_Service = DLMS_SERVICE_TYPE_TCP;
     std::string m_Destination;
-    DLMS_MESSAGE_TYPE m_Message;
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject>> m_PushObjectList;
+    DLMS_MESSAGE_TYPE m_Message = DLMS_MESSAGE_TYPE_COSEM_APDU;
+    std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject>> m_PushObjectList;
     std::vector<std::pair<CGXDateTime, CGXDateTime>> m_CommunicationWindow;
 
-    int m_RandomisationStartInterval, m_NumberOfRetries;
+    int m_RandomisationStartInterval = 0;
+    int m_NumberOfRetries = 0;
     /**Repetition delay for Version #0 and #1.*/
-    int m_RepetitionDelay;
+    int m_RepetitionDelay = 0;
 
     /*Repetition delay for Version2.*/
     CGXRepetitionDelay m_RepetitionDelay2;
 
     /*The logical name of a communication port setup object.*/
-    CGXDLMSObject *m_PortReference;
+    CGXDLMSObject* m_PortReference = nullptr;
 
     /*Push client SAP.*/
-    signed char m_PushClientSAP;
+    signed char m_PushClientSAP = -1;
 
     /*Push protection parameters.*/
     std::vector<CGXPushProtectionParameters> m_PushProtectionParameters;
 
     /*Push operation method.*/
-    DLMS_PUSH_OPERATION_METHOD m_PushOperationMethod;
+    DLMS_PUSH_OPERATION_METHOD m_PushOperationMethod = DLMS_PUSH_OPERATION_METHOD_UNCONFIRMED_FAILURE;
 
     /*Push confirmation parameter.*/
     CGXPushConfirmationParameter m_ConfirmationParameters;
@@ -109,22 +111,33 @@ public:
     //LN Constructor.
     CGXDLMSPushSetup(std::string ln);
 
+    // Defaulted copy and move semantics
+    CGXDLMSPushSetup(const CGXDLMSPushSetup& other) = default;
+    CGXDLMSPushSetup& operator=(const CGXDLMSPushSetup& other) = default;
+    CGXDLMSPushSetup(CGXDLMSPushSetup&& other) = default;
+    CGXDLMSPushSetup& operator=(CGXDLMSPushSetup&& other) = default;
+
+
     /**
         Defines the list of attributes or objects to be pushed.
         Upon a call of the push (data) method the selected attributes are sent to the desti-nation
         defined in send_destination_and_method.
     */
-    std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject>> &GetPushObjectList() {
+    const std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject>>& GetPushObjectList() const {
         return m_PushObjectList;
     }
 
-    DLMS_SERVICE_TYPE GetService();
+    std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject>>& GetPushObjectList() {
+        return m_PushObjectList;
+    }
+
+    DLMS_SERVICE_TYPE GetService() const;
     void SetService(DLMS_SERVICE_TYPE value);
 
-    std::string &GetDestination();
-    void SetDestination(std::string &value);
+    const std::string& GetDestination() const;
+    void SetDestination(const std::string& value);
 
-    DLMS_MESSAGE_TYPE GetMessageType();
+    DLMS_MESSAGE_TYPE GetMessageType() const;
     void SetMessageType(DLMS_MESSAGE_TYPE value);
 
     /**
@@ -132,7 +145,11 @@ public:
      stamp when the communication window(s) for the push become active
      (for the start instant), or inac-tive (for the end instant).
     */
-    std::vector<std::pair<CGXDateTime, CGXDateTime>> &GetCommunicationWindow() {
+    const std::vector<std::pair<CGXDateTime, CGXDateTime>>& GetCommunicationWindow() const {
+        return m_CommunicationWindow;
+    }
+
+    std::vector<std::pair<CGXDateTime, CGXDateTime>>& GetCommunicationWindow() {
         return m_CommunicationWindow;
     }
 
@@ -142,7 +159,7 @@ public:
      This means that the push operation is not started imme-diately at the
      beginning of the first communication window but started randomly delayed.
     */
-    int GetRandomisationStartInterval() {
+    int GetRandomisationStartInterval() const {
         return m_RandomisationStartInterval;
     }
 
@@ -155,7 +172,7 @@ public:
      A value of 0 means no repetitions, i.e. only the initial connection at-tempt is made.
     */
 
-    int GetNumberOfRetries() {
+    int GetNumberOfRetries() const {
         return m_NumberOfRetries;
     }
 
@@ -163,7 +180,7 @@ public:
         m_NumberOfRetries = value;
     }
 
-    int GetRepetitionDelay() {
+    int GetRepetitionDelay() const {
         return m_RepetitionDelay;
     }
 
@@ -178,7 +195,7 @@ public:
     int GetMethodCount();
 
     //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /////////////////////////////////////////////////////////////////////////
     // Returns collection of attributes to read.
@@ -188,30 +205,30 @@ public:
     //
     // all: All items are returned even if they are read already.
     // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     /////////////////////////////////////////////////////////////////////////
     // Get received objects from push message.
     // values : Received values.
     // results: Push values.
     int GetPushValues(
-        CGXDLMSClient *client, std::vector<CGXDLMSVariant> &values,
-        std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject>> &results
+        CGXDLMSClient* client, std::vector<CGXDLMSVariant>& values,
+        std::vector<std::pair<CGXDLMSObject*, CGXDLMSCaptureObject>>& results
     );
 
     /*Activates the push process.*/
-    int Activate(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Activate(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
 
     /*Reset the push process.*/
-    int Reset(CGXDLMSClient *client, std::vector<CGXByteBuffer> &reply);
+    int Reset(CGXDLMSClient* client, std::vector<CGXByteBuffer>& reply);
 };
 #endif  //DLMS_IGNORE_PUSH_SETUP
 #endif  //GXDLMSPUSHSETUP_H

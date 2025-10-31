@@ -45,6 +45,7 @@ set(TEST_SOURCES
     GXDLMSWeekProfileTest.cpp
     GXXmlWriterTest.cpp
     GXDLMSProfileGenericTest.cpp
+    GXDLMSPushSetupTest.cpp
 )
 
 # Create test executable
