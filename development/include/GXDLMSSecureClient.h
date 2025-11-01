@@ -38,70 +38,79 @@
 #include "GXDLMSClient.h"
 
 /**
- * DLMS client with ciphering.
-*/
+ * @brief Represents a DLMS/COSEM client with ciphering capabilities.
+ */
 class CGXDLMSSecureClient: public CGXDLMSClient {
 private:
     CGXCipher m_Cipher;
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    //Constructor
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Constructor.
+     * @param UseLogicalNameReferencing True to use logical name referencing, false otherwise.
+     * @param ClientAddress The client's address.
+     * @param ServerAddress The server's address.
+     * @param authentication The authentication type.
+     * @param password The password for authentication.
+     * @param intefaceType The interface type.
+     */
     CGXDLMSSecureClient(
         bool UseLogicalNameReferencing = true, int ClientAddress = 16, int ServerAddress = 1,
-        //Authentication type.
         DLMS_AUTHENTICATION authentication = DLMS_AUTHENTICATION_NONE,
-        //Password if authentication is used.
         const char *password = NULL, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC
     );
 
-    /////////////////////////////////////////////////////////////////////////////
-    //Destructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Destructor.
+     */
     ~CGXDLMSSecureClient();
 
     /**
-     * @return Ciphering settings.
+     * @brief Gets the ciphering settings.
+     * @return A pointer to the ciphering settings.
      */
     CGXCipher *GetCiphering();
 
     /**
-    * Encrypt data using Key Encrypting Key.
-    *
-    * @param kek
-    *            Key Encrypting Key, also known as Master key.
-    * @param data
-    *            Data to encrypt.
-    * @param reply
-    *            Encrypted data.
-    * @return Encrypt data.
-    */
+     * @brief Encrypts data using the Key Encrypting Key (KEK).
+     * @param kek The Key Encrypting Key (Master Key).
+     * @param data The data to encrypt.
+     * @param reply A buffer to store the encrypted data.
+     * @return An error code.
+     */
     static int Encrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply);
 
     /**
-    * Decrypt data using Key Encrypting Key.
-    *
-    * @param kek
-    *            Key Encrypting Key, also known as Master key.
-    * @param data
-    *            Data to decrypt.
-    * @param reply
-    *            Decrypted data.
-    * @return Decrypted data.
-    */
+     * @brief Decrypts data using the Key Encrypting Key (KEK).
+     * @param kek The Key Encrypting Key (Master Key).
+     * @param data The data to decrypt.
+     * @param reply A buffer to store the decrypted data.
+     * @return An error code.
+     */
     static int Decrypt(CGXByteBuffer &kek, CGXByteBuffer &data, CGXByteBuffer &reply);
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
+    /**
+     * @brief Gets the client's public key certificate.
+     * @return A reference to the client's certificate.
+     */
     CGXx509Certificate &GetClientPublicKeyCertificate();
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
+    /**
+     * @brief Sets the client's public key certificate.
+     * @param value The client's certificate to set.
+     */
     void SetClientPublicKeyCertificate(CGXx509Certificate &value);
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
+    /**
+     * @brief Gets the server's public key certificate.
+     * @return A reference to the server's certificate.
+     */
     CGXx509Certificate &GetServerPublicKeyCertificate();
 
-    // Optional ECDSA public key certificate that is send in part of AARE.
+    /**
+     * @brief Sets the server's public key certificate.
+     * @param value The server's certificate to set.
+     */
     void SetServerPublicKeyCertificate(CGXx509Certificate &value);
 };
-#endif  //GXDLMSCLIENT_H
+#endif  //GXDLMSSECURECLIENT_H

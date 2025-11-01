@@ -217,32 +217,18 @@ void CGXDLMSClient::SetUseProtectedRelease(bool value) {
     m_UseProtectedRelease = value;
 }
 
-/**
-   * @return Invoke ID.
-   */
 unsigned char CGXDLMSClient::GetInvokeID() {
     return m_Settings.GetInvokeID();
 }
 
-/**
- * @param value
- *            Invoke ID.
- */
 void CGXDLMSClient::SetInvokeID(unsigned char value) {
     m_Settings.SetInvokeID(value);
 }
 
-/**
- * @return Auto increase Invoke ID.
- */
 bool CGXDLMSClient::GetAutoIncreaseInvokeID() {
     return m_Settings.GetAutoIncreaseInvokeID();
 }
 
-/**
- * @param value
- *            Auto increase Invoke ID.
- */
 void CGXDLMSClient::SetAutoIncreaseInvokeID(bool value) {
     m_Settings.SetAutoIncreaseInvokeID(value);
 }
@@ -1210,14 +1196,6 @@ int CGXDLMSClient::WriteList(
     return ret;
 }
 
-/**
-     * Update list of values.
-     *
-     * @param list
-     *            read objects.
-     * @param values
-     *            Received values.
-     */
 int CGXDLMSClient::UpdateValues(
     std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXDLMSVariant> &values
 ) {
@@ -1836,13 +1814,6 @@ int CGXDLMSClient::AccessRequest(
     return ret;
 }
 
-/// <summary>
-/// Parse access response.
-/// </summary>
-/// <param name="list">Collection of access items.</param>
-/// <param name="data">Received data from the meter.</param>
-/// <returns>Collection of received data and status codes.</returns>
-/// <seealso cref="AccessRequest"/>
 int CGXDLMSClient::ParseAccessResponse(std::vector<CGXDLMSAccessItem> &list, CGXByteBuffer &data) {
     unsigned char ch;
     uint32_t count;
