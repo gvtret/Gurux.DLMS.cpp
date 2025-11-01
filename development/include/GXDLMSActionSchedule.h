@@ -41,78 +41,91 @@
 #include "GXDLMSObject.h"
 
 /**
- * @brief Represents a DLMS/COSEM action schedule, which defines a set of actions to be executed at specific times.
+ * @brief Represents a single action schedule.
  */
-class CGXDLMSActionSchedule: public CGXDLMSObject {
+class CGXDLMSActionSchedule: public CGXDLMSObject
+{
+    /**
+     * The logical name of the script to execute.
+     */
     std::string m_ExecutedScriptLogicalName;
+    /**
+     * The selector of the script to execute.
+     */
     int m_ExecutedScriptSelector;
+    /**
+     * The type of the schedule.
+     */
     DLMS_SINGLE_ACTION_SCHEDULE_TYPE m_Type;
+    /**
+     * The execution times.
+     */
     std::vector<CGXDateTime> m_ExecutionTime;
 
 public:
     /**
-     * @brief Constructor.
+     * Constructor.
      */
     CGXDLMSActionSchedule();
 
     /**
-     * @brief Constructor.
-     * @param ln The logical name of the object.
+     * Constructor.
+     *
+     * @param ln
+     *            Logical name of the object.
      */
     CGXDLMSActionSchedule(std::string ln);
 
     /**
-     * @brief Constructor.
-     * @param ln The logical name of the object.
-     * @param sn The short name of the object.
+     * Constructor.
+     *
+     * @param ln
+     *            Logical name of the object.
+     * @param sn
+     *            Short name of the object.
      */
     CGXDLMSActionSchedule(std::string ln, unsigned short sn);
 
     /**
-     * @brief Gets the executed script's logical name.
      * @return The executed script's logical name.
      */
     std::string &GetExecutedScriptLogicalName();
 
     /**
-     * @brief Sets the executed script's logical name.
-     * @param value The logical name to set.
+     * @param value
+     *            The executed script's logical name.
      */
     void SetExecutedScriptLogicalName(std::string value);
 
     /**
-     * @brief Gets the executed script's selector.
      * @return The executed script's selector.
      */
     int GetExecutedScriptSelector();
 
     /**
-     * @brief Sets the executed script's selector.
-     * @param value The selector to set.
+     * @param value
+     *            The executed script's selector.
      */
     void SetExecutedScriptSelector(int value);
 
     /**
-     * @brief Gets the schedule type.
      * @return The schedule type.
      */
     DLMS_SINGLE_ACTION_SCHEDULE_TYPE GetType();
 
     /**
-     * @brief Sets the schedule type.
-     * @param value The schedule type to set.
+     * @param value
+     *            The schedule type.
      */
     void SetType(DLMS_SINGLE_ACTION_SCHEDULE_TYPE value);
 
     /**
-     * @brief Gets the execution times.
-     * @return A reference to the vector of execution times.
+     * @return The execution times.
      */
     std::vector<CGXDateTime> &GetExecutionTime();
 
     /**
-     * @brief Sets the execution times.
-     * @param value The vector of execution times to set.
+.
      */
     void SetExecutionTime(std::vector<CGXDateTime> &value);
 

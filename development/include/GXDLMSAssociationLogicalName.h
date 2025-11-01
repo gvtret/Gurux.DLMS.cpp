@@ -47,12 +47,33 @@
  */
 class CGXDLMSAssociationLogicalName: public CGXDLMSObject {
 private:
+    /**
+     * Association status.
+     */
     DLMS_ASSOCIATION_STATUS m_AssociationStatus;
+    /**
+     * Object list.
+     */
     CGXDLMSObjectCollection m_ObjectList;
+    /**
+     * Client SAP.
+     */
     unsigned char m_ClientSAP;
+    /**
+     * Server SAP.
+     */
     unsigned short m_ServerSAP;
+    /**
+     * Application context name.
+     */
     CGXApplicationContextName m_ApplicationContextName;
+    /**
+     * xDLMS context info.
+     */
     CGXDLMSContextType m_XDLMSContextInfo;
+    /**
+     * Authentication mechanism name.
+     */
     CGXAuthenticationMechanismName m_AuthenticationMechanismName;
 
     /**
@@ -60,10 +81,19 @@ private:
      */
     CGXByteBuffer m_Secret;
 
+    /**
+     * Security setup reference.
+     */
     std::string m_SecuritySetupReference;
 
+    /**
+     * User list.
+     */
     std::vector<std::pair<unsigned char, std::string>> m_UserList;
 
+    /**
+     * Current user.
+     */
     std::pair<unsigned char, std::string> m_CurrentUser;
 
     /**

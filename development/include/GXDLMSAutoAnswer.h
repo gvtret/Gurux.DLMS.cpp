@@ -81,101 +81,120 @@ enum AUTO_ANSWER_STATUS {
 /**
  * @brief Represents a DLMS/COSEM auto-answer object, which controls how a device responds to incoming calls.
  */
-class CGXDLMSAutoAnswer: public CGXDLMSObject {
-    int m_NumberOfRingsInListeningWindow, m_NumberOfRingsOutListeningWindow;
+class CGXDLMSAutoAnswer: public CGXDLMSObject
+{
+    /**
+     * Number of rings in listening window.
+     */
+    int m_NumberOfRingsInListeningWindow;
+    /**
+     * Number of rings out of listening window.
+     */
+    int m_NumberOfRingsOutListeningWindow;
+    /**
+     * Auto answer mode.
+     */
     DLMS_AUTO_ANSWER_MODE m_Mode;
-    std::vector<std::pair<CGXDateTime, CGXDateTime>> m_ListeningWindow;
+    /**
+     * Listening window.
+     */
+    std::vector<std::pair<CGXDateTime, CGXDateTime> > m_ListeningWindow;
+    /**
+     * Auto answer status.
+     */
     AUTO_ANSWER_STATUS m_Status;
+    /**
+     * Number of calls.
+     */
     int m_NumberOfCalls;
-
 public:
     /**
-     * @brief Constructor.
+     * Constructor.
      */
     CGXDLMSAutoAnswer();
 
     /**
-     * @brief Constructor.
-     * @param ln The logical name of the object.
+     * Constructor.
+     *
+     * @param ln
+     *            Logical Name of the object.
      */
     CGXDLMSAutoAnswer(std::string ln);
 
     /**
-     * @brief Constructor.
-     * @param ln The logical name of the object.
-     * @param sn The short name of the object.
+     * Constructor.
+     *
+     * @param ln
+     *            Logical Name of the object.
+     * @param sn
+     *            Short Name of the object.
      */
     CGXDLMSAutoAnswer(std::string ln, unsigned short sn);
 
     /**
-     * @brief Gets the auto-answer mode.
      * @return The auto-answer mode.
      */
     DLMS_AUTO_ANSWER_MODE GetMode();
 
     /**
-     * @brief Sets the auto-answer mode.
-     * @param value The mode to set.
+     * @param value
+     *            The auto-answer mode.
      */
     void SetMode(DLMS_AUTO_ANSWER_MODE value);
 
     /**
-     * @brief Gets the listening window.
-     * @return A reference to the vector of listening windows.
+     * @return The listening window.
      */
-    std::vector<std::pair<CGXDateTime, CGXDateTime>> &GetListeningWindow();
+    std::vector<std::pair<CGXDateTime, CGXDateTime> >& GetListeningWindow();
 
     /**
-     * @brief Sets the listening window.
-     * @param value The vector of listening windows to set.
+     * @param value
+     *            The listening window.
      */
-    void SetListeningWindow(std::vector<std::pair<CGXDateTime, CGXDateTime>> &value);
+    void SetListeningWindow(
+        std::vector<std::pair<CGXDateTime, CGXDateTime> >& value);
 
     /**
-     * @brief Gets the auto-answer status.
-     * @return The status.
+     * @return Auto-answer status.
      */
     AUTO_ANSWER_STATUS GetStatus();
 
     /**
-     * @brief Sets the auto-answer status.
-     * @param value The status to set.
+     * @param value
+     *            Auto-answer status.
      */
     void SetStatus(AUTO_ANSWER_STATUS value);
 
     /**
-     * @brief Gets the number of calls.
      * @return The number of calls.
      */
     int GetNumberOfCalls();
 
     /**
-     * @brief Sets the number of calls.
-     * @param value The number of calls to set.
+     * @param value
+     *            The number of calls.
      */
     void SetNumberOfCalls(int value);
 
     /**
-     * @brief Gets the number of rings within the listening window.
-     * @return The number of rings.
+     * @return The number of rings within the listening window.
      */
     int GetNumberOfRingsInListeningWindow();
 
     /**
-     * @brief Sets the number of rings within the listening window.
-     * @param value The number of rings to set.
+     * @param value
+     *            The number of rings within the listening window.
      */
     void SetNumberOfRingsInListeningWindow(int value);
 
     /**
-     * @brief Gets the number of rings outside the listening window.
-     * @return The number of rings.
+     * @return The number of rings outside the listening window.
      */
     int GetNumberOfRingsOutListeningWindow();
 
     /**
-     * @brief Sets the number of rings outside the listening window.
-     * @param value The number of rings to set.
+     * @param value
+     *            The number of rings outside the listening window.
      */
     void SetNumberOfRingsOutListeningWindow(int value);
 
@@ -195,14 +214,14 @@ public:
      * @brief Gets the attribute values as strings.
      * @param values A reference to a vector to store the values.
      */
-    void GetValues(std::vector<std::string> &values);
+    void GetValues(std::vector<std::string>& values);
 
     /**
      * @brief Gets the attribute indices to read.
      * @param all True to get all attributes, false to get only unread ones.
      * @param attributes A reference to a vector to store the attribute indices.
      */
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
     /**
      * @brief Gets the data type of an attribute.
@@ -210,7 +229,7 @@ public:
      * @param type A reference to store the data type.
      * @return An error code.
      */
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
     /**
      * @brief Gets the value of a given attribute.
@@ -218,7 +237,7 @@ public:
      * @param e The value event argument.
      * @return An error code.
      */
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
     /**
      * @brief Sets the value of a given attribute.
@@ -226,7 +245,7 @@ public:
      * @param e The value event argument.
      * @return An error code.
      */
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
 #endif  //DLMS_IGNORE_AUTO_ANSWER
 #endif  //GXDLMSAUTOANSWER_H
