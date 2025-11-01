@@ -414,47 +414,26 @@ int CGXDLMSSettings::SetPreEstablishedSystemTitle(CGXByteBuffer &value) {
     return DLMS_ERROR_CODE_OK;
 }
 
-/**
- * @return Key Encrypting Key, also known as Master key.
- */
 CGXByteBuffer &CGXDLMSSettings::GetKek() {
     return m_Kek;
 }
 
-/**
- * @param value
- *            Key Encrypting Key, also known as Master key.
- */
 void CGXDLMSSettings::SetKek(CGXByteBuffer &value) {
     m_Kek = value;
 }
 
-/**
- * @return Long data count.
- */
 unsigned short CGXDLMSSettings::GetCount() {
     return m_Count;
 }
 
-/**
- * @param value
- *            Long data count.
- */
 void CGXDLMSSettings::SetCount(unsigned short value) {
     m_Count = value;
 }
 
-/**
- * @return Long data index.
- */
 unsigned short CGXDLMSSettings::GetIndex() {
     return m_Index;
 }
 
-/**
- * @param value
- *            Long data index
- */
 void CGXDLMSSettings::SetIndex(unsigned short value) {
     m_Index = value;
 }

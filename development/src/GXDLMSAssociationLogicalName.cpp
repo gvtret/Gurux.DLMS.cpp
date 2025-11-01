@@ -228,10 +228,6 @@ int CGXDLMSAssociationLogicalName::GetUsers(CGXDLMSSettings &settings, CGXDLMSVa
 CGXDLMSAssociationLogicalName::CGXDLMSAssociationLogicalName(): CGXDLMSAssociationLogicalName("0.0.40.0.0.255") {
 }
 
-/**
- Constructor.
- @param ln Logical Name of the object.
-*/
 CGXDLMSAssociationLogicalName::CGXDLMSAssociationLogicalName(std::string ln)
     : CGXDLMSObject(DLMS_OBJECT_TYPE_ASSOCIATION_LOGICAL_NAME, ln, 0) {
     m_AssociationStatus = DLMS_ASSOCIATION_STATUS_NON_ASSOCIATED;
