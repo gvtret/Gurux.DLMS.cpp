@@ -43,85 +43,47 @@
 #include <time.h>
 #include "enums.h"
 
-/**
- * @brief Enumerates skipped fields from a date-time.
- */
+// DataType enumerates skipped fields from date time.
 enum DATETIME_SKIPS {
-    /**
-     * @brief Nothing is skipped from the date-time.
-     */
+    // Nothing is skipped from date time.
     DATETIME_SKIPS_NONE = 0x0,
-    /**
-     * @brief Year part of the date-time is skipped.
-     */
+    // Year part of date time is skipped.
     DATETIME_SKIPS_YEAR = 0x1,
-    /**
-     * @brief Month part of the date-time is skipped.
-     */
+    // Month part of date time is skipped.
     DATETIME_SKIPS_MONTH = 0x2,
-    /**
-     * @brief Day part is skipped.
-     */
+    // Day part is skipped.
     DATETIME_SKIPS_DAY = 0x4,
-    /**
-     * @brief Day of week part of the date-time is skipped.
-     */
+    // Day of week part of date time is skipped.
     DATETIME_SKIPS_DAYOFWEEK = 0x8,
-    /**
-     * @brief Hours part of the date-time is skipped.
-     */
+    // Hours part of date time is skipped.
     DATETIME_SKIPS_HOUR = 0x10,
-    /**
-     * @brief Minute part of the date-time is skipped.
-     */
+    // Minute part of date time is skipped.
     DATETIME_SKIPS_MINUTE = 0x20,
-    /**
-     * @brief Seconds part of the date-time is skipped.
-     */
+    // Seconds part of date time is skipped.
     DATETIME_SKIPS_SECOND = 0x40,
-    /**
-     * @brief Hundreds of seconds part of the date-time is skipped.
-     */
+    // Hundreds of seconds part of date time is skipped.
     DATETIME_SKIPS_MS = 0x80,
-    /**
-     * @brief Deviation is skipped.
-     */
+    //Devitation is skipped.
     DATETIME_SKIPS_DEVITATION = 0x100,
-    /**
-     * @brief Status is skipped.
-     */
+    //Status is skipped.
     DATETIME_SKIPS_STATUS = 0x200
 };
 
-/**
- * @brief Represents extra information for a date-time.
- */
+// DataType extra info.
 enum DATE_TIME_EXTRA_INFO {
-    /**
-     * @brief No extra info.
-     */
+    // No extra info.
     DATE_TIME_EXTRA_INFO_NONE = 0x0,
-    /**
-     * @brief Daylight savings begin.
-     */
+    // Daylight savings begin.
     DATE_TIME_EXTRA_INFO_DST_BEGIN = 0x1,
-    /**
-     * @brief Daylight savings end.
-     */
+    //Daylight savings end.
     DATE_TIME_EXTRA_INFO_DST_END = 0x2,
-    /**
-     * @brief Last day of the month.
-     */
+    // Last day of month.
     DATE_TIME_EXTRA_INFO_LAST_DAY = 0x4,
-    /**
-     * @brief 2nd last day of the month.
-     */
+    // 2nd last day of month
     DATE_TIME_EXTRA_INFO_LAST_DAY2 = 0x8,
 };
 
-/**
- * @brief Constants for different orders of date components.
- */
+//Constants for different orders of date components.
 typedef enum {
     GXDLMS_DATE_FORMAT_INVALID = -1,
     GXDLMS_DATE_FORMAT_DMY = 0,
@@ -130,9 +92,8 @@ typedef enum {
     GXDLMS_DATE_FORMAT_YDM = 3
 } GXDLMS_DATE_FORMAT;
 
-/**
- * @brief Represents a date and time value, allowing for some fields to be ignored.
- */
+// This class is used because in COSEM object model some fields from date time can be ignored.
+// Default behavior of DateTime do not allow this.
 class CGXDateTime {
     friend class CGXTime;
     friend class CGXDate;
@@ -159,266 +120,142 @@ class CGXDateTime {
     );
 
 public:
-    /**
-     * @brief Default constructor.
-     */
+    // Constructor.
     CGXDateTime();
-
-    /**
-     * @brief Constructor for Unix time.
-     * @param value The Unix time value.
-     */
+    // Constructor for Unix time.
     CGXDateTime(const unsigned long value);
-
-    /**
-     * @brief Constructor for Unix time.
-     * @param unixTime The Unix time value.
-     */
+    // Constructor for Unix time.
     CGXDateTime(const unsigned long long unixTime);
 
-    /**
-     * @brief Constructor.
-     * @param value A tm struct.
-     */
+    // Constructor.
     CGXDateTime(struct tm &value);
 
-    /**
-     * @brief Constructor.
-     * @param value A pointer to a tm struct.
-     */
+    // Constructor.
     CGXDateTime(struct tm *value);
 
-    /**
-     * @brief Constructor.
-     * @param year The year.
-     * @param month The month.
-     * @param day The day.
-     * @param hour The hour.
-     * @param minute The minute.
-     * @param second The second.
-     * @param millisecond The millisecond.
-     */
+    // Constructor.
     CGXDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond);
 
-    /**
-     * @brief Constructor.
-     * @param year The year.
-     * @param month The month.
-     * @param day The day.
-     * @param hour The hour.
-     * @param minute The minute.
-     * @param second The second.
-     * @param millisecond The millisecond.
-     * @param devitation The deviation.
-     */
+    // Constructor.
     CGXDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int devitation);
 
-    /**
-     * @brief Gets the system date-time format.
-     * @param value A reference to a string to store the format.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Get system date-time format.
     static void GetSystemDateTimeFormat(std::string &value);
 
-    /**
-     * @brief Destructor.
-     */
+    //Destructor.
     virtual ~CGXDateTime();
 
-    /**
-     * @brief Sets the date-time from a string.
-     * @param value The string.
-     * @return An error code.
-     */
+    // Get date time from string.
     int FromString(const char *value);
 
-    /**
-     * @brief Converts the date-time to a formatted string.
-     * @param pattern The format pattern.
-     * @param value A reference to a string to store the result.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Convert date time value to the format string using given pattern.
     int ToFormatString(const char *pattern, std::string &value);
 
-    /**
-     * @brief Converts the date-time to a formatted string using the system format.
-     * @param value A reference to a string to store the result.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Convert date time value to the format using system date-time format.
     int ToFormatString(std::string &value);
 
-    /**
-     * @brief Gets the tm struct value.
-     * @return A reference to the tm struct.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Used date time value.
     struct tm &GetValue();
-
-    /**
-     * @brief Sets the tm struct value.
-     * @param value The tm struct to set.
-     */
     void SetValue(const struct tm &value);
 
-    /**
-     * @brief Gets the skipped fields.
-     * @return The skipped fields.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Skip selected date time fields.
     DATETIME_SKIPS GetSkip();
-
-    /**
-     * @brief Sets the skipped fields.
-     * @param value The fields to skip.
-     */
     void SetSkip(DATETIME_SKIPS value);
 
-    /**
-     * @brief Converts the date-time to a string.
-     * @return The string representation of the date-time.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Convert date time value to the string using system date-time format.
     std::string ToString() const;
 
-    /**
-     * @brief Gets the current date-time.
-     * @return The current date-time.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Get currect time.
     static CGXDateTime Now();
 
-    /**
-     * @brief Gets the extra info.
-     * @return The extra info.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Date time extra information.
     DATE_TIME_EXTRA_INFO GetExtra();
-
-    /**
-     * @brief Sets the extra info.
-     * @param value The extra info to set.
-     */
     void SetExtra(DATE_TIME_EXTRA_INFO value);
 
-    /**
-     * @brief Gets the deviation.
-     * @return The deviation.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Deviation.
     int GetDeviation();
-
-    /**
-     * @brief Sets the deviation.
-     * @param value The deviation to set.
-     */
     void SetDeviation(int value);
 
-    /**
-     * @brief Gets the clock status.
-     * @return The clock status.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Status of the clock.
     DLMS_CLOCK_STATUS GetStatus();
-
-    /**
-     * @brief Sets the clock status.
-     * @param value The clock status to set.
-     */
     void SetStatus(DLMS_CLOCK_STATUS value);
 
-    /**
-     * @brief Resets the date and time fields.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Reset date and time fields.
     void Reset();
 
-    /**
-     * @brief Resets the date fields.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Reset date fields.
     void ResetDate();
 
-    /**
-     * @brief Sets the time to midnight.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Set time to midnight.
     void ResetTime();
 
-    /**
-     * @brief Adds hours to the current time.
-     * @param hours The number of hours to add.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Add hours to current time.
     int AddHours(int hours);
 
-    /**
-     * @brief Adds minutes to the current time.
-     * @param minutes The number of minutes to add.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Add minutes to current time.
     int AddMinutes(int minutes);
 
-    /**
-     * @brief Adds seconds to the current time.
-     * @param seconds The number of seconds to add.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Add seconds to current time.
     int AddSeconds(int seconds);
 
-    /**
-     * @brief Adds days to the current time.
-     * @param hours The number of days to add.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Add days to current time.
     int AddDays(int hours);
 
-    /**
-     * @brief Compares the current time to another time.
-     * @param antherDate The other date-time to compare to.
-     * @return A value indicating the comparison result.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Compare current time to another time.
     int CompareTo(CGXDateTime &antherDate);
 
-    /**
-     * @brief Gets the number of days in a given month.
-     * @param year The year.
-     * @param month The month.
-     * @return The number of days in the month.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Get amount of days in given month.
     static unsigned char DaysInMonth(int year, short month);
 
-    /**
-     * @brief Gets the difference between two times in milliseconds.
-     * @param start The start time.
-     * @param to The end time.
-     * @return The difference in milliseconds.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Get difference between given time and run time in ms.
+    //
+    // start:  Start date time.
+    // to:  Compared time.
+    // Returns difference in milliseconds.
     static long GetDifference(struct tm &start, CGXDateTime &to);
 
-    /**
-     * @brief Converts the value to local time.
-     * @param localTime A reference to a tm struct to store the local time.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Convert value to local time.
     int ToLocalTime(struct tm &localTime);
 
-    /**
-     * @brief Gets the current timezone.
-     * @return The current timezone.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Get currect timezone.
     static short GetCurrentTimeZone();
 
-    /**
-     * @brief Gets the current deviation.
-     * @return The current deviation.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Get currect deviation.
     static char GetCurrentDeviation();
 
-    /**
-     * @brief Returns the date-time as Unix time.
-     * @return The Unix time.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    //Return datetime as unix time.
     unsigned long ToUnixTime();
 
-    /**
-     * @brief Gets whether to use UTC to normal time conversion.
-     * @return True to use UTC to normal time, false otherwise.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // DLMS Standard says that Time zone is from normal time to UTC in minutes.
+    // If meter is configured to use UTC time (UTC to normal time) set this to true.
+    // Read nore: https://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSClock#dstDeviation
+    //
     bool GetUseUtc2NormalTime();
-
-    /**
-     * @brief Sets whether to use UTC to normal time conversion.
-     * @param value True to use UTC to normal time, false otherwise.
-     */
     void SetUseUtc2NormalTime(bool value);
 };
 #endif  //GXDATETIME_H

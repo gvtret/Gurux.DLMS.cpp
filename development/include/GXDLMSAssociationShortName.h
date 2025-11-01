@@ -40,9 +40,8 @@
 #include "GXDLMSObject.h"
 
 /**
-Online help:
-http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAssociationShortName
-*/
+ * @brief Represents a DLMS/COSEM short name association object.
+ */
 class CGXDLMSAssociationShortName: public CGXDLMSObject {
     CGXDLMSObjectCollection m_ObjectList;
     std::string m_SecuritySetupReference;
@@ -52,47 +51,105 @@ class CGXDLMSAssociationShortName: public CGXDLMSObject {
     void UpdateAccessRights(CGXDLMSVariant &buff);
 
 public:
-    //Constructor.
+    /**
+     * @brief Constructor.
+     */
     CGXDLMSAssociationShortName();
 
+    /**
+     * @brief Gets the object list.
+     * @return A reference to the object list.
+     */
     CGXDLMSObjectCollection &GetObjectList();
 
+    /**
+     * @brief Gets the secret.
+     * @return A reference to the secret buffer.
+     */
     CGXByteBuffer &GetSecret();
 
+    /**
+     * @brief Sets the secret.
+     * @param value The secret to set.
+     */
     void SetSecret(CGXByteBuffer &value);
 
+    /**
+     * @brief Gets the security setup reference.
+     * @return A reference to the security setup reference string.
+     */
     std::string &GetSecuritySetupReference();
 
+    /**
+     * @brief Sets the security setup reference.
+     * @param value The security setup reference to set.
+     */
     void SetSecuritySetupReference(std::string &value);
 
-    //Get attribute values of object.
+    /**
+     * @brief Gets the attribute values as strings.
+     * @param values A reference to a vector to store the values.
+     */
     void GetValues(std::vector<std::string> &values);
 
-    /////////////////////////////////////////////////////////////////////////
-    // Returns collection of attributes to read.
-    //
-    // If attribute is static and already read or device is returned
-    // HW error it is not returned.
-    //
-    // all: All items are returned even if they are read already.
-    // attributes: Collection of attributes to read.
+    /**
+     * @brief Gets the attribute indices to read.
+     * @param all True to get all attributes, false to get only unread ones.
+     * @param attributes A reference to a vector to store the attribute indices.
+     */
     void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
-    // Returns amount of attributes.
+    /**
+     * @brief Gets the number of attributes.
+     * @return The number of attributes.
+     */
     int GetAttributeCount();
 
-    // Returns amount of methods.
+    /**
+     * @brief Gets the number of methods.
+     * @return The number of methods.
+     */
     int GetMethodCount();
 
+    /**
+     * @brief Gets the data type of an attribute.
+     * @param index The attribute index.
+     * @param type A reference to store the data type.
+     * @return An error code.
+     */
     int GetDataType(int index, DLMS_DATA_TYPE &type);
 
-    // Returns SN Association View.
+    /**
+     * @brief Gets the SN Association View.
+     * @param settings The DLMS settings.
+     * @param e The value event argument.
+     * @param data A buffer to store the data.
+     * @return An error code.
+     */
     int GetObjects(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
 
+    /**
+     * @brief Invokes a method.
+     * @param settings The DLMS settings.
+     * @param e The value event argument.
+     * M@return An error code.
+     */
     int Invoke(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
+    /**
+     * @brief Gets the value of an attribute.
+     * @param settings The DLMS settings.
+     * @param e The value event argument.
+     * @return An error code.
+     */
     int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
+    /**
+     * @brief Sets the value of an attribute.
+     * @param settings The DLMS settings.
+     * @param e The value event argument.
+     * @return An error code.
+     */
     int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_ASSOCIATION_SHORT_NAME

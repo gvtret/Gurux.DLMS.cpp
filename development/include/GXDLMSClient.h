@@ -42,8 +42,8 @@
 #include "GXDLMSAccessItem.h"
 
 /**
- * @brief Represents a DLMS/COSEM client.
- */
+ * DLMS client.
+*/
 class CGXDLMSClient {
 protected:
     friend class CGXDLMSSchedule;
@@ -51,338 +51,241 @@ protected:
     char m_ManufacturerId[3];
 
 private:
-    /**
-     * @brief Initialize PDU size that is restored after the connection is closed.
-     */
+    /// <summary>
+    /// Initialize PDU size that is restored after the connection is closed.
+    /// </summary>
     uint16_t m_InitializePduSize;
 
-    /**
-     * @brief Initialize Max HDLC transmission size that is restored after the connection is closed.
-     */
+    /// <summary>
+    /// Initialize Max HDLC transmission size that is restored after the connection is closed.
+    /// </summary>
     uint16_t m_InitializeMaxInfoTX;
 
-    /**
-     * @brief Initialize Max HDLC receive size that is restored after the connection is closed.
-     */
+    /// <summary>
+    /// Initialize Max HDLC receive size that is restored after the connection is closed.
+    /// </summary>
     uint16_t m_InitializeMaxInfoRX;
 
-    /**
-     * @brief Initialize max HDLC window size in transmission that is restored after the connection is closed.
-     */
+    /// Initialize max HDLC window size in transmission that is restored after the connection is closed.
     unsigned char m_InitializeWindowSizeTX;
 
-    /**
-     * @brief Initialize max HDLC window size in receive that is restored after the connection is closed.
-     */
+    /// Initialize max HDLC window size in receive that is restored after the connection is closed.
     unsigned char m_InitializeWindowSizeRX;
 
-    /**
-     * @brief If protected release is used release is including a ciphered xDLMS Initiate request.
-     */
+
+    // If protected release is used release is including a ciphered xDLMS Initiate request.
     bool m_UseProtectedRelease;
     bool m_IsAuthenticationRequired;
-
+    // SN referencing
     int ParseSNObjects(CGXByteBuffer &buff, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
+    //Parse SN object item.
     int ParseSNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveObjects);
+    //Parse LN object item.
     int ParseLNObjectItem(CGXDLMSVariant &value, bool ignoreInactiveObjects);
 
     /**
-     * @brief Parses LN objects.
-     * @param buff Byte stream where objects are parsed.
-     * @param onlyKnownObjects Only known objects are parsed.
-     * @return Collection of COSEM objects.
-     */
+    * Parse LN objects.
+    *
+    * buff
+    *            Byte stream where objects are parsed.
+    * onlyKnownObjects
+    *            Only known objects are parsed.
+    * @return Collection of COSEM objects.
+    */
     int ParseLNObjects(CGXByteBuffer &buff, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
     /**
-     * @brief Generates a read message.
-     * @param name Short or Logical Name.
-     * @param objectType COSEM object type.
-     * @param attributeOrdinal Attribute index of the object.
-     * @param data Read selective access parameter.
-     * @param reply Generated read message(s).
-     * @return Error status.
-     */
+    * Generates a read message.
+    *
+    * name : Short or Logical Name.
+    * objectType : COSEM object type.
+    * attributeOrdinal : Attribute index of the object.
+    * data : Read selective access parameter.
+    * reply : Generated read message(s).
+    * Returns error status.
+    */
     int Read(
         CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, CGXByteBuffer *parameters,
         std::vector<CGXByteBuffer> &reply
     );
 
 public:
-    /**
-     * @brief Constructor.
-     * @param UseLogicalNameReferencing True to use logical name referencing, false otherwise.
-     * @param ClientAddress The client's address.
-     * @param ServerAddress The server's address.
-     * @param authentication The authentication type.
-     * @param password The password for authentication.
-     * @param intefaceType The interface type.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    //Constructor
+    /////////////////////////////////////////////////////////////////////////////
     CGXDLMSClient(
         bool UseLogicalNameReferencing = true, int ClientAddress = 16, int ServerAddress = 1,
+        //Authentication type.
         DLMS_AUTHENTICATION authentication = DLMS_AUTHENTICATION_NONE,
+        //Password if authentication is used.
         const char *password = NULL, DLMS_INTERFACE_TYPE intefaceType = DLMS_INTERFACE_TYPE_HDLC
     );
 
-    /**
-     * @brief Destructor.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    //Destructor.
+    /////////////////////////////////////////////////////////////////////////////
     ~CGXDLMSClient();
 
-    /**
-     * @brief Gets whether logical name referencing is used.
-     * @return True if logical name referencing is used, false otherwise.
-     */
     bool GetUseLogicalNameReferencing();
 
-    /**
-     * @brief Gets the interface type.
-     * @return The interface type.
-     */
     DLMS_INTERFACE_TYPE GetInterfaceType();
 
     /**
-     * @brief Gets the used priority.
-     * @return The priority.
+     * @return Used Priority.
      */
     DLMS_PRIORITY GetPriority();
 
     /**
-     * @brief Sets the used priority.
-     * @param value The priority to set.
+     * @param value
+     *            Used Priority.
      */
     void SetPriority(DLMS_PRIORITY value);
 
     /**
-     * @brief Gets the used service class.
-     * @return The service class.
+     * @return Used service class.
      */
     DLMS_SERVICE_CLASS GetServiceClass();
 
     /**
-     * @brief Sets the used service class.
-     * @param value The service class to set.
+     * @param value
+     *            Used service class.
      */
     void SetServiceClass(DLMS_SERVICE_CLASS value);
 
+
     /**
-     * @brief Gets the Invoke ID.
-     * @return The Invoke ID.
-     */
+       * @return Invoke ID.
+    */
     unsigned char GetInvokeID();
 
     /**
-     * @brief Sets the Invoke ID.
-     * @param value The Invoke ID to set.
+     * @param value
+     *            Invoke ID.
      */
     void SetInvokeID(unsigned char value);
 
     /**
-     * @brief Gets whether to auto-increase the Invoke ID.
-     * @return True to auto-increase the Invoke ID, false otherwise.
+     * @return Auto increase Invoke ID.
      */
     bool GetAutoIncreaseInvokeID();
 
     /**
-     * @brief Sets whether to auto-increase the Invoke ID.
-     * @param value True to auto-increase the Invoke ID, false otherwise.
+     * @param value
+     *            Auto increase Invoke ID.
      */
     void SetAutoIncreaseInvokeID(bool value);
 
-    /**
-     * @brief Gets the used authentication.
-     * @return The authentication type.
-     */
+    // Gets used authentication.
     DLMS_AUTHENTICATION GetAuthentication();
 
-    /**
-     * @brief Sets the used authentication.
-     * @param value The authentication type to set.
-     */
+    //Sets Used authentication.
     void SetAuthentication(DLMS_AUTHENTICATION value);
 
-    /**
-     * @brief Gets the client address.
-     * @return The client address.
-     */
+    // Gets client address.
     unsigned long GetClientAddress();
 
-    /**
-     * @brief Sets the client address.
-     * @param value The client address to set.
-     */
+    // Sets client address.
     void SetClientAddress(unsigned long value);
 
-    /**
-     * @brief Gets the server address.
-     * @return The server address.
-     */
+    // Server address.
     unsigned long GetServerAddress();
 
-    /**
-     * @brief Sets the server address.
-     * @param value The server address to set.
-     */
+    // Server address.
     void SetServerAddress(unsigned long value);
 
-    /**
-     * @brief Gets the maximum client PDU size.
-     * @return The maximum PDU size.
-     */
+    // Maximum client PDU size.
     unsigned short GetMaxPduSize();
 
-    /**
-     * @brief Gets whether protected release is used.
-     * @return True if protected release is used, false otherwise.
-     */
+    // If protected release is used release is including a ciphered xDLMS Initiate request.
     bool GetUseProtectedRelease();
 
-    /**
-     * @brief Sets whether protected release is used.
-     * @param value True to use protected release, false otherwise.
-     */
+    // If protected release is used release is including a ciphered xDLMS Initiate request.
     void SetUseProtectedRelease(bool value);
 
-    /**
-     * @brief Gets whether to use UTC to normal time conversion.
-     * @return True to use UTC to normal time, false otherwise.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Standard says that Time zone is from normal time to UTC in minutes.
+    // If meter is configured to use UTC time (UTC to normal time) set this to true.
     bool GetUseUtc2NormalTime();
-
-    /**
-     * @brief Sets whether to use UTC to normal time conversion.
-     * @param value True to use UTC to normal time, false otherwise.
-     */
     void SetUseUtc2NormalTime(bool value);
 
-    /**
-     * @brief Gets the expected invocation counter value.
-     * @return The expected invocation counter.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Expected Invocation(Frame) counter value.
+    // Expected Invocation counter is not check if value is zero.
     uint64_t GetExpectedInvocationCounter();
-
-    /**
-     * @brief Sets the expected invocation counter value.
-     * @param value The expected invocation counter to set.
-     */
     void SetExpectedInvocationCounter(uint64_t value);
 
-    /**
-     * @brief Gets the skipped date-time fields.
-     * @return The skipped fields.
-     */
+    /////////////////////////////////////////////////////////////////////////
+    // Skip selected date time fields.
     DATETIME_SKIPS GetDateTimeSkips();
-
-    /**
-     * @brief Sets the skipped date-time fields.
-     * @param value The fields to skip.
-     */
     void SetDateTimeSkips(DATETIME_SKIPS value);
 
-    /**
-     * @brief Gets the user ID.
-     * @return The user ID.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    //User id is the identifier of the user.
     unsigned char GetUserID();
-
-    /**
-     * @brief Sets the user ID.
-     * @param value The user ID to set.
-     */
     void SetUserID(unsigned char value);
 
-    /**
-     * @brief Gets the quality of service.
-     * @return The quality of service.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    //Quality of service.
     unsigned char GetQualityOfService();
-
-    /**
-     * @brief Sets the quality of service.
-     * @param value The quality of service to set.
-     */
     void SetQualityOfService(unsigned char value);
 
-    /**
-     * @brief Gets the source system title.
-     * @return A reference to the source system title buffer.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    //  Source system title.
+    // Meter returns system title when ciphered connection is made or GMAC authentication is used.
     CGXByteBuffer &GetSourceSystemTitle();
 
-    /**
-     * @brief Sets the maximum client PDU size.
-     * @param value The maximum PDU size to set.
-     * @return An error code.
-     */
-    int SetMaxReceivePDUSize(unsigned short value);
 
-    /**
-     * @brief Gets the maximum client PDU size.
-     * @return The maximum PDU size.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Maximum client PDU size.
+    int SetMaxReceivePDUSize(unsigned short value);
     unsigned short GetMaxReceivePDUSize();
 
-    /**
-     * @brief Sets the GBT window size.
-     * @param value The window size to set.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // General Block transfer window size.
     int SetGbtWindowSize(unsigned char value);
-
-    /**
-     * @brief Gets the GBT window size.
-     * @return The window size.
-     */
     unsigned char GetGbtWindowSize();
 
-    /**
-     * @brief Gets the HDLC connection settings.
-     * @return A reference to the HDLC settings.
-     */
+    //HDLC connection settings. GetLimits is obsolete. Use GetHdlcSettings instead.
     CGXDLMSLimits &GetLimits();
 
-    /**
-     * @brief Gets the HDLC connection settings.
-     * @return A reference to the HDLC settings.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    //HDLC connection settings.
     CGXHdlcSettings &GetHdlcSettings();
 
-    /**
-     * @brief Gets the PLC connection settings.
-     * @return A reference to the PLC settings.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    //PLC connection settings.
     CGXPlcSettings &GetPlcSettings();
 
-    /**
-     * @brief Gets the collection of objects.
-     * @return A reference to the object collection.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Collection of the objects.
     CGXDLMSObjectCollection &GetObjects();
 
-    /**
-     * @brief Generates an SNRMRequest query.
-     * @param packets A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Returns SNRMRequest query as byte array.
+    /////////////////////////////////////////////////////////////////////////////
+    // packets: Packets to send.
+    // Returns: 0 if succeed. Otherwise error number.
+    /////////////////////////////////////////////////////////////////////////////
     int SNRMRequest(std::vector<CGXByteBuffer> &packets);
 
-    /**
-     * @brief Parses a UAResponse.
-     * @param data The data from the meter.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Parses UAResponse.
+    /////////////////////////////////////////////////////////////////////////////
+    // data: Byte array containing the data from the meter.
+    // Returns: 0 if succeed. Otherwise error number.
     int ParseUAResponse(CGXByteBuffer &data);
 
-    /**
-     * @brief Generates an AARQRequest query.
-     * @param packets A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Returns AARQRequest query as byte array.
+    /////////////////////////////////////////////////////////////////////////////
+    // Packets: Packets to send.
+    // Returns: 0 if succeed. Otherwise error number.
+    /////////////////////////////////////////////////////////////////////////////
     int AARQRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
-    * @brief Parses the AARE response. Parse method will update the following data:
+    * Parses the AARE response. Parse method will update the following data:
     * <ul>
     * <li>DLMSVersion</li>
     * <li>MaxReceivePDUSize</li>
@@ -392,555 +295,676 @@ public:
     * LNSettings or SNSettings will be updated, depending on the referencing,
     * Logical name or Short name.
     *
-    * @param data The received data.
+    * reply
+    *            Received data.
+    * @see GXDLMSClient#aarqRequest
+    * @see GXDLMSClient#GetUseLogicalNameReferencing
+    * @see GXDLMSClient#GetLNSettings
+    * @see GXDLMSClient#GetSNSettings
     */
     int ParseAAREResponse(CGXByteBuffer &data);
 
     /**
-     * @brief Gets whether authentication is required.
-     * @return True if authentication is required, false otherwise.
-     */
+    * @return Is authentication Required.
+    */
     bool IsAuthenticationRequired();
 
     /**
-     * @brief Gets the application association request.
-     * @param packets A reference to a vector to store the generated packets.
-     * @return An error code.
+     * @return Get challenge request if HLS authentication is used.
      */
     int GetApplicationAssociationRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
-     * @brief Parses the application association response.
-     * @param reply The received reply from the server.
-     * @return An error code.
+     * Parse server's challenge if HLS authentication is used.
+     *
+     * @param reply
+     *            Received reply from the server.
      */
     int ParseApplicationAssociationResponse(CGXByteBuffer &reply);
 
-    /**
-     * @brief Generates a ReceiverReady query.
-     * @param reply The reply data.
-     * @param Data The data to send.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Returns ReceiverReady query as byte array.
+    /////////////////////////////////////////////////////////////////////////////
+    // reply: Reply data.
+    // Data: Data to send.
+    // Returns: 0 if succeed. Otherwise error number.
+    /////////////////////////////////////////////////////////////////////////////
     int ReceiverReady(CGXReplyData &reply, CGXByteBuffer &Data);
 
-    /**
-     * @brief Generates a ReceiverReady query.
-     * @param Type The type of the next requested packet.
-     * @param Data The data to send.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Returns ReceiverReady query as byte array.
+    /////////////////////////////////////////////////////////////////////////////
+    // Type: type of the next requested packet.
+    // Data: Data to send.
+    // Returns: 0 if succeed. Otherwise error number.
+    /////////////////////////////////////////////////////////////////////////////
     int ReceiverReady(DLMS_DATA_REQUEST_TYPES Type, CGXByteBuffer &Data);
 
-    /**
-     * @brief Changes the type of a byte array.
-     * @param value The byte array.
-     * @param type The target type.
-     * @param useUtc Whether to use UTC.
-     * @param newValue A reference to store the new value.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Changes byte array received from the meter to given type.
+    /////////////////////////////////////////////////////////////////////////////
+    // value: Byte array received from the meter.
+    // type: Wanted type.
+    // useUtc: Standard says that Time zone is from normal time to UTC in minutes.
+    //         If meter is configured to use UTC time (UTC to normal time)
+    //         set this to true.
+    // returns Value changed by type.
     static int ChangeType(CGXByteBuffer &value, DLMS_DATA_TYPE type, bool useUtc, CGXDLMSVariant &newValue);
 
-    /**
-     * @brief Changes the type of a byte array.
-     * @param value The byte array.
-     * @param type The target type.
-     * @param newValue A reference to store the new value.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Changes byte array received from the meter to given type.
+    /////////////////////////////////////////////////////////////////////////////
+    // value Byte array received from the meter.
+    // type Wanted type.
+    // returns Value changed by type.
     static int ChangeType(CGXByteBuffer &value, DLMS_DATA_TYPE type, CGXDLMSVariant &newValue);
 
-    /**
-     * @brief Changes the type of a variant.
-     * @param value The variant.
-     * @param type The target type.
-     * @param newValue A reference to store the new value.
-     * @return An error code.
-     */
+    /////////////////////////////////////////////////////////////////////////////
+    // Changes byte array received from the meter to given type.
+    /////////////////////////////////////////////////////////////////////////////
+    // value Byte array received from the meter.
+    // type Wanted type.
+    // returns Value changed by type.
     static int ChangeType(CGXDLMSVariant &value, DLMS_DATA_TYPE type, CGXDLMSVariant &newValue);
 
     /**
-     * @brief Parses COSEM objects from the received data.
-     * @param objects The read objects.
-     * @param onlyKnownObjects True to parse only known objects, false otherwise.
-     * @return An error code.
-     */
+    * Parses the COSEM objects of the received data.
+    *
+    * objects : Read objects.
+    * objects : Collection of COSEM objects.
+    * onlyKnownObjects : Only known objects are parsed.
+    */
     int ParseObjects(std::vector<CGXDLMSVariant> &objects, bool onlyKnownObjects);
 
     /**
-     * @brief Parses COSEM objects from the received data.
-     * @param objects The read objects.
-     * @param onlyKnownObjects True to parse only known objects, false otherwise.
-     * @param ignoreInactiveObjects True to ignore inactive objects, false otherwise.
-     * @return An error code.
-     */
+    * Parses the COSEM objects of the received data.
+    *
+    * objects : Read objects.
+    * objects : Collection of COSEM objects.
+    * onlyKnownObjects : Only known objects are parsed.
+    * ignoreInactiveObjects : Inactivity objects are ignored.
+    */
     int ParseObjects(std::vector<CGXDLMSVariant> &objects, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
     /**
-     * @brief Parses COSEM objects from the received data.
-     * @param data The received data.
-     * @param onlyKnownObjects True to parse only known objects, false otherwise.
-     * @return An error code.
-     */
+    * Parses the COSEM objects of the received data.
+    *
+    * data : Received data, from the device, as byte array.
+    * objects : Collection of COSEM objects.
+    * onlyKnownObjects : Only known objects are parsed.
+    */
     int ParseObjects(CGXByteBuffer &data, bool onlyKnownObjects);
 
     /**
-     * @brief Parses COSEM objects from the received data.
-     * @param data The received data.
-     * @param onlyKnownObjects True to parse only known objects, false otherwise.
-     * @param ignoreInactiveObjects True to ignore inactive objects, false otherwise.
-     * @return An error code.
-     */
+    * Parses the COSEM objects of the received data.
+    *
+    * data : Received data, from the device, as byte array.
+    * objects : Collection of COSEM objects.
+    * onlyKnownObjects : Only known objects are parsed.
+    * ignoreInactiveObjects : Inactivity objects are ignored.
+    */
     int ParseObjects(CGXByteBuffer &data, bool onlyKnownObjects, bool ignoreInactiveObjects);
 
-    /**
-     * @brief Updates the value of an attribute.
-     * @param target The target object.
-     * @param attributeIndex The attribute index.
-     * @param value The new value.
-     * @return An error code.
-     */
+    /*
+    * Get Value from byte array received from the meter.
+    */
     int UpdateValue(CGXDLMSObject &target, int attributeIndex, CGXDLMSVariant &value);
 
     /**
-     * @brief Gets a value from the received data.
-     * @param data The received data.
-     * @param value A reference to store the value.
-     * @return An error code.
-     */
+        * Get Value from byte array received from the meter.
+        *
+        * data
+        *            Byte array received from the meter.
+        * @return Received data.
+        */
     int GetValue(CGXByteBuffer &data, CGXDLMSVariant &value);
 
     /**
-     * @brief Updates a list of values.
-     * @param list The list of objects and attributes.
-     * @param values The received values.
-     * @return An error code.
-     */
+    * Update list of values.
+    *
+    * list : List of read objects and atributes.
+    * values :  Received values.
+    */
     int UpdateValues(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXDLMSVariant> &values);
 
     /**
-     * @brief Generates a release request.
-     * @param packets A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a release request.
+    *
+    * reply : Generated release message(s).
+    * Returns error status.
+    */
     int ReleaseRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
-     * @brief Generates a disconnect request.
-     * @param packets A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a disconnect request.
+    *
+    * reply : Generated disconnect message(s).
+    * Returns error status.
+    */
     int DisconnectRequest(std::vector<CGXByteBuffer> &packets);
 
     /**
-     * @brief Gets the COSEM data from a packet.
-     * @param reply The received data.
-     * @param data The exported reply information.
-     * @return An error code.
-     */
+    * Removes the HDLC frame from the packet, and returns COSEM data only.
+    *
+    * @param reply
+    *            The received data from the device.
+    * @param data
+    *            The exported reply information.
+    * @return Is frame complete.
+    */
     int GetData(CGXByteBuffer &reply, CGXReplyData &data);
 
     /**
-     * @brief Gets the COSEM data from a packet.
-     * @param reply The received data.
-     * @param data The exported reply information.
-     * @param notify Information from the notify message.
-     * @return An error code.
-     */
+    * Removes the HDLC frame from the packet, and returns COSEM data only.
+    *
+    * @param reply
+    *            The received data from the device.
+    * @param data
+    *            The exported reply information.
+    * @param notify
+    *            Information from the notify message.
+    * @return Is frame complete.
+    */
     int GetData(CGXByteBuffer &reply, CGXReplyData &data, CGXReplyData &notify);
 
     /**
-     * @brief Reads the Association view from the device.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Reads the Association view from the device. This method is used to get
+    * all objects in the device.
+    *
+    * reply : Generated read message(s).
+    * Returns error status.
+    */
     int GetObjectsRequest(std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Generates a keep-alive message.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    Generates the keep alive message.
+
+    Keepalive message is needed only HDLC framing.
+    For keepalive we are reading logical name for Association object.
+    This is done because all the meters can't handle HDLC keep alive message.
+    */
     int GetKeepAlive(std::vector<CGXByteBuffer> &reply);
 
+
     /**
-     * @brief Generates a read message.
-     * @param name The short or logical name.
-     * @param objectType The COSEM object type.
-     * @param attributeOrdinal The attribute index.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a read message.
+    *
+    * name : Short or Logical Name.
+    * objectType : COSEM object type.
+    * attributeOrdinal : Attribute index of the object.
+    * reply : Generated read message(s).
+    * Returns error status.
+    */
     int
     Read(CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int attributeOrdinal, std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Generates a read message.
-     * @param pObject The COSEM object to read.
-     * @param attributeOrdinal The attribute index.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a read message.
+    *
+    * @param pObject
+    *            COSEM object to write.
+    * @param attributeOrdinal
+    *            Attribute index of the object.
+    * @param reply
+    *            Generated read message(s).
+    * Returns error status.
+    */
     int Read(CGXDLMSObject *pObject, int attributeOrdinal, std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Reads a list of COSEM objects.
-     * @param list The list of objects to read.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Read list of COSEM objects.
+    *
+    * @param list
+    *            DLMS objects to read.
+    * @param reply
+    *            Generated messages.
+    * @return Read request as byte array.
+    */
     int ReadList(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Writes a list of COSEM objects.
-     * @param list The list of objects to write.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Write list of COSEM objects.
+    *
+    * @param list
+    *            DLMS objects to read.
+    * @param reply
+    *            Generated messages.
+    * @return Write request as byte array.
+    */
     int WriteList(std::vector<std::pair<CGXDLMSObject *, unsigned char>> &list, std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Generates a write message.
-     * @param name The short or logical name.
-     * @param objectType The object type.
-     * @param index The attribute index.
-     * @param data The data to write.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a write message.
+    *
+    * @param name
+    *            Short or Logical Name.
+    * @param objectType
+    *            Object type.
+    * @param index
+    *            Attribute index where data is write.
+    * @param data
+    *            Data to Write.
+    * @param reply
+    *             Generated write message(s).
+    * Returns error status.
+    */
     int Write(
         CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data,
         std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Generates a write message.
-     * @param name The short or logical name.
-     * @param objectType The object type.
-     * @param index The attribute index.
-     * @param data The data to write.
-     * @param parameters The selective access parameters.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+   * Generates a write message.
+   *
+   * @param name
+   *            Short or Logical Name.
+   * @param objectType
+   *            Object type.
+   * @param index
+   *            Attribute index where data is write.
+   * @param data
+   *            Data to Write.
+   * @param parameters
+   *            Selective access parameters.
+   * @param reply
+   *             Generated write message(s).
+   * Returns error status.
+   */
     int Write(
         CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXByteBuffer *parameters,
         std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Generates a write message.
-     * @param name The short or logical name.
-     * @param objectType The object type.
-     * @param index The attribute index.
-     * @param data The data to write.
-     * @param parameters The selective access parameters.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+  * Generates a write message.
+  *
+  * @param name
+  *            Short or Logical Name.
+  * @param objectType
+  *            Object type.
+  * @param index
+  *            Attribute index where data is write.
+  * @param data
+  *            Data to Write.
+  * @param parameters
+  *            Selective access parameters.
+  * @param reply
+  *             Generated write message(s).
+  * Returns error status.
+  */
     int Write(
         CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXDLMSVariant &data, CGXDLMSVariant &parameters,
         std::vector<CGXByteBuffer> &reply
     );
-
     /**
-     * @brief Generates a write message.
-     * @param name The short or logical name.
-     * @param objectType The object type.
-     * @param index The attribute index.
-     * @param data The data to write.
-     * @param parameters The selective access parameters.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a write message.
+    *
+    * @param name
+    *            Short or Logical Name.
+    * @param objectType
+    *            Object type.
+    * @param index
+    *            Attribute index where data is write.
+    * @param data
+    *            Data to Write.
+    * @param parameters
+    *            Selective access parameters.
+    * @param reply
+    *             Generated write message(s).
+    * Returns error status.
+    */
     int Write(
         CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &data, CGXByteBuffer *parameters,
         std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Generates a write message.
-     * @param name The short or logical name.
-     * @param objectType The object type.
-     * @param index The attribute index.
-     * @param value The data to write.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a write message.
+    *
+    * @param name
+    *            Short or Logical Name.
+    * @param objectType
+    *            Object type.
+    * @param index
+    *            Attribute index where data is write.
+    * @param value
+    *            Data to Write.
+    * @param reply
+    *             Generated write message(s).
+    * Returns error status.
+    */
     int Write(
         CGXDLMSVariant &name, DLMS_OBJECT_TYPE objectType, int index, CGXByteBuffer &value,
         std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Generates a write message.
-     * @param pObject The COSEM object to write.
-     * @param index The attribute index.
-     * @param data The data to write.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
+     * Generates a write message.
+     *
+     * @param pObject
+     *            COSEM object to write.
+     * @param index
+     *            Attribute index where data is write.
+     * @param data
+     *            Data to Write.
+     * @param reply
+     *            Generated write message(s).
+     * Returns error status.
      */
     int Write(CGXDLMSObject *pObject, int index, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Generates a write message.
-     * @param pObject The COSEM object to write.
-     * @param index The attribute index.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generates a write message.
+    *
+    * @param pObject
+    *            COSEM object to write.
+    * @param index
+    *            Attribute index where data is write.
+    * @param reply
+    *            Generated write message(s).
+    * Returns error status.
+    */
     int Write(CGXDLMSObject *pObject, int index, std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Generates a Method (Action) request.
-     * @param item The method object.
-     * @param index The method index.
-     * @param data The method data.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generate Method (Action) request.
+    *
+    * @param item
+    *            Method object short name or Logical Name.
+    * @param index
+    *            Method index.
+    * @param data
+    *            Method data.
+    * @param reply
+    *            Generated messages.
+    * @return DLMS action message.
+    */
     int Method(CGXDLMSObject *item, int index, CGXDLMSVariant &data, std::vector<CGXByteBuffer> &reply);
 
+
     /**
-     * @brief Generates a Method (Action) request.
-     * @param item The method object.
-     * @param index The method index.
-     * @param data The method data.
-     * @param dataType The data type.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generate Method (Action) request.
+    *
+    * @param item
+    *            Method object short name or Logical Name.
+    * @param index
+    *            Method index.
+    * @param data
+    *            Method data.
+    * @param dataType
+    *            Data type.
+    * @param reply
+    *            Generated messages.
+    * @return DLMS action message.
+    */
     int Method(
         CGXDLMSObject *item, int index, CGXDLMSVariant &data, DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Generates a Method (Action) request.
-     * @param name The method object's short or logical name.
-     * @param objectType The object type.
-     * @param methodIndex The method index.
-     * @param data The method data.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+   * Generate Method (Action) request..
+   *
+   * @param name
+   *            Method object short name or Logical Name.
+   * @param objectType
+   *            Object type.
+   * @param methodIndex
+   *            Method index.
+   * @param data
+   *            Method data.
+   * @param reply
+   *            Generated messages.
+   * @return DLMS action message.
+   */
     int Method(
         CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data,
         std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Generates a Method (Action) request.
-     * @param name The method object's short or logical name.
-     * @param objectType The object type.
-     * @param methodIndex The method index.
-     * @param data The method data.
-     * @param dataType The data type.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Generate Method (Action) request..
+    *
+    * @param name
+    *            Method object short name or Logical Name.
+    * @param objectType
+    *            Object type.
+    * @param methodIndex
+    *            Method index.
+    * @param data
+    *            Method data.
+    * @param dataType
+    *            Data type.
+    * @param reply
+    *            Generated messages.
+    * @return DLMS action message.
+    */
     int Method(
         CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXDLMSVariant &data,
         DLMS_DATA_TYPE dataType, std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Generates a Method (Action) request.
-     * @param name The method object's short or logical name.
-     * @param objectType The object type.
-     * @param methodIndex The method index.
-     * @param data The method data.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+   * Generate Method (Action) request.
+   *
+   * @param name
+   *            Method object short name or Logical Name.
+   * @param objectType
+   *            Object type.
+   * @param methodIndex
+   *            Method index.
+   * @param data
+   *            Method data.
+   * @param reply
+   *            Generated messages.
+   * @return DLMS action message.
+   */
     int Method(
         CGXDLMSVariant name, DLMS_OBJECT_TYPE objectType, int methodIndex, CGXByteBuffer &data,
         std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Reads rows by entry.
-     * @param pg The profile generic object.
-     * @param index The zero-based start index.
-     * @param count The number of rows to read.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Read rows by entry.
+    *
+    * @param pg
+    *            Profile generic object to read.
+    * @param index
+    *            Zero bases start index.
+    * @param count
+    *            Rows count to read.
+    * @param reply
+    *            Generated messages.
+    * @return Read message as byte array.
+    */
     int ReadRowsByEntry(CGXDLMSProfileGeneric *pg, int index, int count, std::vector<CGXByteBuffer> &reply);
 
+
     /**
-     * @brief Reads rows by entry.
-     * @param pg The profile generic object.
-     * @param index The zero-based start index.
-     * @param count The number of rows to read.
-     * @param columns The columns to read.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Read rows by entry.
+    *
+    * @param pg
+    *            Profile generic object to read.
+    * @param index
+    *            Zero bases start index.
+    * @param count
+    *            Rows count to read.
+    * @param columns
+    *            Columns to read.
+    * @param reply
+    *            Generated messages.
+    * @return Read message as byte array.
+    */
     int ReadRowsByEntry(
         CGXDLMSProfileGeneric *pg, int index, int count,
         std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
     );
 
+
     /**
-     * @brief Reads rows by range.
-     * @param pObject The profile generic object.
-     * @param start The start time.
-     * @param end The end time.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Read rows by range. Use this method to read Profile Generic table between
+    * dates.
+    *
+    * @param pObject
+    *            Profile generic object to read.
+    * @param start
+    *            Start time.
+    * @param end
+    *            End time.
+    * @param reply
+    *            Generated messages.
+    * @return Generated read message.
+    */
     int ReadRowsByRange(
         CGXDLMSProfileGeneric *pObject, CGXDateTime &start, CGXDateTime &end, std::vector<CGXByteBuffer> &reply
     );
 
     /**
-     * @brief Reads rows by range.
-     * @param pg The profile generic object.
-     * @param start The start time.
-     * @param end The end time.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
+     * Read rows by range. Use this method to read Profile Generic table between
+     * dates.
+     *
+     * @param pg
+     *            Profile generic object to read.
+     * @param start
+     *            Start time.
+     * @param end
+     *            End time.
+     * @param reply
+     *            Generated messages.
+     * @return Generated read message.
      */
     int ReadRowsByRange(CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end, std::vector<CGXByteBuffer> &reply);
 
     /**
-     * @brief Reads rows by range.
-     * @param pg The profile generic object.
-     * @param start The start time.
-     * @param end The end time.
-     * @param columns The columns to read.
-     * @param reply A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+    * Read rows by range. Use this method to read Profile Generic table between
+    * dates.
+    *
+    * @param pg
+    *            Profile generic object to read.
+    * @param start
+    *            Start time.
+    * @param end
+    *            End time.
+    * @param columns
+    *            Columns to read.
+    * @param reply
+    *            Generated messages.
+    * @return Generated read message.
+    */
     int ReadRowsByRange(
         CGXDLMSProfileGeneric *pg, struct tm *start, struct tm *end,
         std::vector<std::pair<CGXDLMSObject *, CGXDLMSCaptureObject *>> &columns, std::vector<CGXByteBuffer> &reply
     );
 
+
     /**
-     * @brief Gets the negotiated conformance.
-     * @return The negotiated conformance.
-     */
+    *  Client will know what functionality server offers.
+    *
+    * @return Functionality.
+    */
     DLMS_CONFORMANCE GetNegotiatedConformance();
 
     /**
-     * @brief Sets the negotiated conformance.
-     * @param value The conformance to set.
-     */
+    * Negotiated functionality for the server. Client can set this if meter report error value.
+    *
+    * @param value
+    *            Proposed functionality.
+    */
     void SetNegotiatedConformance(DLMS_CONFORMANCE value);
 
     /**
-     * @brief Gets the proposed conformance.
-     * @return The proposed conformance.
-     */
+    * Proposed functionality for the server.
+    * @return Proposed functionality.
+    */
     DLMS_CONFORMANCE GetProposedConformance();
 
     /**
-     * @brief Sets the proposed conformance.
-     * @param value The conformance to set.
-     */
+    * Proposed functionality for the server.
+    *
+    * @param value
+    *            Proposed functionality.
+    */
     void SetProposedConformance(DLMS_CONFORMANCE value);
 
     /**
-     * @brief Gets the server address from a serial number.
-     * @param serialNumber The meter's serial number.
-     * @param logicalAddress The meter's logical address.
-     * @param formula The formula to use.
-     * @return The server address.
+     * Converts meter serial number to server address. Default formula is used.
+     * All meters do not use standard formula or support serial number
+     * addressing at all.
+     *
+     * serialNumber: Meter serial number.
+     * logicalAddress: Meter logical address.
+     * formula: Formula used to convert serial number to server address.
+     *            Set to NULL if standard formula is used.
+     * @return Server address.
      */
     static int GetServerAddressFromSerialNumber(
         unsigned long serialNumber, unsigned short logicalAddress, const char *formula = NULL
     );
 
     /**
-     * @brief Gets the server address.
-     * @param logicalAddress The server's logical address.
-     * @param physicalAddress The server's physical address.
-     * @param addressSize The address size in bytes.
-     * @return The server address.
+     * Convert physical address and logical address to server address.
+     *
+     * @param logicalAddress
+     *            Server logical address.
+     * @param physicalAddress
+     *            Server physical address.
+     * @param addressSize
+     *            Address size in bytes.
+     * @return Server address.
      */
     static int
     GetServerAddress(unsigned long logicalAddress, unsigned long physicalAddress, unsigned char addressSize = 0);
 
     /**
-     * @brief Gets the protocol version.
-     * @return The protocol version.
-     */
+    * @return Protocol version.
+    */
     char *GetProtocolVersion();
 
     /**
-     * @brief Sets the protocol version.
-     * @param value The protocol version to set.
-     */
+    * @param value
+    *            Protocol version.
+    */
     void SetProtocolVersion(char *value);
 
-    /**
-     * @brief Converts an object type to a string.
-     * @param type The object type.
-     * @return The string representation of the object type.
-     */
+    //Convert object type enum value to string.
     static const std::string ObjectTypeToString(DLMS_OBJECT_TYPE type) {
         return CGXDLMSConverter::ToString(type);
     }
 
-    /**
-     * @brief Parses push objects.
-     * @param data The data to parse.
-     * @param items A reference to a vector to store the parsed items.
-     * @return An error code.
-     */
+    //Parse push objects.
     int
     ParsePushObjects(std::vector<CGXDLMSVariant> &data, std::vector<std::pair<CGXDLMSObject *, unsigned char>> &items);
 
-    /**
-     * @brief Sets the custom challenge.
-     * @param value The custom challenge to set.
-     */
+    /*
+    Set custom challenge.
+    */
     void SetCtoSChallenge(CGXByteBuffer &value);
 
-    /**
-     * @brief Gets the custom challenge.
-     * @return A reference to the custom challenge buffer.
-     */
+    /*
+    Get custom challenge.
+    */
     CGXByteBuffer &GetCtoSChallenge();
 
-    /**
-     * @brief Generates an access service message.
-     * @param time The send time.
-     * @param list The list of access items.
-     * @param packets A reference to a vector to store the generated packets.
-     * @return An error code.
-     */
+
+    // Generates a access service message.
+    // time: Send time. Set to NULL is not used.
+    // packets: Access request as a byte array.
     int AccessRequest(struct tm *time, std::vector<CGXDLMSAccessItem> &list, std::vector<CGXByteBuffer> &packets);
 
-    /**
-     * @brief Parses an access response.
-     * @param list The collection of access items.
-     * @param data The received data from the meter.
-     * @return An error code.
-     */
+    /// Parse access response.
+    /// list: Collection of access items.
+    /// data: Received data from the meter.
     int ParseAccessResponse(std::vector<CGXDLMSAccessItem> &list, CGXByteBuffer &data);
 
-    /**
-     * @brief Gets the manufacturer ID.
-     * @return The manufacturer ID.
-     */
+    // Manufacturer ID.
+    //
+    // Manufacturer ID(FLAG ID) is used for manucaturer depending functionality.
     char *GetManufacturerId();
-
-    /**
-     * @brief Sets the manufacturer ID.
-     * @param value The manufacturer ID to set.
-     */
     void SetManufacturerId(char value[3]);
 
-    /**
-     * @brief Encrypts the Landis+Gyr high-level authentication.
-     * @param password The user's password.
-     * @param seed The seed received from the meter.
-     * @param crypted A reference to a buffer to store the encrypted data.
-     * @return An error code.
-     */
+    // Encrypt Landis+Gyr High level password.
+    // password: User password.
+    // seed: Seed received from the meter.
+    // Returns occurred error.
     int EncryptLandisGyrHighLevelAuthentication(CGXByteBuffer &password, CGXByteBuffer &seed, CGXByteBuffer &crypted);
 };
 #endif  //GXDLMSCLIENT_H

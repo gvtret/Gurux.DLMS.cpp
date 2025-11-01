@@ -39,83 +39,44 @@
 #include "GXDLMSObject.h"
 #include "GXXmlWriterSettings.h"
 
-/**
- * @brief Represents a collection of DLMS/COSEM objects.
- */
 class CGXDLMSObjectCollection: public std::vector<CGXDLMSObject *> {
 public:
-    /**
-     * @brief Destructor.
-     */
     ~CGXDLMSObjectCollection();
 
-    /**
-     * @brief Finds an object by its logical name.
-     * @param type The object type.
-     * @param ln The logical name.
-     * @return A pointer to the found object, or NULL if not found.
-     */
     CGXDLMSObject *FindByLN(DLMS_OBJECT_TYPE type, std::string &ln);
 
-    /**
-     * @brief Finds an object by its logical name.
-     * @param type The object type.
-     * @param ln The logical name.
-     * @return A pointer to the found object, or NULL if not found.
-     */
     CGXDLMSObject *FindByLN(DLMS_OBJECT_TYPE type, unsigned char ln[6]);
 
-    /**
-     * @brief Finds an object by its short name.
-     * @param sn The short name.
-     * @return A pointer to the found object, or NULL if not found.
-     */
     CGXDLMSObject *FindBySN(unsigned short sn);
 
-    /**
-     * @brief Gets all objects of a specific type.
-     * @param type The object type.
-     * @param items A reference to a collection to store the found objects.
-     */
     void GetObjects(DLMS_OBJECT_TYPE type, CGXDLMSObjectCollection &items);
 
-    /**
-     * @brief Adds an object to the collection.
-     * @param item A pointer to the object to add.
-     */
     void push_back(CGXDLMSObject *item);
 
-    /**
-     * @brief Frees the memory allocated by the objects in the collection.
-     */
     void Free();
 
-    /**
-     * @brief Converts the collection to a string.
-     * @return The string representation of the collection.
-     */
     std::string ToString();
 
     /**
-     * @brief Saves the COSEM objects to a file.
-     * @param fileName The name of the file.
-     * @return An error code.
-     */
+    * Save COSEM objects to the file.
+    *
+    * fileName: File name.
+    */
     int Save(const char *fileName);
 
     /**
-     * @brief Saves the COSEM objects to a file.
-     * @param fileName The name of the file.
-     * @param settings The XML writer settings.
-     * @return An error code.
-     */
+    * Save COSEM objects to the file.
+    *
+    * fileName: File name.
+    * settings: XML write settings.
+    */
     int Save(const char *fileName, CGXXmlWriterSettings &settings);
 
     /**
-     * @brief Loads COSEM objects from a file.
-     * @param fileName The name of the XML file.
-     * @return An error code.
-     */
+    * Load COSEM objects from the file.
+    *
+    * fileName XML file name.
+    */
     int Load(const char *fileName);
 };
 
