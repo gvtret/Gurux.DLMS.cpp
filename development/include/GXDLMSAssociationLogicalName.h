@@ -66,12 +66,38 @@ private:
 
     std::pair<unsigned char, std::string> m_CurrentUser;
 
+    /**
+     * @brief Updates the access rights of an object.
+     * @param pObj A pointer to the object.
+     * @param data The access rights data.
+     */
     void UpdateAccessRights(CGXDLMSObject *pObj, CGXDLMSVariant data);
 
+    /**
+     * @brief Gets the access rights of an object.
+     * @param pItem A pointer to the object.
+     * @param server A pointer to the DLMS server.
+     * @param data A reference to a buffer to store the access rights.
+     * @return An error code.
+     */
     int GetAccessRights(CGXDLMSObject *pItem, CGXDLMSServer *server, CGXByteBuffer &data);
 
+    /**
+     * @brief Gets the list of objects.
+     * @param settings The DLMS settings.
+     * @param e The value event argument.
+     * @param data A reference to a buffer to store the object list.
+     * @return An error code.
+     */
     int GetObjects(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
 
+    /**
+     * @brief Gets the list of users.
+     * @param settings The DLMS settings.
+     * @param e The value event argument.
+     * @param data A reference to a buffer to store the user list.
+     * @return An error code.
+     */
     int GetUsers(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e, CGXByteBuffer &data);
 
 public:

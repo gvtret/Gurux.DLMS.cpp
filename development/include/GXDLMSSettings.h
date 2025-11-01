@@ -63,54 +63,201 @@ const unsigned short MAX_RECEIVE_PDU_SIZE = 0xFFFF;
  * @brief Includes DLMS/COSEM communication settings.
  */
 class CGXDLMSSettings {
+    /**
+     * @brief Collection of dynamically allocated objects.
+     */
     CGXDLMSObjectCollection m_AllocatedObjects;
+    /**
+     * @brief The current connection state.
+     */
     DLMS_CONNECTION_STATE m_Connected;
+    /**
+     * @brief Whether to use a custom challenge.
+     */
     bool m_UseCustomChallenge;
+    /**
+     * @brief The client-to-server challenge.
+     */
     CGXByteBuffer m_CtoSChallenge;
+    /**
+     * @brief The server-to-client challenge.
+     */
     CGXByteBuffer m_StoCChallenge;
+    /**
+     * @brief The source system title.
+     */
     CGXByteBuffer m_SourceSystemTitle;
+    /**
+     * @brief The pre-established system title.
+     */
     CGXByteBuffer m_PreEstablishedSystemTitle;
+    /**
+     * @brief The Invoke ID.
+     */
     unsigned char m_InvokeID;
+    /**
+     * @brief Whether to automatically increase the Invoke ID.
+     */
     bool m_AutoIncreaseInvokeID;
+    /**
+     * @brief The long Invoke ID.
+     */
     int m_LongInvokeID;
+    /**
+     * @brief The priority.
+     */
     DLMS_PRIORITY m_Priority;
+    /**
+     * @brief The service class.
+     */
     DLMS_SERVICE_CLASS m_ServiceClass;
+    /**
+     * @brief The client address.
+     */
     unsigned long m_ClientAddress;
+    /**
+     * @brief The push client address.
+     */
     unsigned long m_PushClientAddress;
+    /**
+     * @brief The server address.
+     */
     unsigned long m_ServerAddress;
+    /**
+     * @brief Whether to use logical name referencing.
+     */
     bool m_UseLogicalNameReferencing;
+    /**
+     * @brief The interface type.
+     */
     DLMS_INTERFACE_TYPE m_InterfaceType;
+    /**
+     * @brief The authentication type.
+     */
     DLMS_AUTHENTICATION m_Authentication;
+    /**
+     * @brief The password.
+     */
     CGXByteBuffer m_Password;
+    /**
+     * @brief The Key Encrypting Key (KEK).
+     */
     CGXByteBuffer m_Kek;
+    /**
+     * @brief The long data count.
+     */
     unsigned short m_Count;
+    /**
+     * @brief The long data index.
+     */
     unsigned short m_Index;
+    /**
+     * @brief The DLMS version number.
+     */
     unsigned char m_DlmsVersionNumber;
+    /**
+     * @brief The maximum receive PDU size.
+     */
     unsigned short m_MaxReceivePDUSize;
+    /**
+     * @brief The maximum server PDU size.
+     */
     unsigned short m_MaxServerPDUSize;
+    /**
+     * @brief The sender frame sequence number.
+     */
     unsigned char m_SenderFrame;
+    /**
+     * @brief The receiver frame sequence number.
+     */
     unsigned char m_ReceiverFrame;
+    /**
+     * @brief Whether this is a server.
+     */
     bool m_Server;
+    /**
+     * @brief The HDLC connection settings.
+     */
     CGXDLMSLimits m_HdlcSettings;
+    /**
+     * @brief The PLC connection settings.
+     */
     CGXPlcSettings m_PlcSettings;
+    /**
+     * @brief The current block index.
+     */
     unsigned long m_BlockIndex;
+    /**
+     * @brief The collection of objects.
+     */
     CGXDLMSObjectCollection m_Objects;
-    CGXCipher *m_Cipher;
+    /**
+     * @brief The ciphering interface.
+     */
+    CGXCipher* m_Cipher;
+    /**
+     * @brief The block number acknowledged in GBT.
+     */
     int m_BlockNumberAck;
+    /**
+     * @brief The GBT window size.
+     */
     unsigned char m_GbtWindowSize;
+    /**
+     * @brief The proposed conformance.
+     */
     DLMS_CONFORMANCE m_ProposedConformance;
+    /**
+     * @brief The negotiated conformance.
+     */
     DLMS_CONFORMANCE m_NegotiatedConformance;
-    char *m_ProtocolVersion;
+    /**
+     * @brief The protocol version.
+     */
+    char* m_ProtocolVersion;
+    /**
+     * @brief The user ID.
+     */
     unsigned char m_UserId;
+    /**
+     * @brief The quality of service.
+     */
     unsigned char m_QualityOfService;
+    /**
+     * @brief Whether to use UTC to normal time conversion.
+     */
     bool m_UseUtc2NormalTime;
+    /**
+     * @brief The expected invocation counter.
+     */
     uint64_t m_ExpectedInvocationCounter;
+    /**
+     * @brief The expected security policy.
+     */
     unsigned char m_ExpectedSecurityPolicy;
+    /**
+     * @brief The expected security suite.
+     */
     unsigned char m_ExpectedSecuritySuite;
+    /**
+     * @brief The skipped date-time fields.
+     */
     DATETIME_SKIPS m_DateTimeSkips;
+    /**
+     * @brief The last executed command.
+     */
     unsigned char m_Command;
+    /**
+     * @brief The last executed command type.
+     */
     unsigned char m_CommandType;
+    /**
+     * @brief The client's public key certificate.
+     */
     CGXx509Certificate m_ClientPublicKeyCertificate;
+    /**
+     * @brief The server's public key certificate.
+     */
     CGXx509Certificate m_ServerPublicKeyCertificate;
 
 public:

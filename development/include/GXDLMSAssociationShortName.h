@@ -47,7 +47,19 @@ class CGXDLMSAssociationShortName: public CGXDLMSObject {
     std::string m_SecuritySetupReference;
     CGXByteBuffer m_Secret;
 
+    /**
+     * @brief Gets the access rights for an object.
+     * @param pObj The object.
+     * @param server The DLMS server.
+     * @param data The buffer to store the access rights.
+     * @return An error code.
+     */
     int GetAccessRights(CGXDLMSObject *pObj, CGXDLMSServer *server, CGXByteBuffer &data);
+
+    /**
+     * @brief Updates the access rights for an object.
+     * @param buff The buffer containing the new access rights.
+     */
     void UpdateAccessRights(CGXDLMSVariant &buff);
 
 public:

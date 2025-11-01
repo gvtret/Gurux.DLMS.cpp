@@ -191,6 +191,10 @@ bool CGXDLMSServer::GetUseLogicalNameReferencing() {
     return m_Settings.GetUseLogicalNameReferencing();
 }
 
+/**
+ * @param value
+ *            Is Logical Name referencing used.
+ */
 void CGXDLMSServer::SetUseLogicalNameReferencing(bool value) {
     m_Settings.SetUseLogicalNameReferencing(value);
 }
