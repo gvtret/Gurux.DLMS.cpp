@@ -39,35 +39,54 @@
 #include "GXAsn1Base.h"
 
 /**
- * Represents an ASN.1 IA5String, which is a string of ASCII characters.
-*/
+ * @brief Represents an ASN.1 IA5String.
+ *
+ * The IA5String type in ASN.1 corresponds to the International Alphabet No. 5,
+ * which is essentially the 7-bit ASCII character set. This class provides a
+ * container for such strings.
+ */
 class CGXAsn1Ia5String: public CGXAsn1Base {
 private:
+    /**
+     * @brief The internal string value.
+     */
     std::string m_Ia5String;
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Default constructor. Initializes an empty IA5String.
+     */
     CGXAsn1Ia5String() {
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    // value: IA5 string.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Constructor that initializes the string with a given value.
+     * @param value The initial string value.
+     */
     CGXAsn1Ia5String(std::string &value) {
         m_Ia5String = value;
     }
 
+    /**
+     * @brief Gets the value of the IA5String.
+     * @return A reference to the internal string.
+     */
     std::string &GetValue() {
         return m_Ia5String;
     }
 
+    /**
+     * @brief Sets the value of the IA5String.
+     * @param value The new string value.
+     */
     void SetValue(std::string &value) {
         m_Ia5String = value;
     }
 
+    /**
+     * @brief Converts the IA5String to its string representation.
+     * @return The string value.
+     */
     std::string ToString() {
         return m_Ia5String;
     }

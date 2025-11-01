@@ -54,107 +54,159 @@
 #include "GXAsn1Time.h"
 
 /**
-* ASN.1 Converter.
-*/
+ * @brief Provides static methods to convert between ASN.1 encoded byte arrays and a hierarchy of ASN.1 objects.
+ *
+ * This class is a utility for handling Abstract Syntax Notation One (ASN.1) data,
+ * which is commonly used in telecommunication and computer networking, and is a
+ * key part of the DLMS/COSEM standard, particularly for security features involving
+ * certificates (x.509) and public key infrastructure (PKCS).
+ */
 class CGXAsn1Converter {
 private:
     friend class CGXPkcs8;
+
+    /**
+     * @brief Recursively parses a byte buffer to extract ASN.1 objects.
+     * @param bb The byte buffer containing the ASN.1 data.
+     * @param objects A list to which the parsed ASN.1 objects are added.
+     * @param getNext A flag to control recursive parsing.
+     * @return 0 on success, or an error code.
+     */
     static int GetValue(CGXByteBuffer &bb, std::vector<CGXAsn1Base *> *objects, bool getNext);
 
+    /**
+     * @brief Parses a UTCTime string from ASN.1 data.
+     * @param dateString The string representation of the UTCTime.
+     * @return A CGXDateTime object.
+     */
     static CGXDateTime GetUtcTime(std::string &dateString);
 
+    /**
+     * @brief Parses a GeneralizedTime string from ASN.1 data.
+     * @param dateString The string representation of the GeneralizedTime.
+     * @return A CGXDateTime object.
+     */
     static CGXDateTime GetGeneralizedTime(std::string &dateString);
 
+    /**
+     * @brief Converts an integer to a string with a minimum number of digits (zero-padded).
+     * @param value The integer value.
+     * @param numbers The minimum number of digits.
+     * @return The formatted string.
+     */
     static std::string ToString(int value, int numbers);
 
+    /**
+     * @brief Converts a CGXDateTime object to an ASN.1 date string representation.
+     * @param date The date object.
+     * @return The formatted date string.
+     */
     static std::string DateToString(CGXDateTime &date);
 
-    /*
-     Add ASN1 object to byte buffer.
-     bb: Byte buffer where ANS1 object is serialized.
-     target: ANS1 object
-     Returns Size of the object.
-    */
+    /**
+     * @brief Serializes an ASN.1 object into a byte buffer.
+     * @param bb The byte buffer where the serialized data is appended.
+     * @param target The ASN.1 object to serialize.
+     * @param[out] count The size of the serialized object.
+     * @return 0 on success, or an error code.
+     */
     static int GetBytes(CGXByteBuffer &bb, CGXAsn1Base *target, int &count);
 
     /**
-     Get certificate type from byte array.
+     * @brief Determines the PKCS (Public-Key Cryptography Standards) type from a byte array.
+     * @param data The byte buffer containing the certificate or key data.
+     * @param seq The parsed ASN.1 sequence from the data.
+     * @return The identified DLMS_PKCS_TYPE.
      */
     static DLMS_PKCS_TYPE GetCertificateType(CGXByteBuffer &data, CGXAsn1Sequence *seq);
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Default constructor is private because this is a static utility class.
+     */
     CGXAsn1Converter();
 
-
+    /**
+     * @brief Encodes a subject string (e.g., from a certificate) into an ASN.1 sequence.
+     * @param value The subject string to encode.
+     * @param[out] list The ASN.1 sequence that will contain the encoded subject.
+     * @return 0 on success, or an error code.
+     */
     static int EncodeSubject(std::string &value, CGXAsn1Sequence *list);
 
+    /**
+     * @brief Extracts a subject string from an ASN.1 sequence.
+     * @param values The ASN.1 sequence containing the subject.
+     * @param[out] value The extracted subject string.
+     * @return 0 on success, or an error code.
+     */
     static int GetSubject(CGXAsn1Sequence *values, std::string &value);
 
     /**
-     Convert byte array to ASN1 objects->
-     data: ASN-1 bytes.
-     Returns  Parsed objects->
-    */
+     * @brief Deserializes a byte array into an ASN.1 object hierarchy.
+     * @param data The byte buffer containing the ASN.1 data.
+     * @param[out] value A pointer to the resulting base ASN.1 object.
+     * @return 0 on success, or an error code.
+     */
     static int FromByteArray(CGXByteBuffer &data, CGXAsn1Base *&value);
 
-    /*Get next ASN1 value from the byte buffer.*/
+    /**
+     * @brief Parses the next ASN.1 value from a byte buffer.
+     * @param data The byte buffer to parse from.
+     * @param[out] value The parsed value as a CGXDLMSVariant.
+     * @return 0 on success, or an error code.
+     */
     static int GetNext(CGXByteBuffer &data, CGXDLMSVariant &value);
 
     /**
-     Convert ASN1 objects to byte array.
-     @param objects ASN.1 objects->
-     @param value ASN.1 objects as byte array.
-     Returns  ASN.1 objects as byte array.
+     * @brief Serializes an ASN.1 object hierarchy into a byte array.
+     * @param objects The base ASN.1 object to serialize.
+     * @param[out] value The byte buffer where the serialized data will be stored.
+     * @return 0 on success, or an error code.
      */
     static int ToByteArray(CGXAsn1Base *objects, CGXByteBuffer &value);
 
     /**
-     Convert system title to subject.
-
-     @param systemTitle System title.
-     Returns Subject.
+     * @brief Converts a DLMS/COSEM system title into a certificate subject string.
+     * @param systemTitle The system title as a byte buffer.
+     * @return The formatted subject string.
      */
     static std::string SystemTitleToSubject(CGXByteBuffer &systemTitle);
 
     /**
-     Get system title from the subject.
-
-     @param subject Subject.
-     @param value System title.
-     Returns System title.
+     * @brief Extracts a system title from a certificate subject string.
+     * @param subject The subject string.
+     * @param[out] value The extracted system title as a byte buffer.
+     * @return 0 on success, or an error code.
      */
     static int SystemTitleFromSubject(std::string &subject, CGXByteBuffer &value);
 
     /**
-     Get system title in hex string from the subject.
-
-     @param subject Subject.
-     @param value System title.
-     Returns System title.
+     * @brief Extracts a system title from a subject string as a hex string.
+     * @param subject The subject string.
+     * @param[out] value The extracted system title as a hexadecimal string.
+     * @return 0 on success, or an error code.
      */
     static int HexSystemTitleFromSubject(std::string &subject, std::string &value);
 
     /**
-     Convert ASN1 certificate type to DLMS key usage.
-
-     @param type
-     Returns
-    */
+     * @brief Converts an ASN.1 certificate type to a DLMS key usage enumeration.
+     * @param type The DLMS_CERTIFICATE_TYPE.
+     * @return The corresponding DLMS_KEY_USAGE.
+     */
     static DLMS_KEY_USAGE CertificateTypeToKeyUsage(DLMS_CERTIFICATE_TYPE type);
 
     /**
-     Get certificate type from byte array.
+     * @brief Determines the PKCS type of a certificate from its byte array representation.
+     * @param data The byte buffer containing the certificate data.
+     * @return The DLMS_PKCS_TYPE enumeration.
      */
     static DLMS_PKCS_TYPE GetCertificateType(CGXByteBuffer &data);
 
     /**
-     Get certificate type from DER string.
-
-     @param der DER string
-     Returns error code.
+     * @brief Determines the PKCS type of a certificate from its DER-encoded string.
+     * @param der The DER-encoded string.
+     * @return The DLMS_PKCS_TYPE enumeration.
      */
     static DLMS_PKCS_TYPE GetCertificateType(std::string &der);
 };
