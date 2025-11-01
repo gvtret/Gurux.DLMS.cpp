@@ -43,17 +43,8 @@
  * @brief Represents a DLMS/COSEM short name association object.
  */
 class CGXDLMSAssociationShortName: public CGXDLMSObject {
-    /**
-     * Object list.
-     */
     CGXDLMSObjectCollection m_ObjectList;
-    /**
-     * Security setup reference.
-     */
     std::string m_SecuritySetupReference;
-    /**
-     * Secret.
-     */
     CGXByteBuffer m_Secret;
 
     /**

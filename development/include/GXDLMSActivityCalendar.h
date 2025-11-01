@@ -46,171 +46,148 @@
 /**
  * @brief Represents a DLMS/COSEM activity calendar.
  */
-class CGXDLMSActivityCalendar: public CGXDLMSObject
-{
-    /**
-     * Active calendar name.
-     */
+class CGXDLMSActivityCalendar: public CGXDLMSObject {
     std::string m_CalendarNameActive;
-    /**
-     * Passive calendar name.
-     */
     std::string m_CalendarNamePassive;
-    /**
-     * Active season profile.
-     */
-    std::vector<CGXDLMSSeasonProfile*> m_SeasonProfileActive;
-    /**
-     * Active week profile table.
-     */
-    std::vector<CGXDLMSWeekProfile*> m_WeekProfileTableActive;
-    /**
-     * Active day profile table.
-     */
-    std::vector<CGXDLMSDayProfile*> m_DayProfileTableActive;
-    /**
-     * Passive season profile.
-     */
-    std::vector<CGXDLMSSeasonProfile*> m_SeasonProfilePassive;
-    /**
-     * Passive day profile table.
-     */
-    std::vector<CGXDLMSDayProfile*> m_DayProfileTablePassive;
-    /**
-     * Passive week profile table.
-     */
-    std::vector<CGXDLMSWeekProfile*> m_WeekProfileTablePassive;
-    /**
-     * Activation time.
-     */
+    std::vector<CGXDLMSSeasonProfile *> m_SeasonProfileActive;
+    std::vector<CGXDLMSWeekProfile *> m_WeekProfileTableActive;
+    std::vector<CGXDLMSDayProfile *> m_DayProfileTableActive;
+    std::vector<CGXDLMSSeasonProfile *> m_SeasonProfilePassive;
+    std::vector<CGXDLMSDayProfile *> m_DayProfileTablePassive;
+    std::vector<CGXDLMSWeekProfile *> m_WeekProfileTablePassive;
     CGXDateTime m_Time;
+
 public:
     /**
-     * Constructor.
+     * @brief Constructor.
      */
     CGXDLMSActivityCalendar();
 
     /**
-     * Constructor.
-     *
-     * @param ln
-     *            Logical Name of the object.
-     * @param sn
-     *            Short Name of the object.
+     * @brief Constructor.
+     * @param ln The logical name of the object.
+     * @param sn The short name of the object.
      */
     CGXDLMSActivityCalendar(std::string ln, unsigned short sn);
 
     /**
-     * Constructor.
-     *
-     * @param ln
-     *            Logical Name of the object.
+     * @brief Constructor.
+     * @param ln The logical name of the object.
      */
     CGXDLMSActivityCalendar(std::string ln);
 
     /**
-     * Destructor.
+     * @brief Destructor.
      */
     ~CGXDLMSActivityCalendar();
 
     /**
-     * @return Active calendar name.
+     * @brief Gets the active calendar name.
+     * @return The active calendar name.
      */
     std::string GetCalendarNameActive();
 
     /**
-     * @param value
-     *            Active calendar name.
+     * @brief Sets the active calendar name.
+     * @param value The active calendar name to set.
      */
     void SetCalendarNameActive(std::string value);
 
     /**
-     * @return Active season profile.
+     * @brief Gets the active season profile.
+     * @return A reference to the vector of active season profiles.
      */
-    std::vector<CGXDLMSSeasonProfile*>& GetSeasonProfileActive();
+    std::vector<CGXDLMSSeasonProfile *> &GetSeasonProfileActive();
 
     /**
-     * @param value
-     *            Active season profile.
+     * @brief Sets the active season profile.
+     * @param value The vector of active season profiles to set.
      */
-    void SetSeasonProfileActive(std::vector<CGXDLMSSeasonProfile*>& value);
+    void SetSeasonProfileActive(std::vector<CGXDLMSSeasonProfile *> &value);
 
     /**
-     * @return Active week profile table.
+     * @brief Gets the active week profile table.
+     * @return A reference to the vector of active week profiles.
      */
-    std::vector<CGXDLMSWeekProfile*>& GetWeekProfileTableActive();
+    std::vector<CGXDLMSWeekProfile *> &GetWeekProfileTableActive();
 
     /**
-     * @param value
-     *            Active week profile table.
+     * @brief Sets the active week profile table.
+     * @param value The vector of active week profiles to set.
      */
-    void SetWeekProfileTableActive(std::vector<CGXDLMSWeekProfile*>& value);
+    void SetWeekProfileTableActive(std::vector<CGXDLMSWeekProfile *> &value);
 
     /**
-     * @return Active day profile table.
+     * @brief Gets the active day profile table.
+     * @return A reference to the vector of active day profiles.
      */
-    std::vector<CGXDLMSDayProfile*>& GetDayProfileTableActive();
+    std::vector<CGXDLMSDayProfile *> &GetDayProfileTableActive();
 
     /**
-     * @param value
-     *            Active day profile table.
+     * @brief Sets the active day profile table.
+     * @param value The vector of active day profiles to set.
      */
-    void SetDayProfileTableActive(std::vector<CGXDLMSDayProfile*>& value);
+    void SetDayProfileTableActive(std::vector<CGXDLMSDayProfile *> &value);
 
     /**
-     * @return Passive calendar name.
+     * @brief Gets the passive calendar name.
+     * @return The passive calendar name.
      */
     std::string GetCalendarNamePassive();
 
     /**
-     * @param value
-     *            Passive calendar name.
+     * @brief Sets the passive calendar name.
+     * @param value The passive calendar name to set.
      */
     void SetCalendarNamePassive(std::string value);
 
     /**
-     * @return Passive season profile.
+     * @brief Gets the passive season profile.
+     * @return A reference to the vector of passive season profiles.
      */
-    std::vector<CGXDLMSSeasonProfile*>& GetSeasonProfilePassive();
+    std::vector<CGXDLMSSeasonProfile *> &GetSeasonProfilePassive();
 
     /**
-     * @param value
-     *            Passive season profile.
+     * @brief Sets the passive season profile.
+     * @param value The vector of passive season profiles to set.
      */
-    void SetSeasonProfilePassive(std::vector<CGXDLMSSeasonProfile*>& value);
+    void SetSeasonProfilePassive(std::vector<CGXDLMSSeasonProfile *> &value);
 
     /**
-     * @return Passive week profile table.
+     * @brief Gets the passive week profile table.
+     * @return A reference to the vector of passive week profiles.
      */
-    std::vector<CGXDLMSWeekProfile*>& GetWeekProfileTablePassive();
+    std::vector<CGXDLMSWeekProfile *> &GetWeekProfileTablePassive();
 
     /**
-     * @param value
-     *            Passive week profile table.
+     * @brief Sets the passive week profile table.
+     * @param value The vector of passive week profiles to set.
      */
-    void SetWeekProfileTablePassive(std::vector<CGXDLMSWeekProfile*>& value);
+    void SetWeekProfileTablePassive(std::vector<CGXDLMSWeekProfile *> &value);
 
     /**
-     * @return Passive day profile table.
+     * @brief Gets the passive day profile table.
+     * @return A reference to the vector of passive day profiles.
      */
-    std::vector<CGXDLMSDayProfile*>& GetDayProfileTablePassive();
+    std::vector<CGXDLMSDayProfile *> &GetDayProfileTablePassive();
 
     /**
-     * @param value
-     *            Passive day profile table.
+     * @brief Sets the passive day profile table.
+     * @param value The vector of passive day profiles to set.
      */
-    void SetDayProfileTablePassive(std::vector<CGXDLMSDayProfile*>& value);
+    void SetDayProfileTablePassive(std::vector<CGXDLMSDayProfile *> &value);
 
     /**
-     * @return Activation time.
+     * @brief Gets the activation time.
+     * @return A reference to the activation time.
      */
-    CGXDateTime& GetTime();
+    CGXDateTime &GetTime();
 
     /**
-     * @param value
-     *            Activation time.
+     * @brief Sets the activation time.
+     * @param value The activation time to set.
      */
-    void SetTime(CGXDateTime& value);
+    void SetTime(CGXDateTime &value);
 
     /**
      * @brief Gets the number of attributes.
@@ -228,14 +205,14 @@ public:
      * @brief Gets the attribute values as strings.
      * @param values A reference to a vector to store the values.
      */
-    void GetValues(std::vector<std::string>& values);
+    void GetValues(std::vector<std::string> &values);
 
     /**
      * @brief Gets the attribute indices to read.
      * @param all True to get all attributes, false to get only unread ones.
      * @param attributes A reference to a vector to store the attribute indices.
      */
-    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
+    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
 
     /**
      * @brief Gets the data type of an attribute.
@@ -243,7 +220,7 @@ public:
      * @param type A reference to store the data type.
      * @return An error code.
      */
-    int GetDataType(int index, DLMS_DATA_TYPE& type);
+    int GetDataType(int index, DLMS_DATA_TYPE &type);
 
     /**
      * @brief Gets the value of a given attribute.
@@ -251,7 +228,7 @@ public:
      * @param e The value event argument.
      * @return An error code.
      */
-    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 
     /**
      * @brief Sets the value of a given attribute.
@@ -259,7 +236,7 @@ public:
      * @param e The value event argument.
      * @return An error code.
      */
-    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
+    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_ACTIVITY_CALENDAR
 
