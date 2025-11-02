@@ -38,50 +38,56 @@
 #include <string>
 
 /**
- * Represents a single entry in a charge table, defining the charge per unit.
+ * @brief Represents a single entry in a charge table.
+ *
+ * This class defines a single tier or step in a charging schedule, associating
+ * an index (often related to a time period or consumption level) with a specific
+ * charge per unit.
  */
 class CGXChargeTable {
+    /**
+     * @brief The index or identifier for this charge table entry.
+     */
     std::string m_Index;
+    /**
+     * @brief The charge to be applied per unit for this entry.
+     */
     short m_ChargePerUnit;
 
 public:
-    // Constructor.
+    /**
+     * @brief Default constructor.
+     */
     CGXChargeTable();
 
     /**
-    * Online help:<br>
-    * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-    *
-    * @return Index.
-    */
+     * @brief Gets the index of the charge table entry.
+     * @return A reference to the index string.
+     */
     std::string &GetIndex();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-     *
-     * @param value
-     *            Index.
+     * @brief Sets the index of the charge table entry.
+     * @param value The new index string.
      */
     void SetIndex(std::string &value);
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-     *
-     * @return Charge per unit.
+     * @brief Gets the charge per unit.
+     * @return The charge per unit value.
      */
     short GetChargePerUnit();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-     *
-     * @param value
-     *            Charge per unit.
+     * @brief Sets the charge per unit.
+     * @param value The new charge per unit value.
      */
     void SetChargePerUnit(short value);
 
+    /**
+     * @brief Converts the charge table entry to a string representation.
+     * @return A string describing the index and charge per unit.
+     */
     std::string ToString();
 };
 #endif  //GXCHARGE_TABLE_H

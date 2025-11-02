@@ -38,50 +38,55 @@
 #include <string>
 
 /**
- * Represents the scaling factors for commodity and price in a charge object.
-*/
+ * @brief Represents the scaling factors for commodity and price in a charge object.
+ *
+ * This class holds the scaler and unit information for both the commodity (e.g., energy)
+ * and the price, as defined in a DLMS/COSEM charge object.
+ */
 class CGXChargePerUnitScaling {
+    /**
+     * @brief The scaling factor (exponent) applied to the commodity value.
+     */
     signed char m_CommodityScale;
+    /**
+     * @brief The scaling factor (exponent) applied to the price value.
+     */
     signed char m_PriceScale;
 
 public:
-    // Constructor.
+    /**
+     * @brief Default constructor.
+     */
     CGXChargePerUnitScaling();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-     *
-     * @return Commodity scale.
+     * @brief Gets the commodity scaling factor.
+     * @return The commodity scale exponent.
      */
     signed char GetCommodityScale();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-     *
-     * @param value
-     *            Commodity scale.
+     * @brief Sets the commodity scaling factor.
+     * @param value The commodity scale exponent.
      */
     void SetCommodityScale(signed char value);
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-     *
-     * @return Price scale.
+     * @brief Gets the price scaling factor.
+     * @return The price scale exponent.
      */
     signed char GetPriceScale();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSCharge
-     *
-     * @param value
-     *            Price scale.
+     * @brief Sets the price scaling factor.
+     * @param value The price scale exponent.
      */
     void SetPriceScale(signed char value);
 
+    /**
+     * @brief Converts the scaling information to a string representation.
+     * @return A string describing the commodity and price scales.
+     */
     std::string ToString();
 };
 #endif  //GXCHARGE_PER_UNIT_SCALING_H
