@@ -39,46 +39,136 @@
 #include <string>
 
 /**
- * Represents a DLMS/COSEM authentication mechanism name, which identifies the
- * authentication mechanism being used.
-*/
+ * @brief Represents a DLMS/COSEM Authentication Mechanism Name.
+ *
+ * This class encapsulates the Object Identifier (OID) that uniquely identifies
+ * a DLMS/COSEM authentication mechanism, such as Low-Level or High-Level Security.
+ */
 class CGXAuthenticationMechanismName {
 private:
+    /**
+     * @brief The 'joint-iso-ctt' component of the OID.
+     */
     int m_JointIsoCtt;
+    /**
+     * @brief The 'country' component of the OID.
+     */
     int m_Country;
+    /**
+     * @brief The 'country-name' component of the OID.
+     */
     int m_CountryName;
+    /**
+     * @brief The 'identified-organization' component of the OID.
+     */
     int m_IdentifiedOrganization;
+    /**
+     * @brief The 'dlms-ua' component of the OID.
+     */
     int m_DlmsUA;
+    /**
+     * @brief The 'authentication-mechanism-name' component of the OID.
+     */
     int m_AuthenticationMechanismName;
+    /**
+     * @brief An enumeration representing the complete mechanism ID.
+     */
     DLMS_AUTHENTICATION m_MechanismId;
 
 public:
-    /*
-     * Constructor.
+    /**
+     * @brief Constructor.
      */
     CGXAuthenticationMechanismName();
 
+    /**
+     * @brief Gets the 'joint-iso-ctt' component.
+     * @return The value.
+     */
     int GetJointIsoCtt();
+
+    /**
+     * @brief Sets the 'joint-iso-ctt' component.
+     * @param value The new value.
+     */
     void SetJointIsoCtt(int value);
 
+    /**
+     * @brief Gets the 'country' component.
+     * @return The value.
+     */
     int GetCountry();
+
+    /**
+     * @brief Sets the 'country' component.
+     * @param value The new value.
+     */
     void SetCountry(int value);
 
+    /**
+     * @brief Gets the 'country-name' component.
+     * @return The value.
+     */
     int GetCountryName();
+
+    /**
+     * @brief Sets the 'country-name' component.
+     * @param value The new value.
+     */
     void SetCountryName(int value);
 
+    /**
+     * @brief Gets the 'identified-organization' component.
+     * @return The value.
+     */
     int GetIdentifiedOrganization();
+
+    /**
+     * @brief Sets the 'identified-organization' component.
+     * @param value The new value.
+     */
     void SetIdentifiedOrganization(int value);
 
+    /**
+     * @brief Gets the 'dlms-ua' component.
+     * @return The value.
+     */
     int GetDlmsUA();
+
+    /**
+     * @brief Sets the 'dlms-ua' component.
+     * @param value The new value.
+     */
     void SetDlmsUA(int value);
 
+    /**
+     * @brief Gets the 'authentication-mechanism-name' component.
+     * @return The value.
+     */
     int GetAuthenticationMechanismName();
+
+    /**
+     * @brief Sets the 'authentication-mechanism-name' component.
+     * @param value The new value.
+     */
     void SetAuthenticationMechanismName(int value);
 
+    /**
+     * @brief Gets the complete mechanism ID enumeration.
+     * @return The DLMS_AUTHENTICATION value.
+     */
     DLMS_AUTHENTICATION GetMechanismId();
+
+    /**
+     * @brief Sets the complete mechanism ID from an enumeration.
+     * @param value The new DLMS_AUTHENTICATION value.
+     */
     void SetMechanismId(DLMS_AUTHENTICATION value);
 
+    /**
+     * @brief Returns a string representation of the Authentication Mechanism Name.
+     * @return A string containing the formatted OID.
+     */
     std::string ToString();
 };
 #endif  //GXAUTHENTICATIONMECHANISMNAME_H
