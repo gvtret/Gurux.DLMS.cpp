@@ -38,36 +38,54 @@
 #include "GXAsn1Base.h"
 #include "GXDateTime.h"
 
-/// <summary>
-/// ASN1 time value base class.
-/// </summary>
+/**
+ * @brief Represents an ASN.1 Time value.
+ *
+ * This class is a container for a CGXDateTime object, providing a way to handle
+ * ASN.1 time types like UTCTime and GeneralizedTime within the ASN.1 object hierarchy.
+ */
 class CGXAsn1Time: public CGXAsn1Base {
 private:
+    /**
+     * @brief The internal CGXDateTime object holding the time value.
+     */
     CGXDateTime m_Time;
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Default constructor. Initializes a new instance with a default date-time value.
+     */
     CGXAsn1Time() {
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    // value: date time.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Constructor that initializes the time with a given CGXDateTime object.
+     * @param value The initial date-time value.
+     */
     CGXAsn1Time(CGXDateTime &value) {
         m_Time = value;
     }
 
+    /**
+     * @brief Gets the value of the ASN.1 Time object.
+     * @return A reference to the internal CGXDateTime object.
+     */
     CGXDateTime &GetValue() {
         return m_Time;
     }
 
+    /**
+     * @brief Sets the value of the ASN.1 Time object.
+     * @param value The new date-time value.
+     */
     void SetValue(CGXDateTime &value) {
         m_Time = value;
     }
 
+    /**
+     * @brief Converts the ASN.1 Time to its string representation.
+     * @return A string representation of the date-time value.
+     */
     std::string ToString() {
         return m_Time.ToString();
     }

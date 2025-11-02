@@ -39,35 +39,53 @@
 #include "GXAsn1Base.h"
 
 /**
- * Represents an ASN.1 UTF8String, a string of UTF-8 characters.
-*/
+ * @brief Represents an ASN.1 UTF8String, a string of characters encoded in UTF-8.
+ *
+ * This class provides a container for UTF-8 encoded strings within the ASN.1
+ * object hierarchy.
+ */
 class CGXAsn1Utf8String: public CGXAsn1Base {
 private:
+    /**
+     * @brief The internal string value, encoded in UTF-8.
+     */
     std::string m_Value;
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Default constructor. Initializes an empty UTF8String.
+     */
     CGXAsn1Utf8String() {
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    // value: IA5 string.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Constructor that initializes the string with a given value.
+     * @param value The initial string value.
+     */
     CGXAsn1Utf8String(std::string &value) {
         m_Value = value;
     }
 
+    /**
+     * @brief Gets the value of the UTF8String.
+     * @return A reference to the internal string.
+     */
     std::string &GetValue() {
         return m_Value;
     }
 
+    /**
+     * @brief Sets the value of the UTF8String.
+     * @param value The new string value.
+     */
     void SetValue(std::string &value) {
         m_Value = value;
     }
 
+    /**
+     * @brief Converts the UTF8String to its string representation.
+     * @return The string value.
+     */
     std::string ToString() {
         return m_Value;
     }

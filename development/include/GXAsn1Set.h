@@ -39,32 +39,45 @@
 #include "GXAsn1Base.h"
 
 /**
- * Represents an ASN.1 SET, an unordered collection of one or more types.
-*/
+ * @brief Represents an ASN.1 SET, an unordered collection of one or more types.
+ *
+ * In this implementation, the SET is represented as a key-value pair of ASN.1 objects.
+ * It manages the memory of the key and value objects, freeing them upon destruction.
+ */
 class CGXAsn1Set: public CGXAsn1Base {
 private:
+    /**
+     * @brief A pointer to the key ASN.1 object.
+     */
     CGXAsn1Base *m_Key;
+    /**
+     * @brief A pointer to the value ASN.1 object.
+     */
     CGXAsn1Base *m_Value;
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Default constructor. Initializes an empty SET with null key and value.
+     */
     CGXAsn1Set() {
         m_Value = m_Key = NULL;
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Constructor that initializes the SET with a key and a value.
+     * @param key A pointer to the ASN.1 object to be used as the key.
+     * @param value A pointer to the ASN.1 object to be used as the value.
+     */
     CGXAsn1Set(CGXAsn1Base *key, CGXAsn1Base *value) {
         m_Key = key;
         m_Value = value;
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Destructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Destructor.
+     *
+     * Deletes the key and value ASN.1 objects to prevent memory leaks.
+     */
     ~CGXAsn1Set() {
         if (m_Value != NULL) {
             delete m_Value;
@@ -76,14 +89,26 @@ public:
         }
     }
 
+    /**
+     * @brief Gets the key part of the SET.
+     * @return A pointer to the key ASN.1 base object.
+     */
     CGXAsn1Base *GetKey() {
         return m_Key;
     }
 
+    /**
+     * @brief Gets the value part of the SET.
+     * @return A pointer to the value ASN.1 base object.
+     */
     CGXAsn1Base *GetValue() {
         return m_Value;
     }
 
+    /**
+     * @brief Converts the SET to its string representation.
+     * @return A string that concatenates the string representations of the key and value.
+     */
     std::string ToString() {
         std::string value;
         if (m_Key != NULL) {
