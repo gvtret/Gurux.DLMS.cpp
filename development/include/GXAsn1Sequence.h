@@ -40,22 +40,30 @@
 #include "GXDLMSVariant.h"
 
 /**
- * Represents an ASN.1 SEQUENCE, an ordered collection of one or more types.
-*/
+ * @brief Represents an ASN.1 SEQUENCE, which is an ordered collection of one or more ASN.1 types.
+ *
+ * This class acts as a container for a heterogeneous list of other ASN.1 objects.
+ * It manages the memory of the contained objects, freeing them upon destruction.
+ */
 class CGXAsn1Sequence: public CGXAsn1Base {
 private:
+    /**
+     * @brief A vector of pointers to the ASN.1 objects contained within the sequence.
+     */
     std::vector<CGXAsn1Base *> m_Values;
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Default constructor. Initializes an empty sequence.
+     */
     CGXAsn1Sequence() {
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Destructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Destructor.
+     *
+     * Iterates through the contained ASN.1 objects and deletes each one to prevent memory leaks.
+     */
     ~CGXAsn1Sequence() {
         for (std::vector<CGXAsn1Base *>::iterator it = m_Values.begin(); it != m_Values.end(); ++it) {
             delete (*it);
@@ -63,6 +71,10 @@ public:
         m_Values.clear();
     }
 
+    /**
+     * @brief Gets the collection of ASN.1 objects in the sequence.
+     * @return A pointer to the vector of contained ASN.1 base objects.
+     */
     std::vector<CGXAsn1Base *> *GetValues() {
         return &m_Values;
     }
