@@ -42,8 +42,12 @@
 #include "GXBytebuffer.h"
 
 /**
- * Represents a dynamic array of bytes.
-*/
+ * @brief Represents a dynamic, modifiable array of bytes.
+ *
+ * This class provides a flexible container for byte sequences, similar to
+ * `std::vector<unsigned char>`, but with additional helper methods for serialization
+ * of primitive data types, string conversions, and other common operations.
+ */
 class CGXByteArray {
 	friend class CGXCipher;
 	friend class CGXByteBuffer;
@@ -51,196 +55,180 @@ class CGXByteArray {
 	friend class CGXEcdsa;
 	friend class CGXPkcs10;
 	friend class CGXPkcs8;
+	/**
+	 * @brief The internal vector that stores the byte data.
+	 */
 	std::vector<unsigned char> m_Data;
 
 public:
-	//Constructor.
+	/** @brief Default constructor. */
 	CGXByteArray();
-
-	//Constructor.
+	/** @brief Constructor with initial capacity. @param capacity The initial capacity. */
 	CGXByteArray(int capacity);
-
-	//Copy constructor.
+	/** @brief Copy constructor. @param value The object to copy. */
 	CGXByteArray(const CGXByteArray& value);
-
-	//Move constructor.
+	/** @brief Move constructor. @param value The object to move from. */
 	CGXByteArray(CGXByteArray&& value) noexcept;
-
-	//Destructor.
+	/** @brief Default destructor. */
 	~CGXByteArray() = default;
 
-	//Returns buffer size.
+	/** @brief Gets the current size of the byte array. @return The size in bytes. */
 	unsigned long GetSize() const;
-
-	//Set buffer size.
+	/** @brief Sets the size of the byte array. @param value The new size. */
 	void SetSize(unsigned long value);
 
-	//Allocate new size for the array in bytes.
+	/** @brief Sets the capacity of the internal vector. @param capacity The new capacity. */
 	void Capacity(unsigned long capacity);
-
-	//Get buffer capacity.
+	/** @brief Gets the current capacity of the byte array. @return The capacity in bytes. */
 	unsigned long Capacity() const;
 
-	//Fill buffer it with zeros.
+	/** @brief Fills a portion of the array with zeros. @param index The starting index. @param count The number of bytes to zero out. */
 	void Zero(unsigned long index, unsigned long count);
 
-	//Push new data to the byteArray.
+	/** @brief Appends an unsigned 8-bit integer. @param item The value to append. @return 0 on success. */
 	int SetUInt8(unsigned char item);
-
+	/** @brief Sets an unsigned 8-bit integer at a specific index. @param index The index. @param item The value. @return 0 on success. */
 	int SetUInt8(unsigned long index, unsigned char item);
-
+	/** @brief Appends an unsigned 16-bit integer. @param item The value to append. @return 0 on success. */
 	int SetUInt16(unsigned short item);
+	/** @brief Sets an unsigned 16-bit integer at a specific index. @param index The index. @param item The value. @return 0 on success. */
 	int SetUInt16(unsigned long index, unsigned short item);
-
+	/** @brief Appends an unsigned 32-bit integer. @param item The value to append. @return 0 on success. */
 	int SetUInt32(unsigned long item);
-
+	/** @brief Sets an unsigned 32-bit integer at a specific index. @param index The index. @param item The value. @return 0 on success. */
 	int SetUInt32ByIndex(unsigned long index, unsigned long item);
-
+	/** @brief Appends an unsigned 64-bit integer. @param item The value to append. @return 0 on success. */
 	int SetUInt64(unsigned long long item);
-
+	/** @brief Appends a signed 8-bit integer. @param item The value to append. @return 0 on success. */
 	int SetInt8(char item);
-
+	/** @brief Appends a signed 16-bit integer. @param item The value to append. @return 0 on success. */
 	int SetInt16(short item);
-
+	/** @brief Appends a signed 32-bit integer. @param item The value to append. @return 0 on success. */
 	int SetInt32(long item);
-
+	/** @brief Appends a signed 64-bit integer. @param item The value to append. @return 0 on success. */
 	int SetInt64(long long item);
-
+	/** @brief Appends a float. @param value The value to append. @return 0 on success. */
 	int SetFloat(float value);
-
+	/** @brief Appends a double. @param value The value to append. @return 0 on success. */
 	int SetDouble(double value);
-
+	/** @brief Appends a block of memory. @param pSource Pointer to the source data. @param count Number of bytes to append. @return 0 on success. */
 	int Set(const void* pSource, unsigned long count);
-
+	/** @brief Appends data from a CGXByteBuffer. @param data The source buffer. @param index Starting index in the source buffer. @param count Number of bytes to append. @return 0 on success. */
 	int Set(CGXByteBuffer* data, unsigned long index = 0, unsigned long count = -1);
-
-	//Add string to byte buffer.
+	/** @brief Appends a standard string. @param value The string to append. @return 0 on success. */
 	int AddString(const std::string& value);
-
-	//Add string to byte buffer.
+	/** @brief Appends a wide string. @param value The string to append. @return 0 on success. */
 	int AddString(const std::wstring& value);
-
+	/** @brief Appends a C-style string. @param value The string to append. @return 0 on success. */
 	int AddString(const char* value);
-
+	/** @brief Attaches a C-style string. @param value The string to attach. @return 0 on success. */
 	int AttachString(char* value);
 
+	/** @brief Clears the contents of the byte array. */
 	void Clear();
 
+	/** @brief Gets an unsigned 8-bit integer from a specific index. @param index The index. @param[out] value Pointer to store the result. @return 0 on success. */
 	int GetUInt8(unsigned long index, unsigned char* value) const;
-
+	/** @brief Gets an unsigned 24-bit integer from a specific index. @param index The index. @param[out] value Pointer to store the result. @return 0 on success. */
 	int GetUInt24(unsigned long index, unsigned int* value) const;
-
+	/** @brief Gets a direct pointer to the underlying data. @return A pointer to the data. */
 	unsigned char* GetData();
-
+	/** @brief Copies the data to a new array. @param[out] value Pointer to the new array. @param[out] count The size of the array. */
 	void ToArray(unsigned char*& value, unsigned long& count) const;
-
+	/** @brief Converts the byte array to a CGXByteBuffer. @param[out] value The destination buffer. @return 0 on success. */
 	int ToByteBuffer(CGXByteBuffer& value) const;
-
 	/**
-	 * Compares, whether two given arrays are similar starting from current
-	 * position.
-	 *
-	 * @param buff
-	 *            Array to compare.
-	 * @param length
-	 *            Length of the array to compare.
-	 * @return True, if arrays are similar. False, if the arrays differ.
+	 * @brief Compares this array with another byte buffer.
+	 * @param buff The buffer to compare with.
+	 * @param length The number of bytes to compare.
+	 * @return True if the contents are identical.
 	 */
 	bool Compare(const unsigned char* buff, unsigned long length) const;
-
+	/** @brief Gets an unsigned 16-bit integer. @param index The index. @param[out] value Pointer to store the result. @return 0 on success. */
 	int GetUInt16(unsigned long index, unsigned short* value) const;
+	/** @brief Gets an unsigned 32-bit integer. @param index The index. @param[out] value Pointer to store the result. @return 0 on success. */
 	int GetUInt32(unsigned long index, unsigned long* value) const;
+	/** @brief Gets an unsigned 64-bit integer. @param index The index. @param[out] value Pointer to store the result. @return 0 on success. */
 	int GetUInt64(unsigned long index, unsigned long long* value) const;
+	/** @brief Gets an unsigned 128-bit integer. @param index The index. @param[out] value Pointer to store the result. @return 0 on success. */
 	int GetUInt128(unsigned long index, unsigned char* value) const;
 
-	//Get byte array as a std::string.
+	/** @brief Converts the byte array to a readable string (non-printable characters are replaced). @return The string representation. */
 	std::string ToString() const;
-
-	//Get byte array as hex std::string.
+	/** @brief Converts the byte array to a hexadecimal string. @return The hex string. */
 	std::string ToHexString() const;
-
-	//Get byte array as hex std::string.
+	/** @brief Converts the byte array to a hexadecimal string. @param addSpaces If true, spaces are added between bytes. @return The hex string. */
 	std::string ToHexString(bool addSpaces) const;
-
-	//Get byte array as hex std::string.
+	/** @brief Converts a portion of the byte array to a hexadecimal string. @param position The starting position. @param count The number of bytes. @param addSpaces If true, add spaces. @return The hex string. */
 	std::string ToHexString(unsigned long position, unsigned long count, bool addSpaces) const;
-
-	//Add integer value to byte array as a std::string.
+	/** @brief Appends an integer to the array as its string representation. @param value The integer to add. */
 	void AddIntAsString(int value);
-
-	//Add double value to byte array as a std::string.
+	/** @brief Appends a double to the array as its string representation. @param value The double to add. */
 	void AddDoubleAsString(double value);
-
 	/**
-		* Returns data as byte array.
-		*
-		* @param index Starting index.
-		* @param count Number of bytes.
-		* @param bb Byte buffer as a byte array.
-		*/
+	 * @brief Extracts a sub-array.
+	 * @param index Starting index.
+	 * @param count Number of bytes.
+	 * @param[out] bb The destination byte array.
+	 * @return 0 on success.
+	 */
 	int SubArray(unsigned long index, int count, CGXByteArray& bb) const;
-
 	/**
-	* Returns data as byte array.
-	*
-	* @param index Starting index.
-	* @param count Number of bytes.
-	* @param bb Byte buffer as a byte array.
-	*/
+	 * @brief Extracts a sub-array into a byte buffer.
+	 * @param index Starting index.
+	 * @param count Number of bytes.
+	 * @param[out] bb The destination byte buffer.
+	 * @return 0 on success.
+	 */
 	int SubArray(unsigned long index, int count, CGXByteBuffer& bb) const;
 
+	/** @brief Assignment operator from another CGXByteArray. @param value The source. @return A reference to this object. */
 	CGXByteArray& operator=(CGXByteArray& value);
-
+	/** @brief Assignment operator from a CGXByteBuffer. @param value The source. @return A reference to this object. */
 	CGXByteArray& operator=(CGXByteBuffer& value);
 
-	//Push the given hex string as byte array into this buffer at the current position, and then increments the position.
+	/** @brief Appends a hexadecimal string to the array. @param value The hex string. */
 	void SetHexString(const std::string& value);
-
-	//Push the given hex string as byte array into this buffer at the current position, and then increments the position.
+	/** @brief Appends a hexadecimal string (alternative format). @param value The hex string. */
 	void SetHexString2(const std::string& value);
-
-	//Push the given hex string as byte array into this buffer at the current position, and then increments the position.
+	/** @brief Appends a hexadecimal C-style string. @param value The hex string. */
 	void SetHexString(const char* value);
 
-	//Check is byte buffer ASCII string.
+	/** @brief Checks if a buffer contains only ASCII characters. @param value The buffer. @param length The length to check. @return True if ASCII. */
 	static bool IsAsciiString(const unsigned char* value, unsigned long length);
-
-	//Check is byte buffer ASCII string.
+	/** @brief Checks if this byte array contains only ASCII characters. @return True if ASCII. */
 	bool IsAsciiString() const;
-
-	// Get String value from byte array.
+	/** @brief Gets a string value from a portion of the array. @param index The starting index. @param count The number of bytes. @param[out] value The resulting string. @return 0 on success. */
 	int GetString(unsigned long index, unsigned long count, std::string& value) const;
-
-	// Get UTF-8 value from byte array.
+	/** @brief Gets a UTF-8 string from a portion of the array. @param index The starting index. @param count The number of bytes. @param[out] value The resulting string. @return 0 on success. */
 	int GetStringUnicode(unsigned long index, unsigned long count, std::string& value) const;
-
-	// Get unicode string value from byte array.
+	/** @brief Gets a Unicode (wide) string from a portion of the array. @param index The starting index. @param count The number of bytes. @param[out] value The resulting wide string. @return 0 on success. */
 	int GetStringUnicode(unsigned long index, unsigned long count, std::wstring& value) const;
-
 	/**
-	* Convert Base64 string to byte array.
-	*
-	* input: Base64 string.
-	*/
+	 * @brief Populates the array from a Base64 encoded string.
+	 * @param input The Base64 string.
+	 * @return 0 on success.
+	 */
 	int FromBase64(const std::string& input);
-
 	/**
-   * Convert byte array to Base64 string.
-   *
-   * @param value
-   *            Byte array to convert.
-   * @return Base64 string.
-   */
+	 * @brief Converts the byte array to a Base64 encoded string.
+	 * @param[out] value The resulting Base64 string.
+	 * @return 0 on success.
+	 */
 	int ToBase64(std::string& value) const;
 
+	/** @brief Copy assignment operator. @param value The source. @return A reference to this object. */
 	CGXByteArray& operator=(const CGXByteArray& value);
-
-	// Move assignment operator.
+	/** @brief Move assignment operator. @param value The source. @return A reference to this object. */
 	CGXByteArray& operator=(CGXByteArray&& value) noexcept;
-
+	/** @brief Assignment operator from CGXByteBuffer. @param value The source. @return A reference to this object. */
 	CGXByteArray& operator=(const CGXByteBuffer& value);
 
-	/*Reverse byte array.*/
+	/**
+	 * @brief Reverses a portion of the byte array.
+	 * @param index The starting index.
+	 * @param count The number of bytes to reverse.
+	 */
 	void Reverse(unsigned long index, unsigned long count);
 };
 

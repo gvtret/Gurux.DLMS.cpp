@@ -41,29 +41,33 @@
 
 class CGXPkcs10;
 
-/// <summary>
-/// Certificate request.
-/// </summary>
+/**
+ * @brief Represents a request for a digital certificate.
+ *
+ * This class encapsulates the information needed to request a certificate,
+ * including the certificate type, the intended key usage, and the PKCS#10
+ * Certificate Signing Request (CSR) itself.
+ */
 class CGXCertificateRequest {
 private:
     friend class CGXPkcs10;
     /**
-     * Certificate type.
+     * @brief The type of the requested certificate.
      */
     DLMS_CERTIFICATE_TYPE m_CertificateType;
     /**
-     * Indicates the purpose for which the certified public key is used.
+     * @brief The intended purpose for which the certified public key will be used.
      */
     DLMS_EXTENDED_KEY_USAGE m_ExtendedKeyUsage;
     /**
-     * Certificate Signing Request.
+     * @brief The Certificate Signing Request (CSR) in PKCS#10 format.
      */
     CGXPkcs10 *m_Certificate;
 
 public:
     /**
-    * Constructor.
-    */
+     * @brief Default constructor.
+     */
     CGXCertificateRequest() {
         m_Certificate = NULL;
         m_CertificateType = DLMS_CERTIFICATE_TYPE_DIGITAL_SIGNATURE;
@@ -71,10 +75,9 @@ public:
     }
 
     /**
-     * Constructor.
-     * 
-     * certificateType: Certificate type.
-     * certificate: PKCS 10 certificate.
+     * @brief Constructor to initialize the certificate request.
+     * @param certificateType The type of the certificate.
+     * @param certificate A pointer to the PKCS#10 certificate signing request.
      */
     CGXCertificateRequest(DLMS_CERTIFICATE_TYPE certificateType, CGXPkcs10 *certificate) {
         m_Certificate = NULL;
@@ -84,45 +87,48 @@ public:
     }
 
     /**
-     * Returns Certificate type.
+     * @brief Gets the certificate type.
+     * @return The DLMS_CERTIFICATE_TYPE enumeration.
      */
     DLMS_CERTIFICATE_TYPE GetCertificateType() {
         return m_CertificateType;
     }
 
     /**
-     * value: Certificate type.
+     * @brief Sets the certificate type.
+     * @param value The DLMS_CERTIFICATE_TYPE enumeration.
      */
     void SetCertificateType(DLMS_CERTIFICATE_TYPE value) {
         m_CertificateType = value;
     }
 
     /**
-     *
-     * @return Indicates the purpose for which the certified public key is used.
+     * @brief Gets the extended key usage.
+     * @return The DLMS_EXTENDED_KEY_USAGE enumeration, indicating the key's purpose.
      */
     DLMS_EXTENDED_KEY_USAGE GetExtendedKeyUsage() {
         return m_ExtendedKeyUsage;
     }
 
     /**
-     * value: Indicates the purpose for which 
-     *        the certified public key is used.
+     * @brief Sets the extended key usage.
+     * @param value The DLMS_EXTENDED_KEY_USAGE enumeration, indicating the key's purpose.
      */
     void SetExtendedKeyUsage(DLMS_EXTENDED_KEY_USAGE value) {
         m_ExtendedKeyUsage = value;
     }
 
     /**
-     *
-     * @return Certificate Signing Request.
+     * @brief Gets the Certificate Signing Request (CSR).
+     * @return A pointer to the CGXPkcs10 object.
      */
     CGXPkcs10 *GetCertificate() {
         return m_Certificate;
     }
 
     /**
-     * value: Certificate Signing Request.
+     * @brief Sets the Certificate Signing Request (CSR).
+     * @param value A pointer to the CGXPkcs10 object.
      */
     void SetCertificate(CGXPkcs10 *value) {
         m_Certificate = value;
