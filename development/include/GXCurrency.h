@@ -39,59 +39,70 @@
 #include <string>
 
 /**
- * Represents a currency, including its name, scale, and unit.
-*/
+ * @brief Represents a currency, including its name, scale, and unit.
+ *
+ * This class is used in DLMS/COSEM to define the monetary unit for charges and credits.
+ */
 class CGXCurrency {
     /**
-    * Currency name.
-    */
+     * @brief The name or symbol of the currency (e.g., "USD", "EUR").
+     */
     std::string m_Name;
     /**
-     * Currency scale.
+     * @brief The scaling factor (exponent) applied to the currency value.
      */
     char m_Scale;
     /**
-     * Currency unit.
+     * @brief The standardized unit of the currency.
      */
     DLMS_CURRENCY m_Unit;
 
 public:
-    // Constructor.
+    /**
+     * @brief Default constructor.
+     */
     CGXCurrency();
 
     /**
-     * @return Currency name.
+     * @brief Gets the currency name.
+     * @return A reference to the currency name string.
      */
     std::string &GetName();
 
     /**
-     * @param value
-     *            Currency name.
+     * @brief Sets the currency name.
+     * @param value The new currency name string.
      */
     void SetName(std::string &value);
 
     /**
-     * @return Currency scale.
+     * @brief Gets the currency scaling factor.
+     * @return The currency scale exponent.
      */
     char GetScale();
 
     /**
-     * @param value
-     *            Currency scale.
+     * @brief Sets the currency scaling factor.
+     * @param value The new currency scale exponent.
      */
     void SetScale(char value);
 
     /**
-     * @return Currency unit.
+     * @brief Gets the currency unit.
+     * @return The DLMS_CURRENCY enumeration.
      */
     DLMS_CURRENCY GetUnit();
 
     /**
-     * @param value
-     *            Currency unit.
+     * @brief Sets the currency unit.
+     * @param value The DLMS_CURRENCY enumeration.
      */
     void SetUnit(DLMS_CURRENCY value);
 
+    /**
+     * @brief Converts the currency information to a string representation.
+     * @return A string describing the currency's name, scale, and unit.
+     */
     std::string ToString();
 };
 #endif  //GXCURRENCY_H
