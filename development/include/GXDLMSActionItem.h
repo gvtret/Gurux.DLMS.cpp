@@ -38,31 +38,45 @@
 #include "enums.h"
 
 /**
- * Represents a single action to be performed by a DLMS/COSEM device, such as
- * executing a script.
-*/
+ * @brief Represents a single action to be performed by a DLMS/COSEM device.
+ *
+ * This class defines an action by referencing a Script Table object via its
+ * logical name and specifying which script to execute via the script selector.
+ */
 class CGXDLMSActionItem {
     friend class CGXDLMSActionSet;
+    /**
+     * @brief The logical name (OBIS code) of the Script Table object.
+     */
     std::string m_LogicalName;
+    /**
+     * @brief An integer that selects the specific script to be executed from the Script Table.
+     */
     int m_ScriptSelector;
 
 public:
-    //Constructor.
+    /** @brief Default constructor. */
     CGXDLMSActionItem();
 
-    //Destructor.
+    /** @brief Destructor. */
     ~CGXDLMSActionItem() {
         m_LogicalName.clear();
     }
 
+    /** @brief Gets the logical name of the Script Table. @return A reference to the logical name string. */
     std::string &GetLogicalName();
-
+    /** @brief Sets the logical name of the Script Table. @param value The new logical name. */
     void SetLogicalName(std::string &value);
 
+    /** @brief Gets the script selector. @return The script selector value. */
     int GetScriptSelector();
-
+    /** @brief Sets the script selector. @param value The new script selector value. */
     void SetScriptSelector(int value);
 
+    /**
+     * @brief Converts the action item to a string representation.
+     * @return A string describing the logical name and script selector.
+     */
     std::string ToString();
 };
 #endif  //GXDLMSACTIONITEM_H

@@ -39,86 +39,73 @@
 #include <string>
 
 /**
- * Represents the configuration for credit and charge operations in a DLMS/COSEM
- * account.
-*/
+ * @brief Represents the configuration for credit and charge operations in a DLMS/COSEM account.
+ *
+ * This class defines the references and settings for managing credit and charges
+ * within a DLMS Account object.
+ */
 class CGXCreditChargeConfiguration {
     /**
-* Credit reference.<br>
-* Online help:<br>
-* http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
-*/
+     * @brief A reference to an object that provides credit to the account.
+     */
     std::string m_CreditReference;
 
     /**
-     * Charge reference.<br>
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
+     * @brief A reference to an object that applies charges to the account.
      */
     std::string m_ChargeReference;
 
     /**
-     * Collection configuration.<br>
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
+     * @brief Defines the behavior of the credit collection process.
      */
     DLMS_CREDIT_COLLECTION_CONFIGURATION m_CollectionConfiguration;
 
 public:
-    // Constructor.
+    /**
+     * @brief Default constructor.
+     */
     CGXCreditChargeConfiguration();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
-     *
-     * @return Credit reference.
+     * @brief Gets the credit reference.
+     * @return A reference to the credit reference string.
      */
     std::string &GetCreditReference();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
-     *
-     * @param value
-     *            Credit reference.
+     * @brief Sets the credit reference.
+     * @param value The new credit reference string.
      */
     void SetCreditReference(std::string &value);
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
-     *
-     * @return Charge reference.
+     * @brief Gets the charge reference.
+     * @return A reference to the charge reference string.
      */
     std::string &GetChargeReference();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
-     *
-     * @param value
-     *            Charge reference.
+     * @brief Sets the charge reference.
+     * @param value The new charge reference string.
      */
     void SetChargeReference(std::string &value);
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
-     *
-     * @return Collection configuration.
+     * @brief Gets the collection configuration.
+     * @return The DLMS_CREDIT_COLLECTION_CONFIGURATION enumeration.
      */
     DLMS_CREDIT_COLLECTION_CONFIGURATION GetCollectionConfiguration();
 
     /**
-     * Online help:<br>
-     * http://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSAccount
-     *
-     * @param value
-     *            Collection configuration.
+     * @brief Sets the collection configuration.
+     * @param value The DLMS_CREDIT_COLLECTION_CONFIGURATION enumeration.
      */
     void SetCollectionConfiguration(DLMS_CREDIT_COLLECTION_CONFIGURATION value);
 
+    /**
+     * @brief Converts the configuration to a string representation.
+     * @return A string describing the credit/charge configuration.
+     */
     std::string ToString();
 };
 #endif  //GXCREDIT_CHARGE_CONFIGURATION_H

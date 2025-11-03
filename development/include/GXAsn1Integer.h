@@ -41,102 +41,135 @@
 #include "GXAsn1Base.h"
 
 /**
- * Represents an ASN.1 INTEGER, a whole number of arbitrary size.
-*/
+ * @brief Represents an ASN.1 INTEGER, a signed whole number of arbitrary size.
+ *
+ * This class stores the integer value in a byte buffer, allowing it to represent
+ * numbers larger than standard primitive types. It provides methods to construct
+ * the integer from various types and to convert it to standard integer types.
+ */
 class CGXAsn1Integer: public CGXAsn1Base {
 private:
+    /**
+     * @brief The byte buffer that holds the raw byte representation of the integer.
+     */
     CGXByteBuffer m_Value;
 
 public:
     /**
-     Value.
-    */
+     * @brief Gets the underlying byte buffer containing the integer value.
+     * @return A reference to the internal byte buffer.
+     */
     CGXByteBuffer &GetValue() {
         return m_Value;
     }
 
     /**
-     Value.
-    */
+     * @brief Sets the integer value from a byte buffer.
+     * @param value The byte buffer containing the new value.
+     */
     void SetValue(CGXByteBuffer &value) {
         m_Value = value;
     }
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Default constructor. Initializes an empty integer object.
+     */
     CGXAsn1Integer() {
     }
 
     /**
-     Constructor
-     @param value Integer.
-    */
+     * @brief Constructor that initializes the integer from a byte buffer.
+     * @param value The byte buffer containing the integer data.
+     */
     CGXAsn1Integer(CGXByteBuffer &value) {
         m_Value = value;
     }
 
     /**
-     Constructor
-      data: Data.
-      index: Index.
-      count: Count.
-    */
+     * @brief Constructor that initializes the integer from a part of a byte buffer.
+     * @param data The source byte buffer.
+     * @param index The starting index in the source buffer.
+     * @param count The number of bytes to copy.
+     */
     CGXAsn1Integer(CGXByteBuffer &data, int index, int count) {
         data.SubArray(index, count, m_Value);
     }
 
-    /*
-     Constructor
-     data: Integer.
-    */
+    /**
+     * @brief Constructor that initializes the integer from a string.
+     * @param data A string containing the numeric value.
+     */
     CGXAsn1Integer(std::string &data) {
         m_Value.SetUInt64(atoll(data.c_str()));
     }
 
     /**
-     Constructor
-     data: Integer.
-    */
+     * @brief Constructor that initializes the integer from a 64-bit unsigned integer.
+     * @param data The 64-bit integer value.
+     */
     CGXAsn1Integer(uint64_t data) {
         m_Value.SetUInt64(data);
     }
 
-    /** @return Get integer value as int.
-    */
+    /**
+     * @brief Converts the ASN.1 integer to a big integer object.
+     * @return A CGXBigInteger object representing the value.
+     */
     CGXBigInteger ToBigInteger() {
         return CGXBigInteger(m_Value);
     }
 
-    /*Get integer value as byte.*/
+    /**
+     * @brief Converts the integer value to an unsigned char (byte).
+     * @note This may result in data loss if the value is outside the range of a byte.
+     * @return The value as an unsigned char.
+     */
     unsigned char ToByte() {
         unsigned char value;
         m_Value.GetUInt8(&value);
         return value;
     }
 
-    /*Get integer value as short.*/
+    /**
+     * @brief Converts the integer value to a short.
+     * @note This may result in data loss if the value is outside the range of a short.
+     * @return The value as a short.
+     */
     short ToShort() {
         short value;
         m_Value.GetInt16(&value);
         return value;
     }
 
-    /*Get integer value as int.*/
+    /**
+     * @brief Converts the integer value to a long.
+     * @note This may result in data loss if the value is outside the range of a long.
+     * @return The value as a long.
+     */
     long ToInt() {
         int32_t value;
         m_Value.GetInt32(&value);
         return value;
     }
 
-    /** Returns: Integer value as long.
-    */
+    /**
+     * @brief Converts the integer value to a long long.
+     * @note This may result in data loss if the value is outside the range of a long long.
+     * @return The value as a long long.
+     */
     long long ToLong() {
         int64_t value;
         m_Value.GetInt64(&value);
         return value;
     }
 
+    /**
+     * @brief Converts the integer to its string representation.
+     *
+     * The conversion is based on the size of the underlying byte buffer.
+     *
+     * @return A string representation of the integer value.
+     */
     std::string ToString() {
         std::string str;
         switch (m_Value.GetSize()) {

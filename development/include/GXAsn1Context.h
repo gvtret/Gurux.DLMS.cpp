@@ -40,43 +40,70 @@
 #include "GXDLMSVariant.h"
 
 /**
- * Represents an ASN.1 context-specific tag, which is used to define
- * application-specific data elements.
-*/
+ * @brief Represents an ASN.1 context-specific tagged value.
+ *
+ * In ASN.1, context-specific tags are used to distinguish between different
+ * data elements within a defined context, such as within a SET or SEQUENCE.
+ * A context-specific value can be either primitive or constructed (containing
+ * other ASN.1 values).
+ */
 class CGXAsn1Context: public CGXAsn1Base {
 private:
-    /* Context index.*/
+    /**
+     * @brief The context-specific tag number (index).
+     */
     int m_Index;
     /**
-     Constructed.
-    */
+     * @brief A flag indicating whether the tag is constructed (true) or primitive (false).
+     */
     bool m_Constructed;
+    /**
+     * @brief A collection of nested ASN.1 objects if the tag is constructed.
+     */
     std::vector<CGXAsn1Base *> m_Values;
 
 public:
-    /////////////////////////////////////////////////////////////////////////////
-    // Constructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Constructor.
+     */
     CGXAsn1Context();
 
-    /////////////////////////////////////////////////////////////////////////////
-    // Destructor.
-    /////////////////////////////////////////////////////////////////////////////
+    /**
+     * @brief Destructor.
+     *
+     * Cleans up and frees the memory of all ASN.1 objects contained within the `m_Values` vector.
+     */
     ~CGXAsn1Context();
 
-    /* Context index.*/
+    /**
+     * @brief Gets the context-specific tag number.
+     * @return The tag number (index).
+     */
     int GetIndex();
 
-    /* Context index.*/
+    /**
+     * @brief Sets the context-specific tag number.
+     * @param value The tag number (index).
+     */
     void SetIndex(int value);
 
-    /**Constructed.*/
+    /**
+     * @brief Checks if the tag is marked as constructed.
+     * @return True if the tag is constructed, false otherwise.
+     */
     bool GetConstructed();
 
-    /**Constructed.*/
+    /**
+     * @brief Sets the constructed flag for the tag.
+     * @param value True to mark the tag as constructed, false for primitive.
+     */
     void SetConstructed(bool value);
 
-    /* Returns collection values. */
+    /**
+     * @brief Gets the collection of nested ASN.1 objects.
+     * @return A pointer to the vector of contained ASN.1 base objects. This is
+     *         primarily used when the tag is constructed.
+     */
     std::vector<CGXAsn1Base *> *GetValues() {
         return &m_Values;
     }

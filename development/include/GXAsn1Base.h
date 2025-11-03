@@ -38,17 +38,31 @@
 #include <string>
 #include <assert.h>
 
-/// <summary>
-/// ASN1 value base class.
-/// </summary>
+/**
+ * @brief This is the base class for all ASN.1 data types.
+ *
+ * It provides a common interface for ASN.1 objects, primarily for converting
+ * their values to a string representation. This class is intended to be inherited
+ * by specific ASN.1 type implementations.
+ */
 class CGXAsn1Base {
 public:
+    /**
+     * @brief Converts the ASN.1 object's value to its string representation.
+     *
+     * This is a virtual method that should be overridden by all derived classes.
+     * The base implementation asserts if called, as it has no value to convert.
+     *
+     * @return A string representation of the object's value.
+     */
     virtual std::string ToString() {
         assert(0);
         return "";
     }
 
-    /*Destructor.*/
+    /**
+     * @brief Virtual destructor to ensure proper cleanup of derived classes.
+     */
     virtual ~CGXAsn1Base() {
     }
 };

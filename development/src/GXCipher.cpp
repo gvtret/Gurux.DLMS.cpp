@@ -811,17 +811,10 @@ void CGXCipher::SetSecurity(DLMS_SECURITY value) {
     m_Security = value;
 }
 
-/**
-    * @return Used security suite.
-    */
 DLMS_SECURITY_SUITE CGXCipher::GetSecuritySuite() {
     return m_SecuritySuite;
 }
 
-/**
- * @param value
- *            Used security suite.
- */
 void CGXCipher::SetSecuritySuite(DLMS_SECURITY_SUITE value) {
     m_SecuritySuite = value;
 }

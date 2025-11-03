@@ -39,51 +39,72 @@
 #include "enums.h"
 
 /**
- * Represents a commodity in a charge object, identifying the type of energy
- * or service being charged.
-*/
+ * @brief Represents a commodity in a charge object.
+ *
+ * This class identifies the type of energy or service being charged by referencing
+ * a specific DLMS/COSEM object (e.g., a Register object) via its logical name and
+ * attribute index.
+ */
 class CGXCommodity {
+    /**
+     * @brief The object type of the referenced commodity (e.g., Register, Extended Register).
+     */
     DLMS_OBJECT_TYPE m_Type;
+    /**
+     * @brief The 6-byte logical name (OBIS code) of the referenced object.
+     */
     unsigned char m_LogicalName[6];
+    /**
+     * @brief The index of the attribute within the referenced object that holds the commodity value.
+     */
     unsigned char m_Index;
 
 public:
-    // Constructor.
+    /**
+     * @brief Default constructor.
+     */
     CGXCommodity();
 
     /**
-   * @return Object type.
-   */
+     * @brief Gets the object type of the commodity.
+     * @return The DLMS_OBJECT_TYPE enumeration.
+     */
     DLMS_OBJECT_TYPE GetType();
 
     /**
-     * @param value
-     *            Object type.
+     * @brief Sets the object type of the commodity.
+     * @param value The DLMS_OBJECT_TYPE enumeration.
      */
     void SetType(DLMS_OBJECT_TYPE value);
 
     /**
-   * @return Attribute index.
-   */
+     * @brief Gets the logical name of the commodity object.
+     * @return A pointer to the 6-byte logical name array.
+     */
     unsigned char *GetLogicalName();
 
     /**
-     * @param value
-     *            Attribute index.
+     * @brief Sets the logical name of the commodity object.
+     * @param value A pointer to the 6-byte logical name array.
      */
     void SetLogicalName(unsigned char *value);
 
     /**
-    * @return Attribute index.
-    */
+     * @brief Gets the attribute index of the commodity.
+     * @return The attribute index.
+     */
     unsigned char GetIndex();
 
     /**
-     * @param value
-     *            Attribute index.
+     * @brief Sets the attribute index of the commodity.
+     * @param value The attribute index.
      */
     void SetIndex(unsigned char value);
 
+    /**
+     * @brief Converts the commodity information to a string representation.
+     * @return A string describing the commodity's logical name and attribute index.
+     */
     std::string ToString();
 };
 #endif  //CGXCOMMODITY_H

@@ -39,11 +39,26 @@
 #include "GXAsn1Variant.h"
 #include "GXAsn1Sequence.h"
 
-/// <summary>
-/// ASN1 helper class.
-/// </summary>
+/**
+ * @brief Provides helper methods for working with ASN.1 objects.
+ *
+ * This class contains static utility functions, such as for creating a deep
+ * copy of an ASN.1 object hierarchy.
+ */
 class CGXAsn1Helpers {
 public:
+    /**
+     * @brief Creates a deep clone of an ASN.1 object.
+     *
+     * This method recursively traverses an ASN.1 object structure and creates
+     * a new copy of each element, ensuring that the original object is not
+     * modified. It supports various ASN.1 types like Sequence, Variant,
+     * ObjectIdentifier, and different string types.
+     *
+     * @param value A pointer to the ASN.1 base object to be cloned.
+     * @return A pointer to the newly created deep copy of the ASN.1 object.
+     *         Returns NULL if the object type is not supported for cloning.
+     */
     static CGXAsn1Base *Clone(CGXAsn1Base *value) {
         if (CGXAsn1Sequence *a = dynamic_cast<CGXAsn1Sequence *>(value)) {
             CGXAsn1Sequence *tmp = new CGXAsn1Sequence();

@@ -586,13 +586,6 @@ static int GetIndex(char ch)
 	return -1;
 }
 
-/**
-   * Convert Base64 string to byte array.
-   *
-   * @param input
-   *            Base64 string.
-   * @return Converted byte array.
-   */
 int CGXByteArray::FromBase64(const std::string& input)
 {
 	std::string Tmp = input;

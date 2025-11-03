@@ -38,8 +38,11 @@
 #include "GXDLMSAttribute.h"
 
 /**
- * Represents a collection of DLMS/COSEM attributes.
-*/
+ * @brief Represents a collection of DLMS/COSEM attributes.
+ *
+ * This class is a convenience wrapper around a standard vector of CGXDLMSAttribute objects,
+ * providing a typed collection for managing multiple attributes.
+ */
 class CGXAttributeCollection: public std::vector<CGXDLMSAttribute> {
 public:
 };

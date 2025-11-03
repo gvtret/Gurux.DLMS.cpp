@@ -41,128 +41,56 @@
 #include "GXDLMSObject.h"
 
 /**
- * @brief Represents a DLMS/COSEM action schedule, which defines a set of actions to be executed at specific times.
+ * @brief Represents a DLMS/COSEM Action Schedule object (class ID 20).
+ *
+ * This class defines a set of actions to be executed at specific dates and times.
+ * Each action is a script from a Script Table object.
  */
 class CGXDLMSActionSchedule: public CGXDLMSObject {
+    /** @brief The logical name of the script to be executed. */
     std::string m_ExecutedScriptLogicalName;
+    /** @brief The selector for the script to be executed. */
     int m_ExecutedScriptSelector;
+    /** @brief The type of schedule (e.g., single action, daily, weekly). */
     DLMS_SINGLE_ACTION_SCHEDULE_TYPE m_Type;
+    /** @brief A list of date and time values when the action should be executed. */
     std::vector<CGXDateTime> m_ExecutionTime;
 
 public:
-    /**
-     * @brief Constructor.
-     */
+    /** @brief Default constructor. */
     CGXDLMSActionSchedule();
-
-    /**
-     * @brief Constructor.
-     * @param ln The logical name of the object.
-     */
+    /** @brief Constructor with logical name. @param ln The logical name of the object. */
     CGXDLMSActionSchedule(std::string ln);
-
-    /**
-     * @brief Constructor.
-     * @param ln The logical name of the object.
-     * @param sn The short name of the object.
-     */
+    /** @brief Constructor with logical and short name. @param ln The logical name. @param sn The short name. */
     CGXDLMSActionSchedule(std::string ln, unsigned short sn);
 
-    /**
-     * @brief Gets the executed script's logical name.
-     * @return The executed script's logical name.
-     */
+    /** @brief Gets the logical name of the executed script. @return The logical name. */
     std::string &GetExecutedScriptLogicalName();
-
-    /**
-     * @brief Sets the executed script's logical name.
-     * @param value The logical name to set.
-     */
+    /** @brief Sets the logical name of the executed script. @param value The logical name. */
     void SetExecutedScriptLogicalName(std::string value);
 
-    /**
-     * @brief Gets the executed script's selector.
-     * @return The executed script's selector.
-     */
+    /** @brief Gets the selector of the executed script. @return The script selector. */
     int GetExecutedScriptSelector();
-
-    /**
-     * @brief Sets the executed script's selector.
-     * @param value The selector to set.
-     */
+    /** @brief Sets the selector of the executed script. @param value The script selector. */
     void SetExecutedScriptSelector(int value);
 
-    /**
-     * @brief Gets the schedule type.
-     * @return The schedule type.
-     */
+    /** @brief Gets the schedule type. @return The schedule type. */
     DLMS_SINGLE_ACTION_SCHEDULE_TYPE GetType();
-
-    /**
-     * @brief Sets the schedule type.
-     * @param value The schedule type to set.
-     */
+    /** @brief Sets the schedule type. @param value The schedule type. */
     void SetType(DLMS_SINGLE_ACTION_SCHEDULE_TYPE value);
 
-    /**
-     * @brief Gets the execution times.
-     * @return A reference to the vector of execution times.
-     */
+    /** @brief Gets the list of execution times. @return A reference to the vector of execution times. */
     std::vector<CGXDateTime> &GetExecutionTime();
-
-    /**
-     * @brief Sets the execution times.
-     * @param value The vector of execution times to set.
-     */
+    /** @brief Sets the list of execution times. @param value The vector of execution times. */
     void SetExecutionTime(std::vector<CGXDateTime> &value);
 
-    /**
-     * @brief Gets the number of attributes.
-     * @return The number of attributes.
-     */
+    // Overridden methods.
     int GetAttributeCount();
-
-    /**
-     * @brief Gets the number of methods.
-     * @return The number of methods.
-     */
     int GetMethodCount();
-
-    /**
-     * @brief Gets the attribute values as strings.
-     * @param values A reference to a vector to store the values.
-     */
     void GetValues(std::vector<std::string> &values);
-
-    /**
-     * @brief Gets the attribute indices to read.
-     * @param all True to get all attributes, false to get only unread ones.
-     * @param attributes A reference to a vector to store the attribute indices.
-     */
     void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
-
-    /**
-     * @brief Gets the data type of an attribute.
-     * @param index The attribute index.
-     * @param type A reference to store the data type.
-     * @return An error code.
-     */
     int GetDataType(int index, DLMS_DATA_TYPE &type);
-
-    /**
-     * @brief Gets the value of a given attribute.
-     * @param settings The DLMS settings.
-     * @param e The value event argument.
-     * @return An error code.
-     */
     int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
-
-    /**
-     * @brief Sets the value of a given attribute.
-     * @param settings The DLMS settings.
-     * @param e The value event argument.
-     * @return An error code.
-     */
     int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
 };
 #endif  //DLMS_IGNORE_ACTION_SCHEDULE

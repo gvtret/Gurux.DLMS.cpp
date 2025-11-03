@@ -1841,14 +1841,6 @@ int CGXDLMS::HandleAccessResponse(CGXDLMSSettings &settings, CGXReplyData &reply
     return ret;
 }
 
-/**
-    * Handle data notification get data from block and/or update error status.
-    *
-    * @param settings
-    *            DLMS settings.
-    * @param reply
-    *            Received data from the client.
-    */
 int CGXDLMS::HandleDataNotification(CGXDLMSSettings &settings, CGXReplyData &reply) {
     uint32_t invokeId;
     int ret;

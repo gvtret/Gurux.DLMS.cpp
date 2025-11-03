@@ -38,63 +38,88 @@
 #include "GXDLMSVariant.h"
 
 /**
- * Represents a DLMS/COSEM authentication context, which holds the
- * authentication type, client ID, and password.
-*/
+ * @brief Represents a DLMS/COSEM authentication context.
+ *
+ * This class holds the necessary information for a DLMS/COSEM authentication
+ * procedure, including the authentication mechanism type, the client's identifier
+ * (or address), and the password or secret.
+ */
 class GXAuthentication {
+    /**
+     * @brief The identifier of the client initiating the authentication.
+     */
     CGXDLMSVariant m_ClientID;
+    /**
+     * @brief The type of authentication mechanism to be used (e.g., Low, High-level).
+     */
     DLMS_AUTHENTICATION m_Type;
+    /**
+     * @brief The password or secret used for the authentication.
+     */
     std::string m_Password;
 
 public:
-    //Constructor.
+    /**
+     * @brief Default constructor.
+     */
     GXAuthentication(void) {
     }
 
-    //Constructor.
+    /**
+     * @brief Constructor to initialize the authentication context.
+     * @param type The authentication mechanism type.
+     * @param password The password or secret.
+     * @param clientID The client's identifier.
+     */
     GXAuthentication(DLMS_AUTHENTICATION type, std::string password, CGXDLMSVariant clientID) {
         m_Type = type;
         m_ClientID = clientID;
     }
 
-    /// <summary>
-    /// Authentication type
-    /// </summary>
+    /**
+     * @brief Gets the authentication type.
+     * @return The DLMS_AUTHENTICATION enumeration value.
+     */
     DLMS_AUTHENTICATION GetType() {
         return m_Type;
     }
 
-    /// <summary>
-    /// Authentication type
-    /// </summary>
+    /**
+     * @brief Sets the authentication type.
+     * @param value The DLMS_AUTHENTICATION enumeration value.
+     */
     void SetType(DLMS_AUTHENTICATION value) {
         m_Type = value;
     }
 
-    /// <summary>
-    /// Client address.
-    /// </summary>
+    /**
+     * @brief Gets the client's identifier.
+     * @return The client ID as a CGXDLMSVariant.
+     */
     CGXDLMSVariant GetClientID() {
         return m_ClientID;
     }
 
-    /// <summary>
-    /// Client address.
-    /// </summary>
+    /**
+     * @brief Sets the client's identifier.
+     * @param value The client ID as a CGXDLMSVariant.
+     */
     void SetClientID(CGXDLMSVariant value) {
         m_ClientID = value;
     }
 
-    /// <summary>
-    /// Get Used password.
-    /// </summary>
+    /**
+     * @brief Gets the password or secret.
+     * @return The password string.
+     */
     std::string GetPassword() {
         return m_Password;
     }
 
-    /// <summary>
-    /// Set Used password.
-    /// </summary>
+    /**
+     * @brief Sets the password or secret.
+     * @param value The password string.
+     */
     void SetPassword(std::string value) {
         m_Password = value;
     }

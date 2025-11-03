@@ -41,24 +41,28 @@
 #include "GXAsn1Base.h"
 
 /**
- * Represents an ASN.1 BIT STRING, a data structure that holds a sequence of bits.
-*/
+ * @brief Represents an ASN.1 BIT STRING, a data structure that holds a sequence of bits.
+ *
+ * This class provides functionality to create, manipulate, and convert ASN.1
+ * BIT STRINGs. It handles the padding required to store a bit sequence in
+ * a byte-aligned buffer.
+ */
 class CGXAsn1BitString: public CGXAsn1Base {
 private:
     /**
-    * Number of extra bits at the end of the string.
+    * @brief The number of unused bits in the last byte of the value.
     */
     unsigned char m_PadBits;
 
     /**
-     * Bit string.
+     * @brief The byte buffer holding the bit string data.
      */
     CGXByteBuffer m_Value;
 
     /**
-     * Append zeroes to the buffer.
-     *
-     * count: Amount of zero.
+     * @brief Appends a specified number of zero characters to a string.
+     * @param sb The string builder (string) to append to.
+     * @param count The number of zeros to append.
      */
     static void AppendZeros(std::string &sb, int count) {
         for (int pos = 0; pos != count; ++pos) {
@@ -68,17 +72,15 @@ private:
 
 public:
     /**
-     * Constructor.
+     * @brief Default constructor. Initializes an empty bit string.
      */
     CGXAsn1BitString() {
         m_PadBits = 0;
     }
 
     /**
-     * Constructor
-     *
-     * bitString
-     *            Bit string.
+     * @brief Constructor that initializes from a string of '0's and '1's.
+     * @param bitString A string representing the bit sequence.
      */
     CGXAsn1BitString(std::string &bitString) {
         m_PadBits = 8 - (bitString.length() % 8);
@@ -93,12 +95,9 @@ public:
     }
 
     /**
-     * Constructor
-     *
-     * str
-     *            Bit string.
-     * padCount
-     *            Number of extra bits at the end of the string.
+     * @brief Constructor that initializes from a byte buffer and a pad count.
+     * @param str The byte buffer containing the bit string data.
+     * @param padCount The number of unused bits in the last byte.
      */
     CGXAsn1BitString(CGXByteBuffer &str, int padCount) {
         m_Value = str;
@@ -106,12 +105,9 @@ public:
     }
 
     /**
-     * Constructor
-     *
-     * str
-     *            Bit string.
-     * padCount
-     *            Number of extra bits at the end of the string.
+     * @brief Constructor that initializes from a byte array and a pad count.
+     * @param str The byte array containing the bit string data.
+     * @param padCount The number of unused bits in the last byte.
      */
     CGXAsn1BitString(CGXByteArray &str, int padCount) {
         str.ToByteBuffer(m_Value);
@@ -119,10 +115,9 @@ public:
     }
 
     /**
-     * Constructor
-     *
-     * str
-     *            Bit string.
+     * @brief Constructor that initializes from a byte buffer where the first
+     *        byte is the pad count.
+     * @param str The byte buffer containing the pad count followed by the bit string data.
      */
     CGXAsn1BitString(CGXByteBuffer &str) {
         str.GetUInt8(&m_PadBits);
@@ -130,26 +125,33 @@ public:
     }
 
     /**
-     * Returns Bit string.
+     * @brief Gets the underlying byte buffer containing the bit string.
+     * @return A reference to the internal byte buffer.
      */
     CGXByteBuffer &GetValue() {
         return m_Value;
     }
 
     /**
-     * Returns Number of extra bits at the end of the string.
+     * @brief Gets the number of unused bits in the last byte.
+     * @return The number of pad bits.
      */
     int GetPadBits() {
         return m_PadBits;
     }
 
     /**
-     * Returns Number of extra bits at the end of the string.
+     * @brief Calculates the exact length of the bit string in bits.
+     * @return The total number of bits.
      */
     int Length() {
         return (8 * m_Value.GetSize()) - m_PadBits;
     }
 
+    /**
+     * @brief Converts the bit string to a human-readable string format.
+     * @return A string describing the bit string's length and content.
+     */
     std::string ToString() {
         if (m_Value.GetSize() == 0) {
             return "";
@@ -161,6 +163,10 @@ public:
         return str;
     }
 
+    /**
+     * @brief Converts the bit string's content to a string of '0's and '1's.
+     * @return A string representing the bit sequence.
+     */
     std::string AsString() {
         if (m_Value.GetSize() == 0) {
             return "";
@@ -174,8 +180,13 @@ public:
     }
 
     /**
-     * Returns bit-string value as a integer.
-     **/
+     * @brief Converts the bit string value to an integer.
+     *
+     * This method is suitable for bit strings that represent a numeric value
+     * and are short enough to fit into an integer.
+     *
+     * @return The integer representation of the bit string.
+     */
     int ToInteger() {
         int ret = 0;
         int bytePos = 0;

@@ -38,34 +38,64 @@
 #include <string>
 
 /**
- * Represents a string of bits.
-*/
+ * @brief Represents a string of bits.
+ *
+ * This class provides functionality to handle sequences of bits represented as a
+ * string of '0's and '1's. It supports conversion to and from integer types.
+ */
 class CGXBitString {
 private:
+    /**
+     * @brief The internal string holding the bit sequence.
+     */
     std::string m_Value;
-    //Convert bit string to Integer.
+
+    /**
+     * @brief Internal helper to convert the bit string to an integer.
+     * @param[out] value The integer result.
+     * @param maxSize The maximum number of bits to convert.
+     * @return 0 on success, or an error code.
+     */
     int ToInteger(int &value, unsigned char maxSize);
 
 public:
-    //Constructor.
+    /**
+     * @brief Default constructor. Initializes an empty bit string.
+     */
     CGXBitString();
 
-    //Constructor.
+    /**
+     * @brief Constructor that initializes from a string.
+     * @param value A string of '0's and '1's.
+     */
     CGXBitString(std::string value);
 
-    //Convert bit string to string.
+    /**
+     * @brief Gets the bit string as a standard string.
+     * @return A reference to the internal string.
+     */
     std::string &ToString();
 
-    //Convert bit string to Integer.
+    /**
+     * @brief Converts the bit string to an integer.
+     * @param[out] value The integer result.
+     * @return 0 on success, or an error code.
+     */
     int ToInteger(int &value);
 
-    //Convert bit string to byte.
+    /**
+     * @brief Converts the bit string to a byte.
+     * @param[out] value The byte result.
+     * @return 0 on success, or an error code.
+     */
     int ToByte(unsigned char &value);
 
-    // Convert integer value to BitString.
-    // value : Value to convert.
-    // count: Amount of bits.
-    // returns: Bitstring.
+    /**
+     * @brief Converts an integer value to a bit string of a specified length.
+     * @param value The integer value to convert.
+     * @param count The desired number of bits in the output string.
+     * @return A string of '0's and '1's representing the integer.
+     */
     static std::string ToBitString(unsigned int value, unsigned int count);
 };
 #endif  //GXBIT_STRING_H

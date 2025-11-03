@@ -41,248 +41,183 @@
 #include "GXx509Certificate.h"
 
 /**
- * Handles cryptographic operations for DLMS/COSEM communication, including
- * encryption, decryption, and authentication.
-*/
+ * @brief Handles cryptographic operations for DLMS/COSEM communication.
+ *
+ * This class provides methods for encryption, decryption, and authentication of
+ * APDUs (Application Protocol Data Units) according to the DLMS/COSEM security
+ * suites. It manages security contexts, keys, and frame counters.
+ */
 class CGXCipher {
 private:
+    /** @brief The active security policy. */
     DLMS_SECURITY m_Security;
-    /**
-    * System title.
-    */
+    /** @brief The system title of the local device. */
     CGXByteBuffer m_SystemTitle;
-
-    /**
-    * Is data encrypted.
-    */
+    /** @brief A flag indicating whether data should be encrypted. */
     bool m_Encrypt;
-
-    /**
-    *  Block cipher key.
-    */
+    /** @brief The block cipher key (KEK). */
     CGXByteBuffer m_BlockCipherKey;
-    /**
-    *  Block Authentication key.
-    */
+    /** @brief The authentication key (AK). */
     CGXByteBuffer m_AuthenticationKey;
-
-    // Dedicated key.
+    /** @brief The dedicated key used for a specific client. */
     CGXByteBuffer m_DedicatedKey;
-
-    /**
-     * Frame counter. AKA Invocation counter.
-     */
+    /** @brief The frame counter (invocation counter). */
     unsigned long m_FrameCounter;
-
+    /** @brief The active security suite (e.g., AES-GCM-128). */
     DLMS_SECURITY_SUITE m_SecuritySuite;
-
+    /** @brief The key pair for key agreement protocols. */
     std::pair<CGXPublicKey, CGXPrivateKey> m_KeyAgreementKeyPair;
+    /** @brief The key pair for digital signatures. */
     std::pair<CGXPublicKey, CGXPrivateKey> m_SigningKeyPair;
+    /** @brief A collection of available X.509 certificates. */
     std::vector<CGXx509Certificate> m_Certificates;
 
     void Init(unsigned char *systemTitle, unsigned char count);
-
     static int Int(uint32_t *rk, const unsigned char *cipherKey, unsigned short keyBits);
-
-    /*
-    * Make xor for 128 bits.
-    */
     static void Xor(unsigned char *dst, const unsigned char *src);
-
     static void shift_right_block(unsigned char *v);
-
     static void MultiplyH(const unsigned char *x, const unsigned char *y, unsigned char *z);
-
-    /*
-    * Count GHash.
-    */
     static void GetGHash(const unsigned char *h, const unsigned char *x, int xlen, unsigned char *y);
-
     static void Init_j0(const unsigned char *iv, unsigned char len, const unsigned char *H, unsigned char *J0);
-
     static void Inc32(unsigned char *block);
-
     static void Gctr(unsigned int *aes, const unsigned char *icb, unsigned char *in, int len, unsigned char *out);
-
     static void AesGcmGctr(unsigned int *aes, const unsigned char *J0, unsigned char *in, int len, unsigned char *out);
-
     static void AesGcmGhash(
         const unsigned char *H, const unsigned char *aad, int aad_len, const unsigned char *crypt, int crypt_len,
         unsigned char *S
     );
-
     static void AesEncrypt(const unsigned int *rk, unsigned int Nr, const unsigned char *pt, unsigned char *ct);
 
 public:
     /**
-    * Constructor.
-    */
+     * @brief Constructor.
+     * @param systemTitle The system title of the device.
+     */
     CGXCipher(CGXByteBuffer &systemTitle);
-
     /**
-    * Constructor.
-    */
+     * @brief Constructor.
+     * @param systemTitle The system title of the device as a C-string.
+     */
     CGXCipher(const char *systemTitle);
-
     /**
-    * Constructor.
-    */
+     * @brief Constructor.
+     * @param systemTitle A pointer to the system title byte array.
+     * @param count The length of the system title.
+     */
     CGXCipher(unsigned char *systemTitle, unsigned char count);
-
     /**
-    * Destructor.
-    */
+     * @brief Destructor.
+     */
     ~CGXCipher();
 
-
     /**
-      * Encrypt PDU.
-      *
-      * suite
-      *            Security suite.
-      * security
-      *            Security.
-      * tag
-      *            Tag.
-      * systemTitle
-      *            System Title.
-      * plainText
-      *            Data to encrypt.
-      * encrypted
-      *            Encrypted data.
-      */
+     * @brief Encrypts or authenticates an APDU.
+     * @param suite The security suite to use.
+     * @param security The security policy (encryption, authentication, or both).
+     * @param type The type of frame counter.
+     * @param frameCounter The current frame counter value.
+     * @param tag The APDU tag.
+     * @param systemTitle The source system title.
+     * @param key The encryption/authentication key.
+     * @param input The plaintext data to process.
+     * @param encrypt A flag to perform encryption (true) or just authentication (false).
+     * @return 0 on success, or an error code.
+     */
     int Encrypt(
         DLMS_SECURITY_SUITE suite, DLMS_SECURITY security, DLMS_COUNT_TYPE type, unsigned long frameCounter,
         unsigned char tag, CGXByteBuffer &systemTitle, CGXByteBuffer &key, CGXByteBuffer &input, bool encrypt
     );
 
     /**
-      * Decrypt data.
-      *
-      * systemTitle: System Title.
-      * data: Decrypted data.
-      * security: Used security level.
-      * suite: Used security suite.
-      * InvocationCounter: Invocation counter value.
-      */
+     * @brief Decrypts or verifies an APDU.
+     * @param title The source system title.
+     * @param key The decryption/authentication key.
+     * @param data The ciphertext data to process.
+     * @param[out] security The security policy that was applied.
+     * @param[out] suite The security suite that was used.
+     * @param[out] InvocationCounter The frame counter from the message.
+     * @return 0 on success, or an error code.
+     */
     int Decrypt(
         CGXByteBuffer &title, CGXByteBuffer &key, CGXByteBuffer &data, DLMS_SECURITY &security,
         DLMS_SECURITY_SUITE &suite, uint64_t &InvocationCounter
     );
 
-    /*
-     * Encrypt data using AES.
-     *
-     * data: Encrypted data.
-     * offset: Data offset.
-     * secret: Secret.
+    /**
+     * @brief Encrypts data using AES-128 ECB.
+     * @param data The data to encrypt (in-place).
+     * @param offset The offset within the data to start encryption.
+     * @param secret The 128-bit secret key.
+     * @return 0 on success, or an error code.
      */
     static int Aes1Encrypt(CGXByteBuffer &data, unsigned short offset, CGXByteBuffer &secret);
 
-    /*
-     * Decrypt data using AES.
-     *
-     * data: Encrypted data.
-     * secret:  Secret.
+    /**
+     * @brief Decrypts data using AES-128 ECB.
+     * @param data The data to decrypt (in-place).
+     * @param secret The 128-bit secret key.
+     * @return 0 on success, or an error code.
      */
     static int Aes1Decrypt(CGXByteBuffer &data, CGXByteBuffer &secret);
 
-    /**
-     * Returns is ciphering used.
-     */
+    /** @brief Checks if ciphering (encryption) is active. @return True if active. */
     bool IsCiphered();
-
-    /**
-     * Returns used security.
-     */
+    /** @brief Gets the current security policy. @return The DLMS_SECURITY value. */
     DLMS_SECURITY GetSecurity();
-
-    /**
-    * value: Used security.
-    */
+    /** @brief Sets the security policy. @param value The new security policy. */
     void SetSecurity(DLMS_SECURITY value);
 
-    /*
-    * Returns Used security suite.
-    */
+    /** @brief Gets the current security suite. @return The DLMS_SECURITY_SUITE value. */
     DLMS_SECURITY_SUITE GetSecuritySuite();
-
-    /*
-     * value: Used security suite.
-     */
+    /** @brief Sets the security suite. @param value The new security suite. */
     void SetSecuritySuite(DLMS_SECURITY_SUITE value);
 
-    /**
-     * Returns System title.
-     */
+    /** @brief Gets the system title. @return A reference to the system title buffer. */
     CGXByteBuffer &GetSystemTitle();
-
-    /**
-    *  value: System title.
-    */
+    /** @brief Sets the system title. @param value The new system title. @return 0 on success. */
     int SetSystemTitle(CGXByteBuffer &value);
 
-    /**
-     * Returns Block cipher key.
-     */
+    /** @brief Gets the block cipher key. @return A reference to the key buffer. */
     CGXByteBuffer &GetBlockCipherKey();
-
-    /**
-    *  value: Block cipher key.
-    */
+    /** @brief Sets the block cipher key. @param value The new key. @return 0 on success. */
     int SetBlockCipherKey(CGXByteBuffer &value);
 
-    /**
-     * Returns Authentication key.
-     */
+    /** @brief Gets the authentication key. @return A reference to the key buffer. */
     CGXByteBuffer &GetAuthenticationKey();
-
-    /**
-     * value
-     *            Authentication key.
-     */
+    /** @brief Sets the authentication key. @param value The new key. @return 0 on success. */
     int SetAuthenticationKey(CGXByteBuffer &value);
 
-    /**
-     * Returns Frame counter. AKA. Invocation counter.
-     */
+    /** @brief Gets the frame counter. @return The frame counter value. */
     unsigned long GetFrameCounter();
-
+    /** @brief Sets the frame counter. @param value The new value. */
     void SetFrameCounter(unsigned long value);
 
-    /**
-     * Returns Invocation counter. AKA Frame counter.
-     */
+    /** @brief Gets the invocation counter (alias for frame counter). @return The invocation counter value. */
     unsigned long GetInvocationCounter();
-
+    /** @brief Sets the invocation counter (alias for frame counter). @param value The new value. */
     void SetInvocationCounter(unsigned long value);
 
+    /** @brief Resets the ciphering state, including the frame counter. */
     void Reset();
 
-    /**
-    * Returns Dedicated key.
-    */
+    /** @brief Gets the dedicated key. @return A reference to the key buffer. */
     CGXByteBuffer &GetDedicatedKey();
-
-    /**
-     * value
-     *            Dedicated key.
-     */
+    /** @brief Sets the dedicated key. @param value The new key. */
     void SetDedicatedKey(CGXByteBuffer &value);
 
-    /*Get key agreement key pair.*/
+    /** @brief Gets the key agreement key pair. @return A reference to the key pair. */
     std::pair<CGXPublicKey, CGXPrivateKey> &GetKeyAgreementKeyPair();
-    /*Set key agreement key pair.*/
+    /** @brief Sets the key agreement key pair. @param value The new key pair. */
     void SetKeyAgreementKeyPair(std::pair<CGXPublicKey, CGXPrivateKey> &value);
 
-    /*Get signing key pair.*/
+    /** @brief Gets the signing key pair. @return A reference to the key pair. */
     std::pair<CGXPublicKey, CGXPrivateKey> &GetSigningKeyPair();
-    /*Set signing key pair.*/
+    /** @brief Sets the signing key pair. @param value The new key pair. */
     void SetSigningKeyPair(std::pair<CGXPublicKey, CGXPrivateKey> &value);
 
-    /*Get available certificates.*/
+    /** @brief Gets the list of available certificates. @return A reference to the certificate vector. */
     std::vector<CGXx509Certificate> &GetCertificates();
-    /*Set available certificates.*/
+    /** @brief Sets the list of available certificates. @param value The new certificate vector. */
     void SetCertificates(std::vector<CGXx509Certificate> &value);
 };
 #endif  //GXCIPHER_H

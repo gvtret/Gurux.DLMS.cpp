@@ -38,90 +38,70 @@
 #include "GXDLMSObject.h"
 
 /**
-Access item is used to generate Access Service message.
-*/
+ * @brief Represents a single operation within an Access service request.
+ *
+ * The Access service allows a client to read or write a list of attributes from
+ * multiple objects in a single transaction. This class defines one item in that list,
+ * specifying the target object, the command (read/write), and the attribute index.
+ */
 class CGXDLMSAccessItem {
     /**
-     * COSEM target object.
+     * @brief A pointer to the target COSEM object for the access operation.
      */
     CGXDLMSObject *m_Target;
     /**
-     * Executed command type.
+     * @brief The type of access command to be executed (e.g., read, write).
      */
     DLMS_ACCESS_SERVICE_COMMAND_TYPE m_Command;
-
     /**
-     * Attribute index.
+     * @brief The index of the attribute to be accessed within the target object.
      */
     unsigned char m_Index;
-
-    //Reply error code.
+    /**
+     * @brief The error code returned by the server for this specific access item.
+     */
     DLMS_ERROR_CODE m_Error;
-
-    // Reply value.
+    /**
+     * @brief The value read from or written to the attribute.
+     */
     CGXDLMSVariant m_Value;
 
 public:
-    /**
-     * Returns COSEM target object.
-     */
+    /** @brief Gets the COSEM target object. @return A pointer to the target object. */
     CGXDLMSObject *GetTarget();
-
-    /**
-     * value: COSEM target object.
-     */
+    /** @brief Sets the COSEM target object. @param value A pointer to the target object. */
     void SetTarget(CGXDLMSObject *value);
 
-    /**
-     * Returns Executed command type.
-     */
+    /** @brief Gets the executed command type. @return The access command type. */
     DLMS_ACCESS_SERVICE_COMMAND_TYPE GetCommand();
-
-    /**
-     * value: Executed command type.
-     */
+    /** @brief Sets the executed command type. @param value The access command type. */
     void SetCommand(DLMS_ACCESS_SERVICE_COMMAND_TYPE value);
 
-    /**
-     * Returns Attribute index.
-     */
+    /** @brief Gets the attribute index. @return The attribute index. */
     unsigned char GetIndex();
-
-    /**
-     * value: Attribute index.
-     */
+    /** @brief Sets the attribute index. @param value The attribute index. */
     void SetIndex(unsigned char value);
 
-    /**
-     * value: Reply error code.
-     */
+    /** @brief Sets the reply error code. @param value The error code. */
     void SetError(DLMS_ERROR_CODE value);
-
-    /**
-     * Returns reply error code.
-     */
+    /** @brief Gets the reply error code. @return The error code. */
     DLMS_ERROR_CODE GetError();
 
-    /**
-     * value:  Reply value.
-     */
+    /** @brief Sets the reply value. @param value The value. */
     void SetValue(CGXDLMSVariant &value);
-    /**
-     *  Returns reply value.
-     */
+    /** @brief Gets the reply value. @return A reference to the value. */
     CGXDLMSVariant &GetValue();
 
     /**
-     * Constructor.
+     * @brief Default constructor.
      */
     CGXDLMSAccessItem();
 
     /**
-     * Constructor.
-     *
-     * command: Command to execute.
-     * target: COSEM target object.
-     * attributeIndex: Attribute index.
+     * @brief Constructor to initialize an access item.
+     * @param command The command to execute (read/write).
+     * @param target A pointer to the COSEM target object.
+     * @param attributeIndex The index of the attribute to access.
      */
     CGXDLMSAccessItem(DLMS_ACCESS_SERVICE_COMMAND_TYPE command, CGXDLMSObject *target, unsigned char attributeIndex);
 };
