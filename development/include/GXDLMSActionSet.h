@@ -38,29 +38,49 @@
 #include "GXDLMSActionItem.h"
 
 /**
- * Represents a set of actions to be performed, typically including an "up"
- * action and a "down" action.
-*/
+ * @brief Represents a set of actions, typically an "up" action and a "down" action.
+ *
+ * This class is often used in scheduling objects (like Activity Calendar) to define
+ * actions to be taken at the start and end of a time period.
+ */
 class CGXDLMSActionSet {
+    /**
+     * @brief The action to be executed at the start of a period (e.g., tariff activation).
+     */
     CGXDLMSActionItem m_ActionUp;
+    /**
+     * @brief The action to be executed at the end of a period (e.g., tariff deactivation).
+     */
     CGXDLMSActionItem m_ActionDown;
 
 public:
     /**
-     Constructor.
-    */
+     * @brief Default constructor.
+     */
     CGXDLMSActionSet();
 
     /**
-     Destructor.
-    */
+     * @brief Destructor.
+     */
     ~CGXDLMSActionSet() {
     }
 
+    /**
+     * @brief Gets the "up" action.
+     * @return A reference to the "up" action item.
+     */
     CGXDLMSActionItem &GetActionUp();
 
+    /**
+     * @brief Gets the "down" action.
+     * @return A reference to the "down" action item.
+     */
     CGXDLMSActionItem &GetActionDown();
 
+    /**
+     * @brief Converts the action set to a string representation.
+     * @return A string describing the "up" and "down" actions.
+     */
     std::string ToString();
 };
 
