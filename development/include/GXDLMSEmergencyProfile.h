@@ -35,21 +35,63 @@
 #ifndef GXDLMSEMERGENCYPROFILE_H
 #define GXDLMSEMERGENCYPROFILE_H
 
+#include "GXDateTime.h"
+
+/**
+ * @brief This class represents an emergency profile for the DLMS/COSEM protocol.
+ */
 class CGXDLMSEmergencyProfile {
+    /**
+     * @brief The ID of the emergency profile.
+     */
     int m_ID;
+    /**
+     * @brief The activation time of the emergency profile.
+     */
     CGXDateTime m_ActivationTime;
+    /**
+     * @brief The duration of the emergency profile.
+     */
     int m_Duration;
 
 public:
+    /**
+     * @brief Gets the ID of the emergency profile.
+     * @return The ID of the emergency profile.
+     */
     int GetID();
+    /**
+     * @brief Sets the ID of the emergency profile.
+     * @param value The new ID.
+     */
     void SetID(int value);
 
+    /**
+     * @brief Gets the activation time of the emergency profile.
+     * @return The activation time.
+     */
     CGXDateTime &GetActivationTime();
+    /**
+     * @brief Sets the activation time of the emergency profile.
+     * @param value The new activation time.
+     */
     void SetActivationTime(CGXDateTime value);
 
+    /**
+     * @brief Gets the duration of the emergency profile.
+     * @return The duration.
+     */
     int GetDuration();
+    /**
+     * @brief Sets the duration of the emergency profile.
+     * @param value The new duration.
+     */
     void SetDuration(int value);
 
+    /**
+     * @brief Returns a string representation of the emergency profile.
+     * @return A string representation.
+     */
     std::string ToString();
 };
 
