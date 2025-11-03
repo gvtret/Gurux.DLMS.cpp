@@ -41,109 +41,159 @@
 #include "GXDLMSActionItem.h"
 
 /**
- * Represents a DLMS/COSEM arbitrator, which manages access to shared
- * resources.
-*/
-class CGXDLMSArbitrator: public CGXDLMSObject {
+ * @brief Represents a DLMS/COSEM arbitrator, which manages access to shared
+ *        resources by different actors based on defined permissions and
+*        priorities.
+ */
+class CGXDLMSArbitrator : public CGXDLMSObject
+{
     /**
-    * Requested actions.
-    */
+     * A list of actions that can be requested by actors.
+     */
     std::vector<CGXDLMSActionItem> m_Actions;
 
     /**
-     * Permissions for each actor to request actions.
+     * A table defining the permissions for each actor to request actions.
      */
     std::vector<std::string> m_PermissionsTable;
     /**
-     * Weight allocated for each actor and to each possible action of that
-     * actor.
+     * A table defining the weight allocated to each actor for each possible
+     * action, used for prioritization.
      */
     std::vector<std::vector<uint16_t>> m_WeightingsTable;
     /**
-     * The most recent requests of each actor.
+     * A table storing the most recent requests made by each actor.
      */
     std::vector<std::string> m_MostRecentRequestsTable;
     /**
-     * The number identifies a bit in the Actions.
+     * The outcome of the last arbitration process, identifying a bit in the
+     * Actions list.
      */
     unsigned char m_LastOutcome;
 
 public:
-    //Constructor.
+    /**
+     * @brief Initializes a new instance of the CGXDLMSArbitrator class.
+     */
     CGXDLMSArbitrator();
 
-    //SN Constructor.
+    /**
+     * @brief Initializes a new instance of the CGXDLMSArbitrator class.
+     * @param ln The logical name of the object.
+     * @param sn The short name of the object.
+     */
     CGXDLMSArbitrator(std::string ln, unsigned short sn);
 
-    //LN Constructor.
+    /**
+     * @brief Initializes a new instance of the CGXDLMSArbitrator class.
+     * @param ln The logical name of the object.
+     */
     CGXDLMSArbitrator(std::string ln);
 
     /**
-     * Requested actions.
+     * @brief Gets the list of actions that can be requested.
+     * @return A reference to the vector of action items.
      */
-    std::vector<CGXDLMSActionItem> &GetActions() {
+    std::vector<CGXDLMSActionItem>& GetActions()
+    {
         return m_Actions;
     }
 
     /**
-     * Permissions for each actor to request actions.
+     * @brief Gets the permissions table for each actor.
+     * @return A reference to the vector of permission strings.
      */
-    std::vector<std::string> &GetPermissionsTable() {
+    std::vector<std::string>& GetPermissionsTable()
+    {
         return m_PermissionsTable;
     }
 
     /**
-     * Weight allocated for each actor and to each possible action of
-     *         that actor.
+     * @brief Gets the weightings table for each actor and action.
+     * @return A reference to the vector of weighting values.
      */
-    std::vector<std::vector<uint16_t>> &GetWeightingsTable() {
+    std::vector<std::vector<uint16_t>>& GetWeightingsTable()
+    {
         return m_WeightingsTable;
     }
 
     /**
-     * The most recent requests of each actor.
+     * @brief Gets the table of the most recent requests from each actor.
+     * @return A reference to the vector of recent request strings.
      */
-    std::vector<std::string> &GetMostRecentRequestsTable() {
+    std::vector<std::string>& GetMostRecentRequestsTable()
+    {
         return m_MostRecentRequestsTable;
     }
 
     /**
-     * The number identifies a bit in the Actions.
+     * @brief Gets the outcome of the last arbitration.
+     * @return The last outcome value.
      */
-    unsigned char GetLastOutcome() {
+    unsigned char GetLastOutcome()
+    {
         return m_LastOutcome;
     }
 
-    void SetLastOutcome(unsigned char value) {
+    /**
+     * @brief Sets the outcome of the last arbitration.
+     * @param value The last outcome value.
+     */
+    void SetLastOutcome(unsigned char value)
+    {
         m_LastOutcome = value;
     }
 
-    // Returns amount of attributes.
+    /**
+     * @brief Returns the total number of attributes in the object.
+     * @return The attribute count.
+     */
     int GetAttributeCount();
 
-    // Returns amount of methods.
+    /**
+     * @brief Returns the total number of methods in the object.
+     * @return The method count.
+     */
     int GetMethodCount();
 
-    //Get attribute values of object.
-    void GetValues(std::vector<std::string> &values);
+    /**
+     * @brief Retrieves all attribute values from the object.
+     * @param values A vector to store the attribute values as strings.
+     */
+    void GetValues(std::vector<std::string>& values);
 
-    /////////////////////////////////////////////////////////////////////////
-    // Returns collection of attributes to read.
-    //
-    // If attribute is static and already read or device is returned
-    // HW error it is not returned.
-    //
-    // all: All items are returned even if they are read already.
-    // attributes: Collection of attributes to read.
-    void GetAttributeIndexToRead(bool all, std::vector<int> &attributes);
+    /**
+     * @brief Fills a list with the attribute indices that should be read from
+     *        the device.
+     * @param all        If true, all attributes are included; otherwise, only
+     *                   unread attributes are included.
+     * @param attributes A list to store the indices of attributes to read.
+     */
+    void GetAttributeIndexToRead(bool all, std::vector<int>& attributes);
 
-    int GetDataType(int index, DLMS_DATA_TYPE &type);
+    /**
+     * @brief Gets the data type of a specific attribute.
+     * @param index The index of the attribute.
+     * @param type  An output parameter to store the attribute's data type.
+     * @return An error code indicating the success of the operation.
+     */
+    int GetDataType(int index, DLMS_DATA_TYPE& type);
 
-    // Returns value of given attribute.
-    int GetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    /**
+     * @brief Gets the value of a specific attribute.
+     * @param settings The DLMS settings for the connection.
+     * @param e        An event argument object containing attribute details.
+     * @return An error code indicating the success of the operation.
+     */
+    int GetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 
-    // Set value of given attribute.
-    int SetValue(CGXDLMSSettings &settings, CGXDLMSValueEventArg &e);
+    /**
+     * @brief Sets the value of a specific attribute.
+     * @param settings The DLMS settings for the connection.
+     * @param e        An event argument object containing attribute details.
+     * @return An error code indicating the success of the operation.
+     */
+    int SetValue(CGXDLMSSettings& settings, CGXDLMSValueEventArg& e);
 };
 #endif  //DLMS_IGNORE_ARBITRATOR
 #endif  //GXDLMSArbitrator_H
