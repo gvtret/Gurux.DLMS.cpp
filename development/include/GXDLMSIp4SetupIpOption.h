@@ -38,20 +38,60 @@
 #include "GXIgnore.h"
 #include "GXDLMSObject.h"
 
+/**
+ * @brief This class represents an IP option for the IP4 setup in the DLMS/COSEM protocol.
+ */
 class CGXDLMSIp4SetupIpOption {
+    /**
+     * @brief The type of the IP option.
+     */
     IP_OPTION_TYPE m_Type;
+    /**
+     * @brief The length of the IP option.
+     */
     short m_Length;
+    /**
+     * @brief The data of the IP option.
+     */
     CGXByteBuffer m_Data;
 
 public:
+    /**
+     * @brief Gets the type of the IP option.
+     * @return The type of the IP option.
+     */
     IP_OPTION_TYPE GetType();
+    /**
+     * @brief Sets the type of the IP option.
+     * @param value The new type.
+     */
     void SetType(IP_OPTION_TYPE value);
 
+    /**
+     * @brief Gets the length of the IP option.
+     * @return The length of the IP option.
+     */
     short GetLength();
+    /**
+     * @brief Sets the length of the IP option.
+     * @param value The new length.
+     */
     void SetLength(short value);
+    /**
+     * @brief Gets the data of the IP option.
+     * @return The data of the IP option.
+     */
     CGXByteBuffer &GetData();
+    /**
+     * @brief Sets the data of the IP option.
+     * @param value The new data.
+     */
     void SetData(CGXByteBuffer &value);
 
+    /**
+     * @brief Returns a string representation of the IP option.
+     * @return A string representation.
+     */
     std::string ToString();
 };
 #endif  //GXDLMSIP4SETUPIPOPTION_H
