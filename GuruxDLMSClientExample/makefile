@@ -9,7 +9,7 @@ CFLAGS   = -c
 LINKER   = g++ -o
 
 # linking flags here
-LFLAGS   = -L../development/lib
+LFLAGS   = -L../development/lib -static -lssl -lcrypto
 
 # change these to set the proper directories where each files shoould be
 
@@ -22,12 +22,15 @@ INCLUDES := $(wildcard $(SRCDIR)/*.h)
 
 OBJECTS  := $(SOURCES:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
 rm       = rm -f
+mkdir    = mkdir -p
 
 $(BINDIR)/$(TARGET): $(OBJECTS)
+	@$(mkdir) $(BINDIR)
 	@$(LINKER) $@ $(LFLAGS) $(OBJECTS) -lgurux_dlms_cpp
 	@echo "Linking complete!"
 
 $(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.cpp
+	@$(mkdir) $(OBJDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@echo "Compiled "$<" successfully!"
 

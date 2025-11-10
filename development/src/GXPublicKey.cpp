@@ -32,11 +32,26 @@
 // Full text may be retrieved at http://www.gnu.org/licenses/gpl-2.0.txt
 //---------------------------------------------------------------------------
 
+#include <openssl/evp.h>
+#include <openssl/pem.h>
 #include "../include/GXPublicKey.h"
 
-CGXPublicKey::CGXPublicKey()
+CGXPublicKey::CGXPublicKey() : m_pkey(nullptr)
 {
     m_Scheme = ECC_P256;
+}
+
+CGXPublicKey::CGXPublicKey(EVP_PKEY* pkey) : m_pkey(pkey)
+{
+    m_Scheme = ECC_P256;
+}
+
+CGXPublicKey::~CGXPublicKey()
+{
+    if (m_pkey)
+    {
+        EVP_PKEY_free(m_pkey);
+    }
 }
 
 CGXPublicKey& CGXPublicKey::operator=(const CGXPublicKey& value)
@@ -54,6 +69,36 @@ ECC CGXPublicKey::GetScheme()
 
 CGXByteArray& CGXPublicKey::GetRawValue()
 {
+    if (m_pkey != nullptr && m_RawValue.GetSize() == 0)
+    {
+        EC_KEY* ec_key = EVP_PKEY_get1_EC_KEY(m_pkey);
+        if (ec_key != nullptr)
+        {
+            const EC_POINT* pub_key = EC_KEY_get0_public_key(ec_key);
+            if (pub_key != nullptr)
+            {
+                BIGNUM* x = BN_new();
+                BIGNUM* y = BN_new();
+                if (EC_POINT_get_affine_coordinates_GFp(EC_KEY_get0_group(ec_key), pub_key, x, y, NULL))
+                {
+                    unsigned char buffer[256];
+                    int len = BN_bn2bin(x, buffer);
+                    CGXByteArray new_raw_value;
+                    new_raw_value.Set(buffer, len);
+                    int x_len = len;
+                    len = BN_bn2bin(y, buffer);
+                    unsigned char* tmp = new unsigned char[x_len + len];
+                    memcpy(tmp, new_raw_value.GetData(), x_len);
+                    memcpy(tmp + x_len, buffer, len);
+                    m_RawValue.Set(tmp, x_len + len);
+                    delete[] tmp;
+                }
+                BN_free(x);
+                BN_free(y);
+            }
+            EC_KEY_free(ec_key);
+        }
+    }
     return m_RawValue;
 }
 
@@ -105,89 +150,35 @@ int CGXPublicKey::FromRawBytes(CGXByteBuffer& key,
 int CGXPublicKey::FromDer(std::string der,
     CGXPublicKey& key)
 {
-    GXHelpers::Replace(der, "\r\n", "");
-    GXHelpers::Replace(der, "\n", "");
     CGXByteBuffer bb;
     bb.FromBase64(der);
-    CGXAsn1Base* value = NULL;
-    int ret = CGXAsn1Converter::FromByteArray(bb, value);
-    if (ret == 0)
+    const unsigned char* p = bb.GetData();
+    EVP_PKEY* pkey = d2i_PUBKEY(NULL, &p, bb.GetSize());
+    if (pkey == NULL)
     {
-        if (CGXAsn1Sequence* seq = dynamic_cast<CGXAsn1Sequence*>(value))
-        {
-            if (CGXAsn1Sequence* tmp = dynamic_cast<CGXAsn1Sequence*>(seq->GetValues()->at(0)))
-            {
-                if (CGXAsn1ObjectIdentifier* id = dynamic_cast<CGXAsn1ObjectIdentifier*>(tmp->GetValues()->at(1)))
-                {
-                    switch (CGXDLMSConverter::ValueOfX9Identifier(id->GetObjectIdentifier().c_str()))
-                    {
-                    case DLMS_X9_OBJECT_IDENTIFIER_PRIME_256_V1:
-                        key.m_Scheme = ECC_P256;
-                        break;
-                    case DLMS_X9_OBJECT_IDENTIFIER_SECP_384_R1:
-                        key.m_Scheme = ECC_P384;
-                        break;
-                    default:
-                        ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-                    }
-                    if (ret == 0)
-                    {
-                        if (CGXAsn1BitString* bs = dynamic_cast<CGXAsn1BitString*>(seq->GetValues()->at(1)))
-                        {
-                            //Open SSL PEM.
-                            key.m_RawValue = bs->GetValue();
-                        }
-                        else
-                        {
-                            ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-                        }
-                    }
-                }
-                else
-                {
-                    ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-                }
-            }
-            else
-            {
-                ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-            }
-        }
-        else
-        {
-            ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-        }
-#ifdef _DEBUG
-        if (ret != 0)
-        {
-            printf("Invalid public key.");
-        }
-#endif //_DEBUG
-        delete value;
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    return ret;
+    key.m_pkey = pkey;
+    return 0;
 }
 
 int CGXPublicKey::FromPem(
     std::string pem,
     CGXPublicKey& key)
 {
-    GXHelpers::Replace(pem, "\r\n", "\n");
-    std::string START = "-----BEGIN PUBLIC KEY-----\n";
-    std::string END = "\n-----END PUBLIC KEY-----";
-    size_t index = pem.find(START);
-    if (index == std::string::npos)
+    BIO* bio = BIO_new_mem_buf((void*)pem.c_str(), -1);
+    if (bio == NULL)
     {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    pem = pem.substr(index + START.length());
-    index = pem.rfind(END);
-    if (index == std::string::npos)
+    EVP_PKEY* pkey = PEM_read_bio_PUBKEY(bio, NULL, NULL, NULL);
+    BIO_free(bio);
+    if (pkey == NULL)
     {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    pem = pem.substr(0, index);
-    return FromDer(pem, key);
+    key.m_pkey = pkey;
+    return 0;
 }
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
@@ -224,13 +215,24 @@ std::string CGXPublicKey::ToHex()
 
 int CGXPublicKey::ToDer(std::string& value)
 {
-    int ret;
-    CGXByteBuffer bb;
-    if ((ret = GetEncoded(bb)) == 0)
+    BIO *bio = BIO_new(BIO_s_mem());
+    if (bio == NULL)
     {
-        bb.ToBase64(value);
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    return ret;
+    int ret = i2d_PUBKEY_bio(bio, m_pkey);
+    if (ret != 1)
+    {
+        BIO_free(bio);
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    BUF_MEM *buf;
+    BIO_get_mem_ptr(bio, &buf);
+    CGXByteBuffer bb;
+    bb.Set(buf->data, buf->length);
+    bb.ToBase64(value);
+    BIO_free(bio);
+    return 0;
 }
 
 int CGXPublicKey::GetEncoded(
@@ -259,31 +261,39 @@ int CGXPublicKey::GetEncoded(
 
 int CGXPublicKey::ToPem(std::string& value)
 {
-    value.clear();
-    std::string der;
-    int ret = ToDer(der);
-    if (ret == 0)
+    BIO *bio = BIO_new(BIO_s_mem());
+    if (bio == NULL)
     {
-        value = "-----BEGIN PUBLIC KEY-----\n";
-        value += der;
-        value += "\n-----END PUBLIC KEY-----\n";
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    return ret;
+    int ret = PEM_write_bio_PUBKEY(bio, m_pkey);
+    if (ret != 1)
+    {
+        BIO_free(bio);
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    BUF_MEM *buf;
+    BIO_get_mem_ptr(bio, &buf);
+    value.assign(buf->data, buf->length);
+    BIO_free(bio);
+    return 0;
 }
 
 CGXByteArray CGXPublicKey::GetX()
 {
     CGXByteArray bb;
+    GetRawValue();
     int size = m_RawValue.GetSize() / 2;
-    m_RawValue.SubArray(1, size, bb);
+    m_RawValue.SubArray(0, size, bb);
     return bb;
 }
 
 CGXByteArray CGXPublicKey::GetY()
 {
     CGXByteArray bb;
+    GetRawValue();
     int size = m_RawValue.GetSize() / 2;
-    m_RawValue.SubArray(1 + size, size, bb);
+    m_RawValue.SubArray(size, size, bb);
     return bb;
 }
 

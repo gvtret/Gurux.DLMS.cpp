@@ -32,14 +32,29 @@
 // Full text may be retrieved at http://www.gnu.org/licenses/gpl-2.0.txt
 //---------------------------------------------------------------------------
 
+#include <openssl/evp.h>
+#include <openssl/pem.h>
 #include "../include/GXPrivateKey.h"
 #include "../include/GXCurve.h"
 #include "../include/GXEcdsa.h"
 #include "../include/GXShamirs.h"
 
-CGXPrivateKey::CGXPrivateKey()
+CGXPrivateKey::CGXPrivateKey() : m_pkey(nullptr)
 {
     m_Scheme = ECC_P256;
+}
+
+CGXPrivateKey::CGXPrivateKey(EVP_PKEY* pkey) : m_pkey(pkey)
+{
+    m_Scheme = ECC_P256;
+}
+
+CGXPrivateKey::~CGXPrivateKey()
+{
+    if (m_pkey)
+    {
+        EVP_PKEY_free(m_pkey);
+    }
 }
 
 CGXPrivateKey& CGXPrivateKey::operator=(const CGXPrivateKey& value)
@@ -57,6 +72,21 @@ ECC CGXPrivateKey::GetScheme()
 
 CGXByteArray& CGXPrivateKey::GetRawValue()
 {
+    if (m_pkey != nullptr && m_RawValue.GetSize() == 0)
+    {
+        EC_KEY* ec_key = EVP_PKEY_get1_EC_KEY(m_pkey);
+        if (ec_key != nullptr)
+        {
+            const BIGNUM* priv_key = EC_KEY_get0_private_key(ec_key);
+            if (priv_key != nullptr)
+            {
+                unsigned char buffer[256];
+                int len = BN_bn2bin(priv_key, buffer);
+                m_RawValue.Set(buffer, len);
+            }
+            EC_KEY_free(ec_key);
+        }
+    }
     return m_RawValue;
 }
 
@@ -161,67 +191,34 @@ int CGXPrivateKey::FromDer(
     std::string der,
     CGXPrivateKey& key)
 {
-    GXHelpers::Replace(der, "\r\n", "");
-    GXHelpers::Replace(der, "\n", "");
     CGXByteBuffer bb;
-    int ret = bb.FromBase64(der);
-    if (ret == 0)
+    bb.FromBase64(der);
+    const unsigned char* p = bb.GetData();
+    EVP_PKEY* pkey = d2i_PrivateKey(EVP_PKEY_EC, NULL, &p, bb.GetSize());
+    if (pkey == NULL)
     {
-        CGXAsn1Base* value = NULL;
-        ret = CGXAsn1Converter::FromByteArray(bb, value);
-        if (ret == 0)
-        {
-            if (CGXAsn1Sequence* seq = dynamic_cast<CGXAsn1Sequence*>(value))
-            {
-                if (CGXAsn1Variant* var = dynamic_cast<CGXAsn1Variant*>(seq->GetValues()->at(0)))
-                {
-                    if (var->GetValue().cVal > 3)
-                    {
-#ifdef _DEBUG
-                        printf("Invalid private key version.");
-#endif //_DEBUG
-                        ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-                    }
-                    if ((ret = UpdateSchema(seq, key)) == 0)
-                    {
-                        ret = UpdatePublicKey(seq, key);
-                    }
-                }
-                else
-                {
-                    printf("Invalid Certificate. This looks more like private key, not PKCS 8.");
-                    ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-                }
-            }
-            else
-            {
-                ret = DLMS_ERROR_CODE_INVALID_PARAMETER;
-            }
-        }
-        delete value;
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    return ret;
+    key.m_pkey = pkey;
+    return 0;
 }
 
 int CGXPrivateKey::FromPem(std::string pem,
     CGXPrivateKey& value)
 {
-    GXHelpers::Replace(pem, "\r\n", "\n");
-    std::string START = "PRIVATE KEY-----\n";
-    std::string END = "-----END";
-    size_t index = pem.find(START);
-    if (index == std::string::npos)
+    BIO* bio = BIO_new_mem_buf((void*)pem.c_str(), -1);
+    if (bio == NULL)
     {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    pem = pem.substr(index + START.length());
-    index = pem.rfind(END);
-    if (index == std::string::npos)
+    EVP_PKEY* pkey = PEM_read_bio_PrivateKey(bio, NULL, NULL, NULL);
+    BIO_free(bio);
+    if (pkey == NULL)
     {
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    pem = pem.substr(0, index);
-    return FromDer(pem, value);
+    value.m_pkey = pkey;
+    return 0;
 }
 
 #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
@@ -252,84 +249,65 @@ int CGXPrivateKey::Save(std::string& path)
 
 int CGXPrivateKey::ToDer(std::string& value)
 {
-    CGXAsn1Sequence d;
-    d.GetValues()->push_back(new CGXAsn1Variant((char)DLMS_CERTIFICATE_VERSION_2));
-    d.GetValues()->push_back(new CGXAsn1Variant(m_RawValue));
-    CGXAsn1Sequence* d1 = new CGXAsn1Sequence();
-    if (m_Scheme == ECC_P256)
+    BIO *bio = BIO_new(BIO_s_mem());
+    if (bio == NULL)
     {
-        d1->GetValues()->push_back(new CGXAsn1ObjectIdentifier("1.2.840.10045.3.1.7"));
-    }
-    else if (m_Scheme == ECC_P384)
-    {
-        d1->GetValues()->push_back(new CGXAsn1ObjectIdentifier("1.3.132.0.34"));
-    }
-    else
-    {
-#ifdef _DEBUG
-        printf("%s\n", "Invalid ECC scheme.");
-#endif //_DEBUG
         return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    d.GetValues()->push_back(d1);
-    CGXAsn1Context* d2 = new CGXAsn1Context();
-    d2->SetIndex(1);
-    d2->GetValues()->push_back(new CGXAsn1BitString(m_PublicKey.GetRawValue(), 0));
-    d.GetValues()->push_back(d2);
-    CGXByteBuffer bb;
-    int ret = CGXAsn1Converter::ToByteArray(&d, bb);
-    if (ret == 0)
+    int ret = i2d_PrivateKey_bio(bio, m_pkey);
+    if (ret != 1)
     {
-        ret = bb.ToBase64(value);
+        BIO_free(bio);
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    return ret;
+    BUF_MEM *buf;
+    BIO_get_mem_ptr(bio, &buf);
+    CGXByteBuffer bb;
+    bb.Set(buf->data, buf->length);
+    bb.ToBase64(value);
+    BIO_free(bio);
+    return 0;
 }
 
 int CGXPrivateKey::ToPem(std::string& value)
 {
-    int ret;
-    std::string der;
-    value.clear();
-    if ((ret = ToDer(der)) == 0)
+    BIO *bio = BIO_new(BIO_s_mem());
+    if (bio == NULL)
     {
-        value = "-----BEGIN EC PRIVATE KEY-----\n";
-        value += der;
-        value += "\n-----END EC PRIVATE KEY-----";
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
     }
-    return ret;
+    int ret = PEM_write_bio_PrivateKey(bio, m_pkey, NULL, NULL, 0, NULL, NULL);
+    if (ret != 1)
+    {
+        BIO_free(bio);
+        return DLMS_ERROR_CODE_INVALID_PARAMETER;
+    }
+    BUF_MEM *buf;
+    BIO_get_mem_ptr(bio, &buf);
+    value.assign(buf->data, buf->length);
+    BIO_free(bio);
+    return 0;
 }
 
 int CGXPrivateKey::GetPublicKey(CGXPublicKey& value)
 {
-    if (m_PublicKey.GetRawValue().GetSize() == 0)
+    if (m_pkey != nullptr && m_PublicKey.GetRawValue().GetSize() == 0)
     {
-        //Public key = private key multiple by curve.G.
-        CGXBigInteger pk(m_RawValue);
-        CGXCurve curve;
-        int ret2 = curve.Init(m_Scheme);
-        if (ret2 == 0)
+        EC_KEY* ec_key = EVP_PKEY_get1_EC_KEY(m_pkey);
+        if (ec_key != nullptr)
         {
-            CGXEccPoint ret;
-            ret2 = CGXShamirs::PointMulti(curve, ret, curve.m_G, pk);
-            if (ret2 == 0)
+            const EC_POINT* pub_key_point = EC_KEY_get0_public_key(ec_key);
+            if (pub_key_point != nullptr)
             {
-                int size = m_Scheme == ECC_P256 ? 32 : 48;
-                CGXByteBuffer bb;
-                CGXByteBuffer tmp;
-                //key is un-compressed format.
-                bb.SetUInt8(4);
-                ret.X.ToArray(tmp, false);
-                bb.Set(&tmp, tmp.GetSize() % size, size);
-                tmp.Clear();
-                ret.Y.ToArray(tmp, false);
-                bb.Set(&tmp, tmp.GetSize() % size, size);
-                ret2 = CGXPublicKey::FromRawBytes(bb, m_PublicKey);
-                if (ret2 != 0)
-                {
-                    return ret2;
-                }
+                EVP_PKEY* pub_pkey = EVP_PKEY_new();
+                EC_KEY* pub_ec_key = EC_KEY_new_by_curve_name(NID_X9_62_prime256v1);
+                EC_KEY_set_public_key(pub_ec_key, pub_key_point);
+                EVP_PKEY_set1_EC_KEY(pub_pkey, pub_ec_key);
+                m_PublicKey = CGXPublicKey(pub_pkey);
+                EC_KEY_free(pub_ec_key);
             }
-        }     
+            EC_KEY_free(ec_key);
+        }
     }
     value = m_PublicKey;
     return 0;

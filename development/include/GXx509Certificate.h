@@ -42,11 +42,19 @@
 #include "GXPublicKey.h"
 #include "GXAsn1Converter.h"
 
+// Forward declaration for OpenSSL X509 structure.
+struct x509_st;
+
 class CGXx509Certificate
 {
 private:
     friend class CGXPkcs10;
     friend class CGXAPDU;
+    /**
+    * OpenSSL X509 certificate object.
+    */
+    x509_st* m_x509;
+
     /**
     * Loaded x509 Certificate certificate as a raw data.
     */
@@ -167,11 +175,13 @@ private:
     int UpdateExtendedKeyUsage(CGXAsn1Base* value);
     int UpdateBasicConstraints(CGXAsn1Base* value);
     int UpdateAuthorityKeyIdentifier(CGXAsn1Base* value);
+    int GetCertificateInfo();
 public:
     /////////////////////////////////////////////////////////////////////////////
     // Constructor.
     /////////////////////////////////////////////////////////////////////////////   
     CGXx509Certificate();
+    ~CGXx509Certificate();
 
     /**
      * cert: Certificate.

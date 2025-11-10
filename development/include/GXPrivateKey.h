@@ -39,12 +39,21 @@
 #include "GXAsn1Converter.h"
 #include "GXPublicKey.h"
 
+// Forward declaration for OpenSSL EVP_PKEY structure.
+struct evp_pkey_st;
+
 class CGXPrivateKey
 {
 private:
     friend class CGXEcdsa;
     friend class CGXPkcs8;
-    friend class CGXPkcs10;    
+    friend class CGXPkcs10;
+
+    /**
+    * OpenSSL EVP_PKEY object.
+    */
+    evp_pkey_st* m_pkey;
+
     /**
      Used scheme.
     */
@@ -71,6 +80,8 @@ private:
 public:
     // Constructor.
     CGXPrivateKey();
+    CGXPrivateKey(struct evp_pkey_st* pkey);
+    ~CGXPrivateKey();
 
     CGXPrivateKey& operator=(const CGXPrivateKey& value);
 

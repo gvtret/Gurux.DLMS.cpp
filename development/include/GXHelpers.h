@@ -35,6 +35,7 @@
 #ifndef GXHELPERS_H
 #define GXHELPERS_H
 
+#include <openssl/asn1.h>
 #include "errorcodes.h"
 #include "GXDLMSVariant.h"
 #include "GXDataInfo.h"
@@ -253,5 +254,9 @@ public:
 #endif //DLMS_IGNORE_DIRECTORY
 #endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
 
+    /**
+     * Convert ASN1_TIME to tm struct.
+     */
+    static void ASN1_TIME_to_tm(ASN1_TIME* t, tm* tm);
 };
 #endif //GXHELPERS_H
