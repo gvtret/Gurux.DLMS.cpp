@@ -74,13 +74,3 @@ clean:
 remove: clean
 	@$(rm) $(LIBDIR)
 	@echo "Executable removed!"
-
-.PHONEY: test
-test: test/test_bin
-	@./test/test_bin
-
-test/test_bin: test/test.o $(LIBDIR)/$(TARGET)
-	@$(CC) -o $@ $^ -L$(LIBDIR) -lgurux_dlms_cpp -lssl -lcrypto
-
-test/test.o: test/test.cpp
-	@$(CC) $(CFLAGS) -o $@ -c $<

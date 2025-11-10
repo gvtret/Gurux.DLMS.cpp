@@ -1029,17 +1029,18 @@ std::string GXHelpers::BytesToHex(const unsigned char* pBytes, int count)
 
 std::string GXHelpers::BytesToHex(const unsigned char* pBytes, int count, char addSpaces)
 {
-    const char hexArray[] = { '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f' };
-    std::string hexChars;
-    hexChars.reserve(addSpaces ? 3 * count : 2 * count);
+    const char hexArray[] = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+    std::string hexChars(addSpaces ? 3 * count : 2 * count, 0);
+    int tmp;
+    int index = 0;
     for (int pos = 0; pos != count; ++pos)
     {
-        int tmp = pBytes[pos] & 0xFF;
-        hexChars += hexArray[tmp >> 4];
-        hexChars += hexArray[tmp & 0x0F];
+        tmp = pBytes[pos] & 0xFF;
+        hexChars[index++] = hexArray[tmp >> 4];
+        hexChars[index++] = hexArray[tmp & 0x0F];
         if (addSpaces)
         {
-            hexChars += ' ';
+            hexChars[index++] = ' ';
         }
     }
     //Remove last separator.
@@ -2838,22 +2839,3 @@ bool GXHelpers::DirectoryExists(const char* path)
 
 #endif //DLMS_IGNORE_DIRECTORY
 #endif //defined(_WIN32) || defined(_WIN64) || defined(__linux__)
-
-void ASN1_TIME_to_tm_impl(ASN1_TIME* t, tm* tm)
-{
-    BIO* bio = BIO_new(BIO_s_mem());
-    ASN1_TIME_print(bio, t);
-    char buf[128];
-    int len = BIO_read(bio, buf, sizeof(buf) - 1);
-    buf[len] = '\0';
-    BIO_free(bio);
-
-    // Parse the string representation of the time
-    sscanf(buf, "%*s %d %d:%d:%d %d", &tm->tm_mday, &tm->tm_hour, &tm->tm_min, &tm->tm_sec, &tm->tm_year);
-    tm->tm_year -= 1900;
-}
-
-void GXHelpers::ASN1_TIME_to_tm(ASN1_TIME* t, tm* tm)
-{
-    ASN1_TIME_to_tm_impl(t, tm);
-}
