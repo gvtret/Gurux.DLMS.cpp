@@ -324,9 +324,25 @@ int CGXDLMSImageTransfer::Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg
     {
         m_ImageFirstNotTransferredBlockNumber = 0;
         m_ImageTransferredBlocksStatus = "";
-        unsigned long size = (unsigned long)e.GetParameters().Arr[0].GetSize();
+        int s = e.GetParameters().Arr[0].GetSize();
+        if (s <= 0)
+        {
+            e.SetError(DLMS_ERROR_CODE_INVALID_PARAMETER);
+            return 0;
+        }
+        unsigned long size = (unsigned long)s;
         unsigned char* imageIdentifier = e.GetParameters().Arr[0].byteArr;
+        if (imageIdentifier == NULL)
+        {
+            e.SetError(DLMS_ERROR_CODE_INVALID_PARAMETER);
+            return 0;
+        }
         int ImageSize = e.GetParameters().Arr[1].ToInteger();
+        if (ImageSize <= 0)
+        {
+            e.SetError(DLMS_ERROR_CODE_INVALID_PARAMETER);
+            return 0;
+        }
         m_ImageTransferStatus = DLMS_IMAGE_TRANSFER_STATUS_INITIATED;
         CGXDLMSImageActivateInfo* item = NULL;
         for (std::vector<CGXDLMSImageActivateInfo*>::iterator it = m_ImageActivateInfo.begin(); it != m_ImageActivateInfo.end(); ++it)
@@ -361,6 +377,11 @@ int CGXDLMSImageTransfer::Invoke(CGXDLMSSettings& settings, CGXDLMSValueEventArg
     else if (e.GetIndex() == 2)
     {
         int imageIndex = e.GetParameters().Arr[0].ToInteger();
+        if (imageIndex < 0 || imageIndex >= (int)m_ImageTransferredBlocksStatus.length())
+        {
+            e.SetError(DLMS_ERROR_CODE_INVALID_PARAMETER);
+            return 0;
+        }
         m_ImageTransferredBlocksStatus[imageIndex] = '1';
         m_ImageFirstNotTransferredBlockNumber = imageIndex + 1;
         m_ImageTransferStatus = DLMS_IMAGE_TRANSFER_STATUS_INITIATED;

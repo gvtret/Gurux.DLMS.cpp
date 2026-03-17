@@ -53,7 +53,7 @@ CGXDateTime::~CGXDateTime()
 }
 
 //Get UTC offset in minutes.
-void GetUtcOffset(struct tm* timeptr, int& hours, int& minutes, int& deviation)
+static void GetUtcOffset(struct tm* timeptr, int& hours, int& minutes, int& deviation)
 {
     short addH = 1, addMin = 0;
     time_t zero = 24 * 60 * 60L;
@@ -222,7 +222,7 @@ CGXDateTime::CGXDateTime(int year, int month, int day, int hour, int minute, int
     if (year != -1 && month != -1 && day != -1 && hour != -1 && minute != -1)
     {
         int hours, minutes, deviation;
-        struct tm dt;
+        struct tm dt = {};
         dt.tm_year = year;
         dt.tm_mon = month;
         dt.tm_mday = day;
@@ -416,7 +416,7 @@ int CGXDateTime::GetDateTimeFormat(
     return ret;
 }
 
-void Remove(std::string& value, const char* tag, const char sep)
+static void Remove(std::string& value, const char* tag, const char sep)
 {
     size_t pos;
     if (sep != 0)
@@ -450,7 +450,7 @@ void Remove(std::string& value, const char* tag, const char sep)
     }
 }
 
-void Replace(std::string& value, const char* tag, const char* v)
+static void Replace(std::string& value, const char* tag, const char* v)
 {
     size_t pos;
     if ((pos = value.find(tag)) != std::string::npos)
@@ -461,7 +461,7 @@ void Replace(std::string& value, const char* tag, const char* v)
     }
 }
 
-int Remove(CGXDateTime* value, std::string& format, char dateSeparator, char timeSeparator)
+static int Remove(CGXDateTime* value, std::string& format, char dateSeparator, char timeSeparator)
 {
     if (dynamic_cast<CGXDate*>(value) != NULL)
     {
@@ -614,7 +614,7 @@ int CGXDateTime::FromString(const char* datetime)
         Replace(format, "%S", "%d");
         Replace(format, "%p", "%s");
         int a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
-        char g[15];
+        char g[15] = {};
         g[0] = 0;
         if (dynamic_cast<CGXDate*>(this) != NULL)
         {
@@ -912,7 +912,7 @@ void CGXDateTime::SetValue(const struct tm& value)
 }
 
 // Skip selected date time fields.
-DATETIME_SKIPS CGXDateTime::GetSkip()
+DATETIME_SKIPS CGXDateTime::GetSkip() const
 {
     return m_Skip;
 }
@@ -922,7 +922,7 @@ void CGXDateTime::SetSkip(DATETIME_SKIPS value)
     m_Skip = value;
 }
 
-DATE_TIME_EXTRA_INFO CGXDateTime::GetExtra()
+DATE_TIME_EXTRA_INFO CGXDateTime::GetExtra() const
 {
     return m_Extra;
 }
@@ -932,7 +932,7 @@ void CGXDateTime::SetExtra(DATE_TIME_EXTRA_INFO value)
     m_Extra = value;
 }
 
-int CGXDateTime::GetDeviation()
+int CGXDateTime::GetDeviation() const
 {
     return m_Deviation;
 }
@@ -1132,7 +1132,7 @@ CGXDateTime CGXDateTime::Now()
 }
 
 // Status of the clock.
-DLMS_CLOCK_STATUS CGXDateTime::GetStatus()
+DLMS_CLOCK_STATUS CGXDateTime::GetStatus() const
 {
     return m_Status;
 }
@@ -1205,7 +1205,7 @@ int CGXDateTime::AddSeconds(int seconds)
     return DLMS_ERROR_CODE_OK;
 }
 
-int CGXDateTime::CompareTo(CGXDateTime& antherDate)
+int CGXDateTime::CompareTo(CGXDateTime& antherDate) const
 {
     uint16_t year1 = (uint16_t)(1900 + m_Value.tm_year);
     unsigned char month1 = (unsigned char)(1 + m_Value.tm_mon);
@@ -1310,7 +1310,7 @@ int CGXDateTime::CompareTo(CGXDateTime& antherDate)
     return 0;
 }
 
-int CGXDateTime::ToLocalTime(struct tm& localTime)
+int CGXDateTime::ToLocalTime(struct tm& localTime) const
 {
     localTime = m_Value;
     if (m_Deviation != -32768)//0x8000
@@ -1437,7 +1437,7 @@ unsigned long CGXDateTime::ToUnixTime()
     return mktime(&m_Value);
 }
 
-bool CGXDateTime::GetUseUtc2NormalTime()
+bool CGXDateTime::GetUseUtc2NormalTime()const
 {
     return m_UseUtc2NormalTime;
 }

@@ -536,7 +536,7 @@ public:
         CGXHdlcSettings* limits);
 
     // Add HDLC parameter.
-    static void AppendHdlcParameter(CGXByteBuffer& data, unsigned short value);
+    static int AppendHdlcParameter(CGXByteBuffer& data, unsigned short value);
 
     static int HandleConfirmedServiceError(CGXReplyData& data);
 

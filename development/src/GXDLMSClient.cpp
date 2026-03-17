@@ -345,23 +345,26 @@ int CGXDLMSClient::SNRMRequest(std::vector<CGXByteBuffer>& packets)
         CGXHdlcSettings::DEFAULT_WINDOWS_SIZE_RX != GetLimits().GetWindowSizeRX())
     {
         // FromatID
-        data.SetUInt8(0x81);
+        if ((ret = data.SetUInt8(0x81)) != 0 ||
         // GroupID
-        data.SetUInt8(0x80);
+        (ret = data.SetUInt8(0x80)) != 0 ||
         // Length is updated later.
-        data.SetUInt8(0);
-        data.SetUInt8(HDLC_INFO_MAX_INFO_TX);
-        CGXDLMS::AppendHdlcParameter(data, GetLimits().GetMaxInfoTX());
-        data.SetUInt8(HDLC_INFO_MAX_INFO_RX);
-        CGXDLMS::AppendHdlcParameter(data, GetLimits().GetMaxInfoRX());
-        data.SetUInt8(HDLC_INFO_WINDOW_SIZE_TX);
-        data.SetUInt8(4);
-        data.SetUInt32(GetLimits().GetWindowSizeTX());
-        data.SetUInt8(HDLC_INFO_WINDOW_SIZE_RX);
-        data.SetUInt8(4);
-        data.SetUInt32(GetLimits().GetWindowSizeRX());
+        (ret = data.SetUInt8(0)) != 0 ||
+        (ret = data.SetUInt8(HDLC_INFO_MAX_INFO_TX)) != 0 ||
+        (ret = CGXDLMS::AppendHdlcParameter(data, GetLimits().GetMaxInfoTX())) != 0 ||
+        (ret = data.SetUInt8(HDLC_INFO_MAX_INFO_RX)) != 0 ||
+        (ret = CGXDLMS::AppendHdlcParameter(data, GetLimits().GetMaxInfoRX())) != 0 ||
+        (ret = data.SetUInt8(HDLC_INFO_WINDOW_SIZE_TX)) != 0 ||
+        (ret = data.SetUInt8(4)) != 0 ||
+        (ret = data.SetUInt32(GetLimits().GetWindowSizeTX())) != 0 ||
+        (ret = data.SetUInt8(HDLC_INFO_WINDOW_SIZE_RX)) != 0 ||
+        (ret = data.SetUInt8(4)) != 0 ||
+        (ret = data.SetUInt32(GetLimits().GetWindowSizeRX())) != 0 ||
         // Length.
-        data.SetUInt8(2, (unsigned char)(data.GetSize() - 3));
+        (ret = data.SetUInt8(2, (unsigned char)(data.GetSize() - 3))) != 0)
+        {
+            return ret;
+        }
     }
     m_Settings.ResetFrameSequence();
     CGXByteBuffer reply;
@@ -1128,25 +1131,37 @@ int CGXDLMSClient::ReleaseRequest(std::vector<CGXByteBuffer>& packets)
     SetMaxReceivePDUSize(m_InitializePduSize);
     if (!m_UseProtectedRelease)
     {
-        buff.SetUInt8(3);
-        buff.SetUInt8(0x80);
-        buff.SetUInt8(1);
-        buff.SetUInt8(0);
+        if ((ret = buff.SetUInt8(3)) != 0 ||
+            (ret = buff.SetUInt8(0x80)) != 0 ||
+            (ret = buff.SetUInt8(1)) != 0 ||
+            (ret = buff.SetUInt8(0)) != 0)
+        {
+            return ret;
+        }
     }
     else
     {
         //Length.
-        buff.SetUInt8(0);
-        buff.SetUInt8(0x80);
-        buff.SetUInt8(01);
-        buff.SetUInt8(00);
-        CGXAPDU::GenerateUserInformation(m_Settings, m_Settings.GetCipher(), NULL, buff);
+        if ((ret = buff.SetUInt8(0)) != 0 ||
+            (ret = buff.SetUInt8(0x80)) != 0 ||
+            (ret = buff.SetUInt8(01)) != 0 ||
+            (ret = buff.SetUInt8(00)) != 0)
+        {
+            return ret;
+        }
+        if ((ret = CGXAPDU::GenerateUserInformation(m_Settings, m_Settings.GetCipher(), NULL, buff)) != 0)
+        {
+            return ret;
+        }
         //Increase IC.
         if (m_Settings.GetCipher() != NULL && m_Settings.GetCipher()->IsCiphered())
         {
             m_Settings.GetCipher()->SetInvocationCounter(1 + m_Settings.GetCipher()->GetInvocationCounter());
         }
-        buff.SetUInt8(0, (unsigned char)(buff.GetSize() - 1));
+        if ((ret = buff.SetUInt8(0, (unsigned char)(buff.GetSize() - 1))) != 0)
+        {
+            return ret;
+        }
     }
     if (GetUseLogicalNameReferencing())
     {

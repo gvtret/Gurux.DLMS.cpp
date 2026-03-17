@@ -339,7 +339,10 @@ int CGXDLMS::GetHdlcFrame(
     }
 
     // Add BOP
-    reply.SetUInt8(HDLC_FRAME_START_END);
+    if ((ret = reply.SetUInt8(HDLC_FRAME_START_END)) != 0)
+    {
+        return ret;
+    }
     frameSize = settings.GetHdlcSettings().GetMaxInfoTX();
     if (data != NULL && data->GetPosition() == 0)
     {
@@ -349,60 +352,95 @@ int CGXDLMS::GetHdlcFrame(
     if (data == NULL || data->GetSize() == 0)
     {
         len = 0;
-        reply.SetUInt8(0xA0);
+        if ((ret = reply.SetUInt8(0xA0)) != 0)
+        {
+            return ret;
+        }
     }
     else if (data->GetSize() - data->GetPosition() <= frameSize)
     {
         len = data->Available();
         // Is last packet.
-        reply.SetUInt8(0xA0 | (((7 + primaryAddress.GetSize() +
-            secondaryAddress.GetSize() + len) >> 8) & 0x7));
+        if ((ret = reply.SetUInt8(0xA0 | (((7 + primaryAddress.GetSize() +
+            secondaryAddress.GetSize() + len) >> 8) & 0x7))) != 0)
+        {
+            return ret;
+        }
     }
     else
     {
         len = frameSize;
         // More data to left.
-        reply.SetUInt8(0xA8 | (((7 + primaryAddress.GetSize() +
-            secondaryAddress.GetSize() + len) >> 8) & 0x7));
+        if ((ret = reply.SetUInt8(0xA8 | (((7 + primaryAddress.GetSize() +
+            secondaryAddress.GetSize() + len) >> 8) & 0x7))) != 0)
+        {
+            return ret;
+        }
     }
     // Frame len.
     if (len == 0)
     {
-        reply.SetUInt8((unsigned char)(5 + primaryAddress.GetSize() +
+        ret = reply.SetUInt8((unsigned char)(5 + primaryAddress.GetSize() +
             secondaryAddress.GetSize() + len));
     }
     else
     {
-        reply.SetUInt8((unsigned char)(7 + primaryAddress.GetSize() +
+        ret = reply.SetUInt8((unsigned char)(7 + primaryAddress.GetSize() +
             secondaryAddress.GetSize() + len));
     }
+    if (ret != 0)
+    {
+        return ret;
+    }
     // Add primary address.
-    reply.Set(&primaryAddress);
+    if ((ret = reply.Set(&primaryAddress)) != 0)
+    {
+        return ret;
+    }
     // Add secondary address.
-    reply.Set(&secondaryAddress);
+    if ((ret = reply.Set(&secondaryAddress)) != 0)
+    {
+        return ret;
+    }
 
     // Add frame ID.
     if (frame == 0)
     {
-        reply.SetUInt8(settings.GetNextSend(1));
+        ret = reply.SetUInt8(settings.GetNextSend(1));
     }
     else
     {
-        reply.SetUInt8(frame);
+        ret = reply.SetUInt8(frame);
+    }
+    if (ret != 0)
+    {
+        return ret;
     }
     // Add header CRC.
     int crc = CountFCS16(reply, 1, reply.GetSize() - 1);
-    reply.SetUInt16(crc);
+    if ((ret = reply.SetUInt16(crc)) != 0)
+    {
+        return ret;
+    }
     if (len != 0)
     {
         // Add data.
-        reply.Set(data, data->GetPosition(), len);
+        if ((ret = reply.Set(data, data->GetPosition(), len)) != 0)
+        {
+            return ret;
+        }
         // Add data CRC.
         crc = CountFCS16(reply, 1, reply.GetSize() - 1);
-        reply.SetUInt16(crc);
+        if ((ret = reply.SetUInt16(crc)) != 0)
+        {
+            return ret;
+        }
     }
     // Add EOP
-    reply.SetUInt8(HDLC_FRAME_START_END);
+    if ((ret = reply.SetUInt8(HDLC_FRAME_START_END)) != 0)
+    {
+        return ret;
+    }
     // Remove sent data in server side.
     if (settings.IsServer())
     {
@@ -414,7 +452,10 @@ int CGXDLMS::GetHdlcFrame(
             }
             else
             {
-                data->Move(data->GetPosition(), 0, data->GetSize() - data->GetPosition());
+                if ((ret = data->Move(data->GetPosition(), 0, data->GetSize() - data->GetPosition())) != 0)
+                {
+                    return ret;
+                }
                 data->SetPosition(0);
             }
         }
@@ -1124,7 +1165,7 @@ int CGXDLMS::GetLNPdu(
                     ciphering = false;
                 }
                 // Get request size can be bigger than PDU size.
-                if (p.GetCommand() != DLMS_COMMAND_GET_REQUEST && 
+                if (p.GetCommand() != DLMS_COMMAND_GET_REQUEST &&
                     len + reply.GetSize() > p.GetSettings()->GetMaxPduSize())
                 {
                     len = p.GetSettings()->GetMaxPduSize() - reply.GetSize()
@@ -1143,9 +1184,9 @@ int CGXDLMS::GetLNPdu(
             }
         }
 
-        if (p.GetCommand() == DLMS_COMMAND_GENERAL_BLOCK_TRANSFER || 
-            (p.IsMultipleBlocks() && 
-             (p.GetSettings()->GetNegotiatedConformance() & DLMS_CONFORMANCE_GENERAL_BLOCK_TRANSFER) != 0))
+        if (p.GetCommand() == DLMS_COMMAND_GENERAL_BLOCK_TRANSFER ||
+            (p.IsMultipleBlocks() &&
+                (p.GetSettings()->GetNegotiatedConformance() & DLMS_CONFORMANCE_GENERAL_BLOCK_TRANSFER) != 0))
         {
             CGXByteBuffer bb;
             bb.Set(&reply);
@@ -4996,18 +5037,24 @@ int CGXDLMS::ParseSnrmUaResponse(
     return ret;
 }
 
-void CGXDLMS::AppendHdlcParameter(CGXByteBuffer& data, unsigned short value)
+int CGXDLMS::AppendHdlcParameter(CGXByteBuffer& data, unsigned short value)
 {
+    int ret;
     if (value < 0x100)
     {
-        data.SetUInt8(1);
-        data.SetUInt8((unsigned char)value);
+        if ((ret = data.SetUInt8(1)) == 0)
+        {
+            ret = data.SetUInt8((unsigned char)value);
+        }
     }
     else
     {
-        data.SetUInt8(2);
-        data.SetUInt16(value);
+        if ((ret = data.SetUInt8(2)) == 0)
+        {
+            data.SetUInt16(value);
+        }
     }
+    return ret;
 }
 
 int CGXDLMS::HandleConfirmedServiceError(CGXReplyData& data)

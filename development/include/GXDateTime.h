@@ -178,7 +178,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Skip selected date time fields.
-    DATETIME_SKIPS GetSkip();
+    DATETIME_SKIPS GetSkip() const;
     void SetSkip(DATETIME_SKIPS value);
 
     /////////////////////////////////////////////////////////////////////////
@@ -191,17 +191,17 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Date time extra information.
-    DATE_TIME_EXTRA_INFO GetExtra();
+    DATE_TIME_EXTRA_INFO GetExtra() const;
     void SetExtra(DATE_TIME_EXTRA_INFO value);
 
     /////////////////////////////////////////////////////////////////////////
     // Deviation.
-    int GetDeviation();
+    int GetDeviation() const;
     void SetDeviation(int value);
 
     /////////////////////////////////////////////////////////////////////////
     // Status of the clock.
-    DLMS_CLOCK_STATUS GetStatus();
+    DLMS_CLOCK_STATUS GetStatus() const;
     void SetStatus(DLMS_CLOCK_STATUS value);
 
     /////////////////////////////////////////////////////////////////////////
@@ -234,7 +234,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     // Compare current time to another time.
-    int CompareTo(CGXDateTime& antherDate);
+    int CompareTo(CGXDateTime& antherDate) const;
 
     /////////////////////////////////////////////////////////////////////////
     // Get amount of days in given month.
@@ -250,7 +250,7 @@ public:
 
     /////////////////////////////////////////////////////////////////////////
     //Convert value to local time.
-    int ToLocalTime(struct tm& localTime);
+    int ToLocalTime(struct tm& localTime) const;
 
     /////////////////////////////////////////////////////////////////////////
     //Get currect timezone.
@@ -269,7 +269,7 @@ public:
     // If meter is configured to use UTC time (UTC to normal time) set this to true.
     // Read nore: https://www.gurux.fi/Gurux.DLMS.Objects.GXDLMSClock#dstDeviation
     //
-    bool GetUseUtc2NormalTime();
+    bool GetUseUtc2NormalTime() const;
     void SetUseUtc2NormalTime(bool value);
 
 };
