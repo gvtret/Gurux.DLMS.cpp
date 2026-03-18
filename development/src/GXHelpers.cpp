@@ -138,7 +138,7 @@ static int GetArray(CGXDLMSSettings* settings, CGXByteBuffer& buff, CGXDataInfo&
     *            Data info.
     * Returns  Parsed time.
     */
-int GetTime(CGXByteBuffer& buff,
+static int GetTime(CGXByteBuffer& buff,
     CGXDataInfo& info,
     CGXDLMSVariant& value)
 {
@@ -204,7 +204,7 @@ int GetTime(CGXByteBuffer& buff,
     *            Data info.
     * Returns  Parsed date.
     */
-int GetDate(CGXByteBuffer& buff,
+static int GetDate(CGXByteBuffer& buff,
     CGXDataInfo& info,
     CGXDLMSVariant& value)
 {
@@ -295,7 +295,7 @@ int GetDate(CGXByteBuffer& buff,
 *            Data info.
 * Returns  Parsed date and time.
 */
-int GetDateTime(CGXDLMSSettings* settings,
+static int GetDateTime(CGXDLMSSettings* settings,
     CGXByteBuffer& buff,
     CGXDataInfo& info,
     CGXDLMSVariant& value)
@@ -494,7 +494,7 @@ int GetDateTime(CGXDLMSSettings* settings,
 *            Data info.
 * Returns  Parsed double value.
 */
-int GetDouble(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetDouble(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     // If there is not enough data available.
     if (buff.GetSize() - buff.GetPosition() < 8)
@@ -533,7 +533,7 @@ int GetDouble(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  Parsed float value.
     */
-int GetFloat(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetFloat(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     // If there is not enough data available.
     if (buff.GetSize() - buff.GetPosition() < 4)
@@ -572,7 +572,7 @@ int GetFloat(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed enumeration value.
     */
-int GetEnum(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetEnum(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     int ret;
     unsigned char ch;
@@ -608,7 +608,7 @@ int GetEnum(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed UInt64 value.
     */
-int GetUInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetUInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     int ret;
     unsigned long long val;
@@ -643,7 +643,7 @@ int GetUInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int64 value.
     */
-int GetInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     int ret;
     long long val;
@@ -678,7 +678,7 @@ int GetInt64(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed UInt16 value.
     */
-int GetUInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetUInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     int ret;
     unsigned short val;
@@ -713,7 +713,7 @@ int GetUInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed UInt8 value.
     */
-int GetUInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetUInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     int ret;
     unsigned char val;
@@ -748,7 +748,7 @@ int GetUInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int16 value.
     */
-int GetInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     int ret;
     short val;
@@ -783,7 +783,7 @@ int GetInt16(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int8 value.
     */
-int GetInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     int ret;
     char val;
@@ -818,7 +818,7 @@ int GetInt8(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 *            Data info.
 * Returns  parsed BCD value.
 */
-int GetBcd(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
+static int GetBcd(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
 {
     unsigned char ch;
     // If there is not enough data available.
@@ -1059,7 +1059,7 @@ std::string GXHelpers::BytesToHex(const unsigned char* pBytes, int count, char a
 *            Data info.
 * Returns  parsed UTF string value.
 */
-int GetUtfString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
+static int GetUtfString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
 {
     int ret;
     unsigned long len = 0;
@@ -1111,7 +1111,7 @@ int GetUtfString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMS
     *            Data info.
     * Returns  parsed octet string value.
     */
-int GetOctetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
+static int GetOctetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
 {
     int ret;
     unsigned long len = 0;
@@ -1215,7 +1215,7 @@ int GetOctetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDL
     *            Data info.
     * Returns  parsed string value.
     */
-int GetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
+static int GetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVariant& value)
 {
     int ret;
     unsigned long len = 0;
@@ -1275,7 +1275,7 @@ int GetString(CGXByteBuffer& buff, CGXDataInfo& info, bool knownType, CGXDLMSVar
     *            Data info.
     * Returns  parsed UInt32 value.
     */
-int GetUInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetUInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     // If there is not enough data available.
     if (buff.GetSize() - buff.GetPosition() < 4)
@@ -1303,7 +1303,7 @@ int GetUInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
     *            Data info.
     * Returns  parsed Int32 value.
     */
-int GetInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
+static int GetInt32(CGXByteBuffer& buff, CGXDataInfo& info, CGXDLMSVariant& value)
 {
     // If there is not enough data available.
     if (buff.GetSize() - buff.GetPosition() < 4)

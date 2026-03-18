@@ -529,7 +529,7 @@ int CGXXmlWriter::WriteElementObject(const char* name, CGXDLMSVariant& value, DL
 int SaveActionSchedule(CGXXmlWriter* writer, CGXDLMSActionSchedule* obj)
 {
     int ret;
-    if ((ret = writer->WriteElementString("LN", obj->GetExecutedScriptLogicalName())) == 0 &&
+    if ((ret = writer->WriteElementString("TargetLN", obj->GetExecutedScriptLogicalName())) == 0 &&
         (ret = writer->WriteElementString("ExecutedScriptSelector", obj->GetExecutedScriptSelector())) == 0 &&
         (ret = writer->WriteElementString("Type", (int)obj->GetType())) == 0 &&
         (ret = writer->WriteStartElement("ExecutionTime")) == 0)

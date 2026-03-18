@@ -139,7 +139,7 @@ int CGXDLMS::CheckInit(CGXDLMSSettings& settings)
 // index : Position where data starts.
 // Returns : Amount of removed bytes.
 /////////////////////////////////////////////////////////////////////////////
-int GetDataFromBlock(CGXByteBuffer& data, int index)
+static int GetDataFromBlock(CGXByteBuffer& data, int index)
 {
     if (data.GetSize() == data.GetPosition())
     {
@@ -622,7 +622,7 @@ int CGXDLMS::GetMacHdlcFrame(
 * command: Executed DLMS_COMMAND_
 * Returns Integer value of ded message.
 */
-unsigned char GetDedMessage(DLMS_COMMAND command)
+static unsigned char GetDedMessage(DLMS_COMMAND command)
 {
     unsigned char cmd;
     switch (command)
@@ -678,7 +678,7 @@ unsigned char GetDedMessage(DLMS_COMMAND command)
 * command: Executed DLMS_COMMAND_
 * Returns Integer value of glo message.
 */
-unsigned char GetGloMessage(DLMS_COMMAND command)
+static unsigned char GetGloMessage(DLMS_COMMAND command)
 {
     unsigned char cmd;
     switch (command)
@@ -728,7 +728,7 @@ unsigned char GetGloMessage(DLMS_COMMAND command)
     return cmd;
 }
 
-unsigned char GetInvokeIDPriority(CGXDLMSSettings& settings, bool increase)
+static unsigned char GetInvokeIDPriority(CGXDLMSSettings& settings, bool increase)
 {
     unsigned char value = 0;
     if (settings.GetPriority() == DLMS_PRIORITY_HIGH)
@@ -778,7 +778,7 @@ long GetLongInvokeIDPriority(CGXDLMSSettings& settings)
      * @param data
      *            Data where bytes are added.
      */
-void AddLLCBytes(CGXDLMSSettings* settings, CGXByteBuffer& data)
+static void AddLLCBytes(CGXDLMSSettings* settings, CGXByteBuffer& data)
 {
     CGXByteBuffer tmp;
     tmp.Set(&data);
@@ -802,7 +802,7 @@ void AddLLCBytes(CGXDLMSSettings* settings, CGXByteBuffer& data)
      * @param reply
      *            Generated reply.
      */
-void MultipleBlocks(
+static void MultipleBlocks(
     CGXDLMSLNParameters& p,
     CGXByteBuffer& reply,
     unsigned char ciphering)
@@ -834,14 +834,14 @@ void MultipleBlocks(
     }
 }
 
-unsigned char IsGloMessage(unsigned char cmd)
+static unsigned char IsGloMessage(unsigned char cmd)
 {
     return cmd == DLMS_COMMAND_GLO_GET_REQUEST ||
         cmd == DLMS_COMMAND_GLO_SET_REQUEST ||
         cmd == DLMS_COMMAND_GLO_METHOD_REQUEST;
 }
 
-int Cipher0(CGXDLMSLNParameters& p,
+static int Cipher0(CGXDLMSLNParameters& p,
     CGXByteBuffer& reply)
 {
     int ret;
@@ -2014,7 +2014,7 @@ int CGXDLMS::AddInvokeId(CGXDLMSTranslatorStructure* xml, DLMS_COMMAND command, 
     return 0;
 }
 
-int HandleActionResponseNormal(
+static int HandleActionResponseNormal(
     CGXDLMSSettings& settings,
     CGXReplyData& data)
 {
@@ -2127,7 +2127,7 @@ int HandleActionResponseNormal(
     return 0;
 }
 
-int HandleActionResponseWithBlock(
+static int HandleActionResponseWithBlock(
     CGXDLMSSettings& settings,
     CGXReplyData& reply,
     unsigned long index)
@@ -2246,7 +2246,7 @@ int HandleActionResponseWithBlock(
 }
 
 
-int VerifyInvokeId(CGXDLMSSettings& settings, CGXReplyData& reply)
+static int VerifyInvokeId(CGXDLMSSettings& settings, CGXReplyData& reply)
 {
     if (
 #ifndef DLMS_IGNORE_XML_TRANSLATOR
@@ -4232,7 +4232,7 @@ void CGXDLMS::GetLLCBytes(bool server, CGXByteBuffer& data)
 // Descrypt two bytes to Flag name.
 // value: Encrypted Flag name.
 // Returns: Flag name.
-std::string DecryptManufacturer(uint16_t value)
+static std::string DecryptManufacturer(uint16_t value)
 {
     uint16_t tmp = (uint16_t)(value >> 8 | value << 8);
     char c = (char)((tmp & 0x1f) + 0x40);
@@ -4644,7 +4644,7 @@ int CGXDLMS::GetPlcHdlcData(
 // Check is this PLC S-FSK message.
 // buff: Received data.
 // Returns True, if this is PLC message.
-bool IsPlcSfskData(CGXByteBuffer& buff)
+static bool IsPlcSfskData(CGXByteBuffer& buff)
 {
     if (buff.Available() < 2)
     {
